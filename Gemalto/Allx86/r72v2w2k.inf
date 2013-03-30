@@ -1,0 +1,86 @@
+[Version]
+signature="$CHICAGO$"
+Class=SmartCardReader
+ClassGuid={50DD5230-BA8A-11D1-BF5D-0000F805F530}
+Provider=%R72V2.Provider%
+DriverVer=08/06/2002,1.45.00.01
+CatalogFile=r72v2w2k.cat
+
+
+; ============ Add reg for all readers ===============
+
+[Reader.Install.AddReg]
+HKLM, Software\Microsoft\Cryptography\Calais\Readers,,,
+HKLM, System\CurrentControlSet\Services\SCardSvr,Start,0x00010001,2
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,DLLName,0,wlnotify.dll
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logon,0,SCardStartCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logoff,0,SCardStopCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Lock,0,SCardSuspendCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Unlock,0,SCardResumeCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Enabled,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Impersonate,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Asynchronous,0x00010001,1
+
+[ControlFlags]
+ExcludeFromSelect=SERENUM\SCM113B
+
+[Manufacturer]
+%R72V2.Manufacturer%=R72V2
+      
+[ClassInstall32]
+AddReg=R72V2.AddClassReg
+
+[R72V2]
+%R72V2.DeviceDesc%=R72V2.Install, SERENUM\SCM113B
+
+[SourceDisksNames]
+1=%R72V2.DriverDiskName%,,,""
+
+[SourceDisksFiles]
+r72v2w2k.sys=1
+     
+[DestinationDirs]
+R72V2W2K.CopyFiles = 10,system32\drivers ; WINDOWS\SYSTEM32\DRIVERS
+
+[R72V2.Install.NT]
+CopyFiles= R72V2W2K.CopyFiles
+AddReg= R72V2W2K.AddReg, Reader.Install.AddReg
+
+[R72V2.AddClassReg]
+HKR,,,,%R72V2.ClassName%
+
+[R72V2.Install.NT.Services]
+AddService = %R72V2%,0x00000002,R72V2_Service_Inst,R72V2_EventLog_Inst
+
+[R72V2_Service_Inst]
+ServiceType     = 1 ;%SERVICE_KERNEL_DRIVER%
+StartType       = 3 ;%SERVICE_AUTO_START%
+ErrorControl    = 1 ;%SERVICE_ERROR_NORMAL%
+ServiceBinary   = %12%\r72v2w2k.sys
+DisplayName     = %R72V2%
+AddReg= R72V2W2K.AddReg, Reader.Install.AddReg
+
+[R72V2W2K.AddReg]
+HKR,,ShortProviderName,0,%R72V2.ShortProvider%
+HKR,,ReaderName,0,%R72V2%
+
+
+[R72V2W2K.CopyFiles]
+r72v2w2k.sys
+
+[R72V2_EventLog_Inst]
+AddReg=R72V2.AddEventLogReg
+
+[R72V2.AddEventLogReg]
+HKR,,EventMessageFile,0x00020000,"%%SystemRoot%%\System32\IoLogMsg.dll;%%SystemRoot%%\System32\drivers\r72v2w2k.sys"
+HKR,,TypesSupported,0x00010001,7
+
+[Strings]
+R72V2.Provider="SchlumbergerSema"
+R72V2.ShortProvider = "SchlumbergerSema"
+R72V2.Manufacturer="SchlumbergerSema"
+R72V2.DeviceDesc="Reflex 72 v.2 Smart card reader"
+R72V2.ReaderName="Reflex 72 v.2 Smart card reader"
+R72V2.ClassName="Smart Card Readers"
+R72V2.DriverDiskName="SchlumbergerSema Installation Diskette" 
+R72V2="Reflex 72 v.2 Smart card reader"

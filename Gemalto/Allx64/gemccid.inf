@@ -1,0 +1,127 @@
+; GemCCID.inf 
+; Copyright (c) 2012 Gemalto
+
+[Version]
+Signature="$Windows NT$"
+Class=SmartCardReader
+ClassGuid={50DD5230-BA8A-11D1-BF5D-0000F805F530}
+provider=%MFGNAME1%
+CatalogFile=GemCCID.cat
+DriverVer=09/07/2012,4.1.1.5
+PnpLockDown=1
+
+[ControlFlags]
+; Prevent legacy install for PnP readers
+ExcludeFromSelect = *
+
+[Manufacturer]
+%MFGNAME1%=DeviceListMfg1,NTamd64
+
+[DestinationDirs]
+DriverCopyFiles = 12
+DefaultDestDir = 12
+
+[SourceDisksFiles]
+GemCCID.sys=1
+
+[SourceDisksNames]
+1=%INSTDISK%,,
+
+[DeviceListMfg1.NTamd64]
+%USB\VID_08E6&PID_3437.DeviceDesc%      =DriverInstall64, USB\VID_08E6&PID_3437 ;       GemPCTwin USB
+%USB\VID_08E6&PID_3438.DeviceDesc%      =DriverInstall64, USB\VID_08E6&PID_3438 ;       GemPCKey
+%USB\VID_08E6&PID_3480.DeviceDesc%      =DriverInstall64, USB\VID_08E6&PID_3480 ;       SIM Pro
+%USB\VID_08E6&PID_34EC.DeviceDesc%      =DriverInstall64, USB\VID_08E6&PID_34EC ;       GemPC Express
+%USB\VID_08E6&PID_3440.DeviceDesc%      =DriverInstall64, USB\VID_08E6&PID_3440 ;
+%USB\VID_08E6&PID_3441.DeviceDesc%      =DriverInstall64, USB\VID_08E6&PID_3441 ;
+%USB\VID_08E6&PID_34C0.DeviceDesc%      =DriverInstall64, USB\VID_08E6&PID_34C0 ;       Ezio Shield STD
+%USB\VID_08E6&PID_34C1.DeviceDesc%      =DriverInstall64, USB\VID_08E6&PID_34C1 ;       Ezio Shield Secure Channel
+%USB\VID_08E6&PID_34C2.DeviceDesc%      =DriverInstall64, USB\VID_08E6&PID_34C2 ;       Ezio Shield PinPad
+%USB\VID_08E6&PID_34C3.DeviceDesc%      =DriverInstall64, USB\VID_08E6&PID_34C3 ;       Ezio CB+
+%USB\VID_08E6&PID_34C4.DeviceDesc%      =DriverInstall64, USB\VID_08E6&PID_34C4 ;       Ezio Generic
+%USB\VID_08E6&PID_34C5.DeviceDesc%      =DriverInstall64, USB\VID_08E6&PID_34C5 ;       Ezio Branch Reader
+%USB\VID_08E6&PID_34C6.DeviceDesc%      =DriverInstall64, USB\VID_08E6&PID_34C6 ;       RFU
+%USB\VID_08E6&PID_34C7.DeviceDesc%      =DriverInstall64, USB\VID_08E6&PID_34C7 ;       RFU
+%USB\VID_08E6&PID_34C8.DeviceDesc%      =DriverInstall64, USB\VID_08E6&PID_34C8 ;       RFU
+%USB\VID_08E6&PID_34C9.DeviceDesc%      =DriverInstall64, USB\VID_08E6&PID_34C9 ;       RFU
+%USB\VID_08E6&PID_34CA.DeviceDesc%      =DriverInstall64, USB\VID_08E6&PID_34CA ;       RFU
+%USB\VID_08E6&PID_34CB.DeviceDesc%      =DriverInstall64, USB\VID_08E6&PID_34CB ;       RFU
+%USB\VID_08E6&PID_34CC.DeviceDesc%      =DriverInstall64, USB\VID_08E6&PID_34CC ;       RFU
+%USB\VID_08E6&PID_34CD.DeviceDesc%      =DriverInstall64, USB\VID_08E6&PID_34CD ;       RFU
+%USB\VID_08E6&PID_34CE.DeviceDesc%      =DriverInstall64, USB\VID_08E6&PID_34CE ;       RFU
+%USB\VID_08E6&PID_34CF.DeviceDesc%      =DriverInstall64, USB\VID_08E6&PID_34CF ;       RFU
+%USB\VID_04da&PID_117a.DeviceDesc%      =DriverInstall64, USB\VID_04da&PID_117a ;
+%USB\VID_08E6&PID_5503&MI_01.DeviceDesc%=DriverInstall64, USB\VID_08E6&PID_5503&MI_01 ; ProxDU contactless
+%USB\VID_08E6&PID_5503&MI_02.DeviceDesc%=DriverInstall64, USB\VID_08E6&PID_5503&MI_02 ; ProxDU contact
+%USB\VID_08E6&PID_5504&MI_01.DeviceDesc%=DriverInstall64, USB\VID_08E6&PID_5504&MI_01 ; ProxSU contactless
+%USB\VID_08E6&PID_5504&MI_02.DeviceDesc%=DriverInstall64, USB\VID_08E6&PID_5504&MI_02 ; ProxSU contact
+
+
+;------------------------------------------------------------------------------
+;  Windows XP and later, x86 only
+;------------------------------------------------------------------------------
+[DriverInstall64]
+CopyFiles=DriverCopyFiles
+
+[DriverInstall64.Services]
+Addservice = GemCCID, 2, DriverService,EventLogging
+
+[DriverInstall64.hw]
+AddReg=DriverHwAddReg
+
+[DriverCopyFiles]
+GemCCID.sys,,,2
+
+[DriverService]
+ServiceType    = 1                  ; SERVICE_KERNEL_DRIVER
+StartType      = 3                  ; SERVICE_DEMAND_START
+ErrorControl   = 1                  ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %12%\GemCCID.sys
+
+[EventLogging]
+AddReg=EventLogAddReg
+
+[EventLogAddReg]
+HKR,,EventMessageFile,0x00020000,"%%12%%\GemCCID.sys"
+HKR,,TypesSupported,0x00010001,7
+
+[DriverHwAddReg]
+HKLM, Software\Microsoft\Cryptography\Calais\Readers,,,
+HKLM, System\CurrentControlSet\Services\SCardSvr,Start,0x00010001,2
+HKLM, System\CurrentControlSet\Services\CertPropSvc,Start,0x00010001,2
+
+
+
+
+
+[Strings]
+MFGNAME1="Gemalto"
+USB\VID_08E6&PID_3437.DeviceDesc      = "USB Smart Card Reader"
+USB\VID_08E6&PID_3438.DeviceDesc      = "USB Key Smart Card Reader"
+USB\VID_08E6&PID_3480.DeviceDesc      = "SIM Pro Smart Card Reader"
+USB\VID_08E6&PID_34EC.DeviceDesc      = "GemPC Express"
+USB\VID_08E6&PID_3440.DeviceDesc      = "USB Smart Card Reader"
+USB\VID_08E6&PID_3441.DeviceDesc      = "USB Smart Card Reader"
+USB\VID_08E6&PID_34C0.DeviceDesc      = "Ezio Shield STD"
+USB\VID_08E6&PID_34C1.DeviceDesc      = "Ezio Shield Secure Channel"
+USB\VID_08E6&PID_34C2.DeviceDesc      = "Ezio Shield PinPad"
+USB\VID_08E6&PID_34C3.DeviceDesc      = "Ezio CB+"
+USB\VID_08E6&PID_34C4.DeviceDesc      = "Ezio Generic"
+USB\VID_08E6&PID_34C5.DeviceDesc      = "Ezio Branch Reader"
+USB\VID_08E6&PID_34C6.DeviceDesc      = "Ezio Generic"
+USB\VID_08E6&PID_34C7.DeviceDesc      = "Ezio Generic"
+USB\VID_08E6&PID_34C8.DeviceDesc      = "Ezio Generic"
+USB\VID_08E6&PID_34C9.DeviceDesc      = "Ezio Generic"
+USB\VID_08E6&PID_34CA.DeviceDesc      = "Ezio Generic"
+USB\VID_08E6&PID_34CB.DeviceDesc      = "Ezio Generic"
+USB\VID_08E6&PID_34CC.DeviceDesc      = "Ezio Generic"
+USB\VID_08E6&PID_34CD.DeviceDesc      = "Ezio Generic"
+USB\VID_08E6&PID_34CE.DeviceDesc      = "Ezio Generic"
+USB\VID_08E6&PID_34CF.DeviceDesc      = "Ezio Generic"
+USB\VID_04da&PID_117a.DeviceDesc      = "PanaSCR7A Smart"
+USB\VID_08E6&PID_5503&MI_01.DeviceDesc= "Prox-DU Contactless Interface"
+USB\VID_08E6&PID_5503&MI_02.DeviceDesc= "Prox-DU Contact Interface"
+USB\VID_08E6&PID_5504&MI_01.DeviceDesc= "Prox-SU Contactless Interface"
+USB\VID_08E6&PID_5504&MI_02.DeviceDesc= "Prox-SU Contact Interface"
+
+INSTDISK="Installation Disc for CCID Smart Card Reader"

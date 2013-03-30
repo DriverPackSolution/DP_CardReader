@@ -1,0 +1,70 @@
+; O2MEDIA.INF, O2Micro Integrated MS/SM/xD Controller INF file
+; Copyright (c) 1997-2009 O2Micro Corp.
+
+[Version]
+Signature   = "$Windows NT$"
+Class       = SCSIAdapter
+ClassGuid   = {4D36E97B-E325-11CE-BFC1-08002BE10318}
+Provider    = %O2Micro%
+DriverVer   = 05/13/2009,1.0.2.812
+Catalogfile = o2media.cat
+
+[SourceDisksNames]
+1 = %O2MDR.DriverDisk%
+
+[SourceDisksFiles]
+o2media.sys = 1
+
+[DestinationDirs]
+DefaultDestDir = 12
+
+[ControlFlags]
+ExcludeFromSelect = *
+
+[Manufacturer]
+%O2Micro% = O2MDRDR
+
+[O2MDRDR]
+%O2MDR.DeviceDesc% = DriverInstall, PCI\VEN_1217&DEV_7130
+
+[DriverInstall.NT]
+CopyFiles = @o2media.sys
+CopyInf   = o2mddisk.inf
+
+[DriverInstall.NT.Services]
+AddService = O2MDRDR, 0x00000002 , DriverService, EventLogService
+
+[DriverService]
+ServiceType    = 1                  ; SERVICE_KERNEL_DRIVER
+StartType      = 3                  ; SERVICE_DEMAND_START
+ErrorControl   = 1                  
+LoadOrderGroup = SCSI Miniport
+ServiceBinary  = %12%\o2media.sys
+AddReg         = pnpsafe_pci_addreg
+AddReg         = bus_type_o2
+
+[EventLogService]
+AddReg = EventLogService_AddReg
+
+[EventLogService_AddReg]
+HKR,,EventMessageFile, 0x00020000, "%%SystemRoot%%\System32\drivers\o2media.sys"
+HKR,,TypesSupported,   0x00010001, 7
+
+[pnpsafe_pci_addreg]
+HKR, "Parameters\PnpInterface", "5", 0x00010001, 0x00000001
+
+[bus_type_o2]
+HKR,"Parameters", "BusType", 0x00010001, 0x00000010
+
+
+[Strings]
+REG_SZ        = 0x00000000
+REG_MULTI_SZ  = 0x00010000
+REG_EXPAND_SZ = 0x00020000
+REG_BINARY    = 0x00000001
+REG_DWORD     = 0x00010001
+SERVICEROOT   = "System\CurrentControlSet\Services"
+
+O2Micro          = "O2Micro"
+O2MDR.DeviceDesc = "O2Micro Integrated MS/xD Controller"
+O2MDR.DriverDisk = "O2Micro Integrated MS/xD Controller Driver Disk"

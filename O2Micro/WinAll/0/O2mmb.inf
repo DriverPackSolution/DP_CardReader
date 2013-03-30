@@ -1,0 +1,73 @@
+; O2MMB.INF, O2Micro MemoryCardBus Accelerator Driver INF file
+; Copyright (c) 1997-2006 O2Micro Corp.
+
+[Version]
+Signature   = "$Windows NT$"
+Class       = PCMCIA
+ClassGuid   = {4d36e977-e325-11ce-bfc1-08002be10318}
+Provider    = %O2Micro%
+DriverVer   = 01/03/2006,1.0.8.82
+Catalogfile = o2mmb.cat
+
+[ControlFlags]
+ExcludeFromSelect = *
+
+[DestinationDirs]
+DefaultDestDir  = 10,System32\Drivers
+DriverCopyFiles = 10,System32\Drivers
+
+[SourceDisksFiles]
+o2mmb.sys   = 1
+MbxStby.sys = 1
+
+[SourceDisksNames]
+1 = %O2MBX.DriverDisk%
+
+[Manufacturer]
+%O2Micro% = O2MBXDEV
+
+; ======== O2Micro MemoryCardBus Reader Install =========
+1
+[O2MBXDEV]
+; DisplayName        Section        DeviceId
+; -----------        -------        --------
+%O2MBX.DeviceDesc% = DriverInstall, PCI\VEN_1217&DEV_7110
+
+[DriverInstall.NT]
+CopyFiles = DriverCopyFiles
+
+[DriverCopyFiles]
+o2mmb.sys,,,2
+MbxStby.sys,,,2
+
+[DriverInstall.NT.Services]
+AddService = CONAN,2,DriverService
+AddService = MbxStby,,FilterService
+
+[DriverService]
+ServiceType   = 1
+StartType     = 3
+ErrorControl  = 1
+ServiceBinary = %10%\system32\drivers\o2mmb.sys
+
+[FilterService]
+ServiceType   = 1
+StartType     = 3
+ErrorControl  = 1
+ServiceBinary = %10%\system32\drivers\MbxStby.sys
+
+[DriverInstall.NT.HW]
+AddReg = DriverAddReg
+
+[DriverAddReg]
+HKR,,FriendlyName,,%O2MBX.DeviceDesc%
+HKR,,SampleInfo,,"  "
+
+;------------------------------------------------------------------------------
+;  String Definitions
+;------------------------------------------------------------------------------
+
+[Strings]
+O2Micro          = "O2Micro"
+O2MBX.DeviceDesc = "O2Micro MemoryCardBus Accelerator"
+O2MBX.DriverDisk = "O2Micro MemoryCardBus Accelerator Driver Disk"

@@ -1,0 +1,102 @@
+; R72_W2k.INF
+; Copyright SchlumbergerSema 1999,  2002
+
+[Version]
+Signature="$Windows NT$"
+Class=SmartCardReader
+ClassGuid={50DD5230-BA8A-11D1-BF5D-0000F805F530}
+Provider=%SLB%
+LayoutFile=layout.inf
+DriverVer=03/18/2002,2.13.0.5
+CatalogFile=R72_W2k.cat
+
+[ControlFlags]
+; Prevent legecay install for PnP readers
+ExcludeFromSelect=SERENUM\SCM0003
+ExcludeFromSelect=SERENUM\SCM0103
+
+; ================= Class section =====================
+
+[ClassInstall32]
+Addreg=SmartCardReaderClassReg     
+
+[SmartCardReaderClassReg]
+HKR,,,0,%ClassName%
+HKR,,Icon,,-25
+HKR,,NoInstallClass,,1
+
+[Manufacturer]
+%SLB%=SLB
+
+[Reader.Install.AddReg]
+HKLM, Software\Microsoft\Cryptography\Calais\Readers,,,
+HKLM, System\CurrentControlSet\Services\SCardSvr,Start,0x00010001,2
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,DLLName,0,wlnotify.dll
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logon,0,SCardStartCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logoff,0,SCardStopCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Lock,0,SCardSuspendCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Unlock,0,SCardResumeCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Enabled,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Impersonate,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Asynchronous,0x00010001,1
+
+[SLB]
+; DisplayName       	Section          DeviceId
+; -----------       	-------          --------
+%R72_W2k.DeviceDesc% = 	R72_W2k.Install, SERENUM\SCM0003
+%R72_W2k.DeviceDesc% = 	R72_W2k.Install, SERENUM\SCM0103
+
+; ================= INSTALL NT ================= 
+[R72_W2k.Install.NT]
+AddReg          = Reader.Install.AddReg, R72_W2k.Install.AddReg
+CopyFiles	= R72_W2k.Install.CopyFiles
+
+[R72_W2k.Install.NT.HW]
+AddReg          = R72_W2k.Install.AddReg.HW
+
+[R72_W2k.Install.AddReg.HW]
+HKR,,VendorName,,%VendorName%
+HKR,,IfdType,,%IfdType%
+
+[R72_W2k.Install.AddReg]
+HKR,, AdapterType, 0, "0100"
+
+[R72_W2k.Install.CopyFiles]
+R72_W2k.sys,,,2
+
+[R72_W2k.Install.NT.Services]
+AddService = R72_W2k, 2, R72_W2k.Service, R72_W2k.EventLog
+
+[R72_W2k.Service]
+DisplayName     = %R72_W2k.DeviceDesc%
+ServiceType     = 1 ;%SERVICE_KERNEL_DRIVER%
+StartType       = 3 ;%SERVICE_AUTO_START%
+ErrorControl    = 1 ;%SERVICE_ERROR_NORMAL%
+ServiceBinary   = %12%\R72_W2k.sys
+
+[R72_W2k.EventLog]
+AddReg = R72_W2k.AddEventLog.reg
+
+[R72_W2k.AddEventLog.reg]
+HKR,, EventMessageFile, 0x00020000, "%%SystemRoot%%\System32\drivers\R72_W2k.sys"
+HKR,, TypesSupported,   0x00010001, 7
+
+[DestinationDirs]
+R72_W2k.Install.CopyFiles = 12
+
+[SourceDisksFiles]
+R72_W2k.sys=1
+
+[SourceDisksNames]
+1 = %DiskId1%,,,""
+
+; ================= Strings =====================
+
+[Strings]
+DiskId1 		= ""
+SLB			= "SchlumbergerSema"
+R72_W2k.DeviceDesc	= "Reflex 72 Smart card reader" 
+ClassName 		= "Smart Card Readers"
+VendorName		= "SchlumbergerSema"
+IfdType			= "Reflex 72"
+

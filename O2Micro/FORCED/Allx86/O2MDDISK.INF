@@ -1,0 +1,33 @@
+; O2MDDISK.INF, O2Micro O2Media Disk Device INF file
+; Copyright (c) 1997-2009 O2Micro Corp.
+
+[Version]
+Signature   = "$Windows NT$"
+Class       = DiskDrive
+ClassGuid   = {4D36E967-E325-11CE-BFC1-08002BE10318}
+Provider    = %O2Micro%
+DriverVer   = 04/21/2009,6.1.7100.0
+Catalogfile = o2mddisk.cat
+
+[Manufacturer]
+%O2Micro% = O2MDDISK
+
+[O2MDDISK]
+;Customize the hwid to match SCSI INQUIRY data
+%O2MDD.DeviceDesc% = DriverInstall, SCSI\DiskO2Micro_O2Media_________0001
+
+[DriverInstall.NT]
+Include = disk.inf
+Needs   = expect_surprise_removal_disk_install.NT
+
+[DriverInstall.NT.Services]
+Include = disk.inf
+Needs   = expect_surprise_removal_disk_install.NT.Services
+
+[DriverInstall.NT.HW]
+Include = disk.inf
+Needs   = expect_surprise_removal_disk_install.NT.HW
+
+[Strings]
+O2Micro          = "O2Micro"
+O2MDD.DeviceDesc = "O2Micro FlashMedia Disk Device"

@@ -1,0 +1,177 @@
+; WBSCR.INF
+; Copyright (C) 2001 Winbond Electronics Corp.
+
+[Version]
+Signature=$CHICAGO$
+Class=SmartcardReader
+ClassGuid={50DD5230-BA8A-11D1-BF5D-0000F805F530}
+DriverVer=04/24/2002,1.8.2002.0424
+Provider=%Winbond%
+CatalogFile=wbscrxp.cat
+
+; ================= Class section =====================
+
+[ClassInstall32]
+Addreg=ReaderClassReg
+
+[ReaderClassReg]
+HKR,,,,%ClassName%
+HKR,,Icon,,-25
+;HKR,,NoInstallClass,,1
+
+[Reader.Install.NT.AddReg]
+HKLM, Software\Microsoft\Cryptography\Calais\Readers,,,
+HKLM, System\CurrentControlSet\Services\SCardSvr,Start,0x00010001,2
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,DLLName,0,wlnotify.dll
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logon,0,SCardStartCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logoff,0,SCardStopCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Lock,0,SCardSuspendCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Unlock,0,SCardResumeCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Enabled,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Impersonate,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Asynchronous,0x00010001,1
+
+[Reader.Install.AddReg]
+HKLM, Software\Microsoft\Cryptography\Calais\Readers,,,
+HKLM, System\CurrentControlSet\Services\SCardSvr,Start,0x00010001,2
+HKLM, SOFTWARE\Microsoft\Windows\CurrentVersion\Winlogon\Notify\ScCertProp,DLLName,0,wlnotify.dll
+HKLM, SOFTWARE\Microsoft\Windows\CurrentVersion\Winlogon\Notify\ScCertProp,Logon,0,SCardStartCertProp
+HKLM, SOFTWARE\Microsoft\Windows\CurrentVersion\Winlogon\Notify\ScCertProp,Logoff,0,SCardStopCertProp
+HKLM, SOFTWARE\Microsoft\Windows\CurrentVersion\Winlogon\Notify\ScCertProp,Lock,0,SCardSuspendCertProp
+HKLM, SOFTWARE\Microsoft\Windows\CurrentVersion\Winlogon\Notify\ScCertProp,Unlock,0,SCardResumeCertProp
+HKLM, SOFTWARE\Microsoft\Windows\CurrentVersion\Winlogon\Notify\ScCertProp,Enabled,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows\CurrentVersion\Winlogon\Notify\ScCertProp,Impersonate,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows\CurrentVersion\Winlogon\Notify\ScCertProp,Asynchronous,0x00010001,1
+
+[ChipInfoAddReg]
+; Use for Non-PNP BIOS
+HKR, "Parameters", "InitializeIC",      0x00010001, 0x00,0x00,0x00,0x00
+HKR, "Parameters", "ConfigRegister",    0x00010001, 0x2E,0x00,0x00,0x00
+HKR, "Parameters", "Hef",               0x00010001, 0x87,0x00,0x00,0x00
+HKR, "Parameters", "LogicDevice",       0x00010001, 0x00,0x00,0x00,0x00
+HKR, "Parameters", "IoBase",            0x00010001, 0x80,0x03,0x00,0x00
+HKR, "Parameters", "IRQ",               0x00010001, 0x0B,0x00,0x00,0x00
+
+; Use for all IC
+HKR, "Parameters", "AtrInterval",       0x00010001, 0x64,0x00,0x00,0x00
+; Clock 0(1.5M), 1(3M), 2(6M), 3(12M) 
+HKR, "Parameters", "UseClock",          0x00010001, 0x01,0x00,0x00,0x00
+
+; Non 627x IC use
+HKR, "Parameters", "GuardTime",         0x00010001, 0x03,0x00,0x00,0x00
+
+[Manufacturer]
+%Winbond%=DeviceList
+
+[DestinationDirs]
+DefaultDestDir=10,System32\Drivers
+
+[SourceDisksFiles]
+wbscr.sys=1,,
+
+[SourceDisksNames]
+1="Winbond Smartcard Reader",,,
+
+[DeviceList]
+%DESCRIPTION%=DriverInstall,*WEC0513
+%DESCRIPTION%=DriverInstall,*WEC0519
+
+;[ControlFlags]
+;ExcludeFromSelect=*WEC0513
+
+;------------------------------------------------------------------------------
+;  Windows 2000 Sections
+;------------------------------------------------------------------------------
+
+[DriverInstall.NT]
+CopyFiles=DriverCopyFiles
+LogConfig=DriverLogConfig0, DriverLogConfig1, DriverLogConfig2, DriverLogConfig3,DriverLogConfig4,DriverLogConfig5
+
+[DriverCopyFiles]
+wbscr.sys,,,2
+
+[DriverInstall.NT.Services]
+AddService=wbscr,2,DriverService, WBSCR.EventLog
+
+[DriverService]
+DisplayName=%wbscr.ServiceName%
+ServiceType=1
+StartType=3
+ErrorControl=1
+ServiceBinary=%10%\system32\drivers\wbscr.sys
+AddReg=Reader.Install.NT.AddReg, ChipInfoAddReg
+
+[WBSCR.EventLog]
+AddReg=WBSCR.AddEventLog.reg
+
+[WBSCR.AddEventLog.reg]
+HKR,,EventMessageFile,0x00020000, "%%SystemRoot%%\System32\Drivers\wbscr.sys"
+HKR,,TypesSupported,0x00010001, 7
+
+;------------------------------------------------------------------------------
+;  Windows 98 Sections
+;------------------------------------------------------------------------------
+
+[DriverInstall]
+AddReg=DriverAddReg, Reader.Install.AddReg, ChipInfoAddReg
+CopyFiles=DriverCopyFiles
+LogConfig=DriverLogConfig0, DriverLogConfig1, DriverLogConfig2, DriverLogConfig3,DriverLogConfig4,DriverLogConfig5
+
+[DriverAddReg]
+HKR,,DevLoader,,*ntkern
+HKR,,NTMPDriver,,wbscr.sys
+
+[DriverLogConfig0]
+ConfigPriority  = DESIRED
+IOConfig        = 2E8-2EF(3FF::)
+IRQConfig       = 5
+
+[DriverLogConfig1]
+ConfigPriority  = NORMAL
+IOConfig        = 2F8-2FF(3FF::)
+IRQConfig       = 3,4,5,7,9,10,11
+
+[DriverLogConfig2]
+ConfigPriority  = NORMAL
+IOConfig        = 3F8-3FF(3FF::)
+IRQConfig       = 3,4,5,7,9,10,11
+
+[DriverLogConfig3]
+ConfigPriority  = NORMAL
+IOConfig        = 2E8-2EF(3FF::)
+IRQConfig       = 3,4,5,7,9,10,11
+
+[DriverLogConfig4]
+ConfigPriority  = NORMAL
+IOConfig        = 3E8-3EF(3FF::)
+IRQConfig       = 3,4,5,7,9,10,11
+
+[DriverLogConfig5]
+ConfigPriority  = NORMAL
+IOConfig        = 380-387(3FF::)
+IRQConfig       = 3,4,5,7,9,10,11
+
+;------------------------------------------------------------------------------
+;  String Definitions
+;------------------------------------------------------------------------------
+
+[Strings]
+Winbond="Winbond Electronics Corp"
+DESCRIPTION="Winbond Smartcard Reader"
+wbscr.ServiceName="Winbond Smartcard Reader for I/O"
+ClassName="Smart card readers"
+
+REG_TYPE_SZ       = 0x00000000
+REG_BINVALUETYPE  = 0x00000001
+REG_NOCLOBBER     = 0x00000002
+REG_DELVAL        = 0x00000004
+REG_APPEND        = 0x00000008
+REG_KEYONLY       = 0x00000010
+REG_OVERWRITEONLY = 0x00000020
+
+REG_MASK        = 0xFFFF0001
+REG_MULTI_SZ    = 0x00010000
+REG_EXPAND_SZ   = 0x00020000
+REG_BINARY      = 0x00000001
+REG_DWORD       = 0x00010001
+REG_NONE        = 0x00020001

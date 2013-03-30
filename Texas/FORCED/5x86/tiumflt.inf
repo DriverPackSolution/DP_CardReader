@@ -1,0 +1,111 @@
+;/*++
+;
+;Copyright (c) 2002 Texas Instruments All rights Reserved
+;
+;Module Name:
+;
+;    tiumflt.inf
+;
+;Abstract:
+;    INF file for installing PCMCIA CardBus device driver as filter driver
+;--*/
+[Version]
+Signature="$WINDOWS NT$"
+Class=PCMCIA
+ClassGUID={4d36e977-e325-11ce-bfc1-08002be10318}
+Provider=%TI%
+DriverVer=08/08/2003,1.0.1.0
+CatalogFile=tiumflt.cat
+
+[ControlFlags]
+ExcludeFromSelect=*
+
+[DestinationDirs]
+DefaultDestDir = 12
+
+;*****************************************
+; PCMCIA Device Filter Install Section
+;*****************************************
+
+[Manufacturer]
+%TI%=TI_PCMCIA
+
+[TI_PCMCIA]
+; DisplayName       		Section           DeviceId
+; -----------       		-------           --------
+;;;%PCMCIAFilter.DeviceDesc%=PCMCIAFilter,   PCI\CC_0607            ; Generic CardBus Controller
+%PCMCIAFilter.DeviceDesc_7510%=PCMCIAFilter,   PCI\VEN_104C&DEV_AC47  ; PCI7510 fn 0 CB
+%PCMCIAFilter.DeviceDesc_7610%=PCMCIAFilter,   PCI\VEN_104C&DEV_AC48  ; PCI7610 fn 0 CB
+%PCMCIAFilter.DeviceDesc_7410%=PCMCIAFilter,   PCI\VEN_104C&DEV_AC49  ; PCI7410 fn 0 CB
+%PCMCIAFilter.DeviceDesc_1620%=PCMCIAFilter,   PCI\VEN_104C&DEV_AC54  ; PCI1620
+%PCMCIAFilter.DeviceDesc_SC%=PCMCIAFilter,     PCI\VEN_104C&DEV_AC4A  ; PCI7510/7610 fn 1 SC
+%PCMCIAFilter.DeviceDesc_FM%=PCMCIAFilter,     PCI\VEN_104C&DEV_AC4B  ; PCI7610/7410 fn 1 SD/MMC
+%PCMCIAFilter.DeviceDesc_FM%=PCMCIAFilter,     PCI\VEN_104C&DEV_AC4C  ; PCI7610/7410 fn 1 MS
+
+;=====================================================================
+[PCMCIAFilter.NT]  
+;=============== Get the standard stuff from PCMCIA.inf==============
+Include=pcmcia.inf
+Needs=CARDBUS,TICompat
+CopyFiles=PCMCIAFilter.NT.Copy
+AddReg=PCMCIAFilter.NT.AddReg
+
+[PCMCIAFilter.NT.Copy]
+tiumflt.sys
+
+[PCMCIAFilter.NT.AddReg]                            
+; Add registry entries here
+
+[PCMCIAFilter.NT.HW]
+;================ Add our own stuff for the filter
+AddReg = PCMCIAFilter.NT.HW.AddReg
+
+;================ Add in the standard stuff provided by PCMCIA
+Include = PCMCIA.inf
+Needs = CARDBUS.HW,TICompat.HW
+
+[PCMCIAFilter.NT.HW.AddReg]  
+HKR,,"UpperFilters",0x00010000,"DevUpper"
+;HKR,,"LowerFilters",0x00010000,"DevLower"
+
+;*****************************************
+; PCMCIA Device Filter Service Section
+;*****************************************
+
+[PCMCIAFilter.NT.Services]
+AddService = DevUpper,, filter_Service_Inst 
+;AddService = DevLower,, filter_Service_Inst 
+
+;=========== This will add PCMCIA as the service and make sure =====
+;=========== that pcmcia.sys has been installed ====================
+Include=pcmcia.inf
+Needs=CARDBUS.Services,TICompat.Services
+
+[filter_Service_Inst]
+DisplayName    = %filter.SvcDesc%                            
+ServiceType    = 1                  ; SERVICE_KERNEL_DRIVER
+StartType      = 3                  ; SERVICE_DEMAND_START
+ErrorControl   = 1                  ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %12%\tiumflt.sys                            
+
+;*************************
+; Source file information
+;*************************
+
+[SourceDisksNames]
+1 = %DiskId1%,,,""
+
+[SourceDisksFiles]
+tiumflt.sys  = 1,,
+
+[Strings]
+TI = "Texas Instruments"
+DiskId1 = "PCMCIA Filter Installation Disk #1"
+PCMCIAFilter.DeviceDesc_7410 = "Texas Instruments PCI7410 CardBus Controller"
+PCMCIAFilter.DeviceDesc_7510 = "Texas Instruments PCI7510 CardBus Controller"
+PCMCIAFilter.DeviceDesc_7610 = "Texas Instruments PCI7610 CardBus Controller"
+PCMCIAFilter.DeviceDesc_FM = "Texas Instruments CardBus Controller with FlashMedia"
+PCMCIAFilter.DeviceDesc_1620 = "Texas Instruments PCI-1620 CardBus Controller with UltraMedia."
+PCMCIAFilter.DeviceDesc_SC = "Texas Instruments CardBus Controller with SmartCard"
+filter.SvcDesc = "TI UltraMedia CardBus Controller Filter Driver"
+

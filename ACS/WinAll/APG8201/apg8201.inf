@@ -1,0 +1,127 @@
+; APG8201.INF
+; Copyright (c) 2009 Advanced Card Systems Ltd.
+
+[Version]
+DriverVer=12/18/2009,1.1.6.9
+Signature="$CHICAGO$"
+Class=SmartCardReader
+ClassGuid={50DD5230-BA8A-11D1-BF5D-0000F805F530}
+Provider=%ACS%
+CatalogFile.NT=apg8201.cat
+
+[SourceDisksNames]
+1 = "APG8201 USB Smart Card Reader Driver Installation Disk",,,
+
+[SourceDisksFiles]
+a8201w98.sys = 1
+apg8201.sys  = 1
+a8201x64.sys = 1
+
+[DestinationDirs]
+ACS.Install.CopySYS 	    = 10,System32\Drivers
+ACS.Install.CopySYS.NTx86   = 12
+ACS.Install.CopySYS.NTamd64 = 12
+
+; ================= Class section =====================
+
+[ClassInstall32]
+Addreg=SmartCardReaderClassReg     
+
+[ClassInstall]
+Addreg=SmartCardReaderClassReg
+
+[SmartCardReaderClassReg]
+HKR,,,0,%ClassName%
+HKR,,Icon,,-25
+HKLM,"\Software\Microsoft\Cryptography\Calais\Readers",,,
+
+[Manufacturer]
+%ACS%=ACS,NTamd64
+
+; ================= APG8201 Reader =====================
+
+[ACS]
+%ACS.DeviceDesc% = ACS.Install, USB\VID_072F&PID_8201
+
+[ACS.NTamd64]
+%ACS.DeviceDesc% = ACS.Install, USB\VID_072F&PID_8201
+
+[ACS.Install]
+AddReg    = ACS.Install.AddReg
+CopyFiles = ACS.Install.CopySYS
+
+[ACS.Install.NTx86]
+AddReg    = ACS.Install.AddReg.NT
+CopyFiles = ACS.Install.CopySYS.NTx86
+
+[ACS.Install.NTamd64]
+AddReg    = ACS.Install.AddReg.NT
+CopyFiles = ACS.Install.CopySYS.NTamd64
+
+; ================= Windows 98/ME =====================
+
+[ACS.Install.AddReg]
+HKR,,DevLoader,,*ntkern
+HKR,,NTMPDriver,,apg8201.sys
+HKR,,AdapterType, 0, "0100"
+HKR,,"VendorName",0,%Vendor%
+HKR,,"IFDName",0,%Reader%
+HKR,,"CardType",0,%CardType%
+HKR,,"SFDT",0,%SFDT%
+HKR,,"CardVoltage",0,%CardVoltage%
+
+[ACS.Install.CopySYS]
+apg8201.sys,a8201w98.sys
+
+[ACS.Install.Services]
+AddService = APG8201, 2, ACS.Service
+
+; ============= Windows 2000, XP, 2003 and Vista =================
+
+[ACS.Install.AddReg.NT]
+HKR,,AdapterType, 0, "0100"
+HKR,,"VendorName",0,%Vendor%
+HKR,,"IFDName",0,%Reader%
+HKR,,"CardType",0,%CardType%
+HKR,,"SFDT",0,%SFDT%
+HKR,,"CardVoltage",0,%CardVoltage%
+HKLM,"System\CurrentControlSet\Services\SCardSvr","Start", 0x00010001,2
+
+[ACS.Install.CopySYS.NTx86]
+apg8201.sys
+
+[ACS.Install.CopySYS.NTamd64]
+apg8201.sys,a8201x64.sys
+
+[ACS.Install.NTx86.Services]
+AddService = APG8201, 2, ACS.Service, ACS.EventLog
+
+[ACS.Install.NTamd64.Services]
+AddService = APG8201, 2, ACS.Service, ACS.EventLog
+
+[ACS.Service]
+DisplayName     = %ACS.DeviceDesc%
+ServiceType     = 1 ;%SERVICE_KERNEL_DRIVER%
+StartType       = 3 ;%SERVICE_DEMAND_START%
+ErrorControl    = 1 ;%SERVICE_ERROR_NORMAL%
+ServiceBinary   = %12%\apg8201.sys
+
+[ACS.EventLog]
+AddReg = ACS.AddEventLog.reg
+
+[ACS.AddEventLog.reg]
+HKR,, EventMessageFile, 0x00020000, "%%SystemRoot%%\System32\drivers\apg8201.sys"
+HKR,, TypesSupported,   0x00010001, 7
+
+; ================= Strings =====================
+
+[Strings]
+Msft			= "Advanced Card Systems Ltd."
+ACS			= "ACS"
+ACS.DeviceDesc		= "APG8201 Smart Card Reader"
+ClassName 		= "Smart Card Readers"
+Vendor			= "ACS"
+Reader			= "APG8201"
+CardType		= 0
+SFDT			= "TRUE"
+CardVoltage		= 0

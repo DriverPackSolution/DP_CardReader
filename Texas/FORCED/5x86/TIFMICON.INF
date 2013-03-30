@@ -1,0 +1,210 @@
+; Copyright (c) 2002 Texas Instruments Inc. All rights reserved
+
+[Version]
+Signature="$WINDOWS NT$"
+Class=DiskDrive
+ClassGuid={4D36E967-E325-11CE-BFC1-08002BE10318}
+Provider=%TI%
+DriverVer=06/03/2004,1.0.0.1
+CatalogFile=tifmicon.cat
+
+[ControlFlags]
+ExcludeFromSelect=*
+
+[Manufacturer]
+%TI%=TI_DISK
+
+[SourceDisksFiles]
+tifmicon.dll=1  ; 101-SM, 102-MMC, 103-SD, 104-MSPro, 105-MS, 106-XD
+
+[SourceDisksNames]
+1=%INSTDISK%,,,
+
+[Dll_copyfiles]
+tifmicon.dll
+
+[DestinationDirs]
+Dll_copyfiles = 11   ; System32 dir
+
+; Model section
+[TI_DISK]
+; Memory stick
+%MemStickReader.DeviceDesc% = Mem_Stick_Reader_Inst, FlashMedia\MemoryStickDevice0
+%MemStickReader.DeviceDesc% = Mem_Stick_Reader_Inst, FlashMedia\MemoryStickDevice1
+%MemStickReader.DeviceDesc% = Mem_Stick_Reader_Inst, FlashMedia\MemoryStickDevice2
+
+; Memory stick Pro
+%MemStickProReader.DeviceDesc% = Mem_StickPro_Reader_Inst, FlashMedia\MemoryStickProDevice0
+%MemStickProReader.DeviceDesc% = Mem_StickPro_Reader_Inst, FlashMedia\MemoryStickProDevice1
+%MemStickProReader.DeviceDesc% = Mem_StickPro_Reader_Inst, FlashMedia\MemoryStickProDevice2
+
+; SmartMedia
+%SmartMediaReader.DeviceDesc% = SmartMedia_Reader_Inst, FlashMedia\SmartMediaDevice0
+%SmartMediaReader.DeviceDesc% = SmartMedia_Reader_Inst, FlashMedia\SmartMediaDevice1
+%SmartMediaReader.DeviceDesc% = SmartMedia_Reader_Inst, FlashMedia\SmartMediaDevice2
+
+; xD
+%XDReader.DeviceDesc% = XD_Reader_Inst, FlashMedia\XDDevice0
+%XDReader.DeviceDesc% = XD_Reader_Inst, FlashMedia\XDDevice1
+%XDReader.DeviceDesc% = XD_Reader_Inst, FlashMedia\XDDevice2
+
+; SD
+%SDReader.DeviceDesc% = SD_Reader_Inst, FlashMedia\SdDevice0
+%SDReader.DeviceDesc% = SD_Reader_Inst, FlashMedia\SdDevice1
+%SDReader.DeviceDesc% = SD_Reader_Inst, FlashMedia\SdDevice2
+%SDReader.DeviceDesc% = SD_Reader_Inst, FlashMedia\SdDevice3
+
+; MMC
+%MMCReader.DeviceDesc% = MMC_Reader_Inst, FlashMedia\MmcDevice0
+%MMCReader.DeviceDesc% = MMC_Reader_Inst, FlashMedia\MmcDevice1
+%MMCReader.DeviceDesc% = MMC_Reader_Inst, FlashMedia\MmcDevice2
+%MMCReader.DeviceDesc% = MMC_Reader_Inst, FlashMedia\MmcDevice3
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;Install section for Memory stick
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+[Mem_Stick_Reader_Inst.NT]
+CopyFiles = Dll_copyfiles
+Include = disk.inf
+Needs = disk_install
+
+;Driver service section
+[Mem_Stick_Reader_Inst.NT.Services]
+Include = disk.inf
+Needs = disk_install.NT.Services
+
+;Device hardware section (device-specific info)
+[Mem_Stick_Reader_Inst.NT.HW]
+AddReg = DeviceMSAddReg
+
+[DeviceMSAddReg]
+; Goes HW branch and Device Parameters
+HKR,,DeviceGroup,,"MemoryStick"
+;HKR,,Label,,"MemoryStick Disk"
+HKR,,Icons,,"%SystemRoot%\system32\tifmicon.dll,-105"
+HKR,,NoSoftEject,0x00010001,0x00000001
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;Install section for MS PRO
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+[Mem_StickPro_Reader_Inst.NT]
+CopyFiles = Dll_copyfiles
+Include = disk.inf
+Needs = disk_install
+
+;Driver service section
+[Mem_StickPro_Reader_Inst.NT.Services]
+Include = disk.inf
+Needs = disk_install.NT.Services
+
+;Device hardware section (device-specific info)
+[Mem_StickPro_Reader_Inst.NT.HW]
+AddReg = DeviceMSProAddReg
+
+[DeviceMSProAddReg]
+HKR,,Icons,,"%SystemRoot%\system32\tifmicon.dll,-104"
+HKR,,NoSoftEject,0x00010001,0x00000001
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;Install section for SmartMedia
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+[SmartMedia_Reader_Inst.NT]
+CopyFiles = Dll_copyfiles
+Include = disk.inf
+Needs = disk_install
+
+;Driver service section
+[SmartMedia_Reader_Inst.NT.Services]
+Include = disk.inf
+Needs = disk_install.NT.Services
+
+;Device hardware section (device-specific info)
+[SmartMedia_Reader_Inst.NT.HW]
+AddReg = DeviceSMAddReg
+
+[DeviceSMAddReg]
+HKR,,Icons,,"%SystemRoot%\system32\tifmicon.dll,-101"
+HKR,,NoSoftEject,0x00010001,0x00000001
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;Install section for xD
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+[XD_Reader_Inst.NT]
+CopyFiles = Dll_copyfiles
+Include = disk.inf
+Needs = disk_install
+
+;Driver service section
+[XD_Reader_Inst.NT.Services]
+Include = disk.inf
+Needs = disk_install.NT.Services
+
+;Device hardware section (device-specific info)
+[XD_Reader_Inst.NT.HW]
+AddReg = DeviceXDAddReg
+
+[DeviceXDAddReg]
+HKR,,Icons,,"%SystemRoot%\system32\tifmicon.dll,-106"
+HKR,,NoSoftEject,0x00010001,0x00000001
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;Install section for SD
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+[SD_Reader_Inst.NT]
+CopyFiles = Dll_copyfiles
+Include = disk.inf
+Needs = disk_install
+
+;Driver service section
+[SD_Reader_Inst.NT.Services]
+Include = disk.inf
+Needs = disk_install.NT.Services
+
+;Device hardware section (device-specific info)
+[SD_Reader_Inst.NT.HW]
+AddReg = DeviceSDAddReg
+
+[DeviceSDAddReg]
+HKR,,Icons,,"%SystemRoot%\system32\tifmicon.dll,-103"
+HKR,,NoSoftEject,0x00010001,0x00000001
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;Install section for MMC
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+[MMC_Reader_Inst.NT]
+CopyFiles = Dll_copyfiles
+Include = disk.inf
+Needs = disk_install
+
+;Driver service section
+[MMC_Reader_Inst.NT.Services]
+Include = disk.inf
+Needs = disk_install.NT.Services
+
+;Device hardware section (device-specific info)
+[MMC_Reader_Inst.NT.HW]
+AddReg = DeviceMMCAddReg
+
+[DeviceMMCAddReg]
+HKR,,Icons,,"%SystemRoot%\system32\tifmicon.dll,-102"
+HKR,,NoSoftEject,0x00010001,0x00000001
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;Define all strings in the inf file
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+[Strings]
+INSTDISK="TI FlashMedia Icon Installation Disc"
+TI = "Texas Instruments"
+MemStickReader.DeviceDesc = "Texas Instruments Memory Stick Disk"
+MemStickProReader.DeviceDesc = "Texas Instruments Memory Stick Pro Disk"
+SDReader.DeviceDesc = "Texas Instruments SD Disk"
+SmartMediaReader.DeviceDesc = "Texas Instruments SmartMedia Disk"
+MMCReader.DeviceDesc = "Texas Instruments MMC Disk"
+XDReader.DeviceDesc = "Texas Instruments xD Disk"

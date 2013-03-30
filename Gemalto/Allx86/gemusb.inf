@@ -1,0 +1,125 @@
+; gemusb.inf 
+; USB Smart Card Readers installation
+; Copyright (c) 2002 Gemplus
+; INSTALL_TYPE = GemCoreUSB
+
+[Version]
+Signature="$CHICAGO$"
+Class=SmartCardReader
+ClassGuid={50DD5230-BA8A-11D1-BF5D-0000F805F530}
+provider="Gemplus"
+CatalogFile=gemusb.cat
+DriverVer=08/11/2003,2.1.0.1
+
+[ControlFlags]
+; Prevent legacy install for PnP readers
+ExcludeFromSelect=USB\VID_08E6&PID_0430
+ExcludeFromSelect=USB\VID_08E6&PID_0435
+
+[Manufacturer]
+Gemplus=DeviceList
+
+[SourceDisksFiles]
+gemusb.sys=1
+
+[DestinationDirs]
+DefaultDestDir  = 10,System32\Drivers
+GEMPC430.Install.CopyFiles = 10,System32\Drivers
+
+[SourceDisksNames]
+1=%INSTDISK%,,,
+
+[DeviceList]
+; DisplayName           Section           DeviceId
+; -----------           -------           --------
+%GEMPC430.DeviceDesc%=GEMPC430.Install, USB\VID_08E6&PID_0430
+%GEMPC435.DeviceDesc%=GCR435.Install, USB\VID_08E6&PID_0435
+
+;------------------------------------------------------------------------------
+;  Windows 2000 Sections
+;------------------------------------------------------------------------------
+; Supported by Gemplus vendors
+; ****************************
+; American Express GCR435 USB
+; ****************************
+; This is actually an GemPC430 reader, so we reference the Gemplus reader here
+[GCR435.Install.NT]
+AddReg           = GEMPC430.Install.AddReg
+CopyFiles	 = GEMPC430.Install.CopyFiles
+
+[GCR435.Install.NT.HW]
+AddReg           = GCR435.Install.AddReg.hw
+
+[GCR435.Install.AddReg.HW]
+HKR,,"VendorName",,"American Express"
+HKR,,"IfdType",,"GCR435"
+
+[GCR435.Install.NT.Services]
+AddService = GEMPC430, 2, GEMPC430.Service, GEMPC430.EventLog
+
+;------------------------------------------------------------------------------
+
+; *********************
+; Gemplus GemPC430 USB
+; *********************
+[GEMPC430.Install.NT]
+AddReg          = GEMPC430.Install.AddReg
+CopyFiles	= GEMPC430.Install.CopyFiles
+
+[GEMPC430.Install.CopyFiles]
+gemusb.sys,,,2
+
+[GEMPC430.Install.NT.Services]
+Addservice = GEMPC430, 2, GEMPC430.Service, GEMPC430.EventLog
+
+[GEMPC430.Service]
+ServiceType    = 1                  ; SERVICE_KERNEL_DRIVER
+StartType      = 3                  ; SERVICE_AUTO_START
+ErrorControl   = 1                  ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %10%\System32\Drivers\gemusb.sys
+
+[GEMPC430.EventLog]
+AddReg=GEMPC430.AddEventLog.reg
+
+[GEMPC430.AddEventLog.reg]
+HKR,, EventMessageFile, 0x00020000, "%%SystemRoot%%\System32\drivers\gemusb.sys"
+HKR,, TypesSupported,   0x00010001, 7
+
+[GEMPC430.Install.AddReg]
+HKLM,"SOFTWARE\Gemplus\PCSC_Drivers\GemCoreUSB"
+;HKLM,"System\CurrentControlSet\Services\SCardSvr,Start,0x00010001,2"
+
+;------------------------------------------------------------------------------
+
+;------------------------------------------------------------------------------
+;  Windows 98 Sections
+;------------------------------------------------------------------------------
+; ****************************
+; American Express GCR435 USB
+; ****************************
+; This is actually an GemPC430 reader, so we reference the Gemplus reader here
+[GCR435.Install]
+AddReg           = GEMPC430.Install.AddDriverReg
+CopyFiles	 = GEMPC430.Install.CopyFiles
+
+[GCR435.Install.hw]
+AddReg=GCR435.Install.AddReg.HW
+
+;------------------------------------------------------------------------------
+[GEMPC430.Install]
+AddReg=GEMPC430.Install.AddDriverReg
+CopyFiles=GEMPC430.Install.CopyFiles
+
+[GEMPC430.Install.AddDriverReg]
+HKR,,DevLoader,,*ntkern
+HKR,,NTMPDriver,,gemusb.sys
+HKLM,"SOFTWARE\Gemplus\PCSC_Drivers\GemCoreUSB"
+
+;------------------------------------------------------------------------------
+;  String Definitions
+;------------------------------------------------------------------------------
+
+[Strings]
+GEMPC435.DeviceDesc="American Express GCR435 USB Smart Card Reader"
+GEMPC430.DeviceDesc="Gemplus GemPC430 USB Smart Card Reader"
+INSTDISK="Installation Disc for Gemplus USB Smart Card readers"

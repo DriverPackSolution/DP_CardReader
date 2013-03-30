@@ -1,0 +1,159 @@
+;
+; rismc.inf
+;
+; RICOH PCI DEVICE DRIVER INF FILE for Card-Bay Controller
+;
+; INF file for Windows 2K/XP/Vista/Server2003/Windows7 x86 and x64 platforms
+;
+; Copyright © RICOH Company, Ltd., 2002-2009
+
+[Version]
+Signature="$CHICAGO$"
+Class=SmartCardReader
+ClassGuid={50DD5230-BA8A-11D1-BF5D-0000F805F530}
+Provider=%Mfg%
+CatalogFile=rismc.cat
+DriverVer=07/20/2009,1.12
+
+[Manufacturer]
+%Mfg% = Models, NTamd64
+
+[Models]
+%RICOH.DeviceDesc%=RICOH,PCMCIA\RICOH-R5C590-2E48
+%RICOH.DeviceDesc%=RICOH,PCMCIA\RICOH-R5C590-6950
+%RICOH.DeviceDesc%=RICOH,PCMCIA\RICOH-R5C590-A0CE
+%RICOH.DeviceDesc%=RICOH,PCMCIA\RICOH-Bay_Controller-2AD9
+%RICOH.DeviceDesc%=RICOH,PCMCIA\RICOH-Bay8Controller-7057
+%RICOH.DeviceDesc%=RICOH,PCMCIA\RICOH-Bay8Controller-72AF
+%RICOH.DeviceDesc%=RICOH,PCMCIA\RICOH-Bay8Controller-F1B2
+;%RICOH.DeviceDesc%=RICOH,PCI\VEN_1180&DEV_0596
+
+[Models.NTamd64]
+%RICOH.DeviceDesc%=RICOH.NTamd64,PCMCIA\RICOH-R5C590-2E48
+%RICOH.DeviceDesc%=RICOH.NTamd64,PCMCIA\RICOH-R5C590-6950
+%RICOH.DeviceDesc%=RICOH.NTamd64,PCMCIA\RICOH-R5C590-A0CE
+%RICOH.DeviceDesc%=RICOH.NTamd64,PCMCIA\RICOH-Bay_Controller-2AD9
+%RICOH.DeviceDesc%=RICOH.NTamd64,PCMCIA\RICOH-Bay8Controller-7057
+%RICOH.DeviceDesc%=RICOH.NTamd64,PCMCIA\RICOH-Bay8Controller-72AF
+%RICOH.DeviceDesc%=RICOH.NTamd64,PCMCIA\RICOH-Bay8Controller-F1B2
+;%RICOH.DeviceDesc%=RICOH.NTamd64,PCI\VEN_1180&DEV_0596
+
+[ControlFlags]
+ExcludeFromSelect.nt=PCMCIA\RICOH-R5C590-2E48
+ExcludeFromSelect.nt=PCMCIA\RICOH-R5C590-6950
+ExcludeFromSelect.nt=PCMCIA\RICOH-R5C590-A0CE
+ExcludeFromSelect.nt=PCMCIA\RICOH-Bay_Controller-2AD9
+ExcludeFromSelect.nt=PCMCIA\RICOH-Bay8Controller-7057
+ExcludeFromSelect.nt=PCMCIA\RICOH-Bay8Controller-72AF
+ExcludeFromSelect.nt=PCMCIA\RICOH-Bay8Controller-F1B2
+;ExcludeFromSelect.nt=PCI\VEN_1180&DEV_0596
+
+[SourceDisksNames]
+1 = %Floppy_Description%,rismc32.sys,,
+1 = %Floppy_Description%,rismcx64.sys,,
+
+[SourceDisksFiles]
+rismc32.sys=1
+rismcx64.sys=1
+
+[DestinationDirs]
+DefaultDestDir=12
+
+[rismc32.CopyFiles]
+rismc32.sys
+
+[rismcx64.CopyFiles]
+rismcx64.sys
+
+[RICOH.AddReg]
+HKR,,ShortProviderName,0,%ShortProviderName%
+HKR,,ReaderName,0,%RICOH.DeviceDesc%
+
+[RICOH.NT.AddReg]
+;HKR,, ClassB , 0x00010001,1
+;HKR,, Poll , 0x00010001,1
+; Configurable F and D values
+;HKR,, FValue , 0x00010001, 1
+;HKR,, DValue , 0x00010001, 1
+;HKR,, ReduceCpuUtil , 0x00010001,1
+;HKR,,ClockType,0x00010001,1
+HKR,, TrayIcon , 0x00010001,0
+HKR,, CheckETUReg , 0x00010001,1
+HKR,, BufferSize , 0x00010001, 131072
+;HKR,, CardSpecificATR, 1, 3B,34,D6,00,30,42,30,30
+;HKR,, TranslatedATR, 1, 3B,34,B5,00,30,42,30,30
+HKR,, IFDType,0,%PCSC_CCID%
+HKR,, VendorName,0,%Mfg%
+HKLM, System\CurrentControlSet\Services\Pcmcia\Parameters,DisableIsaToPciRouting,0x00010001,0
+HKLM, Software\Microsoft\Cryptography\Calais\Readers,,,
+HKLM, System\CurrentControlSet\Services\SCardSvr,Start,0x00010001,2
+HKLM, System\CurrentControlSet\Services\CertPropSvc,Start,0x00010001,2
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,DLLName,0,wlnotify.dll
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logon,0,SCardStartCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logoff,0,SCardStopCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Lock,0,SCardSuspendCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Unlock,0,SCardResumeCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Enabled,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Impersonate,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Asynchronous,0x00010001,1
+HKLM, SYSTEM\CurrentControlSet\Control\DeviceOverrides\PCMCIA#RICOH-R5C590-2E48\LocationPaths\*,Removable,0x00010001,0
+HKLM, SYSTEM\CurrentControlSet\Control\DeviceOverrides\PCMCIA#RICOH-R5C590-6950\LocationPaths\*,Removable,0x00010001,0
+HKLM, SYSTEM\CurrentControlSet\Control\DeviceOverrides\PCMCIA#RICOH-R5C590-A0CE\LocationPaths\*,Removable,0x00010001,0
+HKLM, SYSTEM\CurrentControlSet\Control\DeviceOverrides\PCMCIA#RICOH-Bay_Controller-2AD9\LocationPaths\*,Removable,0x00010001,0
+HKLM, SYSTEM\CurrentControlSet\Control\DeviceOverrides\PCMCIA#RICOH-Bay8Controller-7057\LocationPaths\*,Removable,0x00010001,0
+HKLM, SYSTEM\CurrentControlSet\Control\DeviceOverrides\PCMCIA#RICOH-Bay8Controller-72AF\LocationPaths\*,Removable,0x00010001,0
+HKLM, SYSTEM\CurrentControlSet\Control\DeviceOverrides\PCMCIA#RICOH-Bay8Controller-F1B2\LocationPaths\*,Removable,0x00010001,0
+
+[RICOH.NT]
+CopyFiles= rismc32.CopyFiles
+AddReg = RICOH.NT.AddReg
+
+[RICOH.NTamd64]
+CopyFiles= rismcx64.CopyFiles
+AddReg = RICOH.NT.AddReg
+
+[RICOH.NT.Services]
+AddService = rismc32,0x00000002,rismc32.AddService,rismc32.EventLogInst
+
+[RICOH.NTamd64.Services]
+AddService = rismcx64,0x00000002,rismcx64.AddService,rismcx64.EventLogInst
+
+[rismc32.AddService]
+ServiceType     = 1 ;%SERVICE_KERNEL_DRIVER%
+StartType       = 3 ;%SERVICE_AUTO_START%
+ErrorControl    = 1 ;%SERVICE_ERROR_NORMAL%
+ServiceBinary   = %12%\rismc32.sys
+DisplayName     = %DisplayName%
+AddReg= RICOH.AddReg
+
+[rismcx64.AddService]
+ServiceType     = 1 ;%SERVICE_KERNEL_DRIVER%
+StartType       = 3 ;%SERVICE_AUTO_START%
+ErrorControl    = 1 ;%SERVICE_ERROR_NORMAL%
+ServiceBinary   = %12%\rismcx64.sys
+DisplayName     = %DisplayName%
+AddReg= RICOH.AddReg
+
+[rismc32.EventLogInst]
+AddReg=rismc32.AddEventLogReg
+
+[rismcx64.EventLogInst]
+AddReg=rismcx64.AddEventLogReg
+
+[rismc32.AddEventLogReg]
+HKR,,EventMessageFile,0x00020000,"%%SystemRoot%%\System32\IoLogMsg.dll;%%SystemRoot%%\System32\drivers\rismc32.sys"
+HKR,,TypesSupported,0x00010001,7
+
+[rismcx64.AddEventLogReg]
+HKR,,EventMessageFile,0x00020000,"%%SystemRoot%%\System32\IoLogMsg.dll;%%SystemRoot%%\System32\drivers\rismcx64.sys"
+HKR,,TypesSupported,0x00010001,7
+
+[Strings]
+Mfg = "RICOH Company, Ltd."
+ShortProviderName = "RICOH"
+Floppy_Description = "Installation Disk"
+RICOH.DeviceDesc="RICOH SmartCard Reader"
+PCSC_CCID="RICOH SmartCard Reader"
+ClassName="Smart Card Readers"
+Description="Server for SmartCard Reader"
+DisplayName="RICOH Smart Card Reader"

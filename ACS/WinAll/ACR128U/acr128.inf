@@ -1,0 +1,253 @@
+; ACR128.INF
+; Copyright (c) 1994 - 2010 Advanced Card Systems Ltd.
+;
+; Note: For use on Windows 2000 or higher only!
+;
+
+[Version]
+DriverVer=06/30/2010,1.0.0.1
+Signature="$Windows NT$"
+Class=SmartCardReader
+ClassGuid={50DD5230-BA8A-11D1-BF5D-0000F805F530}
+Provider=%ACS%
+CatalogFile=acr128.cat
+
+; ======= Source and Destination section =============
+
+[SourceDisksNames]
+1 = %SourceDiskName%,,,
+
+[SourceDisksFiles]
+a128bus.sys	= 1
+a128picc.sys	= 1
+a128icc.sys	= 1
+a128sam.sys	= 1
+a128busx64.sys	= 1
+a128piccx64.sys	= 1
+a128iccx64.sys	= 1
+a128samx64.sys	= 1
+
+[DestinationDirs]
+ACS.Install.Bus.CopyFiles.NTx86    = 12
+ACS.Install.Bus.CopyFiles.NTamd64  = 12
+ACS.Install.Icc.CopyFiles.NTx86    = 12
+ACS.Install.Icc.CopyFiles.NTamd64  = 12
+ACS.Install.Picc.CopyFiles.NTx86   = 12
+ACS.Install.Picc.CopyFiles.NTamd64 = 12
+ACS.Install.Sam.CopyFiles.NTx86    = 12
+ACS.Install.Sam.CopyFiles.NTamd64  = 12
+
+; ================= Class section =====================
+
+[ClassInstall32]
+Addreg=SmartCardReaderClassReg     
+
+[ClassInstall]
+Addreg=SmartCardReaderClassReg
+
+[SmartCardReaderClassReg]
+HKR,,,0,%ClassName%
+HKR,,Icon,,-25
+HKLM,"\Software\Microsoft\Cryptography\Calais\Readers",,,
+
+[Manufacturer]
+%ACS%=ACS,NTamd64
+
+; ================= ACS ACR128 Reader =====================
+
+[ACS]
+; DisplayName           Section      	  DeviceId
+; -----------           -------      	  --------
+%ACS.DeviceDesc.Bus%  = ACS.Install.Bus,  USB\VID_072F&PID_2100
+%ACS.DeviceDesc.Icc%  = ACS.Install.Icc,  *ACO0704
+%ACS.DeviceDesc.Picc% = ACS.Install.Picc, *ACO0705
+%ACS.DeviceDesc.Sam%  = ACS.Install.Sam,  *ACO0706
+
+[ACS.NTamd64]
+; DisplayName           Section      	  DeviceId
+; -----------           -------      	  --------
+%ACS.DeviceDesc.Bus%  = ACS.Install.Bus,  USB\VID_072F&PID_2100
+%ACS.DeviceDesc.Icc%  = ACS.Install.Icc,  *ACO0704
+%ACS.DeviceDesc.Picc% = ACS.Install.Picc, *ACO0705
+%ACS.DeviceDesc.Sam%  = ACS.Install.Sam,  *ACO0706
+
+; ============== ACS ACR128 Bus Driver ====================
+
+[ACS.Install.Bus.NTx86]
+AddReg    = ACS.Install.Bus.AddReg.NT
+CopyFiles = ACS.Install.Bus.CopyFiles.NTx86
+
+[ACS.Install.Bus.NTamd64]
+AddReg    = ACS.Install.Bus.AddReg.NT
+CopyFiles = ACS.Install.Bus.CopyFiles.NTamd64
+
+[ACS.Install.Bus.AddReg.NT]
+HKLM,"System\CurrentControlSet\Services\SCardSvr","Start", 0x00010001,2
+HKLM,"System\CurrentControlSet\Services\CertPropSvc","Start", 0x00010001,2
+
+[ACS.Install.Bus.CopyFiles.NTx86]
+a128bus.sys,,,2
+a128icc.sys,,,2
+a128picc.sys,,,2
+a128sam.sys,,,2
+
+[ACS.Install.Bus.CopyFiles.NTamd64]
+a128bus.sys,a128busx64.sys
+a128icc.sys,a128iccx64.sys
+a128picc.sys,a128piccx64.sys
+a128sam.sys,a128samx64.sys
+
+[ACS.Install.Bus.NTx86.Services]
+AddService=A128BUS,2,ACS.Install.Bus.Service,ACS.Install.Bus.EventLog
+
+[ACS.Install.Bus.NTamd64.Services]
+AddService=A128BUS,2,ACS.Install.Bus.Service,ACS.Install.Bus.EventLog
+
+[ACS.Install.Bus.Service]
+DisplayName     = %ACS.DeviceDesc.Bus%
+ServiceType	= 1
+StartType	= 3
+ErrorControl	= 1
+ServiceBinary	= %12%\a128bus.sys
+
+[ACS.Install.Bus.EventLog]
+AddReg = ACS.Install.Bus.AddEventLog.reg
+
+[ACS.Install.Bus.AddEventLog.reg]
+HKR,, EventMessageFile, 0x00020000, "%%SystemRoot%%\System32\drivers\a128bus.sys"
+HKR,, TypesSupported,   0x00010001, 7
+
+; ============== ACS ACR128 ICC Driver ===============
+
+[ACS.Install.Icc.NTx86]
+AddReg		= ACS.Install.Icc.AddReg.NT
+CopyFiles 	= ACS.Install.Icc.CopyFiles.NTx86
+
+[ACS.Install.Icc.NTamd64]
+AddReg		= ACS.Install.Icc.AddReg.NT
+CopyFiles 	= ACS.Install.Icc.CopyFiles.NTamd64
+
+[ACS.Install.Icc.AddReg.NT]
+HKR,,"VendorName",0,%Vendor%
+HKR,,"IFDName",0,%IFDName.Icc%
+
+[ACS.Install.Icc.CopyFiles.NTx86]
+a128icc.sys,,,2
+
+[ACS.Install.Icc.CopyFiles.NTamd64]
+a128icc.sys,a128iccx64.sys
+
+[ACS.Install.Icc.NTx86.Services]
+AddService=A128ICC,2,ACS.Install.Icc.Service,ACS.Install.Icc.EventLog
+
+[ACS.Install.Icc.NTamd64.Services]
+AddService=A128ICC,2,ACS.Install.Icc.Service,ACS.Install.Icc.EventLog
+
+[ACS.Install.Icc.Service]
+DisplayName     = %ACS.DeviceDesc.Icc%
+ServiceType	= 1
+StartType       = 3
+ErrorControl	= 1
+ServiceBinary	= %12%\a128icc.sys
+
+[ACS.Install.Icc.EventLog]
+AddReg = ACS.Install.Icc.AddEventLog.reg
+
+[ACS.Install.Icc.AddEventLog.reg]
+HKR,, EventMessageFile, 0x00020000, "%%SystemRoot%%\System32\drivers\a128icc.sys"
+HKR,, TypesSupported,   0x00010001, 7
+
+; ============== ACS ACR128 PICC Driver ===============
+
+[ACS.Install.Picc.NTx86]
+AddReg		= ACS.Install.Picc.AddReg.NT
+CopyFiles 	= ACS.Install.Picc.CopyFiles.NTx86
+
+[ACS.Install.Picc.NTamd64]
+AddReg		= ACS.Install.Picc.AddReg.NT
+CopyFiles 	= ACS.Install.Picc.CopyFiles.NTamd64
+
+[ACS.Install.Picc.AddReg.NT]
+HKR,,"VendorName",0,%Vendor%
+HKR,,"IFDName",0,%IFDName.Picc%
+
+[ACS.Install.Picc.CopyFiles.NTx86]
+a128picc.sys,,,2
+
+[ACS.Install.Picc.CopyFiles.NTamd64]
+a128picc.sys,a128piccx64.sys
+
+[ACS.Install.Picc.NTx86.Services]
+AddService=A128PICC,2,ACS.Install.Picc.Service,ACS.Install.Picc.EventLog
+
+[ACS.Install.Picc.NTamd64.Services]
+AddService=A128PICC,2,ACS.Install.Picc.Service,ACS.Install.Picc.EventLog
+
+[ACS.Install.Picc.Service]
+DisplayName     = %ACS.DeviceDesc.Picc%
+ServiceType	= 1
+StartType       = 3
+ErrorControl	= 1
+ServiceBinary	= %12%\a128picc.sys
+
+[ACS.Install.Picc.EventLog]
+AddReg = ACS.Install.Picc.AddEventLog.reg
+
+[ACS.Install.Picc.AddEventLog.reg]
+HKR,, EventMessageFile, 0x00020000, "%%SystemRoot%%\System32\drivers\a128picc.sys"
+HKR,, TypesSupported,   0x00010001, 7
+
+; ============== ACS ACR128 Sam Driver ===============
+
+[ACS.Install.Sam.NTx86]
+AddReg		= ACS.Install.Sam.AddReg.NT
+CopyFiles 	= ACS.Install.Sam.CopyFiles.NTx86
+
+[ACS.Install.Sam.NTamd64]
+AddReg		= ACS.Install.Sam.AddReg.NT
+CopyFiles 	= ACS.Install.Sam.CopyFiles.NTamd64
+
+[ACS.Install.Sam.AddReg.NT]
+HKR,,"VendorName",0,%Vendor%
+HKR,,"IFDName",0,%IFDName.Sam%
+
+[ACS.Install.Sam.CopyFiles.NTx86]
+a128sam.sys,,,2
+
+[ACS.Install.Sam.CopyFiles.NTamd64]
+a128sam.sys,a128samx64.sys
+
+[ACS.Install.Sam.NTx86.Services]
+AddService=A128SAM,2,ACS.Install.Sam.Service,ACS.Install.Sam.EventLog
+
+[ACS.Install.Sam.NTamd64.Services]
+AddService=A128SAM,2,ACS.Install.Sam.Service,ACS.Install.Sam.EventLog
+
+[ACS.Install.Sam.Service]
+DisplayName     = %ACS.DeviceDesc.Sam%
+ServiceType	= 1
+StartType       = 3
+ErrorControl	= 1
+ServiceBinary	= %12%\a128sam.sys
+
+[ACS.Install.Sam.EventLog]
+AddReg = ACS.Install.Sam.AddEventLog.reg
+
+[ACS.Install.Sam.AddEventLog.reg]
+HKR,, EventMessageFile, 0x00020000, "%%SystemRoot%%\System32\drivers\a128sam.sys"
+HKR,, TypesSupported,   0x00010001, 7
+
+; ====================== Strings =========================
+
+[Strings]
+ACS                 	= "Advanced Card Systems Ltd."
+Vendor              	= "ACS"
+SourceDiskName		= "ACR128 USB Smart Card Reader Installation Disk"
+ClassName 		= "Smart Card Readers"
+ACS.DeviceDesc.Bus	= "ACR128 USB BUS Driver"
+ACS.DeviceDesc.Icc	= "ACR128 Contact Card Interface"
+ACS.DeviceDesc.Picc	= "ACR128 Contactless Card Interface"
+ACS.DeviceDesc.Sam	= "ACR128 SAM Interface"
+IFDName.Icc         	= "ACR128U ICC Interface"
+IFDName.Picc		= "ACR128U PICC Interface"
+IFDName.Sam         	= "ACR128U SAM Interface"

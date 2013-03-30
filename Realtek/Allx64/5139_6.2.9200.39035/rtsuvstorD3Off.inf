@@ -1,0 +1,92 @@
+; Installation inf for the Realtek USB Card Reader
+;
+; (c) Copyright 2011 Realtek 
+;
+
+[Version]
+Signature="$CHICAGO$"
+Class=USB
+ClassGUID={36FC9E60-C465-11CF-8056-444553540000}
+provider=%VENDOR%
+DriverVer=10/15/2012,6.2.9200.39035
+CatalogFile=RtsUVStor.cat
+
+[SourceDisksNames]
+1=%Disk_Description%
+
+[SourceDisksFiles]
+RtsUVStor.sys=1
+;RtsUVStor.dll = 1
+RtsUVStoricon.dll = 1
+
+[Manufacturer]
+%MfgName%=DeviceList,NTamd64
+
+[DeviceList.NTamd64]
+%USB\VID_0BDA&PID_XXXX.DeviceDesc%=RSUSBVSTOR, USB\VID_0BDA&PID_0139  
+%USB\VID_0BDA&PID_XXXX.DeviceDesc%=RSUSBVSTOR, USB\VID_0BDA&PID_0129  
+%USB\VID_0BDA&PID_XXXX.DeviceDesc%=RSUSBVSTOR, USB\VID_0BDA&PID_0140 
+ 
+
+
+[DestinationDirs]
+RtsUVStor.CopyList = 10,System32\Drivers
+;RtsCopyFilesSection = 11             
+RtsIconFileSection  = 10,SysWOW64
+
+[RSUSBVSTOR.ntamd64]
+CopyFiles=RtsUVStor.CopyList
+
+[DefaultInstall]
+;CopyFiles = RtsUVStor.CopyList, RtsCopyFilesSection, RtsIconFileSection
+CopyFiles = RtsUVStor.CopyList, RtsIconFileSection
+[RtsUVStor.CopyList]
+RtsUVStor.sys
+
+;[RtsCopyFilesSection]
+;RtsUVStor.dll
+
+[RtsIconFileSection]
+RtsUVStoricon.dll
+
+
+[RSUSBVSTOR.ntamd64.CoInstallers]
+;CopyFiles=RtsCopyFilesSection, RtsIconFileSection
+CopyFiles=RtsIconFileSection
+AddReg=Rts.ntamd64.CoInstallers_AddReg
+ 
+[Rts.ntamd64.CoInstallers_AddReg]
+HKR,,CoInstallers32,0x00010000,","
+
+[RSUSBVSTOR.ntamd64.Services]
+Addservice = RSUSBVSTOR, 0x00000002, RSUSBVSTOR.AddService
+[DefaultInstall.Services]
+AddService = RSUSBVSTOR, 0x00000002, RSUSBVSTOR.AddService
+
+[RSUSBVSTOR.AddService]
+DisplayName    = %RSUSBVSTOR.SvcDesc%
+ServiceType    = 1                  ; SERVICE_KERNEL_DRIVER
+StartType      = 3                  ; SERVICE_DEMAND_START
+ErrorControl   = 1                  ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %10%\System32\Drivers\RtsUVStor.sys
+AddReg         = RSUSBVSTOR.AddReg
+LoadOrderGroup = Base
+
+
+[RSUSBVSTOR.AddReg]
+;HKR,,DevLoader,,*ntkern
+;HKR,,NTMPDriver,,RtsUVStor.sys
+HKR,"Parameters","DebugLevel",0x10001,5
+HKR,"Parameters","FirstLoad",0x10001,1
+HKR,"Parameters","EnableAutoDelink",0x10001,0
+
+
+
+;---------------------------------------------------------------;
+
+[Strings]
+VENDOR="Realtek"
+MfgName="Realtek"
+Disk_Description="Realtek 5139 Driver Disk"
+USB\VID_0BDA&PID_XXXX.DeviceDesc="Realtek USB 2.0 Card Reader"
+RSUSBVSTOR.SvcDesc="RtsUVStor.Sys Realtek USB Card Reader"

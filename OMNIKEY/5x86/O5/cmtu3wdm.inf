@@ -1,0 +1,159 @@
+; cmtu3wdm.INF
+; Copyright (c) 2000 - 2002 OMNIKEY AG
+
+[Version]
+Signature=$CHICAGO$
+Class=SmartCardReader
+ClassGuid={50DD5230-BA8A-11D1-BF5D-0000F805F530}
+Provider=%Provider%
+DriverVer=04/23/2002,1.0.3.0
+;we have to remove this for the uncertified driver
+;CatalogFile=cmtu3wdm.cat
+
+[SourceDisksNames]
+1=%DiskDescription%,,
+
+[SourceDisksFiles]
+cmtu3wdm.sys=1,,
+launchn.dll=1,,
+scbase.ex_=1,,
+smclib.ex_=1,,
+cmdiag.cpl=1,,
+cmdiag.ini=1,,
+cardman.cpl=1,,
+cmabout.dll=1,,
+cmabout.ini=1,,
+ok.bmp=1,,
+
+[DestinationDirs]
+DefaultDestDir=11
+cmtu3wdm.Install.CopyFiles=10,system32\drivers
+cmtu3wdm.Install.NT.CopyFiles=10,system32\drivers
+cmtu3wdm.Install.Scbase=11
+cmtu3wdm.Install.Sc2=10,system
+cm3620.Tools=11
+cmtu3wdm.NT.Tools=11
+
+[Manufacturer]
+%Manufacturer%=OMNIKEY
+
+; =================== Class section =======================
+
+[ClassInstall]
+Addreg=SmartCardReaderClassReg
+
+[SmartCardReaderClassReg]
+HKR,,,0,%ClassName%
+HKR,,Icon,,-25
+HKLM,"\Software\Microsoft\Cryptography\Calais\Readers",,,
+
+
+; ===================== CardMan ===========================
+
+;we have to remove this for the uncertified driver
+;[ControlFlags]
+;ExcludeFromSelect.NT = USB\VID_076B&PID_3610
+
+[OMNIKEY]
+; DisplayName       	Section           DeviceId
+; -----------       	-------           --------
+%cm3620.DeviceDesc% = cm3620.Install, USB\VID_076B&PID_3610
+
+
+; =================== Win9x specific ======================
+
+[cm3620.Install]
+AddReg    = cm3620.Install.AddReg
+CopyFiles = cmtu3wdm.Install.CopyFiles,cmtu3wdm.Install.Scbase,cmtu3wdm.Install.Sc2,cm3620.Tools
+
+[cm3620.Install.HW]
+AddReg    = cm3620.Install.AddReg.HW
+
+
+[cm3620.Install.AddReg]
+HKR,,DevLoader,,*ntkern
+HKR,,NTMPDriver,,cmtu3wdm.sys
+HKLM,"\Software\Microsoft\Windows\CurrentVersion\RunOnce",launchn,,"rundll32 launchn.dll,InstallSC"
+
+
+
+[cmtu3wdm.Install.CopyFiles]
+cmtu3wdm.sys
+
+[cmtu3wdm.Install.Scbase]
+launchn.dll
+scbase.ex_
+smclib.ex_
+
+[cmtu3wdm.Install.Sc2]
+scbase.exe,scbase.ex_
+smclib.exe,smclib.ex_
+
+
+[cm3620.Tools]
+cmdiag.cpl
+cmdiag.ini
+cardman.cpl
+cmabout.dll
+cmabout.ini
+ok.bmp
+
+
+
+; ================== Win2000 specific =====================
+
+[cm3620.Install.NT]
+AddReg    = cmtu3wdm.Install.NT.AddReg
+CopyFiles = cmtu3wdm.Install.NT.CopyFiles,cmtu3wdm.NT.Tools
+
+[cm3620.Install.NT.HW]
+AddReg    = cm3620.Install.AddReg.HW
+
+[cm3620.Install.NT.Services]
+AddService = cmtu3wdm, 2, cmtu3wdm.Service.NT
+
+
+[cmtu3wdm.Install.NT.AddReg]
+HKR,, AdapterType, 0, "0100"
+;set ScardSvr always to 'Automatic'
+HKLM,"SYSTEM\CurrentControlSet\Services\SCardSvr",Start,0x00010001,2
+
+
+[cmtu3wdm.Install.NT.CopyFiles]
+; 2 : skip not allowed
+cmtu3wdm.sys,,,2
+
+[cmtu3wdm.NT.Tools]
+cmdiag.cpl
+cmdiag.ini
+cardman.cpl
+cmabout.dll
+cmabout.ini
+ok.bmp
+
+
+[cmtu3wdm.Service.NT]
+DisplayName     = %cm3620.DeviceDesc%
+ServiceType     = 1 ;%SERVICE_KERNEL_DRIVER%
+StartType       = 3 ;%SERVICE_AUTO_START%
+ErrorControl    = 1 ;%SERVICE_ERROR_NORMAL%
+ServiceBinary   = %12%\cmtu3wdm.sys
+
+
+
+; =====================
+; === CardMan 3620 ====
+; =====================
+[cm3620.Install.AddReg.HW]
+HKR,,"VendorName",,"OMNIKEY"
+HKR,,"IfdType",, "CardMan 3620"
+
+
+; ================= Strings =====================
+
+[Strings]
+Provider		= "OMNIKEY AG"
+Manufacturer    	= "OMNIKEY AG"
+cm3620.DeviceDesc	= "CardMan 3620"
+DiskDescription         = "CardMan PC/SC Driver Disk"
+ClassName 		= "Smart Card Readers"

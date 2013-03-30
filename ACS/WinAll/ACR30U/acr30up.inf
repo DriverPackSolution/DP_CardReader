@@ -1,0 +1,160 @@
+; ACR30UP.INF
+; Copyright (c) 2010 Advanced Card Systems Ltd.
+; 
+
+[Version]
+DriverVer=02/19/2010,3.0.0.2
+Signature="$CHICAGO$"
+Class=SmartCardReader
+ClassGuid={50DD5230-BA8A-11D1-BF5D-0000F805F530}
+Provider=%Acs%
+CatalogFile.NT=acr30up.cat
+
+[SourceDisksNames]
+1 = "ACR30U Smart Card Installation Disk",,,""
+
+[SourceDisksFiles]
+acrusb98.sys   = 1
+acr30up.sys    = 1
+acr30upx64.sys = 1
+usbr3016.dll   = 1
+usbr30.dll     = 1
+usbr30x64.dll  = 1
+
+[DestinationDirs]
+ACS.Install.CopySYS		= 10,System32\Drivers
+ACS.Install.CopyDLL 		= 10,System
+ACS.Install.CopySYS.NTx86 	= 12
+ACS.Install.CopySYS.NTamd64 	= 12
+ACS.Install.CopyDLL.NTx86 	= 11
+ACS.Install.CopyDLL.NTamd64 	= 11
+
+; ================= Class section =====================
+
+[ClassInstall32]
+Addreg=SmartCardReaderClassReg     
+
+[ClassInstall]
+Addreg=SmartCardReaderClassReg
+
+[SmartCardReaderClassReg]
+HKR,,,0,%ClassName%
+HKR,,Icon,,-25
+HKLM,"\Software\Microsoft\Cryptography\Calais\Readers",,,
+
+[Manufacturer]
+%ACS%=ACS,NTamd64
+
+; ================= ACR30U reader =====================
+
+[ACS]
+; DisplayName       Section     DeviceId
+; -----------       -------     --------
+%ACS.DeviceDesc% = ACS.Install, USB\VID_072F&PID_0001
+
+[ACS.NTamd64]
+; DisplayName       Section     DeviceId
+; -----------       -------     --------
+%ACS.DeviceDesc% = ACS.Install, USB\VID_072F&PID_0001
+
+[ACS.Install]
+AddReg          = ACS.Install.AddReg
+CopyFiles	= ACS.Install.CopySYS, ACS.Install.CopyDLL
+
+[ACS.Install.NTx86]
+AddReg          = ACS.Install.AddReg.NT
+CopyFiles	= ACS.Install.CopySYS.NTx86, ACS.Install.CopyDLL.NTx86
+
+[ACS.Install.NTamd64]
+AddReg          = ACS.Install.AddReg.NT
+CopyFiles	= ACS.Install.CopySYS.NTamd64, ACS.Install.CopyDLL.NTamd64
+
+; ================= Windows 98/ME =====================
+
+[ACS.Install.AddReg]
+HKR,,DevLoader,,*ntkern
+HKR,,NTMPDriver,,acr30up.sys
+HKR,, AdapterType, 0, "0100"
+HKR,,EnumPropPages,,"usbr30.dll,EnumPropPages"
+HKR,,"VendorName",0,%Vendor%
+HKR,,"IFDName",0,%Reader%
+HKR,,"ReadTimeout",0,%Timeout%
+HKR,,"CardType",0,%CardType%
+HKR,,"CommandMode",0,%CmdMode%
+
+[ACS.Install.CopySYS]
+acr30up.sys,acrusb98.sys
+
+[ACS.Install.CopyDLL]
+usbr30.dll,usbr3016.dll
+
+[ACS.Install.Services]
+AddService = ACSET, 2, ACS.Service
+
+; ============= Windows 2000, XP and Vista =================
+
+[ACS.Install.AddReg.NT]
+HKR,, AdapterType, 0, "0100"
+HKR,,EnumPropPages32,,"usbr30.dll,ReaderPropPageProvider"
+HKR,,"VendorName",0,%Vendor%
+HKR,,"IFDName",0,%Reader%
+HKR,,"ReadTimeout",0,%Timeout%
+HKR,,"CardType",0,%CardType%
+HKR,,"CommandMode",0,%CmdMode%
+HKLM,"System\CurrentControlSet\Services\SCardSvr","Start", 0x00010001,2
+HKLM,"System\CurrentControlSet\Services\CertPropSvc","Start", 0x00010001,2
+
+[ACS.Install.CopySYS.NTx86]
+acr30up.sys
+
+[ACS.Install.CopyDLL.NTx86]
+usbr30.dll
+
+[ACS.Install.CopySYS.NTamd64]
+acr30up.sys,acr30upx64.sys
+
+[ACS.Install.CopyDLL.NTamd64]
+usbr30.dll,usbr30x64.dll
+
+[ACS.Install.NTx86.Services]
+AddService = ACSET, 2, ACS.Service, ACS.EventLog
+
+[ACS.Install.NTamd64.Services]
+AddService = ACSET, 2, ACS.Service, ACS.EventLog
+
+[ACS.Service]
+DisplayName     = %ACS.DeviceDesc%
+ServiceType     = 1 ;%SERVICE_KERNEL_DRIVER%
+StartType       = 3 ;%SERVICE_DEMAND_START%
+ErrorControl    = 1 ;%SERVICE_ERROR_NORMAL%
+ServiceBinary   = %12%\acr30up.sys
+
+[ACS.EventLog]
+AddReg = ACS.AddEventLog.reg
+
+[ACS.AddEventLog.reg]
+HKR,, EventMessageFile, 0x00020000, "%%SystemRoot%%\System32\drivers\acr30up.sys"
+HKR,, TypesSupported,   0x00010001, 7
+
+
+; ================= Strings =====================
+
+[Strings]
+Msft			= "Advanced Card Systems Ltd"
+ACS			= "ACS"
+ACS.DeviceDesc		= "ACS USB Smart Card Reader"
+ClassName 		= "Smart Card Readers"
+Vendor			= "ACS"
+Reader			= "USB"
+Timeout			= "60"		;timeout in second
+CmdMode			= "02"		;02-PCSC 01-EMV 00-Auto
+CardType		= "04"		;Please see below for full description
+
+; 00 - SLE4442
+; 01 - SLE4432
+; 02 - SLE4428
+; 03 - SLE4418 
+; 04 - MCU (T=0/T=1)
+; 05 - SLE4406
+; 06 - GPM103
+; 07 - I2C

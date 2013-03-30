@@ -1,0 +1,88 @@
+; Copyright (c) 2002 Texas Instruments
+; TI UltraMedia Firmware loader Installation file for Win9x and Win200/XP
+[Version]
+Signature=$CHICAGO$
+Class=System
+ClassGUID={4d36e97d-e325-11ce-bfc1-08002be10318}
+Provider=%MFGNAME%
+CataLogFile=tiumfwl.cat
+DriverVer=08/29/2003,1.0.1.2
+
+[Manufacturer]
+%MFGNAME%=DeviceList
+
+[ControlFlags]
+ExcludeFromSelect=*
+
+[DestinationDirs]
+DefaultDestDir = 11
+DriverCopyFiles = 12
+
+[SourceDisksFiles]
+tiumfwl.sys=1
+tiumfw.bin=1
+
+[SourceDisksNames]
+1=%INSTDISK%,,,
+
+[DeviceList]
+%DESCRIPTION%=FWLDriverInstall,PCI\VEN_104C&DEV_8201&CC_088000  ; 1620
+%DESCRIPTION%=FWLDriverInstall,PCI\VEN_104C&DEV_8204&CC_088000  ; 4610, 4515, 4610FM
+
+;------------------------------------------------------------------------------
+;  Windows 2000/XP Sections
+;------------------------------------------------------------------------------
+
+[FWLDriverInstall.NT]
+AddReg   = FWLDriverInstall.AddReg
+CopyFiles=DriverCopyFiles
+
+[DriverCopyFiles]
+tiumfwl.sys,,,2
+tiumfw.bin,,,2
+
+[FWLDriverInstall.NT.Services]
+AddService=tiumfwl,2,DriverService
+
+[DriverService]
+ServiceType=1
+StartType=3
+ErrorControl=1
+ServiceBinary=%10%\system32\drivers\tiumfwl.sys
+
+[FWLDriverInstall.nt.hw]
+AddReg=DriverHwAddReg
+
+[DriverHwAddReg]
+
+[FWLDriverInstall.AddReg]
+; DWORD will go to software branch
+;HKR,,SecurityEnable,0x00010001,1
+; Write to specified registry path
+HKLM,System\CurrentControlSet\Services\tiumfwl\Parameters,SecurityEnable, 0x10001,1
+HKLM,System\CurrentControlSet\Services\tiumfwl\Parameters,NonRemovable,   0x10001,1
+
+;------------------------------------------------------------------------------
+;  Windows 98/ME Sections
+;------------------------------------------------------------------------------
+
+[FWLDriverInstall]
+AddReg=DriverAddReg, FWLDriverInstall.AddReg
+CopyFiles=DriverCopyFiles
+
+[DriverAddReg]
+HKR,,DevLoader,,*ntkern
+HKR,,NTMPDriver,,tiumfwl.sys
+
+[FWLDriverInstall.HW]
+AddReg=DriverHwAddReg
+
+;------------------------------------------------------------------------------
+;  String Definitions
+;------------------------------------------------------------------------------
+
+[Strings]
+MFGNAME="Texas Instruments Inc"
+INSTDISK="TI Installation Disc"
+DESCRIPTION="TI UltraMedia Firmware Loader Device"
+

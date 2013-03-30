@@ -1,0 +1,108 @@
+; gempcc.inf
+; PCMCIA Smart Card Readers installation
+; Copyright (c) 2004 Gemplus
+; INSTALL_TYPE = PCMCIA
+
+[Version]
+Signature="$Windows NT$"
+Class=SmartCardReader
+ClassGuid={50DD5230-BA8A-11D1-BF5D-0000F805F530}
+Provider=%GEMPLUS%
+CatalogFile=gempcc.cat
+DriverVer=01/06/2004,2.1.10.1
+
+[SourceDisksNames]
+1=%Disk%,,,
+
+[SourceDisksFiles]
+gempcc.sys=1
+
+
+[DestinationDirs]
+DefaultDestDir = 11
+GPR400.Install.CopyFiles = 12
+
+[ControlFlags]
+; Prevent legacy install for PnP readers
+ExcludeFromSelect=PCMCIA\GEMPLUS-GPR400-72B1
+ExcludeFromSelect=PCMCIA\GEMPLUS-GPR400-43E8
+ExcludeFromSelect=PCMCIA\COMPAQ-PC_CARD_SMARTCARD_READER-446E
+
+[Manufacturer]
+%GEMPLUS%=GEMPLUS
+
+[GEMPLUS]
+; DisplayName       	Section           DeviceId
+; -----------       	-------           --------
+%GPR400.DeviceDesc% =   GPR400.Install,   PCMCIA\GEMPLUS-GPR400-72B1
+%GPR400.DeviceDesc% =   GPR400.Install,   PCMCIA\GEMPLUS-GPR400-43E8
+%CPQ400.DeviceDesc% =   CPQ400.Install,   PCMCIA\COMPAQ-PC_CARD_SMARTCARD_READER-446E
+
+; ****************************
+; COMPAQ CPQ400 PCMCIA
+; ****************************
+; This is actually an GPR400 reader, so we reference the Gemplus reader here
+[CPQ400.Install.NT]
+AddReg           = GPR400.Install.AddReg
+CopyFiles	 = GPR400.Install.CopyFiles
+
+[CPQ400.Install.NT.HW]
+AddReg           = CPQ400.Install.AddReg.hw
+
+[CPQ400.Install.AddReg.HW]
+HKR,,"VendorName",,"COMPAQ"
+HKR,,"IfdType",,"CPQ400"
+
+[CPQ400.Install.NT.LogConfigOverride]
+LogConfig = GPR400.LogConfigOverride
+
+[CPQ400.Install.NT.Services]
+AddService = GEMPCC, 2, GPR400.Service, GPR400.EventLog
+;------------------------------------------------------------------------------
+
+[GPR400.Install.NT]
+AddReg          = GPR400.Install.AddReg
+CopyFiles	= GPR400.Install.CopyFiles
+
+[GPR400.Install.NT.LogConfigOverride]
+LogConfig=GPR400.LogConfigOverride
+
+[GPR400.LogConfigOverride]
+ConfigPriority=NORMAL
+IOConfig=22@100-FEFF%FFE0
+IRQConfig=3,4,5,7,9,10,11,12,13,14,15
+PcCardConfig=1(S0) 
+
+[GPR400.Install.CopyFiles]
+gempcc.sys,,,2
+
+[GPR400.Install.NT.Services]
+AddService = GEMPCC, 2, GPR400.Service, GPR400.EventLog
+
+[GPR400.Service]
+DisplayName     = %GPR400.DeviceDesc%
+ServiceType     = 1 ;%SERVICE_KERNEL_DRIVER%
+StartType       = 3 ;%SERVICE_AUTO_START%
+ErrorControl    = 1 ;%SERVICE_ERROR_NORMAL%
+ServiceBinary   = %12%\gempcc.sys
+
+[GPR400.EventLog]
+AddReg = GPR400.AddEventLog.reg
+
+[GPR400.AddEventLog.reg]
+HKR,, EventMessageFile, 0x00020000, "%%SystemRoot%%\System32\drivers\gempcc.sys"
+HKR,, TypesSupported,   0x00010001, 7
+
+
+[GPR400.Install.AddReg]
+HKLM,"SOFTWARE\Gemplus\PCSC_Drivers\PCMCIA"
+HKLM,System\CurrentControlSet\Services\SCardSvr,Start,0x00010001,2
+
+; ================= Strings =====================
+[Strings]
+GEMPLUS                 = "Gemplus"
+GPR400.DeviceDesc       = "Gemplus GemPC400 PCMCIA Smart Card Reader"
+COMPAQ                  = "COMPAQ"
+CPQ400.DeviceDesc       = "COMPAQ PC-CARD Smart Card Reader"
+ClassName               = "Smart card readers"
+Disk			= "PC-CARD Smart Card Reader Installation Disk"

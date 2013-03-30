@@ -1,0 +1,106 @@
+;*******************************************************************************
+;   Copyright (c) 2009-2011 Broadcom Corporation.  All rights reserved.
+;
+;   INF for Broadcom Memory Stick SCSI Miniport Drivers
+;
+;   bScsiMSa.sys    =   Broadcom Memory Stick SCSI MiniPort Driver AMD64
+;   bScsiMSx.sys    =   Broadcom Memory Stick SCSI MiniPort Driver X86
+;
+;*******************************************************************************
+;
+[Version]
+Signature       =       "$Windows NT$"
+Class           =       System
+ClassGUID       =       {4D36E97D-E325-11CE-BFC1-08002BE10318}
+Provider        =       %BRCM%
+DriverVer=06/18/2012,1.0.4.0
+CatalogFile=bscsimsx.cat
+
+;
+;       Source file information
+;
+
+[SourceDisksNames]
+1               =       %DiskDesc%
+
+[SourceDisksFiles]
+bScsiMSx.sys = 1
+
+[DestinationDirs]
+DefaultDestDir = 12     ;       DIRID_DRIVERS
+
+[Manufacturer]
+%BRCM%  =       Broadcom, NTx86
+
+[Broadcom]
+
+[Broadcom.NTx86]
+%DevDesc% = BRCM_Inst, PCI\VEN_14E4&DEV_16BE
+%DevDesc% = BRCM_Inst, PCI\VEN_14E4&DEV_16BE&SUBSYS_96BE14E4
+
+[ControlFlags]
+ExcludeFromSelect = *
+
+[BRCM_Inst]
+CopyFiles = BRCM_CopyFiles
+
+[BRCM_Inst.HW]
+DelReg = LegacyScsiportValues
+
+[BRCM_Inst.Services]
+AddService = bScsiMSx, %SPSVCINST_ASSOCSERVICE%, BRCM_Service_Inst, Miniport_EventLog_Inst
+
+[BRCM_Service_Inst]
+ServiceType    = %SERVICE_KERNEL_DRIVER%
+StartType      = %SERVICE_DEMAND_START%
+ErrorControl   = %SERVICE_ERROR_NORMAL%
+ServiceBinary  = %12%\bScsiMSx.sys
+LoadOrderGroup = SCSI Miniport
+AddReg         = PnpsafePciAddreg
+
+[BRCM_CopyFiles]
+bScsiMSx.sys,,,1
+
+[LegacyScsiportValues]
+HKR,Scsiport,BusNumber
+HKR,Scsiport,LegacyInterfaceType
+HKR,Scsiport,SlotNumber
+
+[PnpsafePciAddreg]
+HKR, "Parameters\PnpInterface", "5", %REG_DWORD%, 0x00000001
+
+[Miniport_EventLog_Inst]
+AddReg = Miniport_EventLog_AddReg
+
+[Miniport_EventLog_AddReg]
+HKR,,EventMessageFile,%REG_EXPAND_SZ%,"%%SystemRoot%%\System32\IoLogMsg.dll"
+HKR,,TypesSupported,%REG_DWORD%,7
+
+[Strings]
+;       Localizable Strings needed for HBA naming in Windows UI
+;
+BRCM        = "Broadcom Corporation"
+DevDesc     = "Broadcom Memory Stick"
+DiskDesc    = "Broadcom SCSI Miniport Drivers"
+
+;*******************************************
+;       Non-Localizable strings
+;*******************************************
+SPSVCINST_ASSOCSERVICE          = 0x00000002
+SPSVCINST_CLOBBER_SECURITY      = 0x00000400
+SERVICE_KERNEL_DRIVER           = 0x00000001
+SERVICE_FILE_SYSTEM_DRIVER      = 0x00000002
+SERVICE_WIN32_OWN_PROCESS       = 0x00000010
+SERVICE_WIN32_SHARE_PROCESS     = 0x00000020
+SERVICE_BOOT_START              = 0x00000000
+SERVICE_SYSTEM_START            = 0x00000001
+SERVICE_AUTO_START              = 0x00000002
+SERVICE_DEMAND_START            = 0x00000003
+SERVICE_DISABLED                = 0x00000004
+SERVICE_ERROR_IGNORE            = 0x00000000
+SERVICE_ERROR_NORMAL            = 0x00000001
+SERVICE_ERROR_SEVERE            = 0x00000002
+SERVICE_ERROR_CRITICAL          = 0x00000003
+REG_EXPAND_SZ                   = 0x00020000
+REG_DWORD                       = 0x00010001
+

@@ -1,0 +1,117 @@
+; RISDPTSK.inf
+; Windows VISTA Beta installation file
+; for installing RICOH SD driver
+; Copyright (c) 2001-2008 RICOH Company Ltd.,   All rights Reserved
+; This Driver supports DID0822 of RICOH Controller
+; 
+
+[Version] 
+Signature = "$Windows NT$" 
+Class=hdc
+ClassGUID={4d36e96a-e325-11ce-bfc1-08002be10318}
+DriverPackageDisplayName="SD Host Controller" 
+Provider=%Ricoh% 
+CatalogFile=Risdptsk.cat
+DriverVer= 03/28/2008, 6.01.00.09
+
+[DestinationDirs] 
+R5C822.Files.x86_12 = 12 
+
+[SourceDisksNames.x86]
+0=%Desc_x860%
+
+[SourceDisksNames.ia64]
+
+
+[SourceDisksFiles.x86]
+risdptsk.sys=0,, 
+
+[SourceDisksFiles.ia64]
+
+
+[Manufacturer] 
+%Ricoh%=Ricoh
+
+[Ricoh]
+%R5C822Desc%=R5C822_Inst,PCI\VEN_1180&DEV_0822
+%R5C822Desc%=R5C822_Inst,PCI\VEN_1180&DEV_0822&SUBSYS_883C1033
+%R5C822Desc%=R5C822_Inst,PCI\VEN_1180&DEV_0822&SUBSYS_885C1033
+%R5C822Desc%=R5C822_Inst,PCI\VEN_1180&DEV_0822&SUBSYS_88571033
+%R5C822Desc%=R5C822_Inst,PCI\VEN_1180&DEV_0822&SUBSYS_884E1033
+%R5C822Desc%=R5C822_Inst,PCI\VEN_1180&DEV_0822&SUBSYS_882C1033
+%R5C822Desc%=R5C822_Inst,PCI\VEN_1180&DEV_0822&SUBSYS_882A1033
+%R5C822Desc%=R5C822_Inst,PCI\VEN_1180&DEV_0822&SUBSYS_882B1033
+%R5C822Desc%=R5C822_Inst,PCI\VEN_1180&DEV_0822&SUBSYS_880C1033
+
+%R5C822Desc%=R5C822_Inst,PCI\VEN_1180&DEV_0822&SUBSYS_83311033
+%R5C822Desc%=R5C822_Inst,PCI\VEN_1180&DEV_0822&SUBSYS_831B1033
+%R5C822Desc%=R5C822_Inst,PCI\VEN_1180&DEV_0822&SUBSYS_83051033
+%R5C822Desc%=R5C822_Inst,PCI\VEN_1180&DEV_0822&SUBSYS_82F11033
+%R5C822Desc%=R5C822_Inst,PCI\VEN_1180&DEV_0822&SUBSYS_82F71033
+
+%R5C822Desc%=R5C822_Inst,PCI\VEN_1180&DEV_0822&SUBSYS_88681033
+%R5C822Desc%=R5C822_Inst,PCI\VEN_1180&DEV_0822&SUBSYS_886F1033
+
+[R5C822_Inst.ntx86] 
+CopyFiles = R5C822.Files.x86_12 
+
+[R5C822_Inst.ntx86.Services] 
+AddService = risdptsk,0x00000002,R5C822_Service_Instx86, 
+
+[R5C822_Service_Instx86] 
+ServiceType = %SERVICE_KERNEL_DRIVER% 
+StartType = %SERVICE_AUTO_START% 
+ErrorControl = %SERVICE_ERROR_NORMAL% 
+ServiceBinary = %12%\risdptsk.sys
+LoadOrderGroup = "SD" 
+AddReg        = SDDiskAddReg
+
+[SDDiskAddReg]
+HKR, "Parameters", "SDSystemWaitTime",		%REG_DWORD%, 0x00000001
+;  for MMC CLK 1/2*BaseClk   if 1/4 Set 4 
+HKR, "Parameters", "MMCClkDev",			%REG_DWORD%, 0x00000002 
+;  If support High Speed SD CLK, Set to 1.
+HKR, "Parameters", "HispeedCLK",		%REG_DWORD%, 0x00000000 
+ 
+
+
+[R5C822.Files.x86_12] 
+risdptsk.sys
+
+[R5C822_Inst.ntx86.HW] 
+AddReg = R5C822_Inst.AddReg 
+ 
+[R5C822_Inst.AddReg] 
+HKR,,FriendlyName,,%R5C822Desc%
+HKR,,DeviceCharacteristics,0x10001,0x00000101
+HKR,,DeviceType,0x10001,0x00000007
+
+HKLM,"SOFTWARE\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\RIMMPTSK#DISK","Icons",0x00010000,"%SystemRoot%\system32\shell32.dll,-307"
+HKLM,"SOFTWARE\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\RIMMPTSK#DISK","Label",,"SD"
+HKLM,"SOFTWARE\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\RIMMPTSK#DISK","NoSoftEject",0x00010001,0x00000001
+HKLM,"SOFTWARE\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\RIMMPTSK#DISK","DeviceGroup",,"SDStorage"
+
+[Strings] 
+
+;  *******Localizable Strings******* 
+Ricoh= "Ricoh Company" 
+Desc_x860= "Ricoh SD Card Controller" 
+R5C822Desc= "Ricoh SD Host Controller" 
+DeviceGroups = "Software\Microsoft\Windows\CurrentVersion\Explorer\AutoplayHandlers\DeviceGroups"
+
+;  *******Non Localizable Strings******* 
+
+SERVICE_BOOT_START = 0x0 
+SERVICE_SYSTEM_START = 0x1 
+SERVICE_AUTO_START = 0x2 
+SERVICE_DEMAND_START = 0x3 
+SERVICE_DISABLED = 0x4 
+
+SERVICE_KERNEL_DRIVER = 0x1 
+SERVICE_ERROR_IGNORE = 0x0 
+SERVICE_ERROR_NORMAL = 0x1 
+SERVICE_ERROR_SEVERE = 0x2 
+SERVICE_ERROR_CRITICAL = 0x3 
+
+REG_EXPAND_SZ = 0x00020000 
+REG_DWORD = 0x00010001 

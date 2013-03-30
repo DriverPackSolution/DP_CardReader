@@ -1,0 +1,208 @@
+; Copyright (c) 2002 Texas Instruments Inc. All rights reserved
+
+[Version]
+Signature="$WINDOWS NT$"
+Class=hdc
+ClassGuid={4D36E96A-E325-11CE-BFC1-08002BE10318}
+Provider=%TI%
+DriverVer=07/28/2004,1.0.0.9
+CatalogFile=tiumhdc.cat
+
+[ControlFlags]
+ExcludeFromSelect=*
+
+[Manufacturer]
+%TI%=TI_HDC
+
+[SourceDisksFiles]
+tifmicon.dll=1  ; 101-SM, 102-MMC, 103-SD, 104-MS, 105-MSPro
+
+[SourceDisksNames]
+1=%INSTDISK%,,,
+
+[Dll_copyfiles]
+tifmicon.dll
+
+[DestinationDirs]
+Dll_copyfiles = 11   ; System32 dir
+
+; Model section
+[TI_HDC]
+;%pcmcia.DeviceDesc%        = Mem_Stick_Reader_Inst, pcmcia\*pnp0600
+
+; Memory stick
+%MemStickReader.DeviceDesc% = Mem_Stick_Reader_Inst, PCMCIA\TI-Ultramedia_MS-e54e
+;%MemStickReader.DeviceDesc% = Mem_Stick_Reader_Inst, pcmcia\ti-ultramedia_ms-0097-1620
+
+; Memory Stick PRO
+
+%MemStickPROReader.DeviceDesc% = Mem_StickPRO_Reader_Inst, PCMCIA\TI-Ultramedia_MSPRO_-1a3f
+
+; SmartMedia
+%SmartMediaReader.DeviceDesc% = SmartMedia_Reader_Inst, PCMCIA\TI-Ultramedia_SM-6602
+;%SmartMediaReader.DeviceDesc% = SmartMedia_Reader_Inst, pcmcia\ti-ultramedia_sm-0097-1620
+
+; SD
+%SDReader.DeviceDesc% = SD_Reader_Inst, PCMCIA\TI-Ultramedia_SD-55fe
+;%SDReader.DeviceDesc% = SD_Reader_Inst, pcmcia\ti-ultramedia_sd-0097-1620
+
+; MMC
+%MMCReader.DeviceDesc% = MMC_Reader_Inst, PCMCIA\TI-Ultramedia_MMC-5ac3
+;%MMCReader.DeviceDesc% = MMC_Reader_Inst, pcmcia\ti-ultramedia_mmc-0097-1620
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;Install section for Memory stick
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+[Mem_Stick_Reader_Inst.NT]
+CopyFiles = Dll_copyfiles
+Include = mshdc.inf
+Needs = pcmcia_atapi_Inst
+AddReg = DeviceMSSoftAddReg
+
+;Driver service section
+[Mem_Stick_Reader_Inst.NT.Services]
+Include = mshdc.inf
+Needs = pcmcia_atapi_Inst.Services
+
+;Device hardware section (device-specific info)
+[Mem_Stick_Reader_Inst.NT.HW]
+AddReg = DeviceMSAddReg
+
+[DeviceMSSoftAddReg]
+HKR,,"IdeMediaStatusSupport",0x00010001,0x00000001
+
+[DeviceMSAddReg]
+; Goes HW branch and Device Parameters
+HKR,,DeviceGroup,,"MemoryStick"
+HKR,,Label,,"MemoryStick Disk"
+HKR,,Icons,,"%%SystemRoot%%\system32\tifmicon.dll,-105"
+HKR,,NoSoftEject,0x00010001,0x00000001
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;Install section for Memory stickPRO
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+[Mem_StickPRO_Reader_Inst.NT] 
+CopyFiles = Dll_copyfiles
+Include = mshdc.inf
+Needs = pcmcia_atapi_Inst
+AddReg = DeviceMSPROSoftAddReg
+
+;Driver service section
+[Mem_StickPRO_Reader_Inst.NT.Services]
+Include = mshdc.inf
+Needs = pcmcia_atapi_Inst.Services
+
+;Device hardware section (device-specific info)
+[Mem_StickPRO_Reader_Inst.NT.HW]
+AddReg = DeviceMSPROAddReg
+
+[DeviceMSPROSoftAddReg]
+HKR,,"IdeMediaStatusSupport",0x00010001,0x00000001
+
+[DeviceMSPROAddReg]
+; Goes HW branch and Device Parameters
+HKR,,DeviceGroup,,"MemoryStick PRO "
+HKR,,Label,,"MemoryStick PRO Disk"
+HKR,,Icons,,"%%SystemRoot%%\system32\tifmicon.dll,-104"
+HKR,,NoSoftEject,0x00010001,0x00000001
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;Install section for SmartMedia
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+[SmartMedia_Reader_Inst.NT]
+CopyFiles = Dll_copyfiles
+Include = mshdc.inf
+Needs = pcmcia_atapi_Inst
+AddReg = DeviceSMSoftAddReg
+
+;Driver service section
+[SmartMedia_Reader_Inst.NT.Services]
+Include = mshdc.inf
+Needs = pcmcia_atapi_Inst.Services
+
+;Device hardware section (device-specific info)
+[SmartMedia_Reader_Inst.NT.HW]
+AddReg = DeviceSMAddReg
+
+[DeviceSMSoftAddReg]
+HKR,,"IdeMediaStatusSupport",0x00010001,0x00000001
+
+[DeviceSMAddReg]
+HKR,,Label,,"SmartMedia Disk"
+HKR,,Icons,,"%%SystemRoot%%\system32\tifmicon.dll,-101"
+HKR,,NoSoftEject,0x00010001,0x00000001
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;Install section for SD
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+[SD_Reader_Inst.NT]
+CopyFiles = Dll_copyfiles
+Include = mshdc.inf
+Needs = pcmcia_atapi_Inst
+AddReg = DeviceSDSoftAddReg
+
+;Driver service section
+[SD_Reader_Inst.NT.Services]
+Include = mshdc.inf
+Needs = pcmcia_atapi_Inst.Services
+
+;Device hardware section (device-specific info)
+[SD_Reader_Inst.NT.HW]
+AddReg = DeviceSDAddReg
+
+[DeviceSDSoftAddReg]
+HKR,,"IdeMediaStatusSupport",0x00010001,0x00000001
+
+[DeviceSDAddReg]
+HKR,,Label,,"SD Disk"
+HKR,,Icons,,"%%SystemRoot%%\system32\tifmicon.dll,-103"
+HKR,,NoSoftEject,0x00010001,0x00000001
+;HKLM,"System\CurrentControlSet\Control\Class\{4D36E96A-E325-11CE-BFC1-08002BE10318}","IdeMediaStatusSupport",0x00010001,0x00000001
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;Install section for MMC
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+[MMC_Reader_Inst.NT]
+CopyFiles = Dll_copyfiles
+Include = mshdc.inf
+Needs = pcmcia_atapi_Inst
+AddReg = DeviceMMCSoftAddReg
+
+;Driver service section
+[MMC_Reader_Inst.NT.Services]
+Include = mshdc.inf
+Needs = pcmcia_atapi_Inst.Services
+
+;Device hardware section (device-specific info)
+[MMC_Reader_Inst.NT.HW]
+AddReg = DeviceMMCAddReg
+
+[DeviceMMCSoftAddReg]
+HKR,,"IdeMediaStatusSupport",0x00010001,0x00000001
+
+[DeviceMMCAddReg]
+HKR,,Label,,"MMC Disk"
+HKR,,Icons,,"%%SystemRoot%%\system32\tifmicon.dll,-102"
+HKR,,NoSoftEject,0x00010001,0x00000001
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;Define all strings in the inf file
+
+[Strings]
+INSTDISK="TI FlashMedia Icon Installation Disc"
+TI = "Texas Instruments"
+pcmcia.DeviceDesc = "PCMCIA IDE/ATAPI Controller" 
+MemStickReader.DeviceDesc = "Texas Instruments PCMCIA Memory Stick Controller"
+MemStickPROReader.DeviceDesc = "Texas Instruments PCMCIA Memory Stick PRO Controller"
+SmartMediaReader.DeviceDesc = "Texas Instruments PCMCIA SmartMedia Controller"
+SDReader.DeviceDesc = "Texas Instruments PCMCIA Secure Digital Controller"
+MMCReader.DeviceDesc = "Texas Instruments PCMCIA MultiMediaCard Controller"

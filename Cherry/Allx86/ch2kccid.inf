@@ -1,0 +1,84 @@
+; ch2kccid.inf		REV01
+;
+; Installation file (.inf) PC/SC-Driver (IFD-Handler) for Cherry Smartcard Reader
+;
+; (c) Copyright 2005-2010 ZF Electronics GmbH 
+;
+
+[Version]
+Signature=$CHICAGO$
+Class=SmartCardReader
+ClassGuid={50DD5230-BA8A-11D1-BF5D-0000F805F530}
+Provider=%CHERRY%
+CatalogFile=ch2kccid.cat
+DriverVer=02/09/2010,1.8.0.2
+[Manufacturer]
+%CHERRY%=Cherry.Mfg
+
+[DestinationDirs]
+DefaultDestDir=10,System32\Drivers
+
+[SourceDisksFiles]
+ch2kccid.sys=1,,
+
+[SourceDisksNames]
+1=%INSTDISK%,,,
+
+[Cherry.Mfg]
+;%DESCRIPTION%=DriverInstall,USB\VID_046A&PID_0010&Mi_01
+;%DESCRIPTION%=DriverInstall,USB\VID_046A&PID_002D
+%ChySmartBoardXX1X.DeviceDescr%=DriverInstall,USB\VID_046A&PID_005B&Mi_01
+%ChySmartBoardTwin.DeviceDescr%=DriverInstall,USB\VID_046A&PID_0069&Mi_01
+%ChySmartTerminalXX1X.DeviceDescr%=DriverInstall,USB\VID_046A&PID_0070
+%ChySmartBoardXX1X.DeviceDescr%=DriverInstall,USB\VID_046A&PID_0071&Mi_01
+%ChySmartTerminalTwin.DeviceDescr%=DriverInstall,USB\VID_046A&PID_0072
+
+
+;=================================
+;=================================
+;=====    SmartCardReader   ======
+;=================================
+;=================================
+
+
+[DriverInstall.ntx86]
+CopyFiles=DriverCopyFiles
+AddReg = Driver.AddReg
+
+[DriverCopyFiles]
+ch2kccid.sys,,,2
+
+[DriverInstall.ntx86.Services]
+AddService=CH2KCCID,2,DriverService
+
+[DriverService]
+DisplayName = %ChyCCIDDrv.SvcDesc%
+ServiceType=1
+StartType=3
+ErrorControl=1
+ServiceBinary=%10%\system32\drivers\ch2kccid.sys
+
+[DriverInstall.ntx86.hw]
+AddReg=DriverHwAddReg
+
+[DriverHwAddReg]
+
+[Driver.AddReg]
+HKLM, System\CurrentControlSet\Services\SCardSvr,Start,0x00010001,2
+HKLM, System\CurrentControlSet\Services\CertPropSvc,Start,0x00010001,2
+
+;=================================
+;=================================
+;  String Definitions
+;=================================
+;=================================
+
+[Strings]
+CHERRY="ZF Electronics GmbH"
+INSTDISK="Cherry Installation Disc"
+ChyCCIDDrv.SvcDesc="Cherry CCID Driver"
+
+ChySmartBoardXX1X.DeviceDescr="SmartBoard XX1X"
+ChySmartBoardTwin.DeviceDescr="SmartBoard Twin"
+ChySmartTerminalXX1X.DeviceDescr="SmartTerminal XX1X"
+ChySmartTerminalTwin.DeviceDescr="SmartTerminal Twin"

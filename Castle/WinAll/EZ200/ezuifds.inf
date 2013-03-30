@@ -1,0 +1,118 @@
+-;
+;	EZUIFDS.INF - INF file for USB EZ220PU Smart Card Reader
+;	Copyright (C) 2010, Castles Technology CO,. LTD.
+;
+
+[Version]
+Signature="$Windows NT$"
+Class=SmartCardReader
+ClassGUID={50DD5230-BA8A-11D1-BF5D-0000F805F530}
+Provider=%Castles%
+DriverVer=07/07/2010,1.0.1.0
+Catalogfile=ezuifds9x.cat
+Catalogfile.NT=ezuifdsNT.cat
+LayoutFile=layout.inf
+
+;--------------------------------------------------------------------
+; class installation
+;--------------------------------------------------------------------
+[ControlFlags]
+ExcludeFromSelect = *
+    
+[ClassInstall32]
+Addreg=SmartCardReaderClassReg     
+
+[SmartCardReaderClassReg]
+HKR,,,0,%ClassName%
+HKR,,Icon,,-25
+HKLM,"\Software\Microsoft\Cryptography\Calais\Readers",,,
+
+;--------------------------------------------------------------------
+; Device installation
+;--------------------------------------------------------------------
+[Manufacturer]
+%Castles%=Castles,NTia64, NTamd64
+
+[Castles]
+%DeviceDesc%=EZUIFDS,*CAA5001
+
+[Castles.NTia64]
+%DeviceDesc%=EZUIFDS.NTia64,*CAA5001
+
+[Castles.NTamd64]
+%DeviceDesc%=EZUIFDS.NTamd64,*CAA5001
+
+[EZUIFDS]
+AddReg=EZUIFDS.AddReg
+CopyFiles=EZUIFDS.CopyList.98
+
+[EZUIFDS.NT]
+AddReg=EZUIFDS.AddReg
+CopyFiles=EZUIFDS.CopyList.NT
+
+[EZUIFDS.NTia64]
+AddReg=EZUIFDS.AddReg64
+CopyFiles=EZUIFDS.CopyList64
+
+[EZUIFDS.NTamd64]
+AddReg=EZUIFDS.AddReg64
+CopyFiles=EZUIFDS.CopyList64
+
+[EZUIFDS.AddReg]
+HKR,,DevLoader,,*ntkern
+HKR,,NTMPDriver,,ezuifds.sys
+
+[EZUIFDS.AddReg64]
+HKR,,DevLoader,,*ntkern
+HKR,,NTMPDriver,,ezuifds64.sys
+
+[EZUIFDS.CopyList.98]
+ezuifds.sys,,,2
+
+[EZUIFDS.CopyList.NT]
+ezuifds.sys,,,2
+
+[EZUIFDS.CopyList64]
+ezuifds64.sys,,,2
+
+[EZUIFDS.NT.Services]
+Addservice = EZUIFDS, 0x00000002, EZUIFDS.AddService
+
+[EZUIFDS.NTia64.Services]
+Addservice = EZUIFDS, 0x00000002, EZUIFDS.AddService64
+
+[EZUIFDS.NTamd64.Services]
+Addservice = EZUIFDS, 0x00000002, EZUIFDS.AddService64
+
+[EZUIFDS.AddService]
+DisplayName    = %DeviceDesc%
+ServiceType    = 1                  ; SERVICE_KERNEL_DRIVER
+StartType      = 3                  ; SERVICE_DEMAND_START
+ErrorControl   = 1                  ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %12%\ezuifds.sys
+
+[EZUIFDS.AddService64]
+DisplayName    = %DeviceDesc%
+ServiceType    = 1                  ; SERVICE_KERNEL_DRIVER
+StartType      = 3                  ; SERVICE_DEMAND_START
+ErrorControl   = 1                  ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %12%\ezuifds64.sys
+
+[DestinationDirs]
+EZUIFDS.CopyList.98 = 10,System32\Drivers
+EZUIFDS.CopyList.NT = 12    
+EZUIFDS.CopyList64 = 12    
+DefaultDestDir = 12
+
+[SourceDisksNames] 
+1 = %DiskName%,,,
+
+[SourceDisksFiles]
+ezuifds.sys=1
+ezuifds64.sys=1
+
+[Strings]
+DiskName       ="EZ220PU Installation Disk"
+Castles        ="Castles Technology"
+DeviceDesc     ="EZ220PU Smart Card Reader"
+ClassName      ="Smart Card Readers"

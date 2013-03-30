@@ -1,0 +1,299 @@
+; Copyright (c) 2009 Texas Instruments
+; TI FlashMedia Installation file for XP/Vista/Win7
+
+[Version]
+Signature=$CHICAGO$
+Class=MTD
+ClassGuid={4d36e970-e325-11ce-bfc1-08002be10318}
+Provider=%TI%
+CataLogFile=tifm21.cat
+DriverVer=05/25/2009,2.0.0.10
+
+[Manufacturer]
+%TI%=DeviceList,NTamd64
+
+[ControlFlags]
+ExcludeFromSelect=*
+
+[DestinationDirs]
+DefaultDestDir = 11
+DriverCopyFiles = 12
+
+[SourceDisksFiles]
+tifm21.sys=1
+
+[SourceDisksNames]
+1=%INSTDISK%,,,
+
+[DeviceList]
+%DESCRIPTION%=FMDriverInstall,PCI\VEN_104C&DEV_8033  ; xx21
+%DESCRIPTION_xx12%=FMDriverInstall,PCI\VEN_104C&DEV_803B  ; xx12
+
+;xx21
+%DESCRIPTION%=FMDriverInstall_OEMTOS,PCI\VEN_104C&DEV_8033&SUBSYS_FF001179; xx21 OEM specific
+%DESCRIPTION%=FMDriverInstall_OEMTOS,PCI\VEN_104C&DEV_8033&SUBSYS_FF011179; xx21 OEM specific
+%DESCRIPTION%=FMDriverInstall_OEMTOS,PCI\VEN_104C&DEV_8033&SUBSYS_FF021179; xx21 OEM specific
+%DESCRIPTION%=FMDriverInstall_OEMTOS,PCI\VEN_104C&DEV_8033&SUBSYS_FF031179; xx21 OEM specific
+%DESCRIPTION%=FMDriverInstall_OEMTOS,PCI\VEN_104C&DEV_8033&SUBSYS_FF131179; xx21 OEM specific
+%DESCRIPTION%=FMDriverInstall_OEMTOS,PCI\VEN_104C&DEV_8033&SUBSYS_FF041179; xx21 OEM specific
+%DESCRIPTION%=FMDriverInstall_OEMTOS,PCI\VEN_104C&DEV_8033&SUBSYS_FF051179; xx21 OEM specific
+%DESCRIPTION%=FMDriverInstall_OEMTOS,PCI\VEN_104C&DEV_8033&SUBSYS_FF061179; xx21 OEM specific
+%DESCRIPTION%=FMDriverInstall_OEMTOS,PCI\VEN_104C&DEV_8033&SUBSYS_FF071179; xx21 OEM specific
+%DESCRIPTION%=FMDriverInstall_OEMTOS,PCI\VEN_104C&DEV_8033&SUBSYS_FF081179; xx21 OEM specific
+%DESCRIPTION%=FMDriverInstall_OEMTOS,PCI\VEN_104C&DEV_8033&SUBSYS_FF091179; xx21 OEM specific
+%DESCRIPTION%=FMDriverInstall_OEMTOS,PCI\VEN_104C&DEV_8033&SUBSYS_FF0A1179; xx21 OEM specific
+%DESCRIPTION%=FMDriverInstall_OEMTOS,PCI\VEN_104C&DEV_8033&SUBSYS_FF0B1179; xx21 OEM specific
+%DESCRIPTION%=FMDriverInstall_OEMTOS,PCI\VEN_104C&DEV_8033&SUBSYS_FF0C1179; xx21 OEM specific
+%DESCRIPTION%=FMDriverInstall_OEMTOS,PCI\VEN_104C&DEV_8033&SUBSYS_FF0D1179; xx21 OEM specific
+%DESCRIPTION%=FMDriverInstall_OEMTOS,PCI\VEN_104C&DEV_8033&SUBSYS_FF0E1179; xx21 OEM specific
+%DESCRIPTION%=FMDriverInstall_OEMTOS,PCI\VEN_104C&DEV_8033&SUBSYS_FF0F1179; xx21 OEM specific
+%DESCRIPTION%=FMDriverInstall_OEMTOS,PCI\VEN_104C&DEV_8033&SUBSYS_FF101179; xx21 OEM specific
+%DESCRIPTION%=FMDriverInstall_OEMTOS1,PCI\VEN_104C&DEV_8033&SUBSYS_00011179; xx21 OEM specific
+%DESCRIPTION%=FMDriverInstall_OEMFJT,PCI\VEN_104C&DEV_8033&SUBSYS_12D410CF; xx21 OEM specific
+%DESCRIPTION%=FMDriverInstall_OEMFJT,PCI\VEN_104C&DEV_8033&SUBSYS_135710CF; xx21 OEM specific
+
+; xx12
+%DESCRIPTION_xx12%=FMDriverInstall_OEMTOS1,PCI\VEN_104C&DEV_803B&SUBSYS_FF001179; xx12 specific
+%DESCRIPTION_xx12%=FMDriverInstall_OEMTOS1,PCI\VEN_104C&DEV_803B&SUBSYS_FF011179; xx12 specific
+%DESCRIPTION_xx12%=FMDriverInstall_OEMTOS1,PCI\VEN_104C&DEV_803B&SUBSYS_FF021179; xx12 specific
+%DESCRIPTION_xx12%=FMDriverInstall_OEMTOS1,PCI\VEN_104C&DEV_803B&SUBSYS_FF031179; xx12 specific
+%DESCRIPTION_xx12%=FMDriverInstall_OEMTOS1,PCI\VEN_104C&DEV_803B&SUBSYS_FF131179; xx12 specific
+%DESCRIPTION_xx12%=FMDriverInstall_OEMTOS1,PCI\VEN_104C&DEV_803B&SUBSYS_FF041179; xx12 specific
+%DESCRIPTION_xx12%=FMDriverInstall_OEMTOS1,PCI\VEN_104C&DEV_803B&SUBSYS_FF051179; xx12 specific
+%DESCRIPTION_xx12%=FMDriverInstall_OEMTOS1,PCI\VEN_104C&DEV_803B&SUBSYS_FF061179; xx12 specific
+%DESCRIPTION_xx12%=FMDriverInstall_OEMTOS1,PCI\VEN_104C&DEV_803B&SUBSYS_FF071179; xx12 specific
+%DESCRIPTION_xx12%=FMDriverInstall_OEMTOS1,PCI\VEN_104C&DEV_803B&SUBSYS_FF081179; xx12 specific
+%DESCRIPTION_xx12%=FMDriverInstall_OEMTOS1,PCI\VEN_104C&DEV_803B&SUBSYS_FF091179; xx12 specific
+%DESCRIPTION_xx12%=FMDriverInstall_OEMTOS1,PCI\VEN_104C&DEV_803B&SUBSYS_FF0A1179; xx12 specific
+%DESCRIPTION_xx12%=FMDriverInstall_OEMTOS1,PCI\VEN_104C&DEV_803B&SUBSYS_FF0B1179; xx12 specific
+%DESCRIPTION_xx12%=FMDriverInstall_OEMTOS1,PCI\VEN_104C&DEV_803B&SUBSYS_FF0C1179; xx12 specific
+%DESCRIPTION_xx12%=FMDriverInstall_OEMTOS1,PCI\VEN_104C&DEV_803B&SUBSYS_FF0D1179; xx12 specific
+%DESCRIPTION_xx12%=FMDriverInstall_OEMTOS1,PCI\VEN_104C&DEV_803B&SUBSYS_FF0E1179; xx12 specific
+%DESCRIPTION_xx12%=FMDriverInstall_OEMTOS1,PCI\VEN_104C&DEV_803B&SUBSYS_FF0F1179; xx12 specific
+%DESCRIPTION_xx12%=FMDriverInstall_OEMTOS1,PCI\VEN_104C&DEV_803B&SUBSYS_FF101179; xx12 specific
+%DESCRIPTION_xx12%=FMDriverInstall_OEMTOS1,PCI\VEN_104C&DEV_803B&SUBSYS_FF311179; xx12 specific
+%DESCRIPTION_xx12%=FMDriverInstall_OEMTOS1,PCI\VEN_104C&DEV_803B&SUBSYS_00011179; xx12 specific
+%DESCRIPTION_xx12%=FMDriverInstall_OEMTOS1,PCI\VEN_104C&DEV_803B&SUBSYS_207C17AA; xx12 specific
+
+[DeviceList.NTamd64]
+%DESCRIPTION%=FMDriverInstall,PCI\VEN_104C&DEV_8033  ; xx21
+%DESCRIPTION_xx12%=FMDriverInstall,PCI\VEN_104C&DEV_803B  ; xx12
+
+;xx21
+%DESCRIPTION%=FMDriverInstall_OEMTOS,PCI\VEN_104C&DEV_8033&SUBSYS_FF001179; xx21 OEM specific
+%DESCRIPTION%=FMDriverInstall_OEMTOS,PCI\VEN_104C&DEV_8033&SUBSYS_FF011179; xx21 OEM specific
+%DESCRIPTION%=FMDriverInstall_OEMTOS,PCI\VEN_104C&DEV_8033&SUBSYS_FF021179; xx21 OEM specific
+%DESCRIPTION%=FMDriverInstall_OEMTOS,PCI\VEN_104C&DEV_8033&SUBSYS_FF031179; xx21 OEM specific
+%DESCRIPTION%=FMDriverInstall_OEMTOS,PCI\VEN_104C&DEV_8033&SUBSYS_FF131179; xx21 OEM specific
+%DESCRIPTION%=FMDriverInstall_OEMTOS,PCI\VEN_104C&DEV_8033&SUBSYS_FF041179; xx21 OEM specific
+%DESCRIPTION%=FMDriverInstall_OEMTOS,PCI\VEN_104C&DEV_8033&SUBSYS_FF051179; xx21 OEM specific
+%DESCRIPTION%=FMDriverInstall_OEMTOS,PCI\VEN_104C&DEV_8033&SUBSYS_FF061179; xx21 OEM specific
+%DESCRIPTION%=FMDriverInstall_OEMTOS,PCI\VEN_104C&DEV_8033&SUBSYS_FF071179; xx21 OEM specific
+%DESCRIPTION%=FMDriverInstall_OEMTOS,PCI\VEN_104C&DEV_8033&SUBSYS_FF081179; xx21 OEM specific
+%DESCRIPTION%=FMDriverInstall_OEMTOS,PCI\VEN_104C&DEV_8033&SUBSYS_FF091179; xx21 OEM specific
+%DESCRIPTION%=FMDriverInstall_OEMTOS,PCI\VEN_104C&DEV_8033&SUBSYS_FF0A1179; xx21 OEM specific
+%DESCRIPTION%=FMDriverInstall_OEMTOS,PCI\VEN_104C&DEV_8033&SUBSYS_FF0B1179; xx21 OEM specific
+%DESCRIPTION%=FMDriverInstall_OEMTOS,PCI\VEN_104C&DEV_8033&SUBSYS_FF0C1179; xx21 OEM specific
+%DESCRIPTION%=FMDriverInstall_OEMTOS,PCI\VEN_104C&DEV_8033&SUBSYS_FF0D1179; xx21 OEM specific
+%DESCRIPTION%=FMDriverInstall_OEMTOS,PCI\VEN_104C&DEV_8033&SUBSYS_FF0E1179; xx21 OEM specific
+%DESCRIPTION%=FMDriverInstall_OEMTOS,PCI\VEN_104C&DEV_8033&SUBSYS_FF0F1179; xx21 OEM specific
+%DESCRIPTION%=FMDriverInstall_OEMTOS,PCI\VEN_104C&DEV_8033&SUBSYS_FF101179; xx21 OEM specific
+%DESCRIPTION%=FMDriverInstall_OEMTOS1,PCI\VEN_104C&DEV_8033&SUBSYS_00011179; xx21 OEM specific
+%DESCRIPTION%=FMDriverInstall_OEMFJT,PCI\VEN_104C&DEV_8033&SUBSYS_12D410CF; xx21 OEM specific
+%DESCRIPTION%=FMDriverInstall_OEMFJT,PCI\VEN_104C&DEV_8033&SUBSYS_135710CF; xx21 OEM specific
+
+; xx12
+%DESCRIPTION_xx12%=FMDriverInstall_OEMTOS1,PCI\VEN_104C&DEV_803B&SUBSYS_FF001179; xx12 specific
+%DESCRIPTION_xx12%=FMDriverInstall_OEMTOS1,PCI\VEN_104C&DEV_803B&SUBSYS_FF011179; xx12 specific
+%DESCRIPTION_xx12%=FMDriverInstall_OEMTOS1,PCI\VEN_104C&DEV_803B&SUBSYS_FF021179; xx12 specific
+%DESCRIPTION_xx12%=FMDriverInstall_OEMTOS1,PCI\VEN_104C&DEV_803B&SUBSYS_FF031179; xx12 specific
+%DESCRIPTION_xx12%=FMDriverInstall_OEMTOS1,PCI\VEN_104C&DEV_803B&SUBSYS_FF131179; xx12 specific
+%DESCRIPTION_xx12%=FMDriverInstall_OEMTOS1,PCI\VEN_104C&DEV_803B&SUBSYS_FF041179; xx12 specific
+%DESCRIPTION_xx12%=FMDriverInstall_OEMTOS1,PCI\VEN_104C&DEV_803B&SUBSYS_FF051179; xx12 specific
+%DESCRIPTION_xx12%=FMDriverInstall_OEMTOS1,PCI\VEN_104C&DEV_803B&SUBSYS_FF061179; xx12 specific
+%DESCRIPTION_xx12%=FMDriverInstall_OEMTOS1,PCI\VEN_104C&DEV_803B&SUBSYS_FF071179; xx12 specific
+%DESCRIPTION_xx12%=FMDriverInstall_OEMTOS1,PCI\VEN_104C&DEV_803B&SUBSYS_FF081179; xx12 specific
+%DESCRIPTION_xx12%=FMDriverInstall_OEMTOS1,PCI\VEN_104C&DEV_803B&SUBSYS_FF091179; xx12 specific
+%DESCRIPTION_xx12%=FMDriverInstall_OEMTOS1,PCI\VEN_104C&DEV_803B&SUBSYS_FF0A1179; xx12 specific
+%DESCRIPTION_xx12%=FMDriverInstall_OEMTOS1,PCI\VEN_104C&DEV_803B&SUBSYS_FF0B1179; xx12 specific
+%DESCRIPTION_xx12%=FMDriverInstall_OEMTOS1,PCI\VEN_104C&DEV_803B&SUBSYS_FF0C1179; xx12 specific
+%DESCRIPTION_xx12%=FMDriverInstall_OEMTOS1,PCI\VEN_104C&DEV_803B&SUBSYS_FF0D1179; xx12 specific
+%DESCRIPTION_xx12%=FMDriverInstall_OEMTOS1,PCI\VEN_104C&DEV_803B&SUBSYS_FF0E1179; xx12 specific
+%DESCRIPTION_xx12%=FMDriverInstall_OEMTOS1,PCI\VEN_104C&DEV_803B&SUBSYS_FF0F1179; xx12 specific
+%DESCRIPTION_xx12%=FMDriverInstall_OEMTOS1,PCI\VEN_104C&DEV_803B&SUBSYS_FF101179; xx12 specific
+%DESCRIPTION_xx12%=FMDriverInstall_OEMTOS1,PCI\VEN_104C&DEV_803B&SUBSYS_FF311179; xx12 specific
+%DESCRIPTION_xx12%=FMDriverInstall_OEMTOS1,PCI\VEN_104C&DEV_803B&SUBSYS_00011179; xx12 specific
+%DESCRIPTION_xx12%=FMDriverInstall_OEMTOS1,PCI\VEN_104C&DEV_803B&SUBSYS_207C17AA; xx12 specific
+
+
+;------------------------------------------------------------------------------
+;  Windows XP/Vista/Win7 Sections
+;------------------------------------------------------------------------------
+
+;==============================================================================
+; Generic Entries
+;==============================================================================
+
+[FMDriverInstall.NT]
+AddReg   = FMDriverInstall.AddReg
+CopyFiles=DriverCopyFiles
+
+[FMDriverInstall.NTamd64]
+AddReg   = FMDriverInstall.AddReg
+CopyFiles=DriverCopyFiles
+
+[DriverCopyFiles]
+tifm21.sys,,,2
+
+[FMDriverInstall.NT.Services]
+AddService=tifm21,2,DriverService
+
+[FMDriverInstall.NTamd64.Services]
+AddService=tifm21,2,DriverService
+
+[DriverService]
+ServiceType=1
+StartType=3
+ErrorControl=1
+ServiceBinary=%10%\system32\drivers\tifm21.sys
+
+[FMDriverInstall.nt.hw]
+AddReg=FMDriverHwAddReg
+
+[FMDriverInstall.NTamd64.hw]
+AddReg=FMDriverHwAddReg
+
+[FMDriverHwAddReg]
+
+[FMDriverInstall.AddReg]
+;DWORD will go to software branch
+;HKR,,SecurityEnable,0x00010001,1
+; Write to specified registry path
+HKLM,System\CurrentControlSet\Services\tifm21\Parameters,ShowRemoveDiagBox, 0x10001,1
+
+;Debug Message Enable/Disable Parameter
+HKLM,System\CurrentControlSet\Services\tifm21\Parameters,DbgMsgEnable, 0x10001,0
+
+;SD/MMC/SDIO Parameters
+HKLM,System\CurrentControlSet\Services\tifm21\Parameters,SDParam, 0x10001,16
+
+;Smartmedia/xD Parameters
+HKLM,System\CurrentControlSet\Services\tifm21\Parameters,SMParam, 0x10001,17
+
+;MemoryStick/MSPRO Parameters
+HKLM,System\CurrentControlSet\Services\tifm21\Parameters,MSParam, 0x10001,1
+
+; this flag is for W2K QFE "Delayed write fail"
+HKLM,System\CurrentControlSet\Services\Disk,HotPlugAlwaysEnable, 0x00010000,"MemoryStick0","MemoryStick1","MemoryStick2","SD0","SD1","SD2","SD3","MMC0","MMC1","MMC2","MMC3","SmartMedia0","SmartMedia1","SmartMedia2","XD0","XD1","XD2","MemoryStickPro0","MemoryStickPro1","MemoryStickPro2"
+
+;==============================================================================
+; OEM Specific registry entries
+;==============================================================================
+
+[FMDriverInstall_OEMTOS.NT]
+AddReg   = FMDriverInstall_OEMTOS.AddReg
+CopyFiles=DriverCopyFiles
+
+[FMDriverInstall_OEMTOS.NT.Services]
+AddService=tifm21,2,DriverService
+
+[FMDriverInstall_OEMTOS.NT.hw]
+AddReg=FMDriverHwAddReg_OEMTOS
+
+[FMDriverInstall_OEMTOS.NTamd64]
+AddReg   = FMDriverInstall_OEMTOS.AddReg
+CopyFiles=DriverCopyFiles
+
+[FMDriverInstall_OEMTOS.NTamd64.Services]
+AddService=tifm21,2,DriverService
+
+[FMDriverInstall_OEMTOS.NTamd64.hw]
+AddReg=FMDriverHwAddReg_OEMTOS
+
+[FMDriverHwAddReg_OEMTOS]
+
+[FMDriverInstall_OEMTOS.AddReg]
+HKLM,System\CurrentControlSet\Services\tifm21\Parameters,ShowRemoveDiagBox, 0x10001,1
+HKLM,System\CurrentControlSet\Services\tifm21\Parameters,DbgMsgEnable, 0x10001,0
+HKLM,System\CurrentControlSet\Services\tifm21\Parameters,SDParam, 0x10001,17
+HKLM,System\CurrentControlSet\Services\tifm21\Parameters,SMParam, 0x10001,17
+HKLM,System\CurrentControlSet\Services\tifm21\Parameters,MSParam, 0x10001,1
+HKLM,System\CurrentControlSet\Services\Disk,HotPlugAlwaysEnable, 0x00010000,"MemoryStick0","MemoryStick1","MemoryStick2","SD0","SD1","SD2","SD3","MMC0","MMC1","MMC2","MMC3","SmartMedia0","SmartMedia1","SmartMedia2","XD0","XD1","XD2","MemoryStickPro0","MemoryStickPro1","MemoryStickPro2"
+
+;==============================================================================
+
+[FMDriverInstall_OEMTOS1.NT]
+AddReg   = FMDriverInstall_OEMTOS1.AddReg
+CopyFiles=DriverCopyFiles
+
+[FMDriverInstall_OEMTOS1.NT.Services]
+AddService=tifm21,2,DriverService
+
+[FMDriverInstall_OEMTOS1.NT.hw]
+AddReg=FMDriverHwAddReg_OEMTOS1
+
+[FMDriverInstall_OEMTOS1.NTamd64]
+AddReg   = FMDriverInstall_OEMTOS1.AddReg
+CopyFiles=DriverCopyFiles
+
+[FMDriverInstall_OEMTOS1.NTamd64.Services]
+AddService=tifm21,2,DriverService
+
+[FMDriverInstall_OEMTOS1.NTamd64.hw]
+AddReg=FMDriverHwAddReg_OEMTOS1
+
+
+[FMDriverHwAddReg_OEMTOS1]
+
+[FMDriverInstall_OEMTOS1.AddReg]
+HKLM,System\CurrentControlSet\Services\tifm21\Parameters,ShowRemoveDiagBox, 0x10001,1
+HKLM,System\CurrentControlSet\Services\tifm21\Parameters,DbgMsgEnable, 0x10001,0
+HKLM,System\CurrentControlSet\Services\tifm21\Parameters,SDParam, 0x10001,17
+HKLM,System\CurrentControlSet\Services\tifm21\Parameters,SMParam, 0x10001,16
+HKLM,System\CurrentControlSet\Services\tifm21\Parameters,MSParam, 0x10001,1
+HKLM,System\CurrentControlSet\Services\Disk,HotPlugAlwaysEnable, 0x00010000,"MemoryStick0","MemoryStick1","MemoryStick2","SD0","SD1","SD2","SD3","MMC0","MMC1","MMC2","MMC3","SmartMedia0","SmartMedia1","SmartMedia2","XD0","XD1","XD2","MemoryStickPro0","MemoryStickPro1","MemoryStickPro2"
+
+;==============================================================================
+
+[FMDriverInstall_OEMFJT.NT]
+AddReg   = FMDriverInstall_OEMFJT.AddReg
+CopyFiles=DriverCopyFiles
+
+[FMDriverInstall_OEMFJT.NT.Services]
+AddService=tifm21,2,DriverService
+
+[FMDriverInstall_OEMFJT.NT.hw]
+AddReg=FMDriverHwAddReg_OEMFJT
+
+[FMDriverInstall_OEMFJT.NTamd64]
+AddReg   = FMDriverInstall_OEMFJT.AddReg
+CopyFiles=DriverCopyFiles
+
+[FMDriverInstall_OEMFJT.NTamd64.Services]
+AddService=tifm21,2,DriverService
+
+[FMDriverInstall_OEMFJT.NTamd64.hw]
+AddReg=FMDriverHwAddReg_OEMFJT
+
+[FMDriverHwAddReg_OEMFJT]
+
+[FMDriverInstall_OEMFJT.AddReg]
+HKLM,System\CurrentControlSet\Services\tifm21\Parameters,ShowRemoveDiagBox, 0x10001,1
+HKLM,System\CurrentControlSet\Services\tifm21\Parameters,DbgMsgEnable, 0x10001,0
+HKLM,System\CurrentControlSet\Services\tifm21\Parameters,SDParam, 0x10001,32
+HKLM,System\CurrentControlSet\Services\tifm21\Parameters,SMParam, 0x10001,272
+HKLM,System\CurrentControlSet\Services\tifm21\Parameters,MSParam, 0x10001,1
+HKLM,System\CurrentControlSet\Services\Disk,HotPlugAlwaysEnable, 0x00010000,"MemoryStick0","MemoryStick1","MemoryStick2","SD0","SD1","SD2","SD3","MMC0","MMC1","MMC2","MMC3","SmartMedia0","SmartMedia1","SmartMedia2","XD0","XD1","XD2","MemoryStickPro0","MemoryStickPro1","MemoryStickPro2"
+
+;==============================================================================
+
+;------------------------------------------------------------------------------
+;  String Definitions
+;------------------------------------------------------------------------------
+
+[Strings]
+TI="Texas Instruments Inc"
+INSTDISK="TI Installation Disc"
+DESCRIPTION="Texas Instruments PCIxx21 Integrated FlashMedia Controller"
+DESCRIPTION_xx12="Texas Instruments PCIxx12 Integrated FlashMedia Controller"
+

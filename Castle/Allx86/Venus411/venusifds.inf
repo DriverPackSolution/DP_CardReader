@@ -1,0 +1,88 @@
+;
+;	VENUSIFDS.INF - INF file for USB VENUS Smart Card Reader
+;	Copyright (C) 2004, Castles Technology CO,. LTD.
+;
+
+[Version]
+Signature="$Windows NT$"
+Class=SmartCardReader
+ClassGUID={50DD5230-BA8A-11D1-BF5D-0000F805F530}
+Provider=%Castles%
+DriverVer=06/16/2004,1.0.0.0
+Catalogfile=venusifds9x.cat
+Catalogfile.NT=venusifdsNT.cat
+LayoutFile=layout.inf
+
+;--------------------------------------------------------------------
+; class installation
+;--------------------------------------------------------------------
+[ControlFlags]
+ExcludeFromSelect = *
+    
+[ClassInstall32]
+Addreg=SmartCardReaderClassReg     
+
+[SmartCardReaderClassReg]
+HKR,,,0,%ClassName%
+HKR,,Icon,,-25
+HKLM,"\Software\Microsoft\Cryptography\Calais\Readers",,,
+
+;--------------------------------------------------------------------
+; Device installation
+;--------------------------------------------------------------------
+[Manufacturer]
+%Castles%=Castles
+
+[Castles]
+%DeviceDesc%=VENUSIFDS,*CAA5003
+
+[DestinationDirs]
+VENUSIFDS.CopyList.NT = 12    
+VENUSIFDS.CopyList.98 = 10,System32\Drivers
+DefaultDestDir = 12
+
+;--------------------------------------------------------------------
+; WinNT/XP installation
+;--------------------------------------------------------------------
+[VENUSIFDS.NT]
+AddReg=VENUSIFDS.AddReg
+CopyFiles=VENUSIFDS.CopyList.NT
+
+[VENUSIFDS.NT.Services]
+Addservice = VENUSIFDS, 0x00000002, VENUSIFDS.AddService
+
+[VENUSIFDS.AddService]
+DisplayName    = %DeviceDesc%
+ServiceType    = 1                  ; SERVICE_KERNEL_DRIVER
+StartType      = 3                  ; SERVICE_DEMAND_START
+ErrorControl   = 1                  ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %12%\venusifds.sys
+
+[VENUSIFDS.CopyList.NT]
+venusifds.sys,,,2
+
+;--------------------------------------------------------------------
+; Win9x/ME installation
+;--------------------------------------------------------------------
+[VENUSIFDS]
+AddReg=VENUSIFDS.AddReg
+CopyFiles=VENUSIFDS.CopyList.98
+
+[VENUSIFDS.AddReg]
+HKR,,DevLoader,,*ntkern
+HKR,,NTMPDriver,,venusifds.sys
+
+[VENUSIFDS.CopyList.98]
+venusifds.sys,,,2
+
+[SourceDisksNames] 
+1 = %DiskName%,,,
+
+[SourceDisksFiles]
+venusifds.sys=1
+
+[Strings]
+DiskName       ="VENUS Installation Disk"
+Castles        ="Castles Technology"
+DeviceDesc     ="VENUS Smart Card Reader"
+ClassName      ="Smart Card Readers"

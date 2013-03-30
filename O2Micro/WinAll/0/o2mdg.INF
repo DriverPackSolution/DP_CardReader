@@ -1,0 +1,92 @@
+; O2MDG.INF, O2Micro Integrated MS/xD Controller INF file
+; Copyright (c) 1997-2009 O2Micro Corp.
+
+[Version]
+Signature   = "$Windows NT$"
+Class       = SCSIAdapter
+ClassGuid   = {4D36E97B-E325-11CE-BFC1-08002BE10318}
+Provider    = %O2Micro%
+DriverVer   = 05/21/2009,1.1.0.334
+Catalogfile = o2mdg.cat
+
+[SourceDisksNames]
+1 = %O2MDR.DriverDisk%
+
+[SourceDisksFiles]
+o2mdg.sys = 1
+O2Icon_2.dll = 1
+o2flash.exe = 1
+
+[DestinationDirs]
+DefaultDestDir = 12
+CopyIcons = 11
+CopyO2Flash = 12
+
+[ControlFlags]
+ExcludeFromSelect = *
+
+[Manufacturer]
+%O2Micro% = O2MDGRDR
+
+[O2MDGRDR]
+%O2MDR.DeviceDesc% = DriverInstall, PCI\VEN_1217&DEV_8130
+
+[O2FLASH]
+%O2FLS.SvcDesc% = "O2 Flash SCSI AP"
+
+[DriverInstall.NT]
+CopyFiles = @o2mdg.sys
+CopyFiles = CopyIcons
+CopyFiles = CopyO2Flash
+
+[CopyIcons]
+O2Icon_2.dll
+
+[CopyO2Flash]
+o2flash.exe
+
+[DriverInstall.NT.Services]
+AddService = O2MDGRDR, 0x00000002 , DriverService, EventLogService
+DelService = O2FLASH, 0x00000200
+AddService = O2FLASH, 0x00000800 , Flash_Service_Inst
+
+[DriverService]
+ServiceType    = 1                  ; SERVICE_KERNEL_DRIVER
+StartType      = 3                  ; SERVICE_DEMAND_START
+ErrorControl   = 1                  
+LoadOrderGroup = SCSI Miniport
+ServiceBinary  = %12%\o2mdg.sys
+AddReg         = pnpsafe_pci_addreg
+AddReg         = bus_type_o2
+
+[EventLogService]
+AddReg = EventLogService_AddReg
+
+[EventLogService_AddReg]
+HKR,,EventMessageFile, 0x00020000, "%%SystemRoot%%\System32\drivers\o2mdg.sys"
+HKR,,TypesSupported,   0x00010001, 7
+
+[pnpsafe_pci_addreg]
+HKR, "Parameters\PnpInterface", "5", 0x00010001, 0x00000001
+
+[bus_type_o2]
+HKR,"Parameters", "BusType", 0x00010001, 0x00000010
+
+[Flash_Service_Inst]
+DisplayName    = O2FLASH
+ServiceType    = 0x0010                  ; SERVICE_KERNEL_DRIVER
+StartType      = 2                  ; SERVICE_DEMAND_START
+ErrorControl   = 1                  
+ServiceBinary  = %12%\o2flash.exe
+
+[Strings]
+REG_SZ        = 0x00000000
+REG_MULTI_SZ  = 0x00010000
+REG_EXPAND_SZ = 0x00020000
+REG_BINARY    = 0x00000001
+REG_DWORD     = 0x00010001
+SERVICEROOT   = "System\CurrentControlSet\Services"
+
+O2Micro          = "O2Micro"
+O2MDR.DeviceDesc = "O2Micro Integrated MS/MSPRO/xD Controller"
+O2MDR.DriverDisk = "O2Micro Integrated MS/MSPRO/xD Controller Driver Disk"

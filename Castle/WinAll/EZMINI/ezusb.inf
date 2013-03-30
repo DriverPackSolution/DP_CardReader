@@ -1,0 +1,117 @@
+;	EZUSB.INF - INF file for USB EZ100PU/EZMini Smart Card Reader
+;	Copyright (C) 2010, Castles Technology CO,. LTD.
+;
+
+[Version]
+DriverVer=03/15/2011,3.2.1.0
+Catalogfile=ezusb98.cat
+Catalogfile.NT=ezusbNT.cat
+CatalogFile=ezusbx64.cat
+Signature="$Windows NT$"
+Class=SmartCardReader
+ClassGUID={50DD5230-BA8A-11D1-BF5D-0000F805F530}
+Provider=%Castles%
+
+[ControlFlags]
+ExcludeFromSelect = *
+
+[ClassInstall32]
+Addreg=SmartCardReaderClassReg     
+
+[SmartCardReaderClassReg]
+HKR,,,0,%ClassName%
+HKR,,Icon,,-25
+HKLM,"\Software\Microsoft\Cryptography\Calais\Readers",,,
+
+[SmartCardReader.Install.AddReg]
+HKLM, Software\Microsoft\Cryptography\Calais\Readers,,,
+HKLM, System\CurrentControlSet\Services\SCardSvr,Start,0x00010001,2
+HKLM, System\CurrentControlSet\Services\CertPropSvc,Start,0x00010001,2
+
+[Manufacturer]
+%Castles%=Castles,NTia64, NTamd64
+
+[Castles]
+%USB\VID_0CA6&PID_0010.DeviceDesc%=EZUSB,USB\VID_0CA6&PID_0010
+
+[Castles.NTia64]
+%USB\VID_0CA6&PID_0010.DeviceDesc%=EZUSB.NTia64,USB\VID_0CA6&PID_0010
+
+[Castles.NTamd64]
+%USB\VID_0CA6&PID_0010.DeviceDesc%=EZUSB.NTamd64,USB\VID_0CA6&PID_0010
+
+[EZUSB]
+AddReg=EZUSB.AddReg
+CopyFiles=EZUSB.CopyList.98	
+
+[EZUSB.NT]
+AddReg=EZUSB.AddReg,SmartCardReader.Install.AddReg
+CopyFiles=EZUSB.CopyList    
+
+[EZUSB.NTia64]
+AddReg=EZUSB.AddReg64,SmartCardReader.Install.AddReg
+CopyFiles=EZUSB.CopyList64
+
+[EZUSB.NTamd64]
+AddReg=EZUSB.AddReg64,SmartCardReader.Install.AddReg
+CopyFiles=EZUSB.CopyList64
+
+[EZUSB.AddReg]
+HKR,,DevLoader,,*ntkern
+HKR,,NTMPDriver,,ezusb.sys
+
+[EZUSB.CopyList.98]
+ezusb.sys,,,2
+
+[EZUSB.CopyList]
+ezusb.sys,,,2
+
+[EZUSB.AddReg64]
+HKR,,DevLoader,,*ntkern
+HKR,,NTMPDriver,,ezusb64.sys
+
+[EZUSB.CopyList64]
+ezusb64.sys,,,2
+
+[EZUSB.NT.Services]
+Addservice = EZUSB, 0x00000002, EZUSB.AddService
+
+[EZUSB.NTia64.Services]
+Addservice = EZUSB, 0x00000002, EZUSB.AddService64
+
+[EZUSB.NTamd64.Services]
+Addservice = EZUSB, 0x00000002, EZUSB.AddService64
+
+[EZUSB.AddService]
+DisplayName    = %USB\VID_0CA6&PID_0010.DeviceDesc%
+ServiceType    = 1                  ; SERVICE_KERNEL_DRIVER
+StartType      = 3                  ; SERVICE_DEMAND_START
+ErrorControl   = 1                  ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %12%\ezusb.sys
+
+[EZUSB.AddService64]
+DisplayName    = %USB\VID_0CA6&PID_0010.DeviceDesc%
+ServiceType    = 1                  ; SERVICE_KERNEL_DRIVER
+StartType      = 3                  ; SERVICE_DEMAND_START
+ErrorControl   = 1                  ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %12%\ezusb64.sys
+
+
+[DestinationDirs]
+EZUSB.CopyList.98 = 10,System32\Drivers  
+EZUSB.CopyList = 12  
+EZUSB.CopyList64 = 12  
+DefaultDestDir = 12    
+    
+[SourceDisksNames] 
+1 = %DiskName%,,,
+
+[SourceDisksFiles]
+ezusb.sys=1
+ezusb64.sys=1
+
+[Strings]
+DiskName		= "EZUSB Install Disk"
+Castles="Castles Technology"
+USB\VID_0CA6&PID_0010.DeviceDesc="EZUSB PC/SC Smart Card Reader"
+ClassName="Smart Card Readers"

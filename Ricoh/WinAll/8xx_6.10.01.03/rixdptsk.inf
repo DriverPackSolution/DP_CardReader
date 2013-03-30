@@ -1,0 +1,233 @@
+; rixdptsk.inf
+; Windows x86,x64 installation file
+; for installing RICOH SmartMedia/XD driver
+; Copyright (c) 2001-2009 RICOH Company Ltd.,   All rights Reserved
+; This Driver supports R5C8xx RICOH Controller
+; 
+
+[Version] 
+Signature = "$Windows NT$" 
+Class=hdc
+ClassGUID={4d36e96a-e325-11ce-bfc1-08002be10318} 
+Provider=%Ricoh% 
+CatalogFile.ntx86=rixdptsk.cat
+CatalogFile.ntamd64=rixdpx64.cat
+DriverVer= 06/25/2009, 6.10.01.04
+
+[DestinationDirs] 
+rixdptsk.Files.dll = 11 
+rixdptsk.Files.amd64_sys = 12
+rixdptsk.Files.x86_sys = 12  
+
+[SourceDisksNames.x86]
+0=%DiskName%
+
+[SourceDisksNames.amd64]
+0=%DiskName%
+
+[SourceDisksFiles.x86]
+rixdptsk.sys=0,, 
+rixdicon.dll=0,,
+
+[SourceDisksFiles.amd64]
+rixdpx64.sys=0,, 
+rixdicon.dll=0,,
+
+[Manufacturer] 
+%Ricoh%=Ricoh, ntamd64
+
+[Ricoh]
+%rixdptskDesc%=rixdptsk_Inst,PCI\VEN_1180&DEV_0852
+%rixdptskDesc%=rixdptsk_Inst,PCI\VEN_1180&DEV_0852&SUBSYS_880C1033
+%rixdptskDesc%=rixdptsk_Inst,PCI\VEN_1180&DEV_0852&SUBSYS_882B1033
+%rixdptskDesc%=rixdptsk_Inst,PCI\VEN_1180&DEV_0852&SUBSYS_882A1033
+%rixdptskDesc%=rixdptsk_Inst,PCI\VEN_1180&DEV_0852&SUBSYS_882C1033
+%rixdptskDesc%=rixdptsk_Inst,PCI\VEN_1180&DEV_0852&SUBSYS_884E1033
+%rixdptskDesc%=rixdptsk_Inst,PCI\VEN_1180&DEV_0852&SUBSYS_88571033
+%rixdptskDesc%=rixdptsk_Inst,PCI\VEN_1180&DEV_0852&SUBSYS_885C1033
+%rixdptskDesc%=rixdptsk_Inst,PCI\VEN_1180&DEV_0852&SUBSYS_883C1033
+
+%rixdptskDesc%=rixdptsk_Inst,PCI\VEN_1180&DEV_0852&SUBSYS_83311033
+%rixdptskDesc%=rixdptsk_Inst,PCI\VEN_1180&DEV_0852&SUBSYS_831B1033
+%rixdptskDesc%=rixdptsk_Inst,PCI\VEN_1180&DEV_0852&SUBSYS_83051033
+%rixdptskDesc%=rixdptsk_Inst,PCI\VEN_1180&DEV_0852&SUBSYS_82F11033
+%rixdptskDesc%=rixdptsk_Inst,PCI\VEN_1180&DEV_0852&SUBSYS_82F71033
+%rixdptskDesc%=rixdptsk_Inst,PCI\VEN_1180&DEV_0852&SUBSYS_88681033
+%rixdptskDesc%=rixdptsk_Inst,PCI\VEN_1180&DEV_0852&SUBSYS_886F1033
+
+%rixdptskDesc%=rixdptsk_Inst,PCI\VEN_1180&DEV_0852&SUBSYS_88821033
+%rixdptskDesc%=rixdptsk_Inst,PCI\VEN_1180&DEV_0852&SUBSYS_88861033
+%rixdptskDesc%=rixdptsk_Inst,PCI\VEN_1180&DEV_0852&SUBSYS_88871033
+%rixdptskDesc%=rixdptsk_Inst,PCI\VEN_1180&DEV_0852&SUBSYS_889B1033
+%rixdptskDesc%=rixdptsk_Inst,PCI\VEN_1180&DEV_0852&SUBSYS_889C1033
+
+%rixdptskDesc%=rixdptsk_Inst,PCI\VEN_1180&DEV_0852&SUBSYS_008217C0
+%rixdptskDesc%=rixdptsk_Inst,PCI\VEN_1180&DEV_0852&SUBSYS_382D17AA
+%rixdptskDesc%=rixdptsk_Inst,PCI\VEN_1180&DEV_0852&SUBSYS_207A17AA
+
+%rixdptskDesc%=rixdptsk_Inst,PCI\VEN_1180&DEV_0852&SUBSYS_105013BD
+%rixdptskDesc%=rixdptsk_Inst,PCI\VEN_1180&DEV_0852&SUBSYS_105213BD
+%rixdptskDesc%=rixdptsk_Inst,PCI\VEN_1180&DEV_0852&SUBSYS_01261025
+%rixdptskDesc%=rixdptsk_Inst,PCI\VEN_1180&DEV_0852&SUBSYS_011E1025
+%rixdptskDesc%=rixdptsk_Inst,PCI\VEN_1180&DEV_0852&SUBSYS_059317FF
+%rixdptskDesc%=rixdptsk_Inst,PCI\VEN_1180&DEV_0852&SUBSYS_080217FF
+
+%rixdptskDesc%=rixdptsk_Inst,PCI\VEN_1180&DEV_0852&SUBSYS_C20B1631
+%rixdptskDesc%=rixdptsk_Inst,PCI\VEN_1180&DEV_0852&SUBSYS_C20C1631
+%rixdptskDesc%=rixdptsk_Inst,PCI\VEN_1180&DEV_0852&SUBSYS_12FD1458
+
+%rixdptskDesc%=rixdptsk_Inst,PCI\VEN_1180&DEV_0852&SUBSYS_02971028
+%rixdptskDesc%=rixdptsk_Inst,PCI\VEN_1180&DEV_0852&SUBSYS_02981028
+%rixdptskDesc%=rixdptsk_Inst,PCI\VEN_1180&DEV_0852&SUBSYS_02991028
+%rixdptskDesc%=rixdptsk_Inst,PCI\VEN_1180&DEV_0852&SUBSYS_029A1028
+%rixdptskDesc%=rixdptsk_Inst,PCI\VEN_1180&DEV_0852&SUBSYS_02721028
+%rixdptskDesc%=rixdptsk_Inst,PCI\VEN_1180&DEV_0852&SUBSYS_02A91028
+%rixdptskDesc%=rixdptsk_Inst,PCI\VEN_1180&DEV_0852&SUBSYS_02B81028
+
+%rixdptskDesc%=rixdptsk_Inst,PCI\VEN_1180&DEV_0852&SUBSYS_001214C0
+
+%rixdptskDesc%=rixdptsk_Inst,PCI\VEN_1180&DEV_0852&SUBSYS_00011179
+
+
+[Ricoh.ntamd64]
+%rixdptskDesc%=rixdptsk_Inst.ntamd64,PCI\VEN_1180&DEV_0852
+%rixdptskDesc%=rixdptsk_Inst.ntamd64,PCI\VEN_1180&DEV_0852&SUBSYS_880C1033
+%rixdptskDesc%=rixdptsk_Inst.ntamd64,PCI\VEN_1180&DEV_0852&SUBSYS_882B1033
+%rixdptskDesc%=rixdptsk_Inst.ntamd64,PCI\VEN_1180&DEV_0852&SUBSYS_882A1033
+%rixdptskDesc%=rixdptsk_Inst.ntamd64,PCI\VEN_1180&DEV_0852&SUBSYS_882C1033
+%rixdptskDesc%=rixdptsk_Inst.ntamd64,PCI\VEN_1180&DEV_0852&SUBSYS_884E1033
+%rixdptskDesc%=rixdptsk_Inst.ntamd64,PCI\VEN_1180&DEV_0852&SUBSYS_88571033
+%rixdptskDesc%=rixdptsk_Inst.ntamd64,PCI\VEN_1180&DEV_0852&SUBSYS_885C1033
+%rixdptskDesc%=rixdptsk_Inst.ntamd64,PCI\VEN_1180&DEV_0852&SUBSYS_883C1033
+
+%rixdptskDesc%=rixdptsk_Inst.ntamd64,PCI\VEN_1180&DEV_0852&SUBSYS_83311033
+%rixdptskDesc%=rixdptsk_Inst.ntamd64,PCI\VEN_1180&DEV_0852&SUBSYS_831B1033
+%rixdptskDesc%=rixdptsk_Inst.ntamd64,PCI\VEN_1180&DEV_0852&SUBSYS_83051033
+%rixdptskDesc%=rixdptsk_Inst.ntamd64,PCI\VEN_1180&DEV_0852&SUBSYS_82F11033
+%rixdptskDesc%=rixdptsk_Inst.ntamd64,PCI\VEN_1180&DEV_0852&SUBSYS_82F71033
+%rixdptskDesc%=rixdptsk_Inst.ntamd64,PCI\VEN_1180&DEV_0852&SUBSYS_88681033
+%rixdptskDesc%=rixdptsk_Inst.ntamd64,PCI\VEN_1180&DEV_0852&SUBSYS_886F1033
+
+%rixdptskDesc%=rixdptsk_Inst.ntamd64,PCI\VEN_1180&DEV_0852&SUBSYS_88821033
+%rixdptskDesc%=rixdptsk_Inst.ntamd64,PCI\VEN_1180&DEV_0852&SUBSYS_88861033
+%rixdptskDesc%=rixdptsk_Inst.ntamd64,PCI\VEN_1180&DEV_0852&SUBSYS_88871033
+%rixdptskDesc%=rixdptsk_Inst.ntamd64,PCI\VEN_1180&DEV_0852&SUBSYS_889B1033
+%rixdptskDesc%=rixdptsk_Inst.ntamd64,PCI\VEN_1180&DEV_0852&SUBSYS_889C1033
+
+%rixdptskDesc%=rixdptsk_Inst.ntamd64,PCI\VEN_1180&DEV_0852&SUBSYS_008217C0
+%rixdptskDesc%=rixdptsk_Inst.ntamd64,PCI\VEN_1180&DEV_0852&SUBSYS_382D17AA
+%rixdptskDesc%=rixdptsk_Inst.ntamd64,PCI\VEN_1180&DEV_0852&SUBSYS_207A17AA
+
+%rixdptskDesc%=rixdptsk_Inst.ntamd64,PCI\VEN_1180&DEV_0852&SUBSYS_105013BD
+%rixdptskDesc%=rixdptsk_Inst.ntamd64,PCI\VEN_1180&DEV_0852&SUBSYS_105213BD
+%rixdptskDesc%=rixdptsk_Inst.ntamd64,PCI\VEN_1180&DEV_0852&SUBSYS_01261025
+%rixdptskDesc%=rixdptsk_Inst.ntamd64,PCI\VEN_1180&DEV_0852&SUBSYS_011E1025
+%rixdptskDesc%=rixdptsk_Inst.ntamd64,PCI\VEN_1180&DEV_0852&SUBSYS_059317FF
+%rixdptskDesc%=rixdptsk_Inst.ntamd64,PCI\VEN_1180&DEV_0852&SUBSYS_080217FF
+
+%rixdptskDesc%=rixdptsk_Inst.ntamd64,PCI\VEN_1180&DEV_0852&SUBSYS_C20B1631
+%rixdptskDesc%=rixdptsk_Inst.ntamd64,PCI\VEN_1180&DEV_0852&SUBSYS_C20C1631
+%rixdptskDesc%=rixdptsk_Inst.ntamd64,PCI\VEN_1180&DEV_0852&SUBSYS_12FD1458
+
+%rixdptskDesc%=rixdptsk_Inst.ntamd64,PCI\VEN_1180&DEV_0852&SUBSYS_02971028
+%rixdptskDesc%=rixdptsk_Inst.ntamd64,PCI\VEN_1180&DEV_0852&SUBSYS_02981028
+%rixdptskDesc%=rixdptsk_Inst.ntamd64,PCI\VEN_1180&DEV_0852&SUBSYS_02991028
+%rixdptskDesc%=rixdptsk_Inst.ntamd64,PCI\VEN_1180&DEV_0852&SUBSYS_029A1028
+%rixdptskDesc%=rixdptsk_Inst.ntamd64,PCI\VEN_1180&DEV_0852&SUBSYS_02721028
+%rixdptskDesc%=rixdptsk_Inst.ntamd64,PCI\VEN_1180&DEV_0852&SUBSYS_02A91028
+%rixdptskDesc%=rixdptsk_Inst.ntamd64,PCI\VEN_1180&DEV_0852&SUBSYS_02B81028
+
+%rixdptskDesc%=rixdptsk_Inst.ntamd64,PCI\VEN_1180&DEV_0852&SUBSYS_001214C0
+
+%rixdptskDesc%=rixdptsk_Inst.ntamd64,PCI\VEN_1180&DEV_0852&SUBSYS_00011179
+
+
+[rixdptsk_Inst] 
+CopyFiles = rixdptsk.Files.x86_sys
+CopyFiles = rixdptsk.Files.dll
+
+[rixdptsk_Inst.ntamd64] 
+CopyFiles = rixdptsk.Files.amd64_sys
+CopyFiles = rixdptsk.Files.dll
+
+[rixdptsk_Inst.Services] 
+AddService = rismxdp,0x00000002,rixdptsk_Service_Instx86, 
+
+[rixdptsk_Inst.ntamd64.Services] 
+AddService = rismxdp,0x00000002,rixdptsk_Service_Instx64, 
+
+[rixdptsk_Service_Instx86] 
+ServiceType = %SERVICE_KERNEL_DRIVER% 
+StartType = %SERVICE_AUTO_START% 
+ErrorControl = %SERVICE_ERROR_NORMAL% 
+DisplayName   = %DiskServiceDesc%
+ServiceBinary = %12%\rixdptsk.sys 
+LoadOrderGroup = "SmartMedia/XD"
+AddReg        = SMDiskAddReg
+
+[rixdptsk_Service_Instx64] 
+ServiceType = %SERVICE_KERNEL_DRIVER% 
+StartType = %SERVICE_AUTO_START% 
+ErrorControl = %SERVICE_ERROR_NORMAL% 
+DisplayName   = %DiskServiceDesc%
+ServiceBinary = %12%\rixdpx64.sys 
+LoadOrderGroup = "SmartMedia/XD"
+AddReg        = SMDiskAddReg
+
+[SMDiskAddReg]
+HKR, "Parameters", "SMSystemWaitTime",		%REG_DWORD%, 0x0000003F
+
+[rixdptsk.Files.dll] 
+rixdicon.dll
+
+[rixdptsk.Files.x86_sys] 
+rixdptsk.sys
+
+[rixdptsk.Files.amd64_sys] 
+rixdpx64.sys
+
+[rixdptsk_Inst.HW] 
+AddReg = rixdptsk_Inst.AddReg 
+
+[rixdptsk_Inst.ntamd64.HW] 
+AddReg = rixdptsk_Inst.AddReg 
+
+[rixdptsk_Inst.AddReg]
+HKR,,FriendlyName,,"Ricoh xD-Picture Card Controller"
+HKR,,DeviceCharacteristics,0x10001,0x00000101
+HKR,,DeviceType,0x10001,0x00000007
+
+HKLM,"SOFTWARE\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\rixdptsk#DISK","Icons",0x00010000,"%SystemRoot%\system32\RixDICON.dll,0"
+HKLM,"SOFTWARE\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\rixdptsk#DISK","Label",,"xD-Picture Card"
+HKLM,"SOFTWARE\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\rixdptsk#DISK","NoSoftEject",0x00010001,0x00000001
+HKLM,"SOFTWARE\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\rixdptsk#DISK","DeviceGroup",,"SMStorage"
+
+HKLM,"SOFTWARE\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\rixdptsk#SM-DISK","Icons",0x00010000,"%SystemRoot%\system32\shell32.dll,-308"
+HKLM,"SOFTWARE\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\rixdptsk#SM-DISK","Label",,"SmartMedia"
+HKLM,"SOFTWARE\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\rixdptsk#SM-DISK","NoSoftEject",0x00010001,0x00000001
+HKLM,"SOFTWARE\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\rixdptsk#SM-DISK","DeviceGroup",,"SMStorage"
+
+[Strings] 
+
+;  *******Localizable Strings******* 
+Ricoh= "Ricoh Company" 
+DiskName= "Ricoh xD-Picture Card Controller" 
+rixdptskDesc= "Ricoh xD-Picture Card Controller"
+DiskServiceDesc = "Ricoh xD-Picture Card Driver"
+
+;  *******Non Localizable Strings******* 
+
+SERVICE_BOOT_START = 0x0 
+SERVICE_SYSTEM_START = 0x1 
+SERVICE_AUTO_START = 0x2 
+SERVICE_DEMAND_START = 0x3 
+SERVICE_DISABLED = 0x4 
+
+SERVICE_KERNEL_DRIVER = 0x1 
+SERVICE_ERROR_IGNORE = 0x0 
+SERVICE_ERROR_NORMAL = 0x1 
+SERVICE_ERROR_SEVERE = 0x2 
+SERVICE_ERROR_CRITICAL = 0x3 
+
+REG_EXPAND_SZ = 0x00020000 
+REG_DWORD = 0x00010001 

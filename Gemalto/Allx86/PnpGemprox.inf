@@ -1,0 +1,78 @@
+;/*++
+;
+;PNP Gemprox
+;Abstract:
+;    INF file for installing Pnp device drivers
+;
+;--*/
+[Version]
+Signature="$Windows NT$"
+Class=SmartCardReader
+ClassGuid={50DD5230-BA8A-11D1-BF5D-0000F805F530}
+Provider=%Gemplus%
+DriverVer=10/27/2005,2.0.0.6
+CatalogFile=PnpGemprox.cat
+
+
+[DestinationDirs]
+DefaultDestDir = 12
+
+
+;*****************************************
+; Pnp Gemprox Device  Install Section
+;*****************************************
+
+[Manufacturer]
+%StdMfg%=Standard
+
+[Standard]
+; DisplayName       		Section           DeviceId
+; -----------       		-------           --------
+%GemproxDevice.DeviceDesc%=Gemprox_Device, {b85b7c50-6a01-11d2-b841-00c04fad5171}\PnpGemprox
+
+[Gemprox_Device.NT]
+CopyFiles=Gemprox_Device.NT.Copy
+
+[Gemprox_Device.NT.Copy]
+PnpGemprox.sys
+
+[Gemprox_Device.NT.HW]
+AddReg=Gemprox_Device.NT.HW.AddReg
+
+[Gemprox_Device.NT.HW.AddReg]
+HKLM,"SYSTEM\CurrentControlSet\Services\PnpGemProx\Parameters\Device0","COM",0x00010001,1
+HKLM,"SYSTEM\CurrentControlSet\Services\PnpGemProx\Parameters\Device0","Baudrate",0x00010001,115200
+HKLM,"SYSTEM\CurrentControlSet\Services\PnpGemProx\Parameters\Device0","DataRateMax",0x00010001,424
+HKLM,"SYSTEM\CurrentControlSet\Services\PnpGemProx\Parameters\Device0","LapsPoolling",0x00010001,1000
+HKLM,"SYSTEM\CurrentControlSet\Services\EventLog\System\PnpGemProx","EventMessageFile",0x00020000,"%SystemRoot%\System32\drivers\PnpGemProx.sys"
+HKLM,"SYSTEM\CurrentControlSet\Services\EventLog\System\PnpGemProx","TypesSupported",0x00010001,7
+HKLM,System\CurrentControlSet\Services\SCardSvr,Start,0x00010001,2
+
+;-------------- Service installation
+
+[Gemprox_Device.NT.Services]
+AddService = PnpGemprox, %SPSVCINST_ASSOCSERVICE%, Gemprox_Service_Inst
+
+[Gemprox_Service_Inst]
+DisplayName    = %Gemprox.SVCDESC%
+ServiceType    = 1               ; SERVICE_KERNEL_DRIVER
+StartType      = 3               ; SERVICE_DEMAND_START 
+ErrorControl   = 1               ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %12%\PnpGemprox.sys
+
+
+
+[SourceDisksNames]
+1 = %DiskId1%,,,""
+
+[SourceDisksFiles]
+PnpGemprox.sys  = 1,,
+
+[Strings]
+SPSVCINST_ASSOCSERVICE= 0x00000002
+Gemplus = "Gemplus"
+StdMfg = "PnpGemprox"
+ClassName = "SmartCardReader"
+DiskId1 = "Pnp Gemprox Device Installation Disk #1"
+GemproxDevice.DeviceDesc = "Gemplus PnpGemprox"
+Gemprox.SVCDESC = "Gemplus PnpGemprox Device Driver"

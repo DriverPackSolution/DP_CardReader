@@ -1,0 +1,218 @@
+; cxbu1wdm.inf
+
+[Version]
+Signature=$Windows NT$
+Class=SmartCardReader
+ClassGuid={50DD5230-BA8A-11D1-BF5D-0000F805F530}
+Provider=%Provider%
+DriverVer=02/02/2012,1.2.10.0
+CatalogFile=cxbu1wdm.cat
+
+[SourceDisksNames]
+1=%DiskDescription%,,
+
+[SourceDisksFiles]
+cxbu1wdm.sys=1,,
+
+[DestinationDirs]
+DefaultDestDir = 10,system32\drivers
+cxbu1wdm.Install.NT.CopyFiles=10,system32\drivers
+
+[Manufacturer]
+%Manufacturer%=OEM
+
+; =================== Class section =======================
+
+[ClassInstall]
+Addreg=SmartCardReaderClassReg
+
+[ClassInstall32]
+Addreg=SmartCardReaderClassReg
+
+[SmartCardReaderClassReg]
+HKR,,,0,%ClassName%
+HKR,,Icon,,-25
+
+
+; ===================== PnP IDs ===========================
+
+[ControlFlags]
+; All PnP devices should be excluded from manual AddDevice Applet list
+ExcludeFromSelect=*
+
+
+
+[OEM]
+; DisplayName       	Section           DeviceId
+; -----------       	-------           --------
+%VID1PID1ReaderDescription% =  kbdrdr.Install, USB\VID_076B&PID_A011&Mi_01
+%VID1PID2ReaderDescription% =  scrrdr.Install, USB\VID_076B&PID_A021
+%VID1PID3ReaderDescription% =  hprdr.Install, USB\VID_076B&PID_A022
+%VID1PID4ReaderDescription% =  kbdhp.Install, USB\VID_076B&PID_A012&Mi_01
+
+
+
+
+
+; ================== NT specific =====================
+
+[kbdrdr.Install.NT]
+AddReg    = cxbu1wdm.Install.NT.AddReg
+CopyFiles = cxbu1wdm.Install.NT.CopyFiles
+
+[kbdrdr.Install.NT.HW]
+AddReg    = kbdrdr.Install.AddReg.HW
+
+[kbdrdr.Install.NT.Services]
+AddService = cxbu1wdm, 2, kbdrdr.Service.NT,cxbu1wdm.EventLog.NT
+
+[scrrdr.Install.NT]
+AddReg    = cxbu1wdm.Install.NT.AddReg
+CopyFiles = cxbu1wdm.Install.NT.CopyFiles
+
+[scrrdr.Install.NT.HW]
+AddReg    = scrrdr.Install.AddReg.HW
+
+[scrrdr.Install.NT.Services]
+AddService = cxbu1wdm, 2, scrrdr.Service.NT,cxbu1wdm.EventLog.NT
+
+[hprdr.Install.NT]
+AddReg    = cxbu1wdm.Install.NT.AddReg
+CopyFiles = cxbu1wdm.Install.NT.CopyFiles
+
+[hprdr.Install.NT.HW]
+AddReg    = hprdr.Install.AddReg.HW
+
+[hprdr.Install.NT.Services]
+AddService = cxbu1wdm, 2, hprdr.Service.NT,cxbu1wdm.EventLog.NT
+
+[kbdhp.Install.NT]
+AddReg    = cxbu1wdm.Install.NT.AddReg
+CopyFiles = cxbu1wdm.Install.NT.CopyFiles
+
+[kbdhp.Install.NT.HW]
+AddReg    = kbdhp.Install.AddReg.HW
+
+[kbdhp.Install.NT.Services]
+AddService = cxbu1wdm, 2, kbdhp.Service.NT,cxbu1wdm.EventLog.NT
+
+
+
+
+
+
+
+
+[cxbu1wdm.Install.NT.AddReg]
+HKR,, AdapterType, 0, "0100"
+HKLM,"SYSTEM\CurrentControlSet\Services\SCardSvr",Start,0x00010001,2
+HKLM,"System\CurrentControlSet\Services\CertPropSvc",Start,0x00010001,2
+HKLM, Software\Microsoft\Cryptography\Calais\Readers,,,
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,DLLName,0,wlnotify.dll
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logon,0,SCardStartCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logoff,0,SCardStopCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Lock,0,SCardSuspendCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Unlock,0,SCardResumeCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Enabled,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Impersonate,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Asynchronous,0x00010001,1
+
+
+[cxbu1wdm.Install.NT.CopyFiles]
+cxbu1wdm.sys,,,2
+
+
+
+
+
+[kbdrdr.Service.NT]
+DisplayName     = "OEM USB Smart Card Reader"
+ServiceType     = 1 ;%SERVICE_KERNEL_DRIVER%
+StartType       = 3 ;%SERVICE_AUTO_START%
+ErrorControl    = 1 ;%SERVICE_ERROR_NORMAL%
+ServiceBinary   = %12%\cxbu1wdm.sys
+[scrrdr.Service.NT]
+DisplayName     = "OEM USB Smart Card Reader"
+ServiceType     = 1 ;%SERVICE_KERNEL_DRIVER%
+StartType       = 3 ;%SERVICE_AUTO_START%
+ErrorControl    = 1 ;%SERVICE_ERROR_NORMAL%
+ServiceBinary   = %12%\cxbu1wdm.sys
+[hprdr.Service.NT]
+DisplayName     = "OEM USB Smart Card Reader"
+ServiceType     = 1 ;%SERVICE_KERNEL_DRIVER%
+StartType       = 3 ;%SERVICE_AUTO_START%
+ErrorControl    = 1 ;%SERVICE_ERROR_NORMAL%
+ServiceBinary   = %12%\cxbu1wdm.sys
+[kbdhp.Service.NT]
+DisplayName     = "OEM USB Smart Card Reader"
+ServiceType     = 1 ;%SERVICE_KERNEL_DRIVER%
+StartType       = 3 ;%SERVICE_AUTO_START%
+ErrorControl    = 1 ;%SERVICE_ERROR_NORMAL%
+ServiceBinary   = %12%\cxbu1wdm.sys
+
+
+
+
+
+
+[cxbu1wdm.EventLog.NT]
+AddReg = cxbu1wdm.AddEventLog.reg
+
+[cxbu1wdm.AddEventLog.reg]
+HKR,, EventMessageFile, 0x00020000, "%%SystemRoot%%\System32\drivers\cxbu1wdm.sys"
+HKR,, TypesSupported,   0x00010001, 7
+
+
+; =====================
+; === USB CCID Smart Card Reader Keyboard ====
+; =====================
+[kbdrdr.Install.AddReg.HW]
+HKR,,"VendorName",,"USB CCID"
+HKR,,"IfdType",, "Smart Card Reader Keyboard"
+HKR,,"VidPid",, USB\VID_076B&PID_A011&Mi_01
+
+
+; =====================
+; === USB CCID Smart Card Reader ====
+; =====================
+[scrrdr.Install.AddReg.HW]
+HKR,,"VendorName",,"USB CCID"
+HKR,,"IfdType",, "Smart Card Reader"
+HKR,,"VidPid",, USB\VID_076B&PID_A021
+
+
+; =====================
+; === USB CCID Smart Card Reader ====
+; =====================
+[hprdr.Install.AddReg.HW]
+HKR,,"VendorName",,"USB CCID"
+HKR,,"IfdType",, "Smart Card Reader"
+HKR,,"VidPid",, USB\VID_076B&PID_A022
+
+
+; =====================
+; === USB CCID Smart Card Reader Keyboard ====
+; =====================
+[kbdhp.Install.AddReg.HW]
+HKR,,"VendorName",,"USB CCID"
+HKR,,"IfdType",, "Smart Card Reader Keyboard"
+HKR,,"VidPid",, USB\VID_076B&PID_A012&Mi_01
+
+
+
+
+
+
+
+
+; ================= Strings =====================
+
+[Strings]
+Provider		= "OEM"
+Manufacturer    	= "OEM"
+VID1PID1ReaderDescription     = "USB CCID Smart Card Reader Keyboard"
+VID1PID2ReaderDescription     = "USB CCID Smart Card Reader"
+VID1PID3ReaderDescription     = "USB CCID Smart Card Reader"
+VID1PID4ReaderDescription     = "USB CCID Smart Card Reader Keyboard"
+DiskDescription         = "PC/SC driver disk"
+ClassName 		= "Smart Card Readers"

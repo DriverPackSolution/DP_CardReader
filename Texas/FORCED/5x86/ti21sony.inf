@@ -1,0 +1,130 @@
+; Copyright (c) 2008 Texas Instruments
+; TI FlashMedia Installation file for Win2000/XP
+
+[Version]
+Signature=$CHICAGO$
+Class=MTD
+ClassGuid={4d36e970-e325-11ce-bfc1-08002be10318}
+Provider=%MFGNAME%
+CataLogFile=ti21sony.cat
+DriverVer=05/19/2008,2.0.0.20
+
+[Manufacturer]
+%MFGNAME%=DeviceList,NTamd64
+
+[ControlFlags]
+ExcludeFromSelect=*
+
+[DestinationDirs]
+DefaultDestDir = 11
+DriverCopyFiles = 12
+
+[SourceDisksFiles]
+ti21sony.sys=1
+
+[SourceDisksNames]
+1=%INSTDISK%,,,
+
+[DeviceList]
+%DESCRIPTION%=FMDriverInstall,PCI\VEN_104C&DEV_8033  ; xx21
+%DESCRIPTION_xx12%=FMDriverInstall,PCI\VEN_104C&DEV_803B  ; xx12
+
+[DeviceList.NTamd64]
+%DESCRIPTION%=FMDriverInstall,PCI\VEN_104C&DEV_8033  ; xx21
+%DESCRIPTION_xx12%=FMDriverInstall,PCI\VEN_104C&DEV_803B  ; xx12
+
+;------------------------------------------------------------------------------
+;  Windows 2000/XP Sections
+;------------------------------------------------------------------------------
+
+[FMDriverInstall.NT]
+AddReg   = FMDriverInstall.AddReg
+CopyFiles=DriverCopyFiles
+
+[FMDriverInstall.NTamd64]
+AddReg   = FMDriverInstall.AddReg
+CopyFiles=DriverCopyFiles
+
+[DriverCopyFiles]
+ti21sony.sys,,,2
+
+[FMDriverInstall.NT.Services]
+AddService=ti21sony,2,DriverService
+
+[FMDriverInstall.NTamd64.Services]
+AddService=ti21sony,2,DriverService
+
+[DriverService]
+ServiceType=1
+StartType=3
+ErrorControl=1
+ServiceBinary=%10%\system32\drivers\ti21sony.sys
+
+
+[FMDriverInstall.nt.hw]
+AddReg=FMDriverHwAddReg
+
+[FMDriverInstall.NTamd64.hw]
+AddReg=FMDriverHwAddReg
+
+[FMDriverHwAddReg]
+HKLM,"SOFTWARE\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\FlashMedia#MemoryStickDevice2","NoSoftEject",0x00010001,0x00000001
+HKLM,"SOFTWARE\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\FlashMedia#MemoryStickDevice0","NoSoftEject",0x00010001,0x00000001
+HKLM,"SOFTWARE\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\FlashMedia#SDDevice3","NoSoftEject",0x00010001,0x00000001
+HKLM,"SOFTWARE\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\FlashMedia#SDDevice1","NoSoftEject",0x00010001,0x00000001
+
+[FMDriverInstall.AddReg]
+; DWORD will go to software branch
+;HKR,,SecurityEnable,0x00010001,1
+; Write to specified registry path
+HKLM,System\CurrentControlSet\Services\ti21sony\Parameters,ShowRemoveDiagBox, 0x10001,0
+
+; 0 - default. Switch to SDIO
+; 1 - Switch to SD or SDIO
+; 2 - switch to MMC or SDIO
+; 3 - switch to SD or MMC or SDIO
+HKLM,System\CurrentControlSet\Services\ti21sony\Parameters,SDSwitch, 0x10001,0
+
+; 1 - SmartMedia enable
+; 0 - SmartMedia disable
+HKLM,System\CurrentControlSet\Services\ti21sony\Parameters,SMEnable, 0x10001,1
+
+; 1 - MS Parallel Mode dedicated socket enable
+; 0 - MS Parallel Mode dedicated socket disable
+HKLM,System\CurrentControlSet\Services\ti21sony\Parameters,MSPEnable, 0x10001,1
+
+; Enable Dbg Message by default is disable or 0
+; 1 - enable debug message in release build
+HKLM,System\CurrentControlSet\Services\ti21sony\Parameters,DbgMsgEnable, 0x10001,0
+
+; 0 - Disable SM CIS check
+; 1 - Enable Sm CIS check, set to 1 by default
+HKLM,System\CurrentControlSet\Services\ti21sony\Parameters,SMCISEnable, 0x10001,1
+
+; For xx12 device, use one LED as default: 1 - two LED used, 0 - one LED used
+HKLM,System\CurrentControlSet\Services\ti21sony\Parameters,UseOneLED, 0x10001,0
+
+; Which MFUNC to use for LED; default is MFUNC 5
+; 0x02 - MFUNC 1
+; 0x04 - MFUNC 2
+; 0x08 - MFUNC 3
+; 0x10 - MFUNC 4
+; 0x20 - MFUNC 5
+; 0x40 - MFUNC 6
+HKLM,System\CurrentControlSet\Services\ti21sony\Parameters,UseMFUNC, 0x10001,0x20
+
+; Support MemoryStick slot only: Disable is default as 0, 1 - enable.
+;HKLM,System\CurrentControlSet\Services\ti21sony\Parameters,MSSlotOnly, 0x10001,0
+
+; this flag is for W2K QFE "Delayed write fail"
+HKLM,System\CurrentControlSet\Services\Disk,HotPlugAlwaysEnable, 0x00010000,"MemoryStick2","SD3"
+
+;------------------------------------------------------------------------------
+;  String Definitions
+;------------------------------------------------------------------------------
+
+[Strings]
+MFGNAME="Texas Instruments Inc"
+INSTDISK="TI Installation Disc"
+DESCRIPTION="Texas Instruments PCI7411 Integrated FlashMedia Controller"
+DESCRIPTION_xx12="Texas Instruments PCIxx12 Integrated FlashMedia Controller"

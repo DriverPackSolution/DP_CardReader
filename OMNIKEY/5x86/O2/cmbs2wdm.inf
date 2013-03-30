@@ -1,0 +1,181 @@
+cmbs2wdm.INF
+; Copyright (c) 2000 - 2002 OMNIKEY AG
+
+[Version]
+Signature=$CHICAGO$
+Class=SmartCardReader
+ClassGuid={50DD5230-BA8A-11D1-BF5D-0000F805F530}
+Provider=%Provider%
+DriverVer=11/15/2002,1.0.1.1
+CatalogFile=cmbs2wdm.cat
+
+[SourceDisksNames]
+1=%DiskDescription%,,
+
+[SourceDisksFiles]
+cmbs2wdm.sys=1,,
+cmbs2w9x.vxd=1,,
+launchn.dll=1,,
+scbase.ex_=1,,
+smclib.ex_=1,,
+cmdiag.cpl=1,,
+cmdiag.ini=1,,
+dlysw9xn.exe=1,,
+dlysw9in.dll=1,,
+cmabout.ini=1,,
+cmabout.dll=1,,
+ok.bmp=1,,
+chksvrn.dll=1,,
+
+
+[DestinationDirs]
+DefaultDestDir=11
+cmbs2w9x.Install.CopyFiles=11
+cmbs2w9x.Install.Scbase=11
+cmbs2w9x.Install.Sc2=10,system
+cmbs2w9x.Tools=11
+cmbs2wdm.Install.NT.CopyFiles=10,system32\drivers
+cmbs2wdm.NT.Tools=11
+
+[Manufacturer]
+%Manufacturer%=OMNIKEY
+
+
+; ================= Class section =====================
+
+[ClassInstall]
+Addreg=SmartCardReaderClassReg
+
+[SmartCardReaderClassReg]
+HKR,,,0,%ClassName%
+HKR,,Icon,,-25
+HKLM,"\Software\Microsoft\Cryptography\Calais\Readers",,,
+
+
+; ================= CardMan =====================
+;we have to remove this for the uncertified driver
+ExcludeFromSelect.NT=SERENUM\USA2011
+
+[OMNIKEY]
+; DisplayName       	Section           DeviceId
+; -----------       	-------           --------
+%cmbs2wdm.DeviceDesc% = cmbs2wdm.Install, SERENUM\USA2011
+
+
+; =================== Win9x specific ======================
+
+[cmbs2wdm.Install]
+CopyFiles=cmbs2w9x.Install.CopyFiles,cmbs2w9x.Install.Scbase,cmbs2w9x.Install.Sc2,cmbs2w9x.Tools
+AddReg=cmbs2w9x.Install.AddReg
+
+[cmbs2wdm.Install.HW]
+AddReg    = cmbs2wdm.Install.AddReg.HW
+
+
+[cmbs2w9x.Install.AddReg]
+HKR,,DevLoader,0,cmbs2w9x.vxd
+HKLM,"Software\Microsoft\Windows\CurrentVersion\RunOnce",launchn,,"rundll32 launchn.dll,InstallSC"
+HKLM,"Software\Microsoft\Windows\CurrentVersion\RunOnce",dlysw9in,,"rundll32 dlysw9in.dll,InstallDelayService"
+HKLM, Software\Microsoft\Cryptography\Calais\Readers,,,
+
+[cmbs2w9x.Install.CopyFiles]
+cmbs2w9x.vxd
+
+[cmbs2w9x.Install.Scbase]
+launchn.dll
+scbase.ex_
+smclib.ex_
+
+[cmbs2w9x.Install.Sc2]
+scbase.exe,scbase.ex_
+smclib.exe,smclib.ex_
+
+
+[cmbs2w9x.Tools]
+cmdiag.cpl
+cmdiag.ini
+;the delay service may be in use
+;therefore use a temporarily filename
+dlysw9xn.exe,dlysw9xn.exe,dlysw9x1.exe
+dlysw9in.dll
+cmabout.ini
+cmabout.dll
+ok.bmp
+
+
+; ================== Win2000 specific =====================
+
+[cmbs2wdm.Install.NT]
+AddReg          = cmbs2wdm.Install.NT.AddReg
+CopyFiles	= cmbs2wdm.Install.NT.CopyFiles,cmbs2wdm.NT.Tools,cmbs2wdm.NT.Util
+
+[cmbs2wdm.Install.NT.HW]
+AddReg    = cmbs2wdm.Install.AddReg.HW
+
+[cmbs2wdm.Install.NT.Services]
+AddService = cmbs2wdm, 2, cmbs2wdm.Service.NT, cmbs2wdm.EventLog.NT
+
+
+[cmbs2wdm.Install.NT.AddReg]
+HKR,, AdapterType, 0, "0100"
+HKLM,"SYSTEM\CurrentControlSet\Services\SCardSvr",Start,0x00010001,2
+HKLM, "Software\Microsoft\Windows\CurrentVersion\RunOnce",chksvrn,,"rundll32 chksvrn.dll,StartScardsvr"
+HKLM, Software\Microsoft\Cryptography\Calais\Readers,,,
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,DLLName,0,wlnotify.dll
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logon,0,SCardStartCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logoff,0,SCardStopCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Lock,0,SCardSuspendCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Unlock,0,SCardResumeCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Enabled,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Impersonate,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Asynchronous,0x00010001,1
+
+
+[cmbs2wdm.Install.NT.CopyFiles]
+cmbs2wdm.sys,,,2
+
+[cmbs2wdm.NT.Tools]
+; no flags : skip allowed
+cmdiag.cpl
+cmdiag.ini
+cmabout.ini
+cmabout.dll
+ok.bmp
+
+
+[cmbs2wdm.NT.Util]
+chksvrn.dll
+
+[cmbs2wdm.Service.NT]
+DisplayName     = %cmbs2wdm.DeviceDesc%
+ServiceType     = 1 ;%SERVICE_KERNEL_DRIVER%
+StartType       = 3 ;%SERVICE_AUTO_START%
+ErrorControl    = 1 ;%SERVICE_ERROR_NORMAL%
+ServiceBinary   = %12%\cmbs2wdm.sys
+
+[cmbs2wdm.EventLog.NT]
+AddReg = cmbs2wdm.AddEventLog.reg
+
+[cmbs2wdm.AddEventLog.reg]
+HKR,, EventMessageFile, 0x00020000, "%%SystemRoot%%\System32\drivers\cmbs2wdm.sys"
+HKR,, TypesSupported,   0x00010001, 7
+
+
+; =====================
+; === CardMan 2011 ====
+; =====================
+[cmbs2wdm.Install.AddReg.HW]
+HKR,,"VendorName",,%cmbs2wdm.VendorDesc%
+HKR,,"IfdType",, %cmbs2wdm.DeviceDesc%
+
+
+
+; ================= Strings =====================
+
+[Strings]
+Provider		= "OMNIKEY AG"
+Manufacturer           	= "OMNIKEY AG"
+cmbs2wdm.VendorDesc     = "OMNIKEY"
+cmbs2wdm.DeviceDesc	= "CardMan 2011"
+DiskDescription         = "CardMan PC/SC Driver Disk"
+ClassName 		= "Smart Card Readers"

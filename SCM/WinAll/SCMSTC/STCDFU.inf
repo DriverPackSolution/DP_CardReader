@@ -1,0 +1,113 @@
+;
+; STCDFU.INF - INF file for SCM STC DFU Adapters
+;
+; Copyright (C) SCM Microsystems Inc., 2006-2008.
+;
+
+[Version]
+signature="$CHICAGO$"
+Class=USB
+ClassGUID={36FC9E60-C465-11CF-8056-444553540000}
+Provider=%SCM%
+DriverVer=11/13/2008,2.02
+CatalogFile.NT=STCDFU.cat
+
+[ControlFlags]
+ExcludeFromSelect.NT=USB\VID_04E6&PID_04E7
+ExcludeFromSelect.NT=USB\VID_04E6&PID_5200
+
+[DestinationDirs]
+DefaultDestDir		= 11;			// LDID_SYS
+STCFUx32.CopyFiles	= 11;			// %windir%\system
+STCFUx32NT.CopyFiles 	= 10, system32\drivers
+STCFUx64.CopyFiles	= 11;			// %windir%\system
+STCFUx64NT.CopyFiles 	= 10, system32\drivers
+
+[SourceDisksNames]
+1=%DISK1%,,
+1 = "",STCFUx32.sys,,
+1 = "",STCFUx64.sys,,
+
+[SourceDisksFiles]
+STCFUx32.sys=1
+STCFUx64.sys=1
+
+[Manufacturer]
+%SCM%=SCM, NTAMD64
+
+[SCM]
+%USB\VID_04E6&PID_04E7.DeviceDesc%=STCFUx32, USB\VID_04E6&PID_04E7
+%USB\VID_04E6&PID_5200.DeviceDesc%=STCFUx32, USB\VID_04E6&PID_5200
+
+[SCM.NTAMD64]
+%USB\VID_04E6&PID_04E7.DeviceDesc%=STCFUx64, USB\VID_04E6&PID_04E7
+%USB\VID_04E6&PID_5200.DeviceDesc%=STCFUx64, USB\VID_04E6&PID_5200
+
+;*******************************************************************************************************
+; x86 specific 
+;*******************************************************************************************************
+
+[STCFUx32]
+AddReg		= STCFUx32.AddReg
+CopyFiles	= STCFUx32.CopyFiles
+
+[STCFUx32.NT]
+CopyFiles   = STCFUx32NT.CopyFiles
+
+[STCFUx32.AddReg]
+HKR,,DevLoader,0,*ntkern
+HKR,,NTMPDriver,0,STCFUx32.sys
+
+[STCFUx32.CopyFiles]
+STCFUx32.sys,,
+
+[STCFUx32NT.CopyFiles]
+STCFUx32.sys,,
+
+[STCFUx32.NT.Services]
+Addservice = STCFUx32, 0x00000003, STCFUx32.AddService
+
+[STCFUx32.AddService]
+DisplayName = %DFU_Driver.DeviceDesc%
+ServiceType    = 1
+StartType      = 3
+ErrorControl   = 1
+ServiceBinary  = %12%\STCFUx32.SYS
+
+;*************************************************************************************************************************
+; x64 specific section
+;*************************************************************************************************************************
+[STCFUx64]
+AddReg		= STCFUx64.AddReg
+CopyFiles	= STCFUx64.CopyFiles
+
+[STCFUx64.NT]
+CopyFiles   = STCFUx64NT.CopyFiles
+
+[STCFUx64.AddReg]
+HKR,,DevLoader,0,*ntkern
+HKR,,NTMPDriver,0,STCFUx64.sys
+
+[STCFUx64.CopyFiles]
+STCFUx64.sys,,
+
+[STCFUx64NT.CopyFiles]
+STCFUx64.sys,,
+
+[STCFUx64.NT.Services]
+Addservice = STCFUx64, 0x00000003, STCFUx64.AddService
+
+[STCFUx64.AddService]
+DisplayName = %DFU_Driver.DeviceDesc%
+ServiceType    = 1
+StartType      = 3
+ErrorControl   = 1
+ServiceBinary  = %12%\STCFUx64.SYS
+;;===========================
+
+[Strings]
+SCM="SCM Microsystems Inc."
+USB\VID_04E6&PID_04E7.DeviceDesc="STCII DFU Adapter"
+USB\VID_04E6&PID_5200.DeviceDesc="STC3 DFU Adapter"
+DISK1="STC DFU Driver Disk"
+DFU_Driver.DeviceDesc="STC DFU Driver"

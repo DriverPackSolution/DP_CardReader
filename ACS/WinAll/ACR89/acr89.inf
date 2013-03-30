@@ -1,0 +1,698 @@
+; ACR89.INF
+; Copyright (c) 1994 - 2011 Advanced Card Systems Ltd.
+;
+; Note: For use on Windows 2000 or higher only!
+;
+
+[Version]
+DriverVer=02/16/2012,1.0.0.0
+Signature=$Windows NT$
+Class=SmartCardReader
+ClassGuid={50DD5230-BA8A-11D1-BF5D-0000F805F530}
+Provider=%ACS%
+CatalogFile=acr89.cat
+
+; ======= Source and Destination section =============
+
+[SourceDisksNames]
+1 = %SourceDiskName%,,,
+
+[SourceDisksFiles]
+acr89bus.sys		= 1
+acr89cbus.sys		= 1
+acr89fbus.sys		= 1
+acr89fnc.sys		= 1
+acr89slt.sys		= 1
+acr89cslt.sys		= 1
+acr89sam.sys		= 1
+acr89csam.sys		= 1
+acr89cctl.sys		= 1
+acr89busx64.sys		= 1
+acr89cbusx64.sys	= 1
+acr89fbusx64.sys	= 1
+acr89fncx64.sys		= 1
+acr89sltx64.sys		= 1
+acr89csltx64.sys	= 1
+acr89samx64.sys		= 1
+acr89csamx64.sys	= 1
+acr89cctlx64.sys	= 1
+
+[DestinationDirs]
+ACS.Install.Bus1.CopyFiles.NTx86   = 12
+ACS.Install.Bus1.CopyFiles.NTamd64 = 12
+ACS.Install.Bus2.CopyFiles.NTx86   = 12
+ACS.Install.Bus2.CopyFiles.NTamd64 = 12
+ACS.Install.Bus3.CopyFiles.NTx86   = 12
+ACS.Install.Bus3.CopyFiles.NTamd64 = 12
+ACS.Install.Fnc1.CopyFiles.NTx86   = 12
+ACS.Install.Fnc1.CopyFiles.NTamd64 = 12
+ACS.Install.Fnc2.CopyFiles.NTx86   = 12
+ACS.Install.Fnc2.CopyFiles.NTamd64 = 12
+ACS.Install.Fnc3.CopyFiles.NTx86   = 12
+ACS.Install.Fnc3.CopyFiles.NTamd64 = 12
+ACS.Install.Slt1.CopyFiles.NTx86   = 12
+ACS.Install.Slt1.CopyFiles.NTamd64 = 12
+ACS.Install.Slt2.CopyFiles.NTx86   = 12
+ACS.Install.Slt2.CopyFiles.NTamd64 = 12
+ACS.Install.Slt3.CopyFiles.NTx86   = 12
+ACS.Install.Slt3.CopyFiles.NTamd64 = 12
+ACS.Install.Sam1.CopyFiles.NTx86   = 12     
+ACS.Install.Sam1.CopyFiles.NTamd64 = 12
+ACS.Install.Sam2.CopyFiles.NTx86   = 12
+ACS.Install.Sam2.CopyFiles.NTamd64 = 12
+ACS.Install.Sam3.CopyFiles.NTx86   = 12
+ACS.Install.Sam3.CopyFiles.NTamd64 = 12
+ACS.Install.Ctl.CopyFiles.NTx86    = 12
+ACS.Install.Ctl.CopyFiles.NTamd64  = 12
+
+; ================= Class section =====================
+
+[ClassInstall32]
+Addreg=SmartCardReaderClassReg     
+
+[ClassInstall]
+Addreg=SmartCardReaderClassReg
+
+[SmartCardReaderClassReg]
+HKR,,,0,%ClassName%
+HKR,,Icon,,-25
+HKLM,"\Software\Microsoft\Cryptography\Calais\Readers",,,
+
+[Manufacturer]
+%ACS%=ACS,NTamd64
+
+; ================= ACS ACR89 Reader =====================
+
+[ACS]
+; DisplayName           Section      	  DeviceId
+; -----------           -------      	  --------
+%ACS.DeviceDesc.Bus1% = ACS.Install.Bus1, USB\VID_072F&PID_8900 ; ACR89
+%ACS.DeviceDesc.Slt1% = ACS.Install.Slt1, *ACO0907
+%ACS.DeviceDesc.Sam1% = ACS.Install.Sam1, *ACO0908
+%ACS.DeviceDesc.Fnc1% = ACS.Install.Fnc1, *ACO0909
+
+%ACS.DeviceDesc.Bus2% = ACS.Install.Bus2, USB\VID_072F&PID_8901 ; ACR89-CL1
+%ACS.DeviceDesc.Ctl%  = ACS.Install.Ctl,  *ACO0910
+%ACS.DeviceDesc.Slt2% = ACS.Install.Slt2, *ACO0911
+%ACS.DeviceDesc.Sam2% = ACS.Install.Sam2, *ACO0912
+%ACS.DeviceDesc.Fnc2% = ACS.Install.Fnc2, *ACO0913
+
+%ACS.DeviceDesc.Bus3% = ACS.Install.Bus3, USB\VID_072F&PID_8902 ; ACR89-FPA
+%ACS.DeviceDesc.Slt3% = ACS.Install.Slt3, *ACO0918
+%ACS.DeviceDesc.Sam3% = ACS.Install.Sam3, *ACO0919
+%ACS.DeviceDesc.Fnc3% = ACS.Install.Fnc3, *ACO0920
+
+[ACS.NTamd64]
+; DisplayName           Section      	  DeviceId
+; -----------           -------      	  --------
+%ACS.DeviceDesc.Bus1% = ACS.Install.Bus1, USB\VID_072F&PID_8900 ; ACR89
+%ACS.DeviceDesc.Slt1% = ACS.Install.Slt1, *ACO0907
+%ACS.DeviceDesc.Sam1% = ACS.Install.Sam1, *ACO0908
+%ACS.DeviceDesc.Fnc1% = ACS.Install.Fnc1, *ACO0909
+
+%ACS.DeviceDesc.Bus2% = ACS.Install.Bus2, USB\VID_072F&PID_8901 ; ACR89-CL1
+%ACS.DeviceDesc.Ctl%  = ACS.Install.Ctl,  *ACO0910
+%ACS.DeviceDesc.Slt2% = ACS.Install.Slt2, *ACO0911
+%ACS.DeviceDesc.Sam2% = ACS.Install.Sam2, *ACO0912
+%ACS.DeviceDesc.Fnc2% = ACS.Install.Fnc2, *ACO0913
+
+%ACS.DeviceDesc.Bus3% = ACS.Install.Bus3, USB\VID_072F&PID_8902 ; ACR89-FPA
+%ACS.DeviceDesc.Slt3% = ACS.Install.Slt3, *ACO0918
+%ACS.DeviceDesc.Sam3% = ACS.Install.Sam3, *ACO0919
+%ACS.DeviceDesc.Fnc3% = ACS.Install.Fnc3, *ACO0920
+
+; ============== ACS ACR89 Bus Driver ====================
+
+[ACS.Install.Bus1.NTx86]
+AddReg    = ACS.Install.Bus.AddReg.NT
+CopyFiles = ACS.Install.Bus1.CopyFiles.NTx86
+
+[ACS.Install.Bus1.NTamd64]
+AddReg    = ACS.Install.Bus.AddReg.NT
+CopyFiles = ACS.Install.Bus1.CopyFiles.NTamd64
+
+[ACS.Install.Bus1.CopyFiles.NTx86]
+acr89bus.sys,,,2
+acr89slt.sys,,,2
+acr89sam.sys,,,2
+acr89fnc.sys,,,2
+
+[ACS.Install.Bus1.CopyFiles.NTamd64]
+acr89bus.sys,acr89busx64.sys
+acr89slt.sys,acr89sltx64.sys
+acr89sam.sys,acr89samx64.sys
+acr89fnc.sys,acr89fncx64.sys
+
+[ACS.Install.Bus1.NTx86.Services]
+AddService=ACR89BUS,2,ACS.Install.Bus1.Service,ACS.Install.Bus1.EventLog
+
+[ACS.Install.Bus1.NTamd64.Services]
+AddService=ACR89BUS,2,ACS.Install.Bus1.Service,ACS.Install.Bus1.EventLog
+
+[ACS.Install.Bus1.Service]
+DisplayName     = %ACS.DeviceDesc.Bus1%
+ServiceType	= 1
+StartType	= 3
+ErrorControl	= 1
+ServiceBinary	= %12%\acr89bus.sys
+
+[ACS.Install.Bus1.EventLog]
+AddReg = ACS.Install.Bus1.AddEventLog.reg
+
+[ACS.Install.Bus1.AddEventLog.reg]
+HKR,, EventMessageFile, 0x00020000, "%%SystemRoot%%\System32\drivers\acr89bus.sys"
+HKR,, TypesSupported,   0x00010001, 7
+
+
+; ============== ACS ACR89-CL1 Bus Driver ====================
+
+[ACS.Install.Bus2.NTx86]
+AddReg    = ACS.Install.Bus.AddReg.NT
+CopyFiles = ACS.Install.Bus2.CopyFiles.NTx86
+
+[ACS.Install.Bus2.NTamd64]
+AddReg    = ACS.Install.Bus.AddReg.NT
+CopyFiles = ACS.Install.Bus2.CopyFiles.NTamd64
+
+[ACS.Install.Bus2.CopyFiles.NTx86]
+acr89cbus.sys,,,2
+acr89cctl.sys,,,2
+acr89cslt.sys,,,2
+acr89csam.sys,,,2
+
+[ACS.Install.Bus2.CopyFiles.NTamd64]
+acr89cbus.sys,acr89cbusx64.sys
+acr89cctl.sys,acr89cctlx64.sys
+acr89cslt.sys,acr89csltx64.sys
+acr89csam.sys,acr89csamx64.sys
+
+[ACS.Install.Bus2.NTx86.Services]
+AddService=ACR89CBUS,2,ACS.Install.Bus2.Service,ACS.Install.Bus2.EventLog
+
+[ACS.Install.Bus2.NTamd64.Services]
+AddService=ACR89CBUS,2,ACS.Install.Bus2.Service,ACS.Install.Bus2.EventLog
+
+[ACS.Install.Bus2.Service]
+DisplayName     = %ACS.DeviceDesc.Bus2%
+ServiceType	= 1
+StartType	= 3
+ErrorControl	= 1
+ServiceBinary	= %12%\acr89cbus.sys
+
+[ACS.Install.Bus2.EventLog]
+AddReg = ACS.Install.Bus2.AddEventLog.reg
+
+[ACS.Install.Bus2.AddEventLog.reg]
+HKR,, EventMessageFile, 0x00020000, "%%SystemRoot%%\System32\drivers\acr89cbus.sys"
+HKR,, TypesSupported,   0x00010001, 7
+
+
+; ============== ACS ACR89-FPA Bus Driver ====================
+
+[ACS.Install.Bus3.NTx86]
+AddReg    = ACS.Install.Bus.AddReg.NT
+CopyFiles = ACS.Install.Bus3.CopyFiles.NTx86
+
+[ACS.Install.Bus3.NTamd64]
+AddReg    = ACS.Install.Bus.AddReg.NT
+CopyFiles = ACS.Install.Bus3.CopyFiles.NTamd64
+
+[ACS.Install.Bus3.CopyFiles.NTx86]
+acr89fbus.sys,,,2
+acr89fslt.sys,acr89slt.sys,,2
+acr89fsam.sys,acr89sam.sys,,2
+acr89ffnc.sys,acr89fnc.sys,,2
+
+[ACS.Install.Bus3.CopyFiles.NTamd64]
+acr89fbus.sys,acr89fbusx64.sys
+acr89fslt.sys,acr89sltx64.sys
+acr89fsam.sys,acr89samx64.sys
+acr89ffnc.sys,acr89fncx64.sys
+
+[ACS.Install.Bus3.NTx86.Services]
+AddService=ACR89FBUS,2,ACS.Install.Bus3.Service,ACS.Install.Bus3.EventLog
+
+[ACS.Install.Bus3.NTamd64.Services]
+AddService=ACR89FBUS,2,ACS.Install.Bus3.Service,ACS.Install.Bus3.EventLog
+
+[ACS.Install.Bus3.Service]
+DisplayName     = %ACS.DeviceDesc.Bus3%
+ServiceType	= 1
+StartType	= 3
+ErrorControl	= 1
+ServiceBinary	= %12%\acr89fbus.sys
+
+[ACS.Install.Bus3.EventLog]
+AddReg = ACS.Install.Bus3.AddEventLog.reg
+
+[ACS.Install.Bus3.AddEventLog.reg]
+HKR,, EventMessageFile, 0x00020000, "%%SystemRoot%%\System32\drivers\acr89fbus.sys"
+HKR,, TypesSupported,   0x00010001, 7
+
+
+; =============== Bus Common ===========================
+[ACS.Install.Bus.AddReg.NT]
+HKLM,"System\CurrentControlSet\Services\SCardSvr","Start", 0x00010001,2
+HKLM,"System\CurrentControlSet\Services\CertPropSvc","Start", 0x00010001,2
+
+
+; ============== ACS ACR89 Function Driver ===============
+
+[ACS.Install.Fnc1.NTx86]
+AddReg		= ACS.Install.Fnc1.AddReg
+CopyFiles	= ACS.Install.Fnc1.CopyFiles.NTx86
+
+[ACS.Install.Fnc1.NTamd64]
+AddReg		= ACS.Install.Fnc1.AddReg
+CopyFiles	= ACS.Install.Fnc1.CopyFiles.NTamd64
+
+[ACS.Install.Fnc1.AddReg]
+HKR,,"VendorName",0,%Vendor%
+HKR,,"IFDName",0,%IFDName.Fnc1%
+
+[ACS.Install.Fnc1.CopyFiles.NTx86]
+acr89fnc.sys,,,2
+
+[ACS.Install.Fnc1.CopyFiles.NTamd64]
+acr89fnc.sys,acr89fncx64.sys
+
+[ACS.Install.Fnc1.NTx86.Services]
+AddService=ACR89FNC,2,ACS.Install.Fnc1.Service,ACS.Install.Fnc1.EventLog
+
+[ACS.Install.Fnc1.NTamd64.Services]
+AddService=ACR89FNC,2,ACS.Install.Fnc1.Service,ACS.Install.Fnc1.EventLog
+
+[ACS.Install.Fnc1.Service]
+DisplayName     = %ACS.DeviceDesc.Fnc1%
+ServiceType	= 1
+StartType	= 3
+ErrorControl	= 1
+ServiceBinary	= %12%\acr89fnc.sys
+
+[ACS.Install.Fnc1.EventLog]
+AddReg = ACS.Install.Fnc1.AddEventLog.reg
+
+[ACS.Install.Fnc1.AddEventLog.reg]
+HKR,, EventMessageFile, 0x00020000, "%%SystemRoot%%\System32\drivers\acr89fnc.sys"
+HKR,, TypesSupported,   0x00010001, 7
+
+
+; ============== ACS ACR89-CL1 Function Driver ===============
+
+[ACS.Install.Fnc2.NTx86]
+AddReg		= ACS.Install.Fnc2.AddReg
+CopyFiles	= ACS.Install.Fnc2.CopyFiles.NTx86
+
+[ACS.Install.Fnc2.NTamd64]
+AddReg		= ACS.Install.Fnc2.AddReg
+CopyFiles	= ACS.Install.Fnc2.CopyFiles.NTamd64
+
+[ACS.Install.Fnc2.AddReg]
+HKR,,"VendorName",0,%Vendor%
+HKR,,"IFDName",0,%IFDName.Fnc2%
+
+[ACS.Install.Fnc2.CopyFiles.NTx86]
+acr89cfnc.sys,acr89fnc.sys,,2
+
+[ACS.Install.Fnc2.CopyFiles.NTamd64]
+acr89cfnc.sys,acr89fncx64.sys
+
+[ACS.Install.Fnc2.NTx86.Services]
+AddService=ACR89CFNC,2,ACS.Install.Fnc2.Service,ACS.Install.Fnc2.EventLog
+
+[ACS.Install.Fnc2.NTamd64.Services]
+AddService=ACR89CFNC,2,ACS.Install.Fnc2.Service,ACS.Install.Fnc2.EventLog
+
+[ACS.Install.Fnc2.Service]
+DisplayName     = %ACS.DeviceDesc.Fnc2%
+ServiceType	= 1
+StartType	= 3
+ErrorControl	= 1
+ServiceBinary	= %12%\acr89cfnc.sys
+
+[ACS.Install.Fnc2.EventLog]
+AddReg = ACS.Install.Fnc2.AddEventLog.reg
+
+[ACS.Install.Fnc2.AddEventLog.reg]
+HKR,, EventMessageFile, 0x00020000, "%%SystemRoot%%\System32\drivers\acr89cfnc.sys"
+HKR,, TypesSupported,   0x00010001, 7
+
+
+; ============== ACS ACR89-FPA Function Driver ===============
+
+[ACS.Install.Fnc3.NTx86]
+AddReg		= ACS.Install.Fnc3.AddReg
+CopyFiles	= ACS.Install.Fnc3.CopyFiles.NTx86
+
+[ACS.Install.Fnc3.NTamd64]
+AddReg		= ACS.Install.Fnc3.AddReg
+CopyFiles	= ACS.Install.Fnc3.CopyFiles.NTamd64
+
+[ACS.Install.Fnc3.AddReg]
+HKR,,"VendorName",0,%Vendor%
+HKR,,"IFDName",0,%IFDName.Fnc3%
+
+[ACS.Install.Fnc3.CopyFiles.NTx86]
+acr89ffnc.sys,acr89fnc.sys,,2
+
+[ACS.Install.Fnc3.CopyFiles.NTamd64]
+acr89ffnc.sys,acr89fncx64.sys
+
+[ACS.Install.Fnc3.NTx86.Services]
+AddService=ACR89FFNC,2,ACS.Install.Fnc3.Service,ACS.Install.Fnc3.EventLog
+
+[ACS.Install.Fnc3.NTamd64.Services]
+AddService=ACR89FFNC,2,ACS.Install.Fnc3.Service,ACS.Install.Fnc3.EventLog
+
+[ACS.Install.Fnc3.Service]
+DisplayName     = %ACS.DeviceDesc.Fnc3%
+ServiceType	= 1
+StartType	= 3
+ErrorControl	= 1
+ServiceBinary	= %12%\acr89ffnc.sys
+
+[ACS.Install.Fnc3.EventLog]
+AddReg = ACS.Install.Fnc3.AddEventLog.reg
+
+[ACS.Install.Fnc3.AddEventLog.reg]
+HKR,, EventMessageFile, 0x00020000, "%%SystemRoot%%\System32\drivers\acr89ffnc.sys"
+HKR,, TypesSupported,   0x00010001, 7
+
+
+; ============== ACS ACR89 Slot Driver ===============
+
+[ACS.Install.Slt1.NTx86]
+AddReg		= ACS.Install.Slt1.AddReg
+CopyFiles	= ACS.Install.Slt1.CopyFiles.NTx86
+
+[ACS.Install.Slt1.NTamd64]
+AddReg		= ACS.Install.Slt1.AddReg
+CopyFiles	= ACS.Install.Slt1.CopyFiles.NTamd64
+
+[ACS.Install.Slt1.AddReg]
+HKR,,"VendorName",0,%Vendor%
+HKR,,"IFDName",0,%IFDName.Slt1%
+
+[ACS.Install.Slt1.CopyFiles.NTx86]
+acr89slt.sys,,,2
+
+[ACS.Install.Slt1.CopyFiles.NTamd64]
+acr89slt.sys,acr89sltx64.sys
+
+[ACS.Install.Slt1.NTx86.Services]
+AddService=ACR89SLT,2,ACS.Install.Slt1.Service,ACS.Install.Slt1.EventLog
+
+[ACS.Install.Slt1.NTamd64.Services]
+AddService=ACR89SLT,2,ACS.Install.Slt1.Service,ACS.Install.Slt1.EventLog
+
+[ACS.Install.Slt1.Service]
+DisplayName     = %ACS.DeviceDesc.Slt1%
+ServiceType	= 1
+StartType	= 3
+ErrorControl	= 1
+ServiceBinary	= %12%\acr89slt.sys
+
+[ACS.Install.Slt1.EventLog]
+AddReg = ACS.Install.Slt1.AddEventLog.reg
+
+[ACS.Install.Slt1.AddEventLog.reg]
+HKR,, EventMessageFile, 0x00020000, "%%SystemRoot%%\System32\drivers\acr89slt.sys"
+HKR,, TypesSupported,   0x00010001, 7
+
+
+; ============== ACS ACR89-CL1 Slot Driver ===============
+
+[ACS.Install.Slt2.NTx86]
+AddReg		= ACS.Install.Slt2.AddReg
+CopyFiles	= ACS.Install.Slt2.CopyFiles.NTx86
+
+[ACS.Install.Slt2.NTamd64]
+AddReg		= ACS.Install.Slt2.AddReg
+CopyFiles	= ACS.Install.Slt2.CopyFiles.NTamd64
+
+[ACS.Install.Slt2.AddReg]
+HKR,,"VendorName",0,%Vendor%
+HKR,,"IFDName",0,%IFDName.Slt2%
+
+[ACS.Install.Slt2.CopyFiles.NTx86]
+acr89cslt.sys,,,2
+
+[ACS.Install.Slt2.CopyFiles.NTamd64]
+acr89cslt.sys,acr89csltx64.sys
+
+[ACS.Install.Slt2.NTx86.Services]
+AddService=ACR89CSLT,2,ACS.Install.Slt2.Service,ACS.Install.Slt2.EventLog
+
+[ACS.Install.Slt2.NTamd64.Services]
+AddService=ACR89CSLT,2,ACS.Install.Slt2.Service,ACS.Install.Slt2.EventLog
+
+[ACS.Install.Slt2.Service]
+DisplayName     = %ACS.DeviceDesc.Slt2%
+ServiceType	= 1
+StartType	= 3
+ErrorControl	= 1
+ServiceBinary	= %12%\acr89cslt.sys
+
+[ACS.Install.Slt2.EventLog]
+AddReg = ACS.Install.Slt2.AddEventLog.reg
+
+[ACS.Install.Slt2.AddEventLog.reg]
+HKR,, EventMessageFile, 0x00020000, "%%SystemRoot%%\System32\drivers\acr89cslt.sys"
+HKR,, TypesSupported,   0x00010001, 7
+
+
+; ============== ACS ACR89-FPA Slot Driver ===============
+
+[ACS.Install.Slt3.NTx86]
+AddReg		= ACS.Install.Slt3.AddReg
+CopyFiles	= ACS.Install.Slt3.CopyFiles.NTx86
+
+[ACS.Install.Slt3.NTamd64]
+AddReg		= ACS.Install.Slt3.AddReg
+CopyFiles	= ACS.Install.Slt3.CopyFiles.NTamd64
+
+[ACS.Install.Slt3.AddReg]
+HKR,,"VendorName",0,%Vendor%
+HKR,,"IFDName",0,%IFDName.Slt3%
+
+[ACS.Install.Slt3.CopyFiles.NTx86]
+acr89fslt.sys,acr89slt.sys,,2
+
+[ACS.Install.Slt3.CopyFiles.NTamd64]
+acr89fslt.sys,acr89sltx64.sys
+
+[ACS.Install.Slt3.NTx86.Services]
+AddService=ACR89FSLT,2,ACS.Install.Slt3.Service,ACS.Install.Slt3.EventLog
+
+[ACS.Install.Slt3.NTamd64.Services]
+AddService=ACR89FSLT,2,ACS.Install.Slt3.Service,ACS.Install.Slt3.EventLog
+
+[ACS.Install.Slt3.Service]
+DisplayName     = %ACS.DeviceDesc.Slt3%
+ServiceType	= 1
+StartType	= 3
+ErrorControl	= 1
+ServiceBinary	= %12%\acr89fslt.sys
+
+[ACS.Install.Slt3.EventLog]
+AddReg = ACS.Install.Slt3.AddEventLog.reg
+
+[ACS.Install.Slt3.AddEventLog.reg]
+HKR,, EventMessageFile, 0x00020000, "%%SystemRoot%%\System32\drivers\acr89fslt.sys"
+HKR,, TypesSupported,   0x00010001, 7
+
+
+; ============== ACS ACR89 Sam Driver ===============
+
+[ACS.Install.Sam1.NTx86]
+AddReg		= ACS.Install.Sam1.AddReg
+CopyFiles	= ACS.Install.Sam1.CopyFiles.NTx86
+
+[ACS.Install.Sam1.NTamd64]
+AddReg		= ACS.Install.Sam1.AddReg
+CopyFiles	= ACS.Install.Sam1.CopyFiles.NTamd64
+
+[ACS.Install.Sam1.AddReg]
+HKR,,"VendorName",0,%Vendor%
+HKR,,"IFDName",0,%IFDName.Sam1%
+
+[ACS.Install.Sam1.CopyFiles.NTx86]
+acr89sam.sys,,,2
+
+[ACS.Install.Sam1.CopyFiles.NTamd64]
+acr89sam.sys,acr89samx64.sys
+
+[ACS.Install.Sam1.NTx86.Services]
+AddService=ACR89SAM,2,ACS.Install.Sam1.Service,ACS.Install.Sam1.EventLog
+
+[ACS.Install.Sam1.NTamd64.Services]
+AddService=ACR89SAM,2,ACS.Install.Sam1.Service,ACS.Install.Sam1.EventLog
+
+[ACS.Install.Sam1.Service]
+DisplayName     = %ACS.DeviceDesc.Sam1%
+ServiceType	= 1
+StartType	= 3
+ErrorControl	= 1
+ServiceBinary	= %12%\acr89sam.sys
+
+[ACS.Install.Sam1.EventLog]
+AddReg = ACS.Install.Sam1.AddEventLog.reg
+
+[ACS.Install.Sam1.AddEventLog.reg]
+HKR,, EventMessageFile, 0x00020000, "%%SystemRoot%%\System32\drivers\acr89sam.sys"
+HKR,, TypesSupported,   0x00010001, 7
+
+
+; ============== ACS ACR89-CL1 Sam Driver ===============
+
+[ACS.Install.Sam2.NTx86]
+AddReg		= ACS.Install.Sam2.AddReg
+CopyFiles	= ACS.Install.Sam2.CopyFiles.NTx86
+
+[ACS.Install.Sam2.NTamd64]
+AddReg		= ACS.Install.Sam2.AddReg
+CopyFiles	= ACS.Install.Sam2.CopyFiles.NTamd64
+
+[ACS.Install.Sam2.AddReg]
+HKR,,"VendorName",0,%Vendor%
+HKR,,"IFDName",0,%IFDName.Sam2%
+
+[ACS.Install.Sam2.CopyFiles.NTx86]
+acr89csam.sys,,,2
+
+[ACS.Install.Sam2.CopyFiles.NTamd64]
+acr89csam.sys,acr89csamx64.sys
+
+[ACS.Install.Sam2.NTx86.Services]
+AddService=ACR89CSAM,2,ACS.Install.Sam2.Service,ACS.Install.Sam2.EventLog
+
+[ACS.Install.Sam2.NTamd64.Services]
+AddService=ACR89CSAM,2,ACS.Install.Sam2.Service,ACS.Install.Sam2.EventLog
+
+[ACS.Install.Sam2.Service]
+DisplayName     = %ACS.DeviceDesc.Sam2%
+ServiceType	= 1
+StartType	= 3
+ErrorControl	= 1
+ServiceBinary	= %12%\acr89csam.sys
+
+[ACS.Install.Sam2.EventLog]
+AddReg = ACS.Install.Sam2.AddEventLog.reg
+
+[ACS.Install.Sam2.AddEventLog.reg]
+HKR,, EventMessageFile, 0x00020000, "%%SystemRoot%%\System32\drivers\acr89csam.sys"
+HKR,, TypesSupported,   0x00010001, 7
+
+
+; ============== ACS ACR89-FPA Sam Driver ===============
+
+[ACS.Install.Sam3.NTx86]
+AddReg		= ACS.Install.Sam3.AddReg
+CopyFiles	= ACS.Install.Sam3.CopyFiles.NTx86
+
+[ACS.Install.Sam3.NTamd64]
+AddReg		= ACS.Install.Sam3.AddReg
+CopyFiles	= ACS.Install.Sam3.CopyFiles.NTamd64
+
+[ACS.Install.Sam3.AddReg]
+HKR,,"VendorName",0,%Vendor%
+HKR,,"IFDName",0,%IFDName.Sam3%
+
+[ACS.Install.Sam3.CopyFiles.NTx86]
+acr89fsam.sys,acr89sam.sys,,2
+
+[ACS.Install.Sam3.CopyFiles.NTamd64]
+acr89fsam.sys,acr89samx64.sys
+
+[ACS.Install.Sam3.NTx86.Services]
+AddService=ACR89FSAM,2,ACS.Install.Sam3.Service,ACS.Install.Sam3.EventLog
+
+[ACS.Install.Sam3.NTamd64.Services]
+AddService=ACR89FSAM,2,ACS.Install.Sam3.Service,ACS.Install.Sam3.EventLog
+
+[ACS.Install.Sam3.Service]
+DisplayName     = %ACS.DeviceDesc.Sam3%
+ServiceType	= 1
+StartType	= 3
+ErrorControl	= 1
+ServiceBinary	= %12%\acr89fsam.sys
+
+[ACS.Install.Sam3.EventLog]
+AddReg = ACS.Install.Sam3.AddEventLog.reg
+
+[ACS.Install.Sam3.AddEventLog.reg]
+HKR,, EventMessageFile, 0x00020000, "%%SystemRoot%%\System32\drivers\acr89fsam.sys"
+HKR,, TypesSupported,   0x00010001, 7
+
+
+; ============== ACS ACR89-CL1 Contactless Driver ===============
+
+[ACS.Install.Ctl.NTx86]
+AddReg		= ACS.Install.Ctl.AddReg
+CopyFiles	= ACS.Install.Ctl.CopyFiles.NTx86
+
+[ACS.Install.Ctl.NTamd64]
+AddReg		= ACS.Install.Ctl.AddReg
+CopyFiles	= ACS.Install.Ctl.CopyFiles.NTamd64
+
+[ACS.Install.Ctl.AddReg]
+HKR,,"VendorName",0,%Vendor%
+HKR,,"IFDName",0,%IFDName.Ctl%
+
+[ACS.Install.Ctl.CopyFiles.NTx86]
+acr89cctl.sys,,,2
+
+[ACS.Install.Ctl.CopyFiles.NTamd64]
+acr89cctl.sys,acr89cctlx64.sys
+
+[ACS.Install.Ctl.NTx86.Services]
+AddService=ACR89CTL,2,ACS.Install.Ctl.Service,ACS.Install.Ctl.EventLog
+
+[ACS.Install.Ctl.NTamd64.Services]
+AddService=ACR89CTL,2,ACS.Install.Ctl.Service,ACS.Install.Ctl.EventLog
+
+[ACS.Install.Ctl.Service]
+DisplayName     = %ACS.DeviceDesc.Ctl%
+ServiceType	= 1
+StartType	= 3
+ErrorControl	= 1
+ServiceBinary	= %12%\acr89cctl.sys
+
+[ACS.Install.Ctl.EventLog]
+AddReg = ACS.Install.Ctl.AddEventLog.reg
+
+[ACS.Install.Ctl.AddEventLog.reg]
+HKR,, EventMessageFile, 0x00020000, "%%SystemRoot%%\System32\drivers\acr89cctl.sys"
+HKR,, TypesSupported,   0x00010001, 7
+
+
+; ====================== Strings =========================
+
+[Strings]
+ACS			= "Advanced Card Systems Ltd"
+Vendor			= "ACS"
+SourceDiskName		= "ACR89 USB Smart Card Reader Installation Disk"
+ClassName 		= "Smart Card Readers"
+ACS.DeviceDesc.Bus1	= "ACR89 ICC Reader USB Bus Driver"
+ACS.DeviceDesc.Bus2	= "ACR89 Dual Reader USB Bus Driver"
+ACS.DeviceDesc.Bus3	= "ACR89 FP Reader USB Bus Driver"
+ACS.DeviceDesc.Fnc1	= "ACR89 ICC Reader Onboard Peripherals"
+ACS.DeviceDesc.Fnc2	= "ACR89 Dual Reader Onboard Peripherals"
+ACS.DeviceDesc.Fnc3	= "ACR89 FP Reader Onboard Peripherals"
+ACS.DeviceDesc.Slt1	= "ACR89 ICC Reader ICC"
+ACS.DeviceDesc.Slt2	= "ACR89 Dual Reader ICC"
+ACS.DeviceDesc.Slt3	= "ACR89 FP Reader ICC"
+ACS.DeviceDesc.Sam1	= "ACR89 ICC Reader SAM"
+ACS.DeviceDesc.Sam2	= "ACR89 Dual Reader SAM"
+ACS.DeviceDesc.Sam3	= "ACR89 FP Reader SAM"
+ACS.DeviceDesc.Ctl	= "ACR89 Dual Reader PICC"
+IFDName.Fnc1		= "ACR89 ICC Reader Onboard Peripherals"
+IFDName.Fnc2		= "ACR89 Dual Reader Onboard Peripherals"
+IFDName.Fnc3		= "ACR89 FP Reader Onboard Peripherals"
+IFDName.Slt1		= "ACR89 ICC Reader ICC"
+IFDName.Slt2		= "ACR89 Dual Reader ICC"
+IFDName.Slt3		= "ACR89 FP Reader ICC"
+IFDName.Sam1		= "ACR89 ICC Reader SAM"
+IFDName.Sam2		= "ACR89 Dual Reader SAM"
+IFDName.Sam3		= "ACR89 FP Reader SAM"
+IFDName.Ctl		= "ACR89 Dual Reader PICC"

@@ -1,0 +1,141 @@
+;
+;
+;
+
+[Version]
+Signature="$Windows NT$"
+Class=PCMCIA
+ClassGUID={4d36e977-e325-11ce-bfc1-08002be10318}
+Provider=%TI%
+LayoutFile=layout.inf
+CatalogFile=TICB2K.cat
+DriverVer=10/24/2001,5.00.2195.3005
+
+;
+;   Information for installing the PCMCIA class
+;
+[ClassInstall32]
+AddReg=ClassAddReg
+
+[ClassAddReg]
+HKR,,,,%PCMCIAClassName%
+HKR,,Icon,,"-11"
+
+;
+;   List of manufacturers and devices
+;
+[Manufacturer]
+%TI%=TI
+
+[ControlFlags]
+ExcludeFromSelect=PCI\VEN_104C&DEV_AC43
+ExcludeFromSelect=PCI\VEN_104C&DEV_AC44
+ExcludeFromSelect=PCI\VEN_104C&DEV_AC46
+ExcludeFromSelect=PCI\VEN_104C&DEV_AC54
+ExcludeFromSelect=PCI\VEN_104C&DEV_AC55
+ExcludeFromSelect=PCI\VEN_104C&DEV_AC56
+ExcludeFromSelect=PCI\VEN_104C&DEV_AC57
+ExcludeFromSelect=PCI\VEN_104C&DEV_AC58
+ExcludeFromSelect=PCI\VEN_104C&DEV_AC59
+ExcludeFromSelect=PCI\VEN_104C&DEV_AC5A
+
+[TI]
+%PCI\VEN_104C&DEV_AC43.DeviceDesc%=TICARDBUS, PCI\VEN_104C&DEV_AC43
+%PCI\VEN_104C&DEV_AC44.DeviceDesc%=TICARDBUS, PCI\VEN_104C&DEV_AC44
+%PCI\VEN_104C&DEV_AC46.DeviceDesc%=TICARDBUS, PCI\VEN_104C&DEV_AC46
+%PCI\VEN_104C&DEV_AC54.DeviceDesc%=TICARDBUS, PCI\VEN_104C&DEV_AC54
+%PCI\VEN_104C&DEV_AC55.DeviceDesc%=TICARDBUS, PCI\VEN_104C&DEV_AC55
+%PCI\VEN_104C&DEV_AC56.DeviceDesc%=TICARDBUS, PCI\VEN_104C&DEV_AC56
+%PCI\VEN_104C&DEV_AC57.DeviceDesc%=TICARDBUS, PCI\VEN_104C&DEV_AC57
+%PCI\VEN_104C&DEV_AC58.DeviceDesc%=TICARDBUS, PCI\VEN_104C&DEV_AC58
+%PCI\VEN_104C&DEV_AC59.DeviceDesc%=TICARDBUS, PCI\VEN_104C&DEV_AC59
+%PCI\VEN_104C&DEV_AC5A.DeviceDesc%=TICARDBUS, PCI\VEN_104C&DEV_AC5A
+
+[pcmcia_Service_Inst]
+ServiceType    = 1
+StartType      = 0
+ErrorControl   = 1
+ServiceBinary  = %12%\pcmcia.sys
+LoadOrderGroup = System Bus Extender
+
+[pcmcia_EventLog_Inst]
+AddReg = pcmcia_EventLog_AddReg
+
+[pcmcia_EventLog_AddReg]
+;REG_EXPAND_SZ = 0x00020000
+HKR,,EventMessageFile,0x00020000,"%%SystemRoot%%\System32\IoLogMsg.dll"
+;REG_DWORD=0x00010001
+HKR,,TypesSupported,0x00010001,7
+
+[pcmcia_Location_AddReg]
+HKR,,UINumberDescFormat,,%PCCARDSlot%
+
+;
+;Texas Instruments CardBus [DK]
+;
+[CARDBUS]
+CopyFiles=CSCopyFiles
+AddReg=CSReg, CARDBUSReg
+
+[CARDBUS.Services]
+AddService = pcmcia, 2, pcmcia_Service_Inst, pcmcia_EventLog_Inst
+
+[CARDBUS.HW]
+AddReg=CARDBUSLocationReg
+
+[TICARDBUS]
+CopyFiles=CSCopyFiles
+AddReg=CARDBUSReg, TICBReg
+
+[TICARDBUS.Services]
+AddService = pcmcia, 2, pcmcia_Service_Inst, pcmcia_EventLog_Inst
+
+[TICARDBUS.HW]
+AddReg=CARDBUSLocationReg
+
+[TICBReg]
+HKR,,CBSSCSContextRanges,3,3e,00,02,00,44,00,04,00,80,00,1c,00
+
+[CARDBUSReg]
+HKR,,Driver,,"pcmcia.sys"
+
+[CARDBUS.PosDup]
+*PNP0E00
+
+[CSCopyFiles]
+pcmcia.sys
+
+[DestinationDirs]
+CSCopyFiles=12
+
+[CARDBUSLocationReg]
+HKR,,UINumberDescFormat,,%CARDBUSSlot%
+
+[Strings]
+MS="Microsoft"
+PCMCIAClassName="PCMCIA adapters"
+;
+;   Manufacturer name strings
+;
+TI="Texas Instruments"
+
+;
+;   Device Description Strings
+;
+
+PCI\VEN_104C&DEV_AC43.DeviceDesc="Texas Instruments PCI-4550 CardBus Controller"
+PCI\VEN_104C&DEV_AC44.DeviceDesc="Texas Instruments PCI-4510 CardBus Controller"
+PCI\VEN_104C&DEV_AC46.DeviceDesc="Texas Instruments PCI-4520 CardBus Controller"
+PCI\VEN_104C&DEV_AC54.DeviceDesc="Texas Instruments PCI-1620 CardBus Controller with UltraMedia"
+PCI\VEN_104C&DEV_AC55.DeviceDesc="Texas Instruments PCI-1520 CardBus Controller"
+PCI\VEN_104C&DEV_AC56.DeviceDesc="Texas Instruments PCI-1510 CardBus Controller"
+PCI\VEN_104C&DEV_AC57.DeviceDesc="Texas Instruments PCI-1530 CardBus Controller"
+PCI\VEN_104C&DEV_AC58.DeviceDesc="Texas Instruments PCI-1515 CardBus Controller"
+PCI\VEN_104C&DEV_AC59.DeviceDesc="Texas Instruments PCI-1621 CardBus Controller with UltraMedia"
+PCI\VEN_104C&DEV_AC5A.DeviceDesc="Texas Instruments PCI-1610 CardBus Controller with UltraMedia"
+
+;
+;
+;
+CARDBUSSlot = "CardBus Slot %1!u!"
+PCCARDSlot  = "PCCard Slot %1!u!"

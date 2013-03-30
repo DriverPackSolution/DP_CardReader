@@ -1,0 +1,105 @@
+; GPinPad.inf 
+; Copyright (c) 2008 Gemalto
+
+[Version]
+Signature="$CHICAGO$"
+Class=SmartCardReader
+ClassGuid={50DD5230-BA8A-11D1-BF5D-0000F805F530}
+provider=%MFGNAME1%
+CatalogFile=GPinPad.cat
+DriverVer=03/17/2008,4.0.3.6
+
+[ControlFlags]
+; Prevent legacy install for PnP readers
+ExcludeFromSelect = *
+
+[Manufacturer]
+%MFGNAME1%=DeviceListMfg1,NTx86.5.1
+
+[DestinationDirs]
+DriverCopyFiles = 10,System32\Drivers
+DefaultDestDir = 10,System32\Drivers
+
+[SourceDisksFiles]
+GPinPad.sys=1
+
+[SourceDisksNames]
+1=%INSTDISK%,,
+
+
+[DeviceListMfg1.NTx86.5.1]
+%USB\VID_08e6&PID_3478.DeviceDesc%=DriverInstallB, USB\VID_08e6&PID_3478
+%USB\VID_08e6&PID_3488.DeviceDesc%=DriverInstallB, USB\VID_08e6&PID_3488
+
+[DeviceListMfg1]
+%USB\VID_08e6&PID_3478.DeviceDesc%=DriverInstallA, USB\VID_08e6&PID_3478
+%USB\VID_08e6&PID_3488.DeviceDesc%=DriverInstallA, USB\VID_08e6&PID_3488
+
+
+;------------------------------------------------------------------------------
+;  Windows XP and later, x86 only
+;------------------------------------------------------------------------------
+[DriverInstallB]
+CopyFiles=DriverCopyFiles
+
+[DriverInstallB.Services]
+Addservice = GPinPad, 2, DriverService,EventLogging
+
+[DriverInstallB.hw]
+AddReg=DriverHwAddReg
+
+;------------------------------------------------------------------------------
+;  Windows 2000 Sections
+;------------------------------------------------------------------------------
+
+[DriverInstallA.NT]
+CopyFiles=DriverCopyFiles
+
+[DriverCopyFiles]
+GPinPad.sys,,,2
+
+[DriverInstallA.NT.Services]
+Addservice = GPinPad, 2, DriverService,EventLogging
+
+[DriverService]
+ServiceType    = 1                  ; SERVICE_KERNEL_DRIVER
+StartType      = 3                  ; SERVICE_DEMAND_START
+ErrorControl   = 1                  ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %10%\System32\Drivers\GPinPad.sys
+
+[EventLogging]
+AddReg=EventLogAddReg
+
+[EventLogAddReg]
+HKR,,EventMessageFile,0x00020000,"%%SystemRoot%%\system32\drivers\GPinPad.sys"
+HKR,,TypesSupported,0x00010001,7
+
+[DriverInstallA.nt.hw]
+AddReg=DriverHwAddReg,Reader.Install.AddReg
+
+
+[DriverHwAddReg]
+HKLM, Software\Microsoft\Cryptography\Calais\Readers,,,
+HKLM, System\CurrentControlSet\Services\SCardSvr,Start,0x00010001,2
+HKLM, System\CurrentControlSet\Services\CertPropSvc,Start,0x00010001,2
+
+
+
+; ============ Add reg for all readers ===============
+
+[Reader.Install.AddReg]
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,DLLName,0,wlnotify.dll
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logon,0,SCardStartCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logoff,0,SCardStopCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Lock,0,SCardSuspendCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Unlock,0,SCardResumeCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Enabled,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Impersonate,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Asynchronous,0x00010001,1
+
+
+[Strings]
+MFGNAME1="Gemalto"
+USB\VID_08e6&PID_3478.DeviceDesc = "GemPC Pinpad USB Smart Card Reader"
+USB\VID_08e6&PID_3488.DeviceDesc = "GemPC Pinpad USB Smart Card Reader"
+INSTDISK="Installation Disc for GemPC Pinpad USB Smart Card Reader"

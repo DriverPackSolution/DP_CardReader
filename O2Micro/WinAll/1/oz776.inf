@@ -1,0 +1,109 @@
+; This is the "O2Micro OZ776 USB CCID Smartcard Reader" INF file for windows
+; Copyright (c) 2001-2012 O2Micro
+; 
+
+[Version]
+Signature   = $CHICAGO$
+Class       = SmartCardReader
+ClassGuid   = {50DD5230-BA8A-11D1-BF5D-0000F805F530}
+Provider    = %MFGNAME%
+DriverVer   = 03/08/2012,1.1.4.216
+CatalogFile = oz776.cat
+
+[ControlFlags]
+ExcludeFromSelect = *
+
+[Manufacturer]
+%MFGNAME% = O2M
+
+[DestinationDirs]
+DefaultDestDir  = 10,System32\Drivers
+DriverCopyFiles = 10,System32\Drivers
+
+[SourceDisksFiles]
+oz776.sys = 1
+
+[SourceDisksNames]
+1=%INSTDISK%,,,
+
+[O2M]
+;USB CCID
+%O2MCCID.DeviceDesc%=DriverInstall,USB\VID_0B97&PID_7762&REV_0110 ;UID/PID/REV
+%O2MCCID.DeviceDesc%=DriverInstallSS,USB\VID_0B97&PID_7772&REV_0110 ;UID/PID/REV
+
+;------------------------------------------------------------------------------
+;  Windows 2000 Sections
+;------------------------------------------------------------------------------
+
+[DriverInstall.NT]
+CopyFiles=DriverCopyFiles
+
+[DriverCopyFiles]
+oz776.sys,,,2
+
+[DriverInstall.NT.Services]
+Addservice = guardian2, 2, DriverService
+
+[DriverService]
+ServiceType    = 1                                      ; SERVICE_KERNEL_DRIVER
+StartType      = 3                                      ; SERVICE_DEMAND_START
+ErrorControl   = 1                                      ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %10%\System32\Drivers\oz776.sys
+AddReg = ParamAddReg
+
+[ParamAddReg]
+HKR, "Parameters", "SSuspendEnable",      0x00010001, 0x00000000
+HKR, "Parameters", "eGateDisable",      0x00010001, 0x00000001
+;HKLM, System\CurrentControlSet\Services\SCardSvr,Start,0x00010001,2	; Fix #565 item in WLK1.5, For win7/Vista DTM
+;HKLM, System\CurrentControlSet\Services\CertPropSvc,Start,0x00010001,2 ; Fix #565 item in WLK1.5, For win7/Vista DTM
+
+;------------------------------------------------------------------------------
+;  Oz7772 Need enable Selective Suspend
+;------------------------------------------------------------------------------
+
+[DriverInstallSS.NT]
+CopyFiles=DriverCopyFiles
+
+
+[DriverInstallSS.NT.Services]
+Addservice = guardian2, 2, DriverServiceSS
+
+[DriverServiceSS]
+ServiceType    = 1                                      ; SERVICE_KERNEL_DRIVER
+StartType      = 3                                      ; SERVICE_DEMAND_START
+ErrorControl   = 1                                      ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %10%\System32\Drivers\oz776.sys
+AddReg = ParamAddRegSS
+
+[ParamAddRegSS]
+HKR, "Parameters", "SSuspendEnable",      0x00010001, 0x00000001
+HKR, "Parameters", "eGateDisable",      0x00010001, 0x00000001
+
+
+;------------------------------------------------------------------------------
+;  Windows 98 Sections
+;------------------------------------------------------------------------------
+
+[DriverInstall]
+AddReg=DriverAddReg
+CopyFiles=DriverCopyFiles
+
+[DriverAddReg]
+HKR,,DevLoader,,*ntkern
+HKR,,NTMPDriver,,oz776.sys
+HKR,,Description,,%O2MCCID.DeviceDesc%
+						
+[DriverInstall.hw]
+AddReg=DriverHwAddReg
+
+
+;------------------------------------------------------------------------------
+;  String Definitions
+;------------------------------------------------------------------------------
+
+[Strings]
+MFGNAME            = "O2Micro"
+INSTDISK           = "O2Micro OZ776 USB CCID Smartcard Reader Installation Disk"
+O2MCCID.DeviceDesc = "O2Micro OZ776 USB CCID Smartcard Reader"
+ClassName          = "SmartCardReader"
+CardName           = "SmartCard"

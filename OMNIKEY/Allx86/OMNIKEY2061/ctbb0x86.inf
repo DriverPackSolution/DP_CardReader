@@ -1,0 +1,105 @@
+; ctbb0x86.inf
+; Copyright (c) 2000-2010 HID Global Corporation
+
+[Version]
+Signature=$WINDOWS NT$
+Class=SmartCardReader
+ClassGuid={50DD5230-BA8A-11D1-BF5D-0000F805F530}
+Provider=%Provider%
+DriverVer=02/23/2010, 1.0.0.18
+CatalogFile=ctbb0x86.cat
+
+[SourceDisksNames]
+1=%DiskDescription%,,
+
+[SourceDisksFiles]
+ctbb0x86.sys=1,,
+
+[DestinationDirs]
+DefaultDestDir = 10,system32\drivers
+ctbb0x86.Install.NT.CopyFiles=10,system32\drivers
+
+[Manufacturer]
+%Manufacturer%=HID
+
+; =================== Class section =======================
+
+[ClassInstall32]
+Addreg=Class32Reg
+
+[Class32Reg]
+HKR,,,0,%ClassName%
+HKR,,Icon,,-25
+HKLM, Software\Microsoft\Cryptography\Calais\Readers,,,
+
+
+; ============================================================
+; === CardMan ================================================
+; ============================================================
+[HID]
+; DisplayName       	Section           DeviceId
+; -----------       	-------           --------
+%DeviceDescription% = ctbb0x86.Install, root\ctbb0x86
+
+; ============================================================
+; === Win2000 specific =======================================
+; ============================================================
+[ctbb0x86.Install.NT]
+AddReg    = ctbb0x86.Install.NT.AddReg
+CopyFiles = ctbb0x86.Install.NT.CopyFiles
+
+[ctbb0x86.Install.NT.HW]
+AddReg    = ctbb0x86.Install.AddReg.HW
+
+[ctbb0x86.Install.NT.Services]
+AddService = ctbb0x86, 2, ctbb0x86.Service.NT, ctbb0x86.EventLog.NT
+
+
+
+[ctbb0x86.Install.NT.AddReg]
+HKLM, Software\Microsoft\Cryptography\Calais\Readers,,,
+HKLM, System\CurrentControlSet\Services\SCardSvr,Start,0x00010001,2
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,DLLName,0,wlnotify.dll
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logon,0,SCardStartCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logoff,0,SCardStopCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Lock,0,SCardSuspendCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Unlock,0,SCardResumeCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Enabled,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Impersonate,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Asynchronous,0x00010001,1
+
+
+[ctbb0x86.Install.NT.CopyFiles]
+ctbb0x86.sys,,,2
+
+[ctbb0x86.Service.NT]
+DisplayName = %DeviceDescription%
+ServiceType = 1 ;%SERVICE_KERNEL_DRIVER%
+StartType = 3 ;%SERVICE_AUTO_START%
+ErrorControl = 1 ;%SERVICE_ERROR_NORMAL%
+ServiceBinary = %12%\ctbb0x86.sys
+
+[ctbb0x86.EventLog.NT]
+AddReg = ctbb0x86.AddEventLog.reg
+
+[ctbb0x86.AddEventLog.reg]
+HKR,, EventMessageFile, 0x00020000, "%%SystemRoot%%\System32\drivers\ctbb0x86.sys"
+HKR,, TypesSupported,   0x00010001, 5
+
+; ============================================================
+; === OMNIKEY 2061 Bluetooth =================================
+; ============================================================
+[ctbb0x86.Install.AddReg.HW]
+HKR,,"VendorName",,OMNIKEY
+HKR,,"IfdType",, 2061 Bluetooth
+HKR,,"AutoConnectOff", 0x00010001, 0
+
+; ============================================================
+; === Strings ================================================
+; ============================================================
+[Strings]
+Provider = "HID Global Corporation"
+Manufacturer = "HID Global Corporation"
+DeviceDescription = "OMNIKEY 2061 Bluetooth"
+DiskDescription = "CardMan PC/SC Driver Disk"
+ClassName = "Smart Card Readers"

@@ -1,0 +1,125 @@
+; Installation inf for the Realtek USB Card Reader
+;
+; (c) Copyright 2012 Realtek
+;
+
+[Version]
+Signature="$CHICAGO$"
+Class=USB
+ClassGUID={36FC9E60-C465-11CF-8056-444553540000}
+provider=%VENDOR%
+DriverVer=09/04/2012,6.2.8400.39034
+CatalogFile=rtsuvstorFilt.cat
+            
+[SourceDisksNames]
+1=%Disk_Description%
+
+[SourceDisksFiles]
+RtsUVStor.sys=1
+rtcrfilt.sys=1
+RtsUVStoricon.dll = 1
+SDRTCPRM.dll = 1
+rtcrco.dll = 1
+
+[Manufacturer]
+%MfgName%=DeviceList
+
+[DeviceList]
+%USB\VID_0BDA&PID_XXXX.DeviceDesc%=RSUSBVSTOR, USB\VID_0BDA&PID_0139  
+%USB\VID_0BDA&PID_XXXX.DeviceDesc%=RSUSBVSTOR, USB\VID_0BDA&PID_0129  
+%USB\VID_0BDA&PID_XXXX.DeviceDesc%=RSUSBVSTOR, USB\VID_0BDA&PID_0140 
+
+[DestinationDirs]
+RtsUVStor.CopyList = 10,System32\Drivers
+RTCRFILT.CopyList = 12
+RtsCopyFilesSection = 11
+CprmCopyFileSection = 10,System32\sda
+
+[RSUSBVSTOR.NT]
+CopyFiles=RtsUVStor.CopyList, RTCRFILT.CopyList
+
+[DefaultInstall]
+CopyFiles = RtsUVStor.CopyList, RTCRFILT.CopyList, RtsCopyFilesSection, CprmCopyFileSection
+
+[RSUSBVSTOR.NT.HW]
+AddReg = RSUSBVSTOR.NT.HW.AddReg
+
+[DefaultInstall.HW]
+AddReg = RSUSBVSTOR.NT.HW.AddReg
+
+[RSUSBVSTOR.NT.HW.AddReg]
+HKR,, UpperFilters, 0x00010000, "rtcrfilt"
+
+[RtsUVStor.CopyList]
+RtsUVStor.sys
+
+[RtsCopyFilesSection]
+RtsUVStoricon.dll
+rtcrco.dll
+
+[CprmCopyFileSection]
+SDRTCPRM.dll
+
+[RTCRFILT.CopyList]
+rtcrfilt.sys
+ 
+[RSUSBVSTOR.NT.CoInstallers]
+CopyFiles=RtsCopyFilesSection, CprmCopyFileSection
+AddReg=Rts.NT.CoInstallers_AddReg
+ 
+[Rts.NT.CoInstallers_AddReg]
+;HKR,,CoInstallers32,0x00010000,","
+HKR,,CoInstallers32,0x00010000,"rtcrco.dll,RTCRCoInstaller"
+
+[RSUSBVSTOR.NT.Services]
+DelService = diskperf
+;DelService = rtcrfilt
+AddService = rtcrfilt, , rtcrfilt.Service.AddService
+Addservice = RSUSBVSTOR, 0x00000002, RSUSBVSTOR.AddService
+
+[DefaultInstall.Services]
+DelService = diskperf
+;DelService = rtcrfilt
+AddService = rtcrfilt, , rtcrfilt.Service.AddService
+AddService = RSUSBVSTOR, 0x00000002, RSUSBVSTOR.AddService
+
+[rtcrfilt.Service.AddService]
+DisplayName    = %service_desc%
+ServiceType    = 1
+StartType      = 0
+ErrorControl   = 1
+ServiceBinary  = %12%\rtcrfilt.sys
+AddReg=rtcrfilt.AddReg
+
+[rtcrfilt.AddReg]
+HKLM, System\CurrentControlSet\Control\Class\{4d36e967-e325-11ce-bfc1-08002be10318}, UpperFilters, 0x00010008, rtcrfilt
+
+[RSUSBVSTOR.AddService]
+DisplayName    = %RSUSBVSTOR.SvcDesc%
+ServiceType    = 1                  ; SERVICE_KERNEL_DRIVER
+StartType      = 3                  ; SERVICE_DEMAND_START
+ErrorControl   = 1                  ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %10%\System32\Drivers\RtsUVStor.sys
+AddReg         = RSUSBVSTOR.AddReg
+LoadOrderGroup = Base
+
+
+[RSUSBVSTOR.AddReg]
+HKR,"Parameters","DebugLevel",0x10001,5
+HKR,"Parameters","FirstLoad",0x10001,1
+HKR,"Parameters","EnableAutoDelink",0x10001,0
+HKR,"Parameters","MAC",0x10001,1
+
+
+;---------------------------------------------------------------;
+
+[Strings]
+VENDOR="Realtek"
+MfgName="Realtek"
+Disk_Description="Realtek 5139 Driver Disk"
+USB\VID_0BDA&PID_XXXX.DeviceDesc="Realtek USB 2.0 Card Reader"
+RSUSBVSTOR.SvcDesc="RtsUVStor.Sys Realtek USB Card Reader"
+service_desc = "Realtek Turbo Mode Filter Driver"
+
+
+

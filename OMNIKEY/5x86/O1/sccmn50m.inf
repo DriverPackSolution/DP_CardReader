@@ -1,0 +1,99 @@
+; sccmn50m.INF
+; Copyright (c) 2000 - 2002 OMNIKEY AG
+
+[Version]
+Signature="$Windows NT$"
+Class=SmartCardReader
+ClassGuid={50DD5230-BA8A-11D1-BF5D-0000F805F530}
+Provider=%Provider%
+DriverVer=10/14/2002,3.4.0.2
+CatalogFile=sccmn50m.cat
+
+[SourceDisksNames]
+1=%DiskDescription%,,
+
+[SourceDisksFiles]
+sccmn50m.sys=1,,
+cmdiag.cpl=1,,
+cmdiag.ini=1,,
+cmabout.dll=1,,
+cmabout.ini=1,,
+ok.bmp=1,,
+
+
+
+[DestinationDirs]
+DefaultDestDir = 10,system32\drivers
+sccmn50m.NT.Tools=11
+
+[Manufacturer]
+%Manufacturer%=OMNIKEY
+
+; ================= Class section =====================
+
+[ClassInstall32]
+Addreg=SmartCardReaderClassReg
+
+
+[SmartCardReaderClassReg]
+HKR,,,0,%ClassName%
+HKR,,Icon,,-25
+HKLM,"\Software\Microsoft\Cryptography\Calais\Readers",,,
+
+
+; ================= CardMan =====================
+
+[OMNIKEY]
+; DisplayName       	Section           DeviceId
+; -----------       	-------           --------
+%sccmn50m.DeviceDesc% = sccmn50m.Install, SERENUM\USA1430
+
+[ControlFlags]
+ExcludeFromSelect=SERENUM\USA1430
+
+
+[sccmn50m.Install.NT]
+AddReg          = sccmn50m.Install.AddReg
+CopyFiles	= sccmn50m.Install.CopyFiles,sccmn50m.NT.Tools
+
+[sccmn50m.Install.AddReg]
+HKR,, AdapterType, 0, "0100"
+
+[sccmn50m.Install.CopyFiles]
+sccmn50m.sys,,,2
+
+[sccmn50m.NT.Tools]
+; no flags : skip allowed
+cmdiag.cpl
+cmdiag.ini
+cmabout.dll
+cmabout.ini
+ok.bmp
+
+
+[sccmn50m.Install.NT.Services]
+AddService = sccmn50m, 2, sccmn50m.Service, sccmn50m.EventLog
+
+[sccmn50m.Service]
+DisplayName     = %sccmn50m.DeviceDesc%
+ServiceType     = 1 ;%SERVICE_KERNEL_DRIVER%
+StartType       = 3 ;%SERVICE_AUTO_START%
+ErrorControl    = 1 ;%SERVICE_ERROR_NORMAL%
+ServiceBinary   = %12%\sccmn50m.sys
+
+[sccmn50m.EventLog]
+AddReg = sccmn50m.AddEventLog.reg
+
+[sccmn50m.AddEventLog.reg]
+HKR,, EventMessageFile, 0x00020000, "%%SystemRoot%%\System32\drivers\sccmn50m.sys"
+HKR,, TypesSupported,   0x00010001, 7
+
+
+; ================= Strings =====================
+
+[Strings]
+Provider		= "OMNIKEY AG"
+Manufacturer           	= "OMNIKEY AG"
+sccmn50m.DeviceDesc	= "CardMan 2010"
+ClassName 		= "Smart Card Readers"
+DiskDescription         = "CardMan 2010 PC/SC Driver Disk"

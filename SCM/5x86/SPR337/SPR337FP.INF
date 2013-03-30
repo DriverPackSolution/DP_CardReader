@@ -1,0 +1,120 @@
+; SPR337FP.INF
+;
+;
+; INF file for Windows 98/ME/2000/XP
+;
+;  Copyright © SCM Microsystems Inc.,2001-2004
+
+[Version]
+Signature="$CHICAGO$"
+Class=Biometric
+ClassGUID={53D29EF7-377C-4D14-864B-EB3A85769359}
+Provider=%Mfg%
+CatalogFile=spr337fp.cat
+DriverVer=08/11/2004,01.16.00.01
+
+[ControlFlags]
+ExcludeFromSelect.nt = *
+
+[Manufacturer]
+%Mfg% = Models
+
+[ClassInstall32]
+Addreg=BiometricClassReg 
+
+[BiometricClassReg]
+HKR,,,0,%ClassName%
+HKR,,Icon,,-5
+
+
+[Models]
+%CCID_SPR337_FP% = CCID_SPR337_FP,BIOMETRIC\SPR337_USB_Finger_Print_Reader
+
+
+
+[SourceDisksNames]
+1 = %Floppy_Description%,,,""
+
+[SourceDisksFiles]
+spr337fp.sys=1
+
+[DestinationDirs]
+DefaultDestDir=10,system32\drivers
+CCID_FP.CopyFiles = 10,system32\drivers 
+CCID_FP.NTCopyFiles = 10,system32\drivers 
+
+
+[AddClassReg]
+HKR,,,0,%ClassName%
+HKR,,NoInstallClass,,1
+HKR,,Installer32,,"winscard.dll,ClassInstall32"
+
+
+[CCID_SPR337_FP.NT]
+AddReg= CCID_FP.AddReg.NT,Sensor.AddReg,SPR337.AddReg
+CopyFiles= CCID_FP.NTCopyFiles
+
+
+
+[CCID_FP.NTCopyFiles]
+spr337fp.sys
+
+[Sensor.AddReg]
+HKLM,"Software\AuthenTec\ATSC\Sensors", ROTATION_VID04E6_PID5130, 0x00010001, 0
+
+
+
+[CCID_FP.AddReg.NT]
+HKR,,ShortProviderName,0,%ShortProviderName%
+;HKR,,ReaderName,0,%CCID_FP%
+HKLM, Software\Microsoft\Cryptography\Calais\Readers,,,
+HKLM, System\CurrentControlSet\Services\SCardSvr,Start,0x00010001,2
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,DLLName,0,wlnotify.dll
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logon,0,SCardStartCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logoff,0,SCardStopCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Lock,0,SCardSuspendCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Unlock,0,SCardResumeCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Enabled,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Impersonate,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Asynchronous,0x00010001,1
+
+
+[SPR337.AddReg]
+HKR,,ReaderName,0,%CCID_SPR337_FP%
+HKR,,DevName,0,%SPR337_DEVICE_NAME%
+
+
+
+
+
+[CCID_SPR337_FP.NT.Services]
+AddService=SCMPD4K, 0x00000002, ATPCCDrv.AddService,CCID_FP_EventLog_Inst
+
+
+
+[ATPCCDrv.AddService]
+DisplayName    = %ATPCCBil.SVCDESC%                            
+ServiceType    = 1                  ; SERVICE_KERNEL_DRIVER
+StartType      = 3                  ; SERVICE_MANUAL_START
+ErrorControl   = 1                  ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %10%\System32\Drivers\spr337fp.sys    
+
+
+
+[CCID_FP_EventLog_Inst]
+AddReg=CCID_FP.AddEventLogReg
+
+[CCID_FP.AddEventLogReg]
+HKR,,EventMessageFile,0x00020000,"%%SystemRoot%%\System32\IoLogMsg.dll;%%SystemRoot%%\System32\drivers\spr337fp.sys"
+HKR,,TypesSupported,0x00010001,7
+
+
+[Strings]
+Mfg = "SCM Microsystems Inc."
+ShortProviderName = "SCM"
+Floppy_Description = ""
+ATPCCBil.SVCDESC = "Fingerprint USB Driver (SCM)"
+CCID_SPR337_FP="SPR337 USB Finger Print Reader"
+CCID_FP="SPR337 USB Finger Print Reader"
+ClassName = "Biometric Authentication Devices"
+SPR337_DEVICE_NAME = "SCMP4"

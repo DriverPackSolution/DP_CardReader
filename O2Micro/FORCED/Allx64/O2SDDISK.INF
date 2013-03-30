@@ -1,0 +1,31 @@
+; O2SDDISK.INF, O2Micro SD Disk Device INF file
+; Copyright (c) 1997-2009 O2Micro Corp.
+
+[Version]
+Signature   = "$Windows NT$"
+Class       = DiskDrive
+ClassGuid   = {4D36E967-E325-11CE-BFC1-08002BE10318}
+Provider    = %O2Micro%
+DriverVer   = 04/21/2009,6.1.7100.0
+Catalogfile = o2sddisk.cat
+
+[Manufacturer]
+%O2Micro% = O2SDDISK,NTamd64
+
+[O2SDDISK.NTamd64]
+; customize the hwid to match SCSI INQUIRY data
+%O2SDD.DeviceDesc% = DriverInstall, SCSI\DiskO2Micro_SD______________0001
+
+[DriverInstall.NT]
+Include = disk.inf
+Needs   = expect_surprise_removal_disk_install.NT
+
+[DriverInstall.NT.Services]
+Needs   = expect_surprise_removal_disk_install.NT.Services
+
+[DriverInstall.NT.HW]
+Needs   = expect_surprise_removal_disk_install.NT.HW
+
+[Strings]
+O2Micro          = "O2Micro"
+O2SDD.DeviceDesc = "O2Micro SD Disk Device"

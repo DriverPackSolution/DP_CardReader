@@ -1,0 +1,66 @@
+;
+; STC2DFU.INF - INF file for SCM STCII DFU Adapters
+;
+; Copyright © SCM Microsystems Inc.,2001-2004
+;
+
+[Version]
+signature="$CHICAGO$"
+Class=USB
+ClassGUID={36FC9E60-C465-11CF-8056-444553540000}
+Provider=%SCM%
+DriverVer=10/21/2004,1.04.00.01
+CatalogFile.nt=STC2DFU.cat
+
+[ControlFlags]
+ExcludeFromSelect.NT=USB\VID_04E6&PID_04E7
+
+[DestinationDirs]
+DefaultDestDir		= 11;			// LDID_SYS
+Stc2Dfu.CopyFiles	= 11;			// %windir%\system
+Stc2DfuNT.CopyFiles 	= 10, system32\drivers
+
+[SourceDisksNames]
+1=%DISK1%,,
+1 = "",stc2dfu.sys,,
+
+[SourceDisksFiles]
+stc2dfu.sys=1
+
+[Manufacturer]
+%SCM%=SCM.Section
+
+[SCM.Section]
+%USB\VID_04E6&PID_04E7.DeviceDesc%=Stc2Dfu, USB\VID_04E6&PID_04E7
+
+[Stc2Dfu]
+AddReg		= Stc2Dfu.AddReg
+CopyFiles	= Stc2Dfu.CopyFiles
+
+[Stc2Dfu.NT]
+CopyFiles   = Stc2DfuNT.CopyFiles
+
+[Stc2Dfu.AddReg]
+HKR,,DevLoader,0,*ntkern
+HKR,,NTMPDriver,0,Stc2Dfu.sys
+
+[Stc2Dfu.CopyFiles]
+Stc2Dfu.sys,,
+
+[Stc2DfuNT.CopyFiles]
+Stc2Dfu.sys,,
+
+[Stc2Dfu.NT.Services]
+Addservice = STC2DFU, 0x00000003, STC2DFU.AddService
+
+[Stc2Dfu.AddService]
+DisplayName = %USB\VID_04E6&PID_04E7.DeviceDesc%
+ServiceType    = 1
+StartType      = 3
+ErrorControl   = 1
+ServiceBinary  = %12%\Stc2Dfu.SYS
+
+[Strings]
+SCM="SCM Microsystems Inc."
+USB\VID_04E6&PID_04E7.DeviceDesc="STCII DFU Adapter"
+DISK1="STCII DFU Driver Disk"

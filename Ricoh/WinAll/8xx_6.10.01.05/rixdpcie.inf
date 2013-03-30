@@ -1,0 +1,135 @@
+; rixdpcie.inf
+; Windows x86,x64 installation file
+; for installing RICOH PCIe XD Controller driver
+; Copyright (c) 2001-2011 RICOH Company Ltd.,   All rights Reserved
+; This Driver supports R5C8xx RICOH Controller
+; 
+
+[Version] 
+Signature = "$Windows NT$" 
+Class=hdc
+ClassGUID={4d36e96a-e325-11ce-bfc1-08002be10318} 
+DriverPackageDisplayName="xD Host Controller" 
+Provider=%Ricoh% 
+;CatalogFile=rixdpcie.cat
+CatalogFile.ntx86=rixdpe86.cat
+CatalogFile.ntamd64=rixdpe64.cat
+DriverVer= 04/26/2011, 6.10.10.14
+
+[DestinationDirs] 
+rixdpcie.Files.dll = 11 
+rixdpcie.Files.amd64_sys = 12
+rixdpcie.Files.x86_sys = 12  
+
+[SourceDisksNames.x86]
+0=%DiskName%
+
+[SourceDisksNames.amd64]
+0=%DiskName%
+
+[SourceDisksFiles.x86]
+rixdpe86.sys=0,, 
+rixdicon.dll=0,,
+
+[SourceDisksFiles.amd64]
+rixdpe64.sys=0,, 
+rixdicon.dll=0,,
+
+[Manufacturer] 
+%Ricoh%=Ricoh, ntamd64
+
+[Ricoh]
+%rixdpcieDesc%=rixdpcie_Inst,PCI\VEN_1180&DEV_E852
+
+
+[Ricoh.ntamd64]
+%rixdpcieDesc%=rixdpcie_Inst.ntamd64,PCI\VEN_1180&DEV_E852
+
+
+[rixdpcie_Inst] 
+CopyFiles = rixdpcie.Files.x86_sys
+CopyFiles = rixdpcie.Files.dll
+
+[rixdpcie_Inst.ntamd64] 
+CopyFiles = rixdpcie.Files.amd64_sys
+CopyFiles = rixdpcie.Files.dll
+
+[rixdpcie_Inst.Services] 
+AddService = rixdpcie,0x00000002,rixdpcie_Service_Instx86, 
+
+[rixdpcie_Inst.ntamd64.Services] 
+AddService = rixdpcie,0x00000002,rixdpcie_Service_Instx64, 
+
+[rixdpcie_Service_Instx86] 
+ServiceType = %SERVICE_KERNEL_DRIVER% 
+StartType = %SERVICE_AUTO_START% 
+ErrorControl = %SERVICE_ERROR_NORMAL% 
+; DisplayName   = %DiskServiceDesc%
+ServiceBinary = %12%\rixdpe86.sys 
+LoadOrderGroup = "SmartMedia/XD"
+AddReg        = SMDiskAddReg
+
+[rixdpcie_Service_Instx64] 
+ServiceType = %SERVICE_KERNEL_DRIVER% 
+StartType = %SERVICE_AUTO_START% 
+ErrorControl = %SERVICE_ERROR_NORMAL% 
+; DisplayName   = %DiskServiceDesc%
+ServiceBinary = %12%\rixdpe64.sys 
+LoadOrderGroup = "SmartMedia/XD"
+AddReg        = SMDiskAddReg
+
+[SMDiskAddReg]
+HKR, "Parameters", "SMSystemWaitTime",		%REG_DWORD%, 0x00000080
+HKR, "Parameters", "PowerOnWait",		%REG_DWORD%, 0x0000012C
+
+
+
+[rixdpcie.Files.dll] 
+rixdicon.dll
+
+[rixdpcie.Files.x86_sys] 
+rixdpe86.sys
+
+[rixdpcie.Files.amd64_sys] 
+rixdpe64.sys
+
+[rixdpcie_Inst.HW] 
+AddReg = rixdpcie_Inst.AddReg 
+
+[rixdpcie_Inst.ntamd64.HW] 
+AddReg = rixdpcie_Inst.AddReg 
+
+[rixdpcie_Inst.AddReg]
+HKR,,FriendlyName,,"Ricoh PCIe xD-Picture Card Controller"
+HKR,,DeviceCharacteristics,0x10001,0x00000101
+HKR,,DeviceType,0x10001,0x00000007
+
+HKLM,"SOFTWARE\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\RIXD#DISK_XD","Icons",0x00010000,"%SystemRoot%\system32\RixDICON.dll,0"
+HKLM,"SOFTWARE\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\RIXD#DISK_XD","Label",,"xD-Picture Card"
+HKLM,"SOFTWARE\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\RIXD#DISK_XD","NoSoftEject",0x00010001,0x00000001
+HKLM,"SOFTWARE\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\RIXD#DISK_XD","DeviceGroup",,"SMStorage"
+
+[Strings] 
+
+;  *******Localizable Strings******* 
+Ricoh= "Ricoh Company" 
+DiskName= "Ricoh PCIe xD-Picture Card Controller" 
+rixdpcieDesc= "Ricoh PCIe xD-Picture Card Controller"
+; DiskServiceDesc = "Ricoh PCIe xD-Picture Card Driver"
+
+;  *******Non Localizable Strings******* 
+
+SERVICE_BOOT_START = 0x0 
+SERVICE_SYSTEM_START = 0x1 
+SERVICE_AUTO_START = 0x2 
+SERVICE_DEMAND_START = 0x3 
+SERVICE_DISABLED = 0x4 
+
+SERVICE_KERNEL_DRIVER = 0x1 
+SERVICE_ERROR_IGNORE = 0x0 
+SERVICE_ERROR_NORMAL = 0x1 
+SERVICE_ERROR_SEVERE = 0x2 
+SERVICE_ERROR_CRITICAL = 0x3 
+
+REG_EXPAND_SZ = 0x00020000 
+REG_DWORD = 0x00010001 

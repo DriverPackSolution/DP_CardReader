@@ -1,0 +1,83 @@
+; NoCat9x.inf, for GemPC433
+; Copyright (c) 2001 Gemplus
+
+[Version]
+Signature="$CHICAGO$"
+Class=SmartCardReader
+ClassGuid={50DD5230-BA8A-11D1-BF5D-0000F805F530}
+provider=%MFGNAME1%
+DriverVer=10/15/2001,1.2.0.3
+
+[ControlFlags]
+; Prevent legacy install for PnP readers
+ExcludeFromSelect = *
+
+[Manufacturer]
+%MFGNAME1%=DeviceListMfg1
+
+[DestinationDirs]
+DriverCopyFiles = 10,System32\Drivers
+DefaultDestDir = 10,System32\Drivers
+
+[SourceDisksFiles]
+GR433s.sys=1
+
+[SourceDisksNames]
+1=%INSTDISK%,,,
+
+[DeviceListMfg1]
+%USB\VID_08E6&PID_4433.DeviceDesc%=DriverInstall, USB\VID_08E6&PID_4433
+
+;------------------------------------------------------------------------------
+;  Windows 2000 Sections
+;------------------------------------------------------------------------------
+
+[DriverInstall.NT]
+CopyFiles=DriverCopyFiles
+
+[DriverCopyFiles]
+GR433s.sys,,,2
+
+[DriverInstall.NT.Services]
+Addservice = GR433S, 2, DriverService,EventLogging
+
+[DriverService]
+ServiceType    = 1                  ; SERVICE_KERNEL_DRIVER
+StartType      = 3                  ; SERVICE_DEMAND_START
+ErrorControl   = 1                  ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %10%\System32\Drivers\GR433s.sys
+
+[EventLogging]
+AddReg=EventLogAddReg
+
+[EventLogAddReg]
+HKR,,EventMessageFile,0x00020000,"%%SystemRoot%%\system32\drivers\GR433s.sys"
+HKR,,TypesSupported,0x00010001,7
+
+[DriverInstall.nt.hw]
+AddReg=DriverHwAddReg
+
+[DriverHwAddReg]
+;HKR,,Parameters,,"MaximumTransferSize",0x10001,4096
+;HKR,,Parameters,,"DebugLevel",0x10001,2
+;HKLM,System\CurrentControlSet\Services\SCardSvr,Start,0x00010001,2
+
+;------------------------------------------------------------------------------
+;  Windows 98 Sections
+;------------------------------------------------------------------------------
+[DriverInstall]
+AddReg=DriverAddReg
+CopyFiles=DriverCopyFiles
+
+[DriverAddReg]
+HKR,,DevLoader,,*ntkern
+HKR,,NTMPDriver,,GR433s.sys
+
+[DriverInstall.hw]
+AddReg=DriverHwAddReg
+
+
+[Strings]
+MFGNAME1="Gemplus"
+USB\VID_08E6&PID_4433.DeviceDesc = "GemPC433-Swap"
+INSTDISK="Installation Disc for USB Smart Card Reader"

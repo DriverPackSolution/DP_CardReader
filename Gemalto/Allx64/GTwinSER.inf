@@ -1,0 +1,69 @@
+; GTWinSER.inf 
+; Copyright (c) 2005 Gemplus
+[Version]
+Signature="$CHICAGO$"
+Class=SmartCardReader
+ClassGuid={50DD5230-BA8A-11D1-BF5D-0000F805F530}
+provider=%MFGNAME1%
+CatalogFile=GTwinSER.cat
+DriverVer=05/03/2005,3.1.0.0
+[ControlFlags]
+; Prevent legacy install for PnP readers
+ExcludeFromSelect = *
+
+[Manufacturer]
+%MFGNAME1%=DeviceListMfg1,NTamd64
+
+[DestinationDirs]
+DriverCopyFiles = 10,System32\Drivers
+DefaultDestDir = 10,System32\Drivers
+
+[SourceDisksFiles]
+GTwinSER.sys=1
+
+
+[SourceDisksNames]
+1=%INSTDISK%,,
+
+
+[DeviceListMfg1.NTamd64]
+%GTWINSER.DeviceDesc%  =  DriverInstall64,  SERENUM\GEM3417
+
+
+;------------------------------------------------------------------------------
+;  Windows XP and later, x86 only
+;------------------------------------------------------------------------------
+[DriverInstall64]
+CopyFiles=DriverCopyFiles
+
+[DriverInstall64.Services]
+Addservice = GTwinSER, 2, DriverService,EventLogging
+
+[DriverInstall64.hw]
+AddReg=DriverHwAddReg
+
+[DriverCopyFiles]
+GTwinSER.sys,,,2
+
+[DriverService]
+ServiceType    = 1                  ; SERVICE_KERNEL_DRIVER
+StartType      = 3                  ; SERVICE_DEMAND_START
+ErrorControl   = 1                  ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %10%\System32\Drivers\GTwinSER.sys
+
+[EventLogging]
+AddReg=EventLogAddReg
+
+[EventLogAddReg]
+HKR,,EventMessageFile,0x00020000,"%%SystemRoot%%\system32\drivers\GTwinSER.sys"
+HKR,,TypesSupported,0x00010001,7
+
+[DriverHwAddReg]
+HKLM,System\CurrentControlSet\Services\SCardSvr,Start,0x00010001,2
+
+
+
+[Strings]
+MFGNAME1="Gemplus"
+GTWINSER.DeviceDesc = "Serial Smart Card Reader"
+INSTDISK="Installation Disc for USB Key Smart Card Reader"

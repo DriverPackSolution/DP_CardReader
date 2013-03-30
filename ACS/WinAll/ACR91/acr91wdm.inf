@@ -1,0 +1,178 @@
+; acr91wdm.inf
+; 
+
+[Version]
+Signature=$CHICAGO$
+Class=SmartCardReader
+ClassGuid={50DD5230-BA8A-11D1-BF5D-0000F805F530}
+Provider=%Provider%
+DriverVer=04/01/2004,1.1.0.15
+CatalogFile=acr91wdm.cat
+
+[SourceDisksNames]
+1=%DiskDescription%,,
+
+[SourceDisksFiles]
+acr91wdm.sys=1,,
+chksvrn.dll=1,,
+
+[DestinationDirs]
+DefaultDestDir = 10,system32\drivers
+acr91wdm.Install.CopyFiles=10,system32\drivers
+acr91wdm.Install.NT.CopyFiles=10,system32\drivers
+acr91wdm.Install.NT.W2kTools=11
+
+[Manufacturer]
+%Manufacturer%=ACS
+
+; =================== Class section =======================
+
+[ClassInstall]
+Addreg=SmartCardReaderClassReg
+
+[SmartCardReaderClassReg]
+HKR,,,0,%ClassName%
+HKR,,Icon,,-25
+HKLM,"\Software\Microsoft\Cryptography\Calais\Readers",,,
+
+
+; ===================== PnP IDs ===========================
+
+[ControlFlags]
+ExcludeFromSelect.NT = PCMCIA\ACR-91-B69C
+
+
+
+[ACS]
+; DisplayName       	Section           DeviceId
+; -----------       	-------           --------
+%VID1PID1ReaderDescription% =  pcmcia.Install, PCMCIA\ACR-91-B69C
+
+; DisplayName       	Section           DeviceId
+; -----------       	-------           --------
+
+; =================== Win9x specific ======================
+
+[pcmcia.Install]
+AddReg    = pcmcia.Install.AddReg
+CopyFiles = acr91wdm.Install.CopyFiles
+
+[pcmcia.Install.HW]
+AddReg    = pcmcia.Install.AddReg.HW
+
+
+
+
+
+
+
+
+
+
+[pcmcia.Install.AddReg]
+HKR,,DevLoader,,*ntkern
+HKR,,NTMPDriver,,acr91wdm.sys
+HKLM, Software\Microsoft\Cryptography\Calais\Readers,,,
+
+
+
+
+
+
+
+
+
+
+
+[acr91wdm.Install.CopyFiles]
+acr91wdm.sys
+
+
+; ================== Win2000 specific =====================
+
+[pcmcia.Install.NT]
+AddReg    = acr91wdm.Install.NT.AddReg
+CopyFiles = acr91wdm.Install.NT.CopyFiles,acr91wdm.Install.NT.W2kTools
+
+[pcmcia.Install.NT.HW]
+AddReg    = pcmcia.Install.AddReg.HW
+
+[pcmcia.Install.NT.Services]
+AddService = acr91wdm, 2, pcmcia.Service.NT,acr91wdm.EventLog.NT
+
+
+
+
+
+
+
+
+
+[acr91wdm.Install.NT.AddReg]
+HKR,, AdapterType, 0, "0100"
+HKLM,"SYSTEM\CurrentControlSet\Services\SCardSvr",Start,0x00010001,2
+HKLM,"Software\Microsoft\Windows\CurrentVersion\RunOnce",chksvrn,,"rundll32 chksvrn.dll,StartScardsvr"
+HKLM, Software\Microsoft\Cryptography\Calais\Readers,,,
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,DLLName,0,wlnotify.dll
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logon,0,SCardStartCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logoff,0,SCardStopCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Lock,0,SCardSuspendCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Unlock,0,SCardResumeCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Enabled,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Impersonate,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Asynchronous,0x00010001,1
+
+[acr91wdm.Install.NT.CopyFiles]
+acr91wdm.sys,,,2
+
+
+
+[acr91wdm.Install.NT.W2kTools]
+chksvrn.dll
+
+
+
+
+[pcmcia.Service.NT]
+DisplayName     = %VID1PID1ReaderDescription%
+ServiceType     = 1 ;%SERVICE_KERNEL_DRIVER%
+StartType       = 3 ;%SERVICE_AUTO_START%
+ErrorControl    = 1 ;%SERVICE_ERROR_NORMAL%
+ServiceBinary   = %12%\acr91wdm.sys
+
+
+
+
+
+
+
+[acr91wdm.EventLog.NT]
+AddReg = acr91wdm.AddEventLog.reg
+
+[acr91wdm.AddEventLog.reg]
+HKR,, EventMessageFile, 0x00020000, "%%SystemRoot%%\System32\drivers\acr91wdm.sys"
+HKR,, TypesSupported,   0x00010001, 7
+
+
+; =====================
+; === ACR91 ====
+; =====================
+[pcmcia.Install.AddReg.HW]
+HKR,,"VendorName",,"ACS"
+HKR,,"IfdType",, "ACR91"
+
+
+
+
+
+
+
+
+; ================= Strings =====================
+
+[Strings]
+Provider		= "Advanced Card Systems Ltd."
+Manufacturer    	= "Advanced Card Systems Ltd."
+VID1PID1ReaderDescription     = "ACR91"
+DiskDescription         = "ACR91 PC/SC Driver Disk"
+ClassName 		= "Smart Card Readers"

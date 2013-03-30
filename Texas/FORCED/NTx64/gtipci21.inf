@@ -1,0 +1,86 @@
+; gtipci21.inf
+; Texas Instruments PCI GemCore based SmartCard controller installation
+; Copyright (c) 2007 Gemalto
+; INSTALL_TYPE = PCI
+
+[Version]
+Signature="$CHICAGO$"
+Class=SmartCardReader
+ClassGuid={50DD5230-BA8A-11D1-BF5D-0000F805F530}
+Provider=%MFGNAME1%
+DriverVer=05/09/2007,1.0.1.22
+CatalogFile=gtipci21.cat
+
+[ControlFlags]
+; Prevent legacy install for PnP readers
+ExcludeFromSelect=*
+
+[Manufacturer]
+%TI%=TI,NTamd64
+
+[DestinationDirs]
+DefaultDestDir = 11
+GTIPCI21.Install.CopyFiles = 12
+GTIPCI21.B1Install.CopyFiles=10
+
+[SourceDisksNames]
+1=%Disk%,,,
+
+[SourceDisksFiles]
+gtipci21.sys=1
+tiscfw.deb=1
+cttib1.dll=1
+
+[TI.NTamd64]
+; DisplayName       	Section           DeviceId
+; -----------       	-------           --------
+%GTIPCI21.DeviceDesc% =   GTIPCI21.Install64,   PCI\VEN_104C&DEV_8035
+%GTIPCI21.DeviceDesc% =   GTIPCI21.Install64,   PCI\VEN_104C&DEV_8038
+%GTIPCI21.DeviceDesc% =   GTIPCI21.Install64,   PCI\VEN_104C&DEV_803D
+
+;------------------------------------------------------------------------------
+
+;------------------------------------------------------------------------------
+;  Windows XP x64 Section
+;------------------------------------------------------------------------------
+[GTIPCI21.Install64]
+AddReg          = GTIPCI21.Install.AddReg
+CopyFiles	= GTIPCI21.Install.CopyFiles
+CopyFiles	= GTIPCI21.B1Install.CopyFiles
+
+[GTIPCI21.Install64.Services]
+Addservice = GTIPCI21, 2, GTIPCI21.Service, GTIPCI21.EventLog
+
+[GTIPCI21.Install.CopyFiles]
+gtipci21.sys,,,2
+tiscfw.deb,,,2
+
+[GTIPCI21.B1Install.CopyFiles]
+cttib1.dll,,,2
+
+[GTIPCI21.Service]
+ServiceType     = 1 ;%SERVICE_KERNEL_DRIVER%
+StartType       = 3 ;%SERVICE_AUTO_START%
+ErrorControl    = 1 ;%SERVICE_ERROR_NORMAL%
+ServiceBinary   = %12%\gtipci21.sys
+
+[GTIPCI21.EventLog]
+AddReg = GTIPCI21.AddEventLog.reg
+
+[GTIPCI21.AddEventLog.reg]
+HKR,, EventMessageFile, 0x00020000, "%%SystemRoot%%\System32\drivers\gtipci21.sys"
+HKR,, TypesSupported,   0x00010001, 7
+
+
+[GTIPCI21.Install.AddReg]
+HKLM, Software\Microsoft\Cryptography\Calais\Readers,,,
+HKLM, System\CurrentControlSet\Services\SCardSvr,Start,0x00010001,2
+HKLM, System\CurrentControlSet\Services\CertPropSvc,Start,0x00010001,2
+
+
+; ================= Strings =====================
+[Strings]
+MFGNAME1="Gemalto"
+TI 	= "Texas Instruments" 
+GTIPCI21.DeviceDesc = "Texas Instruments PCI GemCore based SmartCard controller"
+Disk	= "Texas Instruments GemCore IFD Handler installation disk"

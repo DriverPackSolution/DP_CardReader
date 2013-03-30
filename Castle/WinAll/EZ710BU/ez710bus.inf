@@ -1,0 +1,106 @@
+;
+;	EZ710BUS.INF - INF file for Bus Driver of EZ710 Smartcard/Contactless Reader
+;	Copyright (C) 2010, Castles Technology CO,. LTD.
+;
+
+[Version]
+Signature="$Windows NT$"
+Class=USB
+ClassGUID={36FC9E60-C465-11CF-8056-444553540000}
+Provider=%Castles%
+DriverVer=05/18/2010,1.1.3.0	
+Catalogfile=ez710bus9x.cat
+Catalogfile.NT=ez710busNT.cat
+LayoutFile=layout.inf
+
+[ControlFlags]
+ExcludeFromSelect = *
+
+;--------------------------------------------------------------------
+; Device installation
+;--------------------------------------------------------------------    
+[Manufacturer]
+%Castles%=Castles,NTia64, NTamd64
+
+[Castles]
+%USB\VID_0CA6&PID_3050.DeviceDesc%=EZ710BUS,USB\VID_0CA6&PID_3050
+
+[Castles.NTia64]
+%USB\VID_0CA6&PID_3050.DeviceDesc%=EZ710BUS.NTia64,USB\VID_0CA6&PID_3050
+
+[Castles.NTamd64]
+%USB\VID_0CA6&PID_3050.DeviceDesc%=EZ710BUS.NTamd64,USB\VID_0CA6&PID_3050
+
+[EZ710BUS]
+AddReg=EZ710BUS.AddReg
+CopyFiles=EZ710BUS.CopyList.98
+
+[EZ710BUS.NT]
+AddReg=EZ710BUS.AddReg
+CopyFiles=EZ710BUS.CopyList.NT
+
+[EZ710BUS.NTia64]
+AddReg=EZ710BUS.AddReg64
+CopyFiles=EZ710BUS.CopyList64
+
+[EZ710BUS.NTamd64]
+AddReg=EZ710BUS.AddReg64
+CopyFiles=EZ710BUS.CopyList64
+
+[EZ710BUS.AddReg]
+HKR,,DevLoader,,*ntkern
+HKR,,NTMPDriver,,ez710bus.sys
+
+[EZ710BUS.AddReg64]
+HKR,,DevLoader,,*ntkern
+HKR,,NTMPDriver,,ez710bus64.sys
+
+[EZ710BUS.CopyList.98]
+ez710bus.sys,,,2
+
+[EZ710BUS.CopyList.NT]
+ez710bus.sys,,,2
+
+[EZ710BUS.CopyList64]
+ez710bus64.sys,,,2
+
+[EZ710BUS.NT.Services]
+Addservice = EZ710BUS, 0x00000002, EZ710BUS.AddService
+
+[EZ710BUS.NTia64.Services]
+Addservice = EZ710BUS, 0x00000002, EZ710BUS.AddService64
+
+[EZ710BUS.NTamd64.Services]
+Addservice = EZ710BUS, 0x00000002, EZ710BUS.AddService64
+
+[EZ710BUS.AddService]
+DisplayName    = %USB\VID_0CA6&PID_3050.DeviceDesc%
+ServiceType    = 1                  ; SERVICE_KERNEL_DRIVER
+StartType      = 3                  ; SERVICE_DEMAND_START
+ErrorControl   = 1                  ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %12%\ez710bus.sys
+
+[EZ710BUS.AddService64]
+DisplayName    = %USB\VID_0CA6&PID_3050.DeviceDesc%
+ServiceType    = 1                  ; SERVICE_KERNEL_DRIVER
+StartType      = 3                  ; SERVICE_DEMAND_START
+ErrorControl   = 1                  ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %12%\ez710bus64.sys
+
+[DestinationDirs]
+EZ710BUS.CopyList.98 = 10,System32\Drivers
+EZ710BUS.CopyList.NT = 12    
+EZ710BUS.CopyLis64 = 12    
+DefaultDestDir = 12
+
+[SourceDisksNames] 
+1 = %DiskName%,,,
+
+[SourceDisksFiles]
+ez710bus.sys=1
+ez710bus64.sys=1
+
+[Strings]
+DiskName                              ="EZ710 Installation Disk"
+Castles                               ="Castles Technology"
+USB\VID_0CA6&PID_3050.DeviceDesc      ="EZ710 Reader Controller"

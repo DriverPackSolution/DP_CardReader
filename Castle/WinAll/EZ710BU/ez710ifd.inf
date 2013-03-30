@@ -1,0 +1,118 @@
+;
+;	EZ710IFD.INF - INF file for USB EZ710 Smartcard/Contactless Reader
+;	Copyright (C) 2010, Castles Technology CO,. LTD.
+;
+
+[Version]
+Signature="$Windows NT$"
+Class=SmartCardReader
+ClassGUID={50DD5230-BA8A-11D1-BF5D-0000F805F530}
+Provider=%Castles%
+DriverVer=05/18/2010,1.0.3.0
+Catalogfile=ez710ifd9x.cat
+Catalogfile.NT=ez710ifdNT.cat
+LayoutFile=layout.inf
+
+;--------------------------------------------------------------------
+; class installation
+;--------------------------------------------------------------------
+[ControlFlags]
+ExcludeFromSelect = *
+    
+[ClassInstall32]
+Addreg=SmartCardReaderClassReg     
+
+[SmartCardReaderClassReg]
+HKR,,,0,%ClassName%
+HKR,,Icon,,-25
+HKLM,"\Software\Microsoft\Cryptography\Calais\Readers",,,
+
+;--------------------------------------------------------------------
+; Device installation
+;--------------------------------------------------------------------
+[Manufacturer]
+%Castles%=Castles,NTia64, NTamd64
+
+[Castles]
+%DeviceDesc%=EZ710IFD,*CAA5005
+
+[Castles.NTia64]
+%DeviceDesc%=EZ710IFD.NTia64,*CAA5005
+
+[Castles.NTamd64]
+%DeviceDesc%=EZ710IFD.NTamd64,*CAA5005
+
+[EZ710IFD]
+AddReg=EZ710IFD.AddReg
+CopyFiles=EZ710IFD.CopyList.98
+
+[EZ710IFD.NT]
+AddReg=EZ710IFD.AddReg
+CopyFiles=EZ710IFD.CopyList.NT
+
+[EZ710IFD.NTia64]
+AddReg=EZ710IFD.AddReg64
+CopyFiles=EZ710IFD.CopyList64
+
+[EZ710IFD.NTamd64]
+AddReg=EZ710IFD.AddReg64
+CopyFiles=EZ710IFD.CopyList64
+
+[EZ710IFD.AddReg]
+HKR,,DevLoader,,*ntkern
+HKR,,NTMPDriver,,ez710ifd.sys
+
+[EZ710IFD.AddReg64]
+HKR,,DevLoader,,*ntkern
+HKR,,NTMPDriver,,ez710ifd64.sys
+
+[EZ710IFD.CopyList.98]
+ez710ifd.sys,,,2
+
+[EZ710IFD.CopyList.NT]
+ez710ifd.sys,,,2
+
+[EZ710IFD.CopyList64]
+ez710ifd64.sys,,,2
+
+[EZ710IFD.NT.Services]
+Addservice = EZ710IFD, 0x00000002, EZ710IFD.AddService
+
+[EZ710IFD.NTia64.Services]
+Addservice = EZ710IFD, 0x00000002, EZ710IFD.AddService64
+
+[EZ710IFD.NTamd64.Services]
+Addservice = EZ710IFD, 0x00000002, EZ710IFD.AddService64
+
+[EZ710IFD.AddService]
+DisplayName    = %DeviceDesc%
+ServiceType    = 1                  ; SERVICE_KERNEL_DRIVER
+StartType      = 3                  ; SERVICE_DEMAND_START
+ErrorControl   = 1                  ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %12%\ez710ifd.sys
+
+[EZ710IFD.AddService64]
+DisplayName    = %DeviceDesc%
+ServiceType    = 1                  ; SERVICE_KERNEL_DRIVER
+StartType      = 3                  ; SERVICE_DEMAND_START
+ErrorControl   = 1                  ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %12%\ez710ifd64.sys
+
+[DestinationDirs]
+EZ710IFD.CopyList.98 = 10,System32\Drivers
+EZ710IFD.CopyList.NT = 12    
+EZ710IFD.CopyList64 = 12    
+DefaultDestDir = 12
+
+[SourceDisksNames] 
+1 = %DiskName%,,,
+
+[SourceDisksFiles]
+ez710ifd.sys=1
+ez710ifd64.sys=1
+
+[Strings]
+DiskName       ="EZ710 Installation Disk"
+Castles        ="Castles Technology"
+DeviceDesc     ="EZ710 Smartcard/Contactless Reader"
+ClassName      ="Smart Card Readers"

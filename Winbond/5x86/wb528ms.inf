@@ -1,0 +1,108 @@
+; WB528MS.INF for WinXP
+; Copyright (C) 2003 Winbond Electronics Corp.
+
+[Version]
+Signature=$WINDOWS NT$
+Class=HDC
+ClassGuid={4D36E96A-E325-11CE-BFC1-08002BE10318}
+Provider=%Winbond%
+DriverVer=02/12/2004,2.0.2004.212
+CatalogFile=wb528msxp.cat
+
+[Manufacturer]
+%Winbond%=DeviceList
+
+[DeviceList]
+%DESCRIPTION%=DriverInstall,PCI\VEN_1050&DEV_8482
+
+[ControlFlags]
+ExcludeFromSelect=PCI\VEN_1050&DEV_8482
+
+[DriverInstall.NT]
+CopyFiles=DriverCopyFiles, Copy.ICON
+
+[DriverCopyFiles]
+wb528ms.sys,,,2
+
+[Copy.ICON]
+;wbms.ico,,,2
+;wbnocard.ico,,,2
+
+[DriverAddReg]
+HKR, "Parameters", "ClockRegister",     %REG_DWORD%, 0x00000021
+HKR, "Parameters", "DebugLevel",        %REG_DWORD%, 0x00000000
+
+; Use for Non-PNP BIOS
+HKR, "Parameters", "InitializeIC",      %REG_DWORD%, 0x00000000
+HKR, "Parameters", "ConfigRegister",    %REG_DWORD%, 0x0000002E
+HKR, "Parameters", "Hef",               %REG_DWORD%, 0x00000083
+HKR, "Parameters", "LogicDevice",       %REG_DWORD%, 0x00000001
+HKR, "Parameters", "IoBase",            %REG_DWORD%, 0x000002E8
+HKR, "Parameters", "IRQ",               %REG_DWORD%, 0x00000005
+
+
+[DriverInstall.NT.HW]
+AddReg = MSICON.AddReg
+
+[MSICON.AddReg]
+; for Memory Stick ICON
+;HKR,, DeviceGroup,, "MemoryStick"
+;HKLM, %DEVICE_GROUP%\MemoryStick, Icons, %REG_MULTI_SZ%, "%%SystemRoot%%\wbms.ico"
+; for Label string
+HKLM, %DEVICE_GROUP%\MemoryStick, Label, %REG_SZ%, "Winbond MS Drive"
+; for NO soft eject
+;HKLM, %DEVICE_GROUP%\MemoryStick, NoSoftEject, %REG_DWORD%, 0x00000001
+
+
+[DriverInstall.NT.Services]
+AddService=WB528MS, 0x00000002, DriverService, DriverEventLog
+
+[DriverService]
+DisplayName    = "Winbond PCI Memory Stick PRO Storage (MSPRO) Device Driver"
+ServiceType    = 1
+StartType      = 3
+ErrorControl   = 1
+ServiceBinary  = %10%\System32\Drivers\WB528MS.SYS
+LoadOrderGroup = Primary disk
+AddReg         = DriverAddReg
+
+[DriverEventLog]
+AddReg=DriverAddEventLog.Reg
+
+[DriverAddEventLog.Reg]
+HKR,,EventMessageFile, 0x00020000, "%%SystemRoot%%\System32\Drivers\wb528ms.sys"
+HKR,,TypesSupported,0x00010001, 7
+
+[SourceDisksNames]
+1 = %SOURCE_DESC1%,,
+
+[SourceDisksFiles]
+wb528ms.sys=1,,,,,
+;wbms.ico=1,,,,,
+;wbnocard.ico=1,,,,,
+
+[DestinationDirs]
+DefaultDestDir=10,System32\Drivers
+Copy.ICON=10
+
+[Strings]
+Winbond="Winbond Electronics Corp."
+DESCRIPTION="Winbond PCI Memory Stick PRO Storage Device Driver"
+SOURCE_DESC1 = "Winbond PCI Memory Stick Pro Controller Source Disk #1"
+DEVICE_GROUP = "SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\AutoplayHandlers\DeviceGroups"
+
+REG_TYPE_SZ       = 0x00000000
+REG_BINVALUETYPE  = 0x00000001
+REG_NOCLOBBER     = 0x00000002
+REG_DELVAL        = 0x00000004
+REG_APPEND        = 0x00000008
+REG_KEYONLY       = 0x00000010
+REG_OVERWRITEONLY = 0x00000020
+
+REG_MASK        = 0xFFFF0001
+REG_MULTI_SZ    = 0x00010000
+REG_EXPAND_SZ   = 0x00020000
+REG_BINARY      = 0x00000001
+REG_DWORD       = 0x00010001
+REG_NONE        = 0x00020001
+REG_SZ          = 0x00000000

@@ -1,0 +1,143 @@
+;*******************************************************************************
+;   Copyright (c) 2009-2012 Broadcom Corporation.  All rights reserved.
+;
+;   INF for Broadcom Secure Digital (SD) SCSI Miniport Drivers
+;
+;   bScsiSDa.sys    =   Broadcom SD 3.0 SCSI MiniPort Driver AMD64
+;   bScsiSDx.sys    =   Broadcom SD 3.0 SCSI MiniPort Driver X86
+;
+;   INF Version     =   1.0.0.237a
+;
+;*******************************************************************************
+;
+[Version]
+Signature       =       "$Windows NT$"
+Class           =       SDHost
+ClassGUID       =       {A0A588A4-C46F-4B37-B7EA-C82FE89870C6}
+Provider        =       %BRCM%
+DriverVer=08/14/2012,1.0.0.243
+CatalogFile=bscsisda.cat
+
+;
+;       Source file information
+;
+
+[SourceDisksNames]
+1               =       %DiskDesc%
+
+[SourceDisksFiles]
+bScsiSDa.sys = 1
+
+[DestinationDirs]
+DefaultDestDir = 12     ;       DIRID_DRIVERS
+
+[Manufacturer]
+%BRCM%  =       Broadcom, NTAMD64
+
+[Broadcom]
+
+[Broadcom.NTAMD64]
+%DevDesc% = BRCM_SD_3_0, PCI\VEN_14E4&DEV_16BC
+%DevDesc% = BRCM_SD_3_0, PCI\VEN_14E4&DEV_16BC&SUBSYS_96BC14E4
+%DevDesc% = BRCM_SD_2_0, PCI\VEN_14E4&DEV_16BC&SUBSYS_06451025
+%DevDesc% = BRCM_SD_2_0, PCI\VEN_14E4&DEV_16BC&SUBSYS_06471025
+%DevDesc% = BRCM_SD_2_0, PCI\VEN_14E4&DEV_16BC&SUBSYS_06491025
+%DevDesc% = BRCM_SD_2_0, PCI\VEN_14E4&DEV_16BC&SUBSYS_064B1025
+%DevDesc% = BRCM_SD_2_0, PCI\VEN_14E4&DEV_16BC&SUBSYS_068E1025
+%DevDesc% = BRCM_SD_2_0, PCI\VEN_14E4&DEV_16BC&SUBSYS_06911025
+%DevDesc% = BRCM_SD_2_0, PCI\VEN_14E4&DEV_16BC&SUBSYS_06931025
+%DevDesc% = BRCM_SD_2_0, PCI\VEN_14E4&DEV_16BC&SUBSYS_07421025
+%DevDesc% = BRCM_SD_2_0, PCI\VEN_14E4&DEV_16BC&SUBSYS_07431025
+%DevDesc% = BRCM_SD_2_0, PCI\VEN_14E4&DEV_16BC&SUBSYS_07481025
+%DevDesc% = BRCM_SD_2_0, PCI\VEN_14E4&DEV_16BC&SUBSYS_07491025
+
+[ControlFlags]
+ExcludeFromSelect = *
+
+[BRCM_SD_3_0]
+CopyFiles = BRCM_CopyFiles
+
+[BRCM_SD_2_0]
+CopyFiles = BRCM_CopyFiles
+
+[BRCM_SD_3_0.HW]
+DelReg = LegacyScsiportValues
+
+[BRCM_SD_2_0.HW]
+DelReg = LegacyScsiportValues
+
+[BRCM_SD_3_0.Services]
+AddService = bScsiSDa, %SPSVCINST_ASSOCSERVICE%, BRCM_Service_SD_3_0_Inst, Miniport_EventLog_Inst
+
+[BRCM_SD_2_0.Services]
+AddService = bScsiSDa, %SPSVCINST_ASSOCSERVICE%, BRCM_Service_SD_2_0_Inst, Miniport_EventLog_Inst
+
+[BRCM_Service_SD_3_0_Inst]
+ServiceType    = %SERVICE_KERNEL_DRIVER%
+StartType      = %SERVICE_DEMAND_START%
+ErrorControl   = %SERVICE_ERROR_NORMAL%
+ServiceBinary  = %12%\bScsiSDa.sys
+LoadOrderGroup = SCSI Miniport
+AddReg         = PnpsafePciAddreg
+AddReg         = SD_3_0_AddReg
+
+[BRCM_Service_SD_2_0_Inst]
+ServiceType    = %SERVICE_KERNEL_DRIVER%
+StartType      = %SERVICE_DEMAND_START%
+ErrorControl   = %SERVICE_ERROR_NORMAL%
+ServiceBinary  = %12%\bScsiSDa.sys
+LoadOrderGroup = SCSI Miniport
+AddReg         = PnpsafePciAddreg
+AddReg         = SD_2_0_AddReg
+
+[BRCM_CopyFiles]
+bScsiSDa.sys,,,1
+
+[LegacyScsiportValues]
+HKR,Scsiport,BusNumber
+HKR,Scsiport,LegacyInterfaceType
+HKR,Scsiport,SlotNumber
+
+[PnpsafePciAddreg]
+HKR, "Parameters\PnpInterface", "5", %REG_DWORD%, 0x00000001
+
+[SD_2_0_AddReg]
+HKR, "Parameters\Device", "DriverParameter", 0, "MAXSPEED=HS"
+
+[SD_3_0_AddReg]
+HKR, "Parameters\Device", "DriverParameter", 0, "MAXSPEED=UHS104"
+
+[Miniport_EventLog_Inst]
+AddReg = Miniport_EventLog_AddReg
+
+[Miniport_EventLog_AddReg]
+HKR,,EventMessageFile,%REG_EXPAND_SZ%,"%%SystemRoot%%\System32\IoLogMsg.dll"
+HKR,,TypesSupported,%REG_DWORD%,7
+
+[Strings]
+;       Localizable Strings needed for HBA naming in Windows UI
+;
+BRCM        = "Broadcom Corporation"
+DevDesc     = "Broadcom SD Host Controller"
+DiskDesc    = "Broadcom SCSI Miniport Drivers"
+
+;*******************************************
+;       Non-Localizable strings
+;*******************************************
+SPSVCINST_ASSOCSERVICE          = 0x00000002
+SPSVCINST_CLOBBER_SECURITY      = 0x00000400
+SERVICE_KERNEL_DRIVER           = 0x00000001
+SERVICE_FILE_SYSTEM_DRIVER      = 0x00000002
+SERVICE_WIN32_OWN_PROCESS       = 0x00000010
+SERVICE_WIN32_SHARE_PROCESS     = 0x00000020
+SERVICE_BOOT_START              = 0x00000000
+SERVICE_SYSTEM_START            = 0x00000001
+SERVICE_AUTO_START              = 0x00000002
+SERVICE_DEMAND_START            = 0x00000003
+SERVICE_DISABLED                = 0x00000004
+SERVICE_ERROR_IGNORE            = 0x00000000
+SERVICE_ERROR_NORMAL            = 0x00000001
+SERVICE_ERROR_SEVERE            = 0x00000002
+SERVICE_ERROR_CRITICAL          = 0x00000003
+REG_EXPAND_SZ                   = 0x00020000
+REG_DWORD                       = 0x00010001

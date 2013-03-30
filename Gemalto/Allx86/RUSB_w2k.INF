@@ -1,0 +1,98 @@
+; RUSB_W2K.INF
+; Ver 1.00
+; Reflex USB
+; © Copyright SchlumbergerSema 1999, 2002
+
+[Version]
+Signature="$CHICAGO$"
+Class=SmartCardReader
+ClassGuid={50DD5230-BA8A-11D1-BF5D-0000F805F530}
+Provider=%SLB%
+CatalogFile=RUSB_w2k.cat
+DriverVer=03/14/2002,2.10.00.01
+
+[SourceDisksFiles]
+RUSB_W2K.sys=1
+
+; ================= Class section =====================
+
+[ClassInstall]
+Addreg=SmartCardReaderClassReg
+
+[SmartCardReaderClassReg]
+HKR,,,0,%ClassName%
+HKR,,Icon,,-25
+
+[DestinationDirs]
+DefaultDestDir=10,system32\drivers
+stcusb.Install.CopyFiles = 10,system32\drivers ; WINDOWS\SYSTEM32\DRIVERS
+
+[SourceDisksNames]
+1 = %Floppy_Description%,,,""
+
+[Manufacturer]
+%SLB%=stcusb
+
+[stcusb]
+; DisplayName       	Section          DeviceId
+; -----------       	-------          --------
+%stcusb.DeviceDesc% =   stcusb.Install, USB\VID_04E6&PID_2004
+
+; ================= INSTALL NT ================= 
+
+[ClassInstall32]
+Addreg=SmartCardReaderClassReg     
+
+[ClassInstall]
+Addreg=SmartCardReaderClassReg
+
+[SmartCardReaderClassReg]
+HKR,,,0,%ClassName%
+HKR,,Icon,,-25
+
+[stcusb.Install.NT]
+AddReg          = stcusb.Install.AddReg
+CopyFiles	= stcusb.Install.CopyFiles
+
+[stcusb.Install.AddReg]
+HKR,, AdapterType, 0, "0100"
+HKLM, Software\Microsoft\Cryptography\Calais\Readers,,,
+HKLM, System\CurrentControlSet\Services\SCardSvr,Start,0x00010001,2
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,DLLName,0,wlnotify.dll
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logon,0,SCardStartCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logoff,0,SCardStopCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Lock,0,SCardSuspendCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Unlock,0,SCardResumeCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Enabled,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Impersonate,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Asynchronous,0x00010001,1
+
+[stcusb.Install.CopyFiles]
+RUSB_W2K.sys,,,2
+
+[stcusb.Install.NT.Services]
+AddService = stcusb, 2, stcusb.Service, stcusb.EventLog
+
+[stcusb.Service]
+DisplayName     = "Reflex USB"
+ServiceType     = 1 ;%SERVICE_KERNEL_DRIVER%
+StartType       = 3 ;%SERVICE_AUTO_START%
+ErrorControl    = 1 ;%SERVICE_ERROR_NORMAL%
+ServiceBinary   = %12%\RUSB_W2K.sys
+
+[stcusb.EventLog]
+AddReg = stcusb.AddEventLog.reg
+
+[stcusb.AddEventLog.reg]
+HKR,, EventMessageFile, 0x00020000, "%%SystemRoot%%\System32\drivers\RUSB_W2K.sys"
+HKR,, TypesSupported,   0x00010001, 7
+
+
+; ================= Strings =====================
+
+[Strings]
+SLB                 = "SchlumbergerSema"
+stcusb.DeviceDesc   = "Reflex USB Smart card reader"
+Floppy_Description 	= ""
+ClassName           = "Smart Card Readers"
+

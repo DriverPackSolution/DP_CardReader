@@ -1,0 +1,136 @@
+;
+;  Purpose:   CardReader setup information file for Windows 2K/XP/SRV2K3/VISTA x86 Edition
+;
+;  Author:    Ray Kuo
+;
+;  Date:      Jul, 2009
+;
+;  Copyright: Copyright (C) VIA Technologies, Inc.
+;
+
+[Version]
+Signature              = "$Windows NT$"
+ClassGUID              = {4D36E97B-E325-11CE-BFC1-08002BE10318}
+Class                  = SCSIAdapter
+Provider               = %Prov%
+CatalogFile            = viacr.cat
+DriverPackageType      = PlugAndPlay
+DriverPackageDisplayName = %PackageNameX86%
+DriverVer              = 07/14/2009, 1.44.00.115
+
+[Manufacturer]
+%Manuf%                = MANUF
+
+[MANUF]
+%VT3365.DeviceDesc%    = VT3365.Inst, PCI\VEN_1106&DEV_365A
+%VT3365.DeviceDesc%    = VT3365.Inst, PCI\VEN_1106&DEV_401A
+
+;(1)
+%VT3365.DeviceDesc%    = VT3365.Inst, PCI\VEN_1106&DEV_401A&SUBSYS_95151071
+
+;(1)
+%VT3365.DeviceDesc%    = VT3365.Inst, PCI\VEN_1106&DEV_401A&SUBSYS_83261043
+
+;(1)
+%VT3365.DeviceDesc%    = VT3365.Inst, PCI\VEN_1106&DEV_401A&SUBSYS_04081028
+
+[VT3365.Inst.NTx86]
+AddReg                 = VT3365.Inst.AddReg
+CopyFiles              = VT3365.CopyFiles.NTx86
+
+[VT3365.Inst.AddReg]
+HKR, ,                   SMClockFreq, 0x10001, 25000
+HKR, ,                   MSCHandShakeCnt, 0x10001, 18
+HKR, Win2K,              SupportSD,   0x10001, 1
+HKR, Win2K3,             SupportSD,   0x10001, 1
+HKR, WinXP,              SupportSD,   0x10001, 0
+HKR, Vista,              SupportSD,   0x10001, 0
+
+[VT3365.CopyFiles.NTx86]
+viacr.sys
+cricon.dll
+
+[VT3365.Inst.NTx86.Services]
+AddService             = VIACRX86, 0x00000002, VT3365.Service.NTx86,
+
+[VT3365.Service.NTx86]
+ServiceType            = %SERVICE_KERNEL_DRIVER%
+StartType              = %SERVICE_DEMAND_START%
+ErrorControl           = %SERVICE_ERROR_NORMAL%
+ServiceBinary          = %12%\viacr.sys
+LoadOrderGroup         = SCSI Class
+
+[DestinationDirs]
+VT3365.CopyFiles.NTx86 = 12
+
+[SourceDisksFiles.x86]
+viacr.sys              = 1
+cricon.dll             = 1 
+
+[SourceDisksNames.x86]
+1                      = %DiskNameX86%,,,
+
+[VT3365.Inst.NTx86.HW]
+AddReg                 = VT3365.Inst.AddReg.HW
+
+[VT3365.Inst.AddReg.HW]
+HKR,,FriendlyName,,%VT3365.DeviceDesc%
+
+HKLM,"SOFTWARE\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\VIACR#MMC","Icons",0x00010000,"%SystemRoot%\system32\shell32.dll,-307"
+HKLM,"SOFTWARE\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\VIACR#MMC","Label",,"MMC Card"
+HKLM,"SOFTWARE\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\VIACR#MMC","NoSoftEject",0x00010001,0x00000001
+HKLM,"SOFTWARE\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\VIACR#MMC","DeviceGroup",,"FlashStorage"
+
+HKLM,"SOFTWARE\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\VIACR#SD","Icons",0x00010000,"%SystemRoot%\system32\drivers\cricon.dll,-105"
+HKLM,"SOFTWARE\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\VIACR#SD","Label",,"Secure Digital Storage Device"
+HKLM,"SOFTWARE\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\VIACR#SD","NoSoftEject",0x00010001,0x00000001
+HKLM,"SOFTWARE\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\VIACR#SD","DeviceGroup",,"FlashStorage"
+
+HKLM,"SOFTWARE\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\VIACR#MS","Icons",0x00010000,"%SystemRoot%\system32\drivers\cricon.dll,-101"
+HKLM,"SOFTWARE\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\VIACR#MS","Label",,"MS Card"
+HKLM,"SOFTWARE\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\VIACR#MS","NoSoftEject",0x00010001,0x00000001
+HKLM,"SOFTWARE\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\VIACR#MS","DeviceGroup",,"FlashStorage"
+
+HKLM,"SOFTWARE\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\VIACR#MSP","Icons",0x00010000,"%SystemRoot%\system32\drivers\cricon.dll,-102"
+HKLM,"SOFTWARE\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\VIACR#MSP","Label",,"MSP Card"
+HKLM,"SOFTWARE\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\VIACR#MSP","NoSoftEject",0x00010001,0x00000001
+HKLM,"SOFTWARE\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\VIACR#MSP","DeviceGroup",,"FlashStorage"
+
+HKLM,"SOFTWARE\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\VIACR#SM","Icons",0x00010000,"%SystemRoot%\system32\shell32.dll,-308"
+HKLM,"SOFTWARE\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\VIACR#SM","Label",,"SM Card"
+HKLM,"SOFTWARE\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\VIACR#SM","NoSoftEject",0x00010001,0x00000001
+HKLM,"SOFTWARE\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\VIACR#SM","DeviceGroup",,"FlashStorage"
+
+HKLM,"SOFTWARE\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\VIACR#XD","Icons",0x00010000,"%SystemRoot%\system32\drivers\cricon.dll,-103"
+HKLM,"SOFTWARE\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\VIACR#XD","Label",,"xD Card"
+HKLM,"SOFTWARE\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\VIACR#XD","NoSoftEject",0x00010001,0x00000001
+HKLM,"SOFTWARE\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\VIACR#XD","DeviceGroup",,"FlashStorage"
+
+[Strings]
+; --------------------
+; Localizable Strings
+; --------------------
+Prov                   = "VIA"
+Manuf                  = "VIA Technologies, Inc."
+VT3365.DeviceDesc      = "VIA Card Reader Host Controller"
+PackageNameX86         = "Card Reader Host Controller"
+DiskNameX86            = "VIA Card Reader driver disk"
+
+; ------------------------
+; Non Localizable Strings
+; ------------------------
+SERVICE_BOOT_START     = 0x0
+SERVICE_SYSTEM_START   = 0x1
+SERVICE_AUTO_START     = 0x2
+SERVICE_DEMAND_START   = 0x3
+SERVICE_DISABLED       = 0x4
+
+SERVICE_KERNEL_DRIVER  = 0x1
+SERVICE_ERROR_IGNORE   = 0x0
+SERVICE_ERROR_NORMAL   = 0x1
+SERVICE_ERROR_SEVERE   = 0x2
+SERVICE_ERROR_CRITICAL = 0x3
+
+REG_EXPAND_SZ          = 0x00020000
+REG_DWORD              = 0x00010001
+

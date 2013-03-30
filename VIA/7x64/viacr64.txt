@@ -1,0 +1,37 @@
+**
+**
+**  VIA PCI Card Reader Host Controller
+**
+**  WDM Driver for Windows XP/Svr2003/Vista x64 edition
+**
+**  v1.44   Jul, 2009
+**
+**
+
+Introduction:
+=============
+
+  This document shows you how to setup the driver in Windows operating system.
+
+Contents of the Subdirectory:
+=============================
+
+    VIACR64.SYS          The WDM x64 driver for Windows XP/Svr2003/Vista.
+    VIACR64.INF          The installation information file.
+    VIACR64.CAT          The WDM x64 driver Windows logo signature file.
+    CRICON.DLL           The customized memory card drive icons dll file.
+    VIACR64.TXT          This file.
+
+Installation:
+=============
+
+  Before starting with the installation process, make sure that the adapter
+  is properly installed and configured.
+
+    1. Turn on the power of your PC to boot into Windows operating system.
+       Windows will auto-detect your new hardware, and the "New Hardware Found"
+       dialogue box will appear. Select "Driver from disk provided by hardware
+       manufacturer" to install driver from the driver diskette or other location.
+
+    2. When the driver installation is completed, restart Windows if needed.
+

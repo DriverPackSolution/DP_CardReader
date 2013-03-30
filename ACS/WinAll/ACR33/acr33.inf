@@ -1,0 +1,636 @@
+; ACR33.INF
+; Copyright (c) 1994 - 2011 Advanced Card Systems Ltd.
+;
+; Note: For use on Windows 2000 or higher only!
+;
+
+[Version]
+DriverVer=08/23/2011,1.0.0.0
+Signature="$Windows NT$"
+Class=SmartCardReader
+ClassGuid={50DD5230-BA8A-11D1-BF5D-0000F805F530}
+Provider=%ACS%
+CatalogFile=ACR33.cat
+
+; ======= Source and Destination section =============
+
+[SourceDisksNames]
+1 = %SourceDiskName%,,,
+
+[SourceDisksFiles]
+a33bus.sys	 = 1
+a332bus.sys	 = 1
+a330bus.sys	 = 1
+a337bus.sys	 = 1
+a33icc.sys	 = 1
+a33sam.sys	 = 1
+a33busx64.sys	 = 1
+a332busx64.sys   = 1
+a330busx64.sys   = 1
+a337busx64.sys   = 1
+a33iccx64.sys	 = 1
+a33samx64.sys	 = 1
+
+[DestinationDirs]
+ACS.Install.Bus1.CopyFiles.NTx86    = 12
+ACS.Install.Bus1.CopyFiles.NTamd64  = 12
+ACS.Install.Bus2.CopyFiles.NTx86    = 12
+ACS.Install.Bus2.CopyFiles.NTamd64  = 12
+ACS.Install.Bus3.CopyFiles.NTx86    = 12
+ACS.Install.Bus3.CopyFiles.NTamd64  = 12
+ACS.Install.Bus4.CopyFiles.NTx86    = 12
+ACS.Install.Bus4.CopyFiles.NTamd64  = 12
+ACS.Install.Icc1.CopyFiles.NTx86    = 12
+ACS.Install.Icc1.CopyFiles.NTamd64  = 12
+ACS.Install.Icc2.CopyFiles.NTx86    = 12
+ACS.Install.Icc2.CopyFiles.NTamd64  = 12
+ACS.Install.Icc3.CopyFiles.NTx86    = 12
+ACS.Install.Icc3.CopyFiles.NTamd64  = 12
+ACS.Install.Icc4.CopyFiles.NTx86    = 12
+ACS.Install.Icc4.CopyFiles.NTamd64  = 12
+ACS.Install.Sam1.CopyFiles.NTx86     = 12
+ACS.Install.Sam1.CopyFiles.NTamd64   = 12
+ACS.Install.Sam2.CopyFiles.NTx86     = 12
+ACS.Install.Sam2.CopyFiles.NTamd64   = 12
+ACS.Install.Sam3.CopyFiles.NTx86     = 12
+ACS.Install.Sam3.CopyFiles.NTamd64   = 12
+ACS.Install.Sam4.CopyFiles.NTx86     = 12
+ACS.Install.Sam4.CopyFiles.NTamd64   = 12
+
+; ================= Class section =====================
+
+[ClassInstall32]
+Addreg=SmartCardReaderClassReg     
+
+[ClassInstall]
+Addreg=SmartCardReaderClassReg
+
+[SmartCardReaderClassReg]
+HKR,,,0,%ClassName%
+HKR,,Icon,,-25
+HKLM,"\Software\Microsoft\Cryptography\Calais\Readers",,,
+
+[Manufacturer]
+%ACS%=ACS,NTamd64
+
+; ================= ACS ACR33 Reader =====================
+
+[ACS]
+; DisplayName           Section      	  DeviceId
+; -----------           -------      	  --------
+%ACS.DeviceDesc.Bus1%  = ACS.Install.Bus1,  USB\VID_072F&PID_8301   ; ACR33U 4SAM
+%ACS.DeviceDesc.Icc1%  = ACS.Install.Icc1,  *ACO0719
+%ACS.DeviceDesc.Sam1%  = ACS.Install.Sam1,  *ACO0721
+
+%ACS.DeviceDesc.Bus2%  = ACS.Install.Bus2,  USB\VID_072F&PID_8300   ; ACR33U-A1 3SAM
+%ACS.DeviceDesc.Icc2%  = ACS.Install.Icc2,  *ACO0725
+%ACS.DeviceDesc.Sam2%  = ACS.Install.Sam2,  *ACO0727
+
+%ACS.DeviceDesc.Bus3%  = ACS.Install.Bus3,  USB\VID_072F&PID_8302   ; ACR33U-A2 3SAM
+%ACS.DeviceDesc.Icc3%  = ACS.Install.Icc3,  *ACO0722
+%ACS.DeviceDesc.Sam3%  = ACS.Install.Sam3,  *ACO0724
+
+%ACS.DeviceDesc.Bus4%  = ACS.Install.Bus4,  USB\VID_072F&PID_8307   ; ACR33U-A3 3SAM
+%ACS.DeviceDesc.Icc4%  = ACS.Install.Icc4,  *ACO0728
+%ACS.DeviceDesc.Sam4%  = ACS.Install.Sam4,  *ACO0730
+
+
+[ACS.NTamd64]
+; DisplayName           Section      	  DeviceId
+; -----------           -------      	  --------
+%ACS.DeviceDesc.Bus1%  = ACS.Install.Bus1,  USB\VID_072F&PID_8301   ; ACR33U 4SAM
+%ACS.DeviceDesc.Icc1%  = ACS.Install.Icc1,  *ACO0719
+%ACS.DeviceDesc.Sam1%  = ACS.Install.Sam1,  *ACO0721
+
+%ACS.DeviceDesc.Bus2%  = ACS.Install.Bus2,  USB\VID_072F&PID_8300   ; ACR33U-A1 3SAM
+%ACS.DeviceDesc.Icc2%  = ACS.Install.Icc2,  *ACO0725
+%ACS.DeviceDesc.Sam2%  = ACS.Install.Sam2,  *ACO0727
+
+%ACS.DeviceDesc.Bus3%  = ACS.Install.Bus3,  USB\VID_072F&PID_8302   ; ACR33U-A2 3SAM
+%ACS.DeviceDesc.Icc3%  = ACS.Install.Icc3,  *ACO0722
+%ACS.DeviceDesc.Sam3%  = ACS.Install.Sam3,  *ACO0724
+
+%ACS.DeviceDesc.Bus4%  = ACS.Install.Bus4,  USB\VID_072F&PID_8307   ; ACR33U-A3 3SAM
+%ACS.DeviceDesc.Icc4%  = ACS.Install.Icc4,  *ACO0728
+%ACS.DeviceDesc.Sam4%  = ACS.Install.Sam4,  *ACO0730
+
+
+; ============== ACS ACR33 Bus Driver ====================
+
+[ACS.Install.Bus1.NTx86]
+AddReg    = ACS.Install.Bus.AddReg.NT
+CopyFiles = ACS.Install.Bus1.CopyFiles.NTx86
+
+[ACS.Install.Bus1.NTamd64]
+AddReg    = ACS.Install.Bus.AddReg.NT
+CopyFiles = ACS.Install.Bus1.CopyFiles.NTamd64
+
+[ACS.Install.Bus1.CopyFiles.NTx86]
+a33bus.sys,,,2
+a33icc.sys,,,2
+a33sam.sys,,,2
+
+[ACS.Install.Bus1.CopyFiles.NTamd64]
+a33bus.sys,a33busx64.sys
+a33icc.sys,a33iccx64.sys
+a33sam.sys,a33samx64.sys
+
+[ACS.Install.Bus1.NTx86.Services]
+AddService=A33BUS,2,ACS.Install.Bus1.Service,ACS.Install.Bus1.EventLog
+
+[ACS.Install.Bus1.NTamd64.Services]
+AddService=A33BUS,2,ACS.Install.Bus1.Service,ACS.Install.Bus1.EventLog
+
+[ACS.Install.Bus1.Service]
+DisplayName     = %ACS.DeviceDesc.Bus1%
+ServiceType	= 1
+StartType	= 3
+ErrorControl	= 1
+ServiceBinary	= %12%\a33bus.sys
+
+[ACS.Install.Bus1.EventLog]
+AddReg = ACS.Install.Bus1.AddEventLog.reg
+
+[ACS.Install.Bus1.AddEventLog.reg]
+HKR,, EventMessageFile, 0x00020000, "%%SystemRoot%%\System32\drivers\a33bus.sys"
+HKR,, TypesSupported,   0x00010001, 7
+
+
+; ============== ACS ACR330 Bus Driver ====================
+
+[ACS.Install.Bus2.NTx86]
+AddReg    = ACS.Install.Bus.AddReg.NT
+CopyFiles = ACS.Install.Bus2.CopyFiles.NTx86
+
+[ACS.Install.Bus2.NTamd64]
+AddReg    = ACS.Install.Bus.AddReg.NT
+CopyFiles = ACS.Install.Bus2.CopyFiles.NTamd64
+
+[ACS.Install.Bus2.CopyFiles.NTx86]
+a330bus.sys,,,2
+a330icc.sys,a33icc.sys,,2
+a330sam.sys,a33sam.sys,,2
+
+[ACS.Install.Bus2.CopyFiles.NTamd64]
+a330bus.sys,a330busx64.sys
+a330icc.sys,a33iccx64.sys
+a330sam.sys,a33samx64.sys
+
+[ACS.Install.Bus2.NTx86.Services]
+AddService=A330BUS,2,ACS.Install.Bus2.Service,ACS.Install.Bus2.EventLog
+
+[ACS.Install.Bus2.NTamd64.Services]
+AddService=A330BUS,2,ACS.Install.Bus2.Service,ACS.Install.Bus2.EventLog
+
+[ACS.Install.Bus2.Service]
+DisplayName     = %ACS.DeviceDesc.Bus2%
+ServiceType	= 1
+StartType	= 3
+ErrorControl	= 1
+ServiceBinary	= %12%\a330bus.sys
+
+[ACS.Install.Bus2.EventLog]
+AddReg = ACS.Install.Bus2.AddEventLog.reg
+
+[ACS.Install.Bus2.AddEventLog.reg]
+HKR,, EventMessageFile, 0x00020000, "%%SystemRoot%%\System32\drivers\a330bus.sys"
+HKR,, TypesSupported,   0x00010001, 7
+
+
+; ============== ACS ACR332 Bus Driver ====================
+
+[ACS.Install.Bus3.NTx86]
+AddReg    = ACS.Install.Bus.AddReg.NT
+CopyFiles = ACS.Install.Bus3.CopyFiles.NTx86
+
+[ACS.Install.Bus3.NTamd64]
+AddReg    = ACS.Install.Bus.AddReg.NT
+CopyFiles = ACS.Install.Bus3.CopyFiles.NTamd64
+
+[ACS.Install.Bus3.CopyFiles.NTx86]
+a332bus.sys,,,2
+a332icc.sys,a33icc.sys,,2
+a332sam.sys,a33sam.sys,,2
+
+[ACS.Install.Bus3.CopyFiles.NTamd64]
+a332bus.sys,a332busx64.sys
+a332icc.sys,a33iccx64.sys
+a332sam.sys,a33samx64.sys
+
+[ACS.Install.Bus3.NTx86.Services]
+AddService=A332BUS,2,ACS.Install.Bus3.Service,ACS.Install.Bus3.EventLog
+
+[ACS.Install.Bus3.NTamd64.Services]
+AddService=A332BUS,2,ACS.Install.Bus3.Service,ACS.Install.Bus3.EventLog
+
+[ACS.Install.Bus3.Service]
+DisplayName     = %ACS.DeviceDesc.Bus3%
+ServiceType	= 1
+StartType	= 3
+ErrorControl	= 1
+ServiceBinary	= %12%\a332bus.sys
+
+[ACS.Install.Bus3.EventLog]
+AddReg = ACS.Install.Bus3.AddEventLog.reg
+
+[ACS.Install.Bus3.AddEventLog.reg]
+HKR,, EventMessageFile, 0x00020000, "%%SystemRoot%%\System32\drivers\a332bus.sys"
+HKR,, TypesSupported,   0x00010001, 7
+
+; ============== ACS ACR337 Bus Driver ====================
+
+[ACS.Install.Bus4.NTx86]
+AddReg    = ACS.Install.Bus.AddReg.NT
+CopyFiles = ACS.Install.Bus4.CopyFiles.NTx86
+
+[ACS.Install.Bus4.NTamd64]
+AddReg    = ACS.Install.Bus.AddReg.NT
+CopyFiles = ACS.Install.Bus4.CopyFiles.NTamd64
+
+[ACS.Install.Bus4.CopyFiles.NTx86]
+a337bus.sys,,,2
+a337icc.sys,a33icc.sys,,2
+a337sam.sys,a33sam.sys,,2
+
+[ACS.Install.Bus4.CopyFiles.NTamd64]
+a337bus.sys,a337busx64.sys
+a337icc.sys,a33iccx64.sys
+a337sam.sys,a33samx64.sys
+
+[ACS.Install.Bus4.NTx86.Services]
+AddService=A337BUS,2,ACS.Install.Bus4.Service,ACS.Install.Bus4.EventLog
+
+[ACS.Install.Bus4.NTamd64.Services]
+AddService=A337BUS,2,ACS.Install.Bus4.Service,ACS.Install.Bus4.EventLog
+
+[ACS.Install.Bus4.Service]
+DisplayName     = %ACS.DeviceDesc.Bus4%
+ServiceType	= 1
+StartType	= 3
+ErrorControl	= 1
+ServiceBinary	= %12%\a337bus.sys
+
+[ACS.Install.Bus4.EventLog]
+AddReg = ACS.Install.Bus4.AddEventLog.reg
+
+[ACS.Install.Bus4.AddEventLog.reg]
+HKR,, EventMessageFile, 0x00020000, "%%SystemRoot%%\System32\drivers\a337bus.sys"
+HKR,, TypesSupported,   0x00010001, 7
+
+
+; ================Bus Common===========================
+[ACS.Install.Bus.AddReg.NT]
+HKLM,"System\CurrentControlSet\Services\SCardSvr","Start", 0x00010001,2
+HKLM,"System\CurrentControlSet\Services\CertPropSvc","Start", 0x00010001,2
+
+
+; ============== ACS ACR33 ICC Driver ===============
+[ACS.Install.Icc1.NTx86]
+AddReg		= ACS.Install.Icc1.AddReg.NT
+CopyFiles 	= ACS.Install.Icc1.CopyFiles.NTx86
+
+[ACS.Install.Icc1.NTamd64]
+AddReg		= ACS.Install.Icc1.AddReg.NT
+CopyFiles 	= ACS.Install.Icc1.CopyFiles.NTamd64
+
+[ACS.Install.Icc1.AddReg.NT]
+HKR,,"VendorName",0,%Vendor%
+HKR,,"IFDName",0,%IFDName.Icc1%
+
+[ACS.Install.Icc1.CopyFiles.NTx86]
+a33icc.sys,,,2
+
+[ACS.Install.Icc1.CopyFiles.NTamd64]
+a33icc.sys,a33iccx64.sys
+
+[ACS.Install.Icc1.NTx86.Services]
+AddService=A33ICC,2,ACS.Install.Icc1.Service,ACS.Install.Icc1.EventLog
+
+[ACS.Install.Icc1.NTamd64.Services]
+AddService=A33ICC,2,ACS.Install.Icc1.Service,ACS.Install.Icc1.EventLog
+
+[ACS.Install.Icc1.Service]
+DisplayName     = %ACS.DeviceDesc.Icc1%
+ServiceType	= 1
+StartType       = 3
+ErrorControl	= 1
+ServiceBinary	= %12%\a33icc.sys
+
+[ACS.Install.Icc1.EventLog]
+AddReg = ACS.Install.Icc1.AddEventLog.reg
+
+[ACS.Install.Icc1.AddEventLog.reg]
+HKR,, EventMessageFile, 0x00020000, "%%SystemRoot%%\System32\drivers\a33icc.sys"
+HKR,, TypesSupported,   0x00010001, 7
+
+; ============== ACS ACR330 ICC Driver ===============
+
+[ACS.Install.Icc2.NTx86]
+AddReg		= ACS.Install.Icc2.AddReg.NT
+CopyFiles 	= ACS.Install.Icc2.CopyFiles.NTx86
+
+[ACS.Install.Icc2.NTamd64]
+AddReg		= ACS.Install.Icc2.AddReg.NT
+CopyFiles 	= ACS.Install.Icc2.CopyFiles.NTamd64
+
+[ACS.Install.Icc2.AddReg.NT]
+HKR,,"VendorName",0,%Vendor%
+HKR,,"IFDName",0,%IFDName.Icc2%
+
+[ACS.Install.Icc2.CopyFiles.NTx86]
+a330icc.sys,a33icc.sys,,2
+
+[ACS.Install.Icc2.CopyFiles.NTamd64]
+a330icc.sys,a33iccx64.sys
+
+[ACS.Install.Icc2.NTx86.Services]
+AddService=A330ICC,2,ACS.Install.Icc2.Service,ACS.Install.Icc2.EventLog
+
+[ACS.Install.Icc2.NTamd64.Services]
+AddService=A330ICC,2,ACS.Install.Icc2.Service,ACS.Install.Icc2.EventLog
+
+[ACS.Install.Icc2.Service]
+DisplayName     = %ACS.DeviceDesc.Icc2%
+ServiceType	= 1
+StartType       = 3
+ErrorControl	= 1
+ServiceBinary	= %12%\a330icc.sys
+
+[ACS.Install.Icc2.EventLog]
+AddReg = ACS.Install.Icc2.AddEventLog.reg
+
+[ACS.Install.Icc2.AddEventLog.reg]
+HKR,, EventMessageFile, 0x00020000, "%%SystemRoot%%\System32\drivers\a330icc.sys"
+HKR,, TypesSupported,   0x00010001, 7
+
+; ============== ACS ACR332 ICC Driver ===============
+
+[ACS.Install.Icc3.NTx86]
+AddReg		= ACS.Install.Icc3.AddReg.NT
+CopyFiles 	= ACS.Install.Icc3.CopyFiles.NTx86
+
+[ACS.Install.Icc3.NTamd64]
+AddReg		= ACS.Install.Icc3.AddReg.NT
+CopyFiles 	= ACS.Install.Icc3.CopyFiles.NTamd64
+
+[ACS.Install.Icc3.AddReg.NT]
+HKR,,"VendorName",0,%Vendor%
+HKR,,"IFDName",0,%IFDName.Icc3%
+
+[ACS.Install.Icc3.CopyFiles.NTx86]
+a332icc.sys,a33icc.sys,,2
+
+[ACS.Install.Icc3.CopyFiles.NTamd64]
+a332icc.sys,a33iccx64.sys
+
+[ACS.Install.Icc3.NTx86.Services]
+AddService=A332ICC,2,ACS.Install.Icc3.Service,ACS.Install.Icc3.EventLog
+
+[ACS.Install.Icc3.NTamd64.Services]
+AddService=A332ICC,2,ACS.Install.Icc3.Service,ACS.Install.Icc3.EventLog
+
+[ACS.Install.Icc3.Service]
+DisplayName     = %ACS.DeviceDesc.Icc3%
+ServiceType	= 1
+StartType       = 3
+ErrorControl	= 1
+ServiceBinary	= %12%\a332icc.sys
+
+[ACS.Install.Icc3.EventLog]
+AddReg = ACS.Install.Icc3.AddEventLog.reg
+
+[ACS.Install.Icc3.AddEventLog.reg]
+HKR,, EventMessageFile, 0x00020000, "%%SystemRoot%%\System32\drivers\a332icc.sys"
+HKR,, TypesSupported,   0x00010001, 7
+
+; ============== ACS ACR337 ICC Driver ===============
+
+[ACS.Install.Icc4.NTx86]
+AddReg		= ACS.Install.Icc4.AddReg.NT
+CopyFiles 	= ACS.Install.Icc4.CopyFiles.NTx86
+
+[ACS.Install.Icc4.NTamd64]
+AddReg		= ACS.Install.Icc4.AddReg.NT
+CopyFiles 	= ACS.Install.Icc4.CopyFiles.NTamd64
+
+[ACS.Install.Icc4.AddReg.NT]
+HKR,,"VendorName",0,%Vendor%
+HKR,,"IFDName",0,%IFDName.Icc4%
+
+[ACS.Install.Icc4.CopyFiles.NTx86]
+a337icc.sys,a33icc.sys,,2
+
+[ACS.Install.Icc4.CopyFiles.NTamd64]
+a337icc.sys,a33iccx64.sys
+
+[ACS.Install.Icc4.NTx86.Services]
+AddService=A337ICC,2,ACS.Install.Icc4.Service,ACS.Install.Icc4.EventLog
+
+[ACS.Install.Icc4.NTamd64.Services]
+AddService=A337ICC,2,ACS.Install.Icc4.Service,ACS.Install.Icc4.EventLog
+
+[ACS.Install.Icc4.Service]
+DisplayName     = %ACS.DeviceDesc.Icc4%
+ServiceType	= 1
+StartType       = 3
+ErrorControl	= 1
+ServiceBinary	= %12%\a337icc.sys
+
+[ACS.Install.Icc4.EventLog]
+AddReg = ACS.Install.Icc4.AddEventLog.reg
+
+[ACS.Install.Icc4.AddEventLog.reg]
+HKR,, EventMessageFile, 0x00020000, "%%SystemRoot%%\System32\drivers\a337icc.sys"
+HKR,, TypesSupported,   0x00010001, 7
+
+
+; ============== ACS ACR33 Sam Driver ===============
+
+[ACS.Install.Sam1.NTx86]
+AddReg		= ACS.Install.Sam1.AddReg.NT
+CopyFiles 	= ACS.Install.Sam1.CopyFiles.NTx86
+
+[ACS.Install.Sam1.NTamd64]
+AddReg		= ACS.Install.Sam1.AddReg.NT
+CopyFiles 	= ACS.Install.Sam1.CopyFiles.NTamd64
+
+[ACS.Install.Sam1.AddReg.NT]
+HKR,,"VendorName",0,%Vendor%
+HKR,,"IFDName",0,%IFDName.Sam1%
+
+[ACS.Install.Sam1.CopyFiles.NTx86]
+a33sam.sys,,,2
+
+[ACS.Install.Sam1.CopyFiles.NTamd64]
+a33sam.sys,a33samx64.sys
+
+[ACS.Install.Sam1.NTx86.Services]
+AddService=A33SAM,2,ACS.Install.Sam1.Service,ACS.Install.Sam1.EventLog
+
+[ACS.Install.Sam1.NTamd64.Services]
+AddService=A33SAM,2,ACS.Install.Sam1.Service,ACS.Install.Sam1.EventLog
+
+[ACS.Install.Sam1.Service]
+DisplayName     = %ACS.DeviceDesc.Sam1%
+ServiceType	= 1
+StartType       = 3
+ErrorControl	= 1
+ServiceBinary	= %12%\a33sam.sys
+
+[ACS.Install.Sam1.EventLog]
+AddReg = ACS.Install.Sam1.AddEventLog.reg
+
+[ACS.Install.Sam1.AddEventLog.reg]
+HKR,, EventMessageFile, 0x00020000, "%%SystemRoot%%\System32\drivers\a33sam.sys"
+HKR,, TypesSupported,   0x00010001, 7
+
+
+; ============== ACS ACR330 Sam Driver ===============
+
+[ACS.Install.Sam2.NTx86]
+AddReg		= ACS.Install.Sam2.AddReg.NT
+CopyFiles 	= ACS.Install.Sam2.CopyFiles.NTx86
+
+[ACS.Install.Sam2.NTamd64]
+AddReg		= ACS.Install.Sam2.AddReg.NT
+CopyFiles 	= ACS.Install.Sam2.CopyFiles.NTamd64
+
+[ACS.Install.Sam2.AddReg.NT]
+HKR,,"VendorName",0,%Vendor%
+HKR,,"IFDName",0,%IFDName.Sam2%
+
+[ACS.Install.Sam2.CopyFiles.NTx86]
+a330sam.sys,a33sam.sys,,2
+
+[ACS.Install.Sam2.CopyFiles.NTamd64]
+a330sam.sys,a33samx64.sys
+
+[ACS.Install.Sam2.NTx86.Services]
+AddService=A330SAM,2,ACS.Install.Sam2.Service,ACS.Install.Sam2.EventLog
+
+[ACS.Install.Sam2.NTamd64.Services]
+AddService=A330SAM,2,ACS.Install.Sam2.Service,ACS.Install.Sam2.EventLog
+
+[ACS.Install.Sam2.Service]
+DisplayName     = %ACS.DeviceDesc.Sam2%
+ServiceType	= 1
+StartType       = 3
+ErrorControl	= 1
+ServiceBinary	= %12%\a330sam.sys
+
+[ACS.Install.Sam2.EventLog]
+AddReg = ACS.Install.Sam2.AddEventLog.reg
+
+[ACS.Install.Sam2.AddEventLog.reg]
+HKR,, EventMessageFile, 0x00020000, "%%SystemRoot%%\System32\drivers\a330sam.sys"
+HKR,, TypesSupported,   0x00010001, 7
+
+; ============== ACS ACR332 Sam Driver ===============
+
+[ACS.Install.Sam3.NTx86]
+AddReg		= ACS.Install.Sam3.AddReg.NT
+CopyFiles 	= ACS.Install.Sam3.CopyFiles.NTx86
+
+[ACS.Install.Sam3.NTamd64]
+AddReg		= ACS.Install.Sam3.AddReg.NT
+CopyFiles 	= ACS.Install.Sam3.CopyFiles.NTamd64
+
+[ACS.Install.Sam3.AddReg.NT]
+HKR,,"VendorName",0,%Vendor%
+HKR,,"IFDName",0,%IFDName.Sam3%
+
+[ACS.Install.Sam3.CopyFiles.NTx86]
+a332sam.sys,a33sam.sys,,2
+
+[ACS.Install.Sam3.CopyFiles.NTamd64]
+a332sam.sys,a33samx64.sys
+
+[ACS.Install.Sam3.NTx86.Services]
+AddService=A332SAM,2,ACS.Install.Sam3.Service,ACS.Install.Sam3.EventLog
+
+[ACS.Install.Sam3.NTamd64.Services]
+AddService=A332SAM,2,ACS.Install.Sam3.Service,ACS.Install.Sam3.EventLog
+
+[ACS.Install.Sam3.Service]
+DisplayName     = %ACS.DeviceDesc.Sam3%
+ServiceType	= 1
+StartType       = 3
+ErrorControl	= 1
+ServiceBinary	= %12%\a332sam.sys
+
+[ACS.Install.Sam3.EventLog]
+AddReg = ACS.Install.Sam3.AddEventLog.reg
+
+[ACS.Install.Sam3.AddEventLog.reg]
+HKR,, EventMessageFile, 0x00020000, "%%SystemRoot%%\System32\drivers\a332sam.sys"
+HKR,, TypesSupported,   0x00010001, 7
+
+; ============== ACS ACR337 Sam Driver ===============
+
+[ACS.Install.Sam4.NTx86]
+AddReg		= ACS.Install.Sam4.AddReg.NT
+CopyFiles 	= ACS.Install.Sam4.CopyFiles.NTx86
+
+[ACS.Install.Sam4.NTamd64]
+AddReg		= ACS.Install.Sam4.AddReg.NT
+CopyFiles 	= ACS.Install.Sam4.CopyFiles.NTamd64
+
+[ACS.Install.Sam4.AddReg.NT]
+HKR,,"VendorName",0,%Vendor%
+HKR,,"IFDName",0,%IFDName.Sam4%
+
+[ACS.Install.Sam4.CopyFiles.NTx86]
+a337sam.sys,a33sam.sys,,2
+
+[ACS.Install.Sam4.CopyFiles.NTamd64]
+a337sam.sys,a33samx64.sys
+
+[ACS.Install.Sam4.NTx86.Services]
+AddService=A337SAM,2,ACS.Install.Sam4.Service,ACS.Install.Sam4.EventLog
+
+[ACS.Install.Sam4.NTamd64.Services]
+AddService=A337SAM,2,ACS.Install.Sam4.Service,ACS.Install.Sam4.EventLog
+
+[ACS.Install.Sam4.Service]
+DisplayName     = %ACS.DeviceDesc.Sam4%
+ServiceType	= 1
+StartType       = 3
+ErrorControl	= 1
+ServiceBinary	= %12%\a337sam.sys
+
+[ACS.Install.Sam4.EventLog]
+AddReg = ACS.Install.Sam4.AddEventLog.reg
+
+[ACS.Install.Sam4.AddEventLog.reg]
+HKR,, EventMessageFile, 0x00020000, "%%SystemRoot%%\System32\drivers\a337sam.sys"
+HKR,, TypesSupported,   0x00010001, 7
+
+
+; ====================== Strings =========================
+
+[Strings]
+ACS                 	= "Advanced Card Systems Ltd."
+Vendor              	= "ACS"
+SourceDiskName		= "ACR33 USB Smart Card Reader Installation Disk"
+ClassName 		= "Smart Card Readers"
+ACS.DeviceDesc.Bus1	= "ACR33U 4SAM ICC Reader Bus Driver"
+ACS.DeviceDesc.Icc1	= "ACR33U 4SAM ICC Reader ICC"
+ACS.DeviceDesc.Sam1	= "ACR33U 4SAM ICC Reader SAM"
+ACS.DeviceDesc.Bus2	= "ACR33U-A1 3SAM ICC Reader Bus Driver"
+ACS.DeviceDesc.Icc2	= "ACR33U-A1 3SAM ICC Reader ICC"
+ACS.DeviceDesc.Sam2	= "ACR33U-A1 3SAM ICC Reader SAM"
+ACS.DeviceDesc.Bus3	= "ACR33U-A2 3SAM ICC Reader Bus Driver"
+ACS.DeviceDesc.Icc3	= "ACR33U-A2 3SAM ICC Reader ICC"
+ACS.DeviceDesc.Sam3	= "ACR33U-A2 3SAM ICC Reader SAM"
+ACS.DeviceDesc.Bus4	= "ACR33U-A3 3SAM ICC Reader Bus Driver"
+ACS.DeviceDesc.Icc4	= "ACR33U-A3 3SAM ICC Reader ICC"
+ACS.DeviceDesc.Sam4	= "ACR33U-A3 3SAM ICC Reader SAM"
+IFDName.Icc1         	= "ACR33U 4SAM ICC Reader ICC"
+IFDName.Sam1        	= "ACR33U 4SAM ICC Reader SAM"
+IFDName.Icc2         	= "ACR33U-A1 3SAM ICC Reader ICC"
+IFDName.Sam2        	= "ACR33U-A1 3SAM ICC Reader SAM"
+IFDName.Icc3         	= "ACR33U-A2 3SAM ICC Reader ICC"
+IFDName.Sam3        	= "ACR33U-A2 3SAM ICC Reader SAM"
+IFDName.Icc4         	= "ACR33U-A3 3SAM ICC Reader ICC"
+IFDName.Sam4        	= "ACR33U-A3 3SAM ICC Reader SAM"
+

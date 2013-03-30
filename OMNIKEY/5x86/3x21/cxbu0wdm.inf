@@ -1,0 +1,259 @@
+; cxbu0wdm.inf
+; Copyright (c) 2000 - 2004 OMNIKEY AG
+
+[Version]
+Signature=$CHICAGO$
+Class=SmartCardReader
+ClassGuid={50DD5230-BA8A-11D1-BF5D-0000F805F530}
+Provider=%Provider%
+DriverVer=01/12/2004,1.1.0.13
+CatalogFile=cxbu0wdm.cat
+
+[SourceDisksNames]
+1=%DiskDescription%,,
+
+[SourceDisksFiles]
+cxbu0w9x.sys=1,,
+cxbu0wdm.sys=1,,
+launchn.dll=1,,
+scbase.ex_=1,,
+smclib.ex_=1,,
+cmdiag.cpl=1,,
+cmdiag.ini=1,,
+cmabout.dll=1,,
+cmabout.ini=1,,
+ok.bmp=1,,
+chksvrn.dll=1,,
+
+[DestinationDirs]
+DefaultDestDir = 10,system32\drivers
+cxbu0wdm.Install.CopyFiles=10,system32\drivers
+cxbu0wdm.Install.NT.CopyFiles=10,system32\drivers
+cxbu0wdm.Install.Scbase=11
+cxbu0wdm.Install.ScOrg=10,system
+cxbu0wdm.Install.Tools=11
+cxbu0wdm.Install.NT.Tools=11
+cxbu0wdm.Install.NT.W2kTools=11
+
+[Manufacturer]
+%Manufacturer%=OMNIKEY
+
+; =================== Class section =======================
+
+[ClassInstall]
+Addreg=SmartCardReaderClassReg
+
+[SmartCardReaderClassReg]
+HKR,,,0,%ClassName%
+HKR,,Icon,,-25
+HKLM,"\Software\Microsoft\Cryptography\Calais\Readers",,,
+
+
+; ===================== PnP IDs ===========================
+
+[ControlFlags]
+ExcludeFromSelect.NT = USB\VID_076B&PID_A011&Mi_01
+ExcludeFromSelect.NT = USB\VID_076B&PID_A021
+
+
+
+[OMNIKEY]
+; DisplayName       	Section           DeviceId
+; -----------       	-------           --------
+%VID1PID4ReaderDescription% =  smartkey.Install, USB\VID_076B&PID_A011&Mi_01
+%VID1PID5ReaderDescription% =  smartlink.Install, USB\VID_076B&PID_A021
+
+
+
+
+
+; =================== Win9x specific ======================
+
+[smartkey.Install]
+AddReg    = smartkey.Install.AddReg
+CopyFiles = cxbu0wdm.Install.CopyFiles,cxbu0wdm.Install.Scbase,cxbu0wdm.Install.ScOrg,cxbu0wdm.Install.Tools
+
+[smartkey.Install.HW]
+AddReg    = smartkey.Install.AddReg.HW
+
+[smartlink.Install]
+AddReg    = smartlink.Install.AddReg
+CopyFiles = cxbu0wdm.Install.CopyFiles,cxbu0wdm.Install.Scbase,cxbu0wdm.Install.ScOrg,cxbu0wdm.Install.Tools
+
+[smartlink.Install.HW]
+AddReg    = smartlink.Install.AddReg.HW
+
+
+
+
+
+
+
+
+
+
+[smartkey.Install.AddReg]
+HKR,,DevLoader,,*ntkern
+HKR,,NTMPDriver,,cxbu0w9x.sys
+HKLM,"\Software\Microsoft\Windows\CurrentVersion\RunOnce",launchn,,"rundll32 launchn.dll,InstallSC"
+HKLM, Software\Microsoft\Cryptography\Calais\Readers,,,
+
+[smartlink.Install.AddReg]
+HKR,,DevLoader,,*ntkern
+HKR,,NTMPDriver,,cxbu0w9x.sys
+HKLM,"\Software\Microsoft\Windows\CurrentVersion\RunOnce",launchn,,"rundll32 launchn.dll,InstallSC"
+HKLM, Software\Microsoft\Cryptography\Calais\Readers,,,
+
+
+
+
+
+
+
+
+
+
+
+[cxbu0wdm.Install.CopyFiles]
+cxbu0w9x.sys
+
+[cxbu0wdm.Install.Scbase]
+launchn.dll
+scbase.ex_
+smclib.ex_
+
+[cxbu0wdm.Install.ScOrg]
+scbase.exe,scbase.ex_
+smclib.exe,smclib.ex_
+
+[cxbu0wdm.Install.Tools]
+cmdiag.cpl
+cmdiag.ini
+cmabout.dll
+cmabout.ini
+ok.bmp
+
+
+; ================== Win2000 specific =====================
+
+[smartkey.Install.NT]
+AddReg    = cxbu0wdm.Install.NT.AddReg
+CopyFiles = cxbu0wdm.Install.NT.CopyFiles,cxbu0wdm.Install.NT.Tools,cxbu0wdm.Install.NT.W2kTools
+
+[smartkey.Install.NT.HW]
+AddReg    = smartkey.Install.AddReg.HW
+
+[smartkey.Install.NT.Services]
+AddService = cxbu0wdm, 2, smartkey.Service.NT,cxbu0wdm.EventLog.NT
+
+[smartlink.Install.NT]
+AddReg    = cxbu0wdm.Install.NT.AddReg
+CopyFiles = cxbu0wdm.Install.NT.CopyFiles,cxbu0wdm.Install.NT.Tools,cxbu0wdm.Install.NT.W2kTools
+
+[smartlink.Install.NT.HW]
+AddReg    = smartlink.Install.AddReg.HW
+
+[smartlink.Install.NT.Services]
+AddService = cxbu0wdm, 2, smartlink.Service.NT,cxbu0wdm.EventLog.NT
+
+
+
+
+
+
+
+
+
+[cxbu0wdm.Install.NT.AddReg]
+HKR,, AdapterType, 0, "0100"
+HKLM,"SYSTEM\CurrentControlSet\Services\SCardSvr",Start,0x00010001,2
+HKLM,"Software\Microsoft\Windows\CurrentVersion\RunOnce",chksvrn,,"rundll32 chksvrn.dll,StartScardsvr"
+HKLM, Software\Microsoft\Cryptography\Calais\Readers,,,
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,DLLName,0,wlnotify.dll
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logon,0,SCardStartCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logoff,0,SCardStopCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Lock,0,SCardSuspendCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Unlock,0,SCardResumeCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Enabled,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Impersonate,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Asynchronous,0x00010001,1
+
+[cxbu0wdm.Install.NT.CopyFiles]
+cxbu0wdm.sys,,,2
+
+[cxbu0wdm.Install.NT.Tools]
+; no flags : skip allowed
+cmdiag.cpl
+cmdiag.ini
+cmabout.dll
+cmabout.ini
+ok.bmp
+
+
+
+[cxbu0wdm.Install.NT.W2kTools]
+chksvrn.dll
+
+
+
+
+[smartkey.Service.NT]
+DisplayName     = %VID1PID4ReaderDescription%
+ServiceType     = 1 ;%SERVICE_KERNEL_DRIVER%
+StartType       = 3 ;%SERVICE_AUTO_START%
+ErrorControl    = 1 ;%SERVICE_ERROR_NORMAL%
+ServiceBinary   = %12%\cxbu0wdm.sys
+[smartlink.Service.NT]
+DisplayName     = %VID1PID5ReaderDescription%
+ServiceType     = 1 ;%SERVICE_KERNEL_DRIVER%
+StartType       = 3 ;%SERVICE_AUTO_START%
+ErrorControl    = 1 ;%SERVICE_ERROR_NORMAL%
+ServiceBinary   = %12%\cxbu0wdm.sys
+
+
+
+
+
+
+
+[cxbu0wdm.EventLog.NT]
+AddReg = cxbu0wdm.AddEventLog.reg
+
+[cxbu0wdm.AddEventLog.reg]
+HKR,, EventMessageFile, 0x00020000, "%%SystemRoot%%\System32\drivers\cxbu0wdm.sys"
+HKR,, TypesSupported,   0x00010001, 7
+
+
+; =====================
+; === CardMan Smart@Key ====
+; =====================
+[smartkey.Install.AddReg.HW]
+HKR,,"VendorName",,"OMNIKEY"
+HKR,,"IfdType",, "CardMan Smart@Key"
+
+
+; =====================
+; === CardMan Smart@Link ====
+; =====================
+[smartlink.Install.AddReg.HW]
+HKR,,"VendorName",,"OMNIKEY"
+HKR,,"IfdType",, "CardMan Smart@Link"
+
+
+
+
+
+
+
+
+
+
+; ================= Strings =====================
+
+[Strings]
+Provider		= "OMNIKEY AG"
+Manufacturer    	= "OMNIKEY AG"
+VID1PID4ReaderDescription     = "CardMan Smart@Key"
+VID1PID5ReaderDescription     = "CardMan Smart@Link"
+DiskDescription         = "CardMan PC/SC Driver Disk"
+ClassName 		= "Smart Card Readers"

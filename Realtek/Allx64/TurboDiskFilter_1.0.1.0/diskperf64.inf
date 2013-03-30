@@ -1,0 +1,65 @@
+[Version]
+Signature = "$Windows NT$"
+Class     = DiskDrive
+ClassGUID = {4d36e967-e325-11ce-bfc1-08002be10318}
+Provider  = %VENDOR%
+DriverVer = 11/10/2010,1.0.1.0
+CatalogFile = diskperf64.cat
+
+;
+; General installation section
+;
+
+[DefaultInstall]
+CopyFiles = DISKPERF.CopyList
+
+[DestinationDirs]
+DefaultDestDir = 12
+
+;[diskperf.AddReg]
+;HKLM, System\CurrentControlSet\Control\Class\{4d36e967-e325-11ce-bfc1-08002be10318}, UpperFilters, 0x00010008, diskperf
+
+
+;
+; Service installation section
+;
+
+[DefaultInstall.Services]
+AddService = diskperf64, , diskperf.Service.Install
+
+[diskperf.Service.Install]
+DisplayName    = %service_desc%
+ServiceType    = 1
+StartType      = 3
+ErrorControl   = 1
+ServiceBinary  = %12%\diskperf64.sys
+
+[SourceDisksFiles]
+diskperf64.sys=1
+
+; Win2000
+
+[SourceDisksNames]
+1 = %diskid1%
+
+; WinXP and later
+
+[SourceDisksNames.x86]
+1 = %diskid1%
+
+[SourceDisksNames.amd64]
+1 = %diskid1%
+
+[DISKPERF.CopyList]
+diskperf64.sys
+
+;
+; Localizable Strings
+;
+
+[Strings]
+
+VENDOR       = Realtek SemiConductor Corporation"
+service_desc = "Realtek Turbo Disk Filter Driver"
+diskid1      = "Realtek Corp. Installation Disk #1 (DiskPerf)"
+

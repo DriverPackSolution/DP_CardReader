@@ -1,0 +1,111 @@
+;	EZCCID.INF - INF file for USB EZCCID Smart Card Reader
+;	Copyright (C) 2008, Castles Technology CO,. LTD.
+;
+
+[Version]
+DriverVer=11/26/2008,3.1.7.0
+Catalogfile=ezccid98.cat
+Catalogfile.NT=ezccidNT.cat
+Signature="$Windows NT$"
+Class=SmartCardReader
+ClassGUID={50DD5230-BA8A-11D1-BF5D-0000F805F530}
+Provider=%Castles%
+
+[ControlFlags]
+ExcludeFromSelect = *
+
+[ClassInstall32]
+Addreg=SmartCardReaderClassReg     
+
+[SmartCardReaderClassReg]
+HKR,,,0,%ClassName%
+HKR,,Icon,,-25
+HKLM,"\Software\Microsoft\Cryptography\Calais\Readers",,,
+
+[Manufacturer]
+%Castles%=Castles,NTia64, NTamd64
+
+[Castles]
+%USB\VID_0CA6&PID_00A0.DeviceDesc%=EZCCID,USB\VID_0CA6&PID_00A0
+
+[Castles.NTia64]
+%USB\VID_0CA6&PID_00A0.DeviceDesc%=EZCCID.NTia64,USB\VID_0CA6&PID_00A0
+
+[Castles.NTamd64]
+%USB\VID_0CA6&PID_00A0.DeviceDesc%=EZCCID.NTamd64,USB\VID_0CA6&PID_00A0
+
+[EZCCID]
+AddReg=EZCCID.AddReg
+CopyFiles=EZCCID.CopyList.98	
+
+[EZCCID.NT]
+AddReg=EZCCID.AddReg
+CopyFiles=EZCCID.CopyList    
+
+[EZCCID.NTia64]
+AddReg=EZCCID.AddReg64
+CopyFiles=EZCCID.CopyList64
+
+[EZCCID.NTamd64]
+AddReg=EZCCID.AddReg64
+CopyFiles=EZCCID.CopyList64
+
+[EZCCID.AddReg]
+HKR,,DevLoader,,*ntkern
+HKR,,NTMPDriver,,ezccid.sys
+
+[EZCCID.AddReg64]
+HKR,,DevLoader,,*ntkern
+HKR,,NTMPDriver,,ezccid64.sys
+
+[EZCCID.CopyList.98]
+ezccid.sys,,,2
+
+[EZCCID.CopyList]
+ezccid.sys,,,2
+
+[EZCCID.CopyList64]
+ezccid64.sys,,,2
+
+[EZCCID.NT.Services]
+Addservice = EZCCID, 0x00000002, EZCCID.AddService
+
+[EZCCID.NTia64.Services]
+Addservice = EZCCID, 0x00000002, EZCCID.AddService64
+
+[EZCCID.NTamd64.Services]
+Addservice = EZCCID, 0x00000002, EZCCID.AddService64
+
+[EZCCID.AddService]
+DisplayName    = %USB\VID_0CA6&PID_00A0.DeviceDesc%
+ServiceType    = 1                  ; SERVICE_KERNEL_DRIVER
+StartType      = 3                  ; SERVICE_DEMAND_START
+ErrorControl   = 1                  ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %12%\ezccid.sys
+
+[EZCCID.AddService64]
+DisplayName    = %USB\VID_0CA6&PID_00A0.DeviceDesc%
+ServiceType    = 1                  ; SERVICE_KERNEL_DRIVER
+StartType      = 3                  ; SERVICE_DEMAND_START
+ErrorControl   = 1                  ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %12%\ezccid64.sys
+
+
+[DestinationDirs]
+EZCCID.CopyList.98 = 10,System32\Drivers  
+EZCCID.CopyList = 12  
+EZCCID.CopyList64 = 12  
+DefaultDestDir = 12    
+    
+[SourceDisksNames] 
+1 = %DiskName%,,,
+
+[SourceDisksFiles]
+ezccid.sys=1
+ezccid64.sys=1
+
+[Strings]
+DiskName		= "EZCCID Install Disk"
+Castles="Castles Technology"
+USB\VID_0CA6&PID_00A0.DeviceDesc="EZCCID PC/SC Smart Card Reader"
+ClassName="Smart Card Readers"

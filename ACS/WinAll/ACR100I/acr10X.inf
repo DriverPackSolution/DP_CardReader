@@ -1,0 +1,310 @@
+; ACR10X.INF
+; Copyright (c) 1994 - 2011 Advanced Card System Ltd
+
+[Version]
+DriverVer=01/19/2011,1.0.0.0
+Signature="$CHICAGO$"
+Class=SmartCardReader
+ClassGuid={50DD5230-BA8A-11D1-BF5D-0000F805F530}
+Provider=%ACS%
+CatalogFile.NT=acr10X.cat
+
+; ==================== Source and Destination section ====================
+
+[SourceDisksNames]
+1 = "ACR10X ICC Reader Installation Disk",,,""
+
+[SourceDisksFiles]
+a101w98.sys 		 = 1
+acr101.sys               = 1
+acr101x64.sys            = 1
+a100w98.sys 		 = 1
+acr100.sys               = 1
+acr100x64.sys            = 1
+a102w98.sys 		 = 1
+acr102.sys               = 1
+acr102x64.sys            = 1
+
+[DestinationDirs]
+ACS.Install1.CopySYS 	    	   = 10,System32\Drivers
+ACS.Install1.CopySYS.NTx86         = 12
+ACS.Install1.CopySYS.NTamd64       = 12
+ACS.Install2.CopySYS 	    	   = 10,System32\Drivers
+ACS.Install2.CopySYS.NTx86         = 12
+ACS.Install2.CopySYS.NTamd64       = 12
+ACS.Install3.CopySYS 	    	   = 10,System32\Drivers
+ACS.Install3.CopySYS.NTx86         = 12
+ACS.Install3.CopySYS.NTamd64       = 12
+
+
+; ============================= Class section =============================
+
+[ClassInstall32]
+Addreg=SmartCardReaderClassReg     
+
+[ClassInstall]
+Addreg=SmartCardReaderClassReg
+
+[SmartCardReaderClassReg]
+HKR,,,0,%ClassName%
+HKR,,Icon,,-25
+HKLM,"\Software\Microsoft\Cryptography\Calais\Readers",,,
+
+[Manufacturer]
+%ACS%=ACS,NTamd64
+
+; ========================= ACS ACR10X ICC Reader =========================
+
+[ACS]
+; DisplayName       Section     DeviceId
+; -----------       -------     --------
+%ACS.DeviceDesc1%     = ACS.Install1,     USB\VID_072F&PID_1204
+%ACS.DeviceDesc2%     = ACS.Install2,     USB\VID_072F&PID_1205
+%ACS.DeviceDesc3%     = ACS.Install3,     USB\VID_072F&PID_1206  
+
+
+[ACS.NTamd64]
+; DisplayName       Section     DeviceId
+; -----------       -------     --------
+%ACS.DeviceDesc1%     = ACS.Install1,     USB\VID_072F&PID_1204
+%ACS.DeviceDesc2%     = ACS.Install2,     USB\VID_072F&PID_1205
+%ACS.DeviceDesc3%     = ACS.Install3,     USB\VID_072F&PID_1206
+
+
+; ========================= ACS ACR101 ICC Reader =========================
+
+[ACS.Install1]
+AddReg          = ACS.Install1.AddReg
+CopyFiles	= ACS.Install1.CopySYS
+
+[ACS.Install1.NTx86]
+AddReg          = ACS.Install1.AddReg.NT
+CopyFiles	= ACS.Install1.CopySYS.NTx86
+
+[ACS.Install1.NTamd64]
+AddReg          = ACS.Install1.AddReg.NT
+CopyFiles	= ACS.Install1.CopySYS.NTamd64
+
+
+; ======================= Windows 98/ME ==========================
+
+[ACS.Install1.AddReg]
+HKR,,DevLoader,,*ntkern
+HKR,,NTMPDriver,,acr101.sys
+HKR,,AdapterType, 0, "0100"
+HKR,,"VendorName",0,%Vendor%
+HKR,,"IFDName",0,%Reader1%
+HKR,,"CardType",0,%CardType%
+HKR,,"SFDT",0,%SFDT%
+HKR,,"CardVoltage",0,%CardVoltage%
+
+[ACS.Install1.CopySYS]
+acr101.sys,a101w98.sys
+
+[ACS.Install1.Services]
+AddService = ACR101, 2, ACS.Service1
+
+; ============= Windows 2000, XP, 2003 and Vista =================
+
+[ACS.Install1.AddReg.NT]
+HKR,,AdapterType, 0, "0100"
+HKR,,"VendorName",0,%Vendor%
+HKR,,"IFDName",0,%Reader1%
+HKR,,"CardType",0,%CardType%
+HKR,,"SFDT",0,%SFDT%
+HKR,,"CardVoltage",0,%CardVoltage%
+HKLM,"System\CurrentControlSet\Services\SCardSvr","Start", 0x00010001,2
+HKLM,"System\CurrentControlSet\Services\CertPropSvc","Start", 0x00010001,2
+
+[ACS.Install1.CopySYS.NTx86]
+acr101.sys
+
+[ACS.Install1.CopySYS.NTamd64]
+acr101.sys,acr101x64.sys
+
+[ACS.Install1.NTx86.Services]
+AddService = ACR101, 2, ACS.Service1, ACS.EventLog1
+
+[ACS.Install1.NTamd64.Services]
+AddService = ACR101, 2, ACS.Service1, ACS.EventLog1
+
+;===================== ACS ACR101 Common ========================
+
+[ACS.Service1]
+DisplayName     = %ACS.DeviceDesc1%
+ServiceType     = 1 ;%SERVICE_KERNEL_DRIVER%
+StartType       = 3 ;%SERVICE_DEMAND_START%
+ErrorControl    = 1 ;%SERVICE_ERROR_NORMAL%
+ServiceBinary   = %12%\acr101.sys
+
+[ACS.EventLog1]
+AddReg = ACS.AddEventLog1.reg
+
+[ACS.AddEventLog1.reg]
+HKR,, EventMessageFile, 0x00020000, "%%SystemRoot%%\System32\drivers\acr101.sys"
+HKR,, TypesSupported,   0x00010001, 7
+
+
+; ========================= ACS ACR100 ICC Reader =========================
+
+[ACS.Install2]
+AddReg          = ACS.Install2.AddReg
+CopyFiles	= ACS.Install2.CopySYS
+
+[ACS.Install2.NTx86]
+AddReg          = ACS.Install2.AddReg.NT
+CopyFiles	= ACS.Install2.CopySYS.NTx86
+
+[ACS.Install2.NTamd64]
+AddReg          = ACS.Install2.AddReg.NT
+CopyFiles	= ACS.Install2.CopySYS.NTamd64
+
+
+; ======================= Windows 98/ME ==========================
+
+[ACS.Install2.AddReg]
+HKR,,DevLoader,,*ntkern
+HKR,,NTMPDriver,,acr100.sys
+HKR,,AdapterType, 0, "0100"
+HKR,,"VendorName",0,%Vendor%
+HKR,,"IFDName",0,%Reader2%
+HKR,,"CardType",0,%CardType%
+HKR,,"SFDT",0,%SFDT%
+HKR,,"CardVoltage",0,%CardVoltage%
+
+[ACS.Install2.CopySYS]
+acr100.sys,a100w98.sys
+
+[ACS.Install2.Services]
+AddService = ACR100, 2, ACS.Service2
+
+; ============= Windows 2000, XP, 2003 and Vista =================
+
+[ACS.Install2.AddReg.NT]
+HKR,,AdapterType, 0, "0100"
+HKR,,"VendorName",0,%Vendor%
+HKR,,"IFDName",0,%Reader2%
+HKR,,"CardType",0,%CardType%
+HKR,,"SFDT",0,%SFDT%
+HKR,,"CardVoltage",0,%CardVoltage%
+HKLM,"System\CurrentControlSet\Services\SCardSvr","Start", 0x00010001,2
+HKLM,"System\CurrentControlSet\Services\CertPropSvc","Start", 0x00010001,2
+
+[ACS.Install2.CopySYS.NTx86]
+acr100.sys
+
+[ACS.Install2.CopySYS.NTamd64]
+acr100.sys,acr100x64.sys
+
+[ACS.Install2.NTx86.Services]
+AddService = ACR100, 2, ACS.Service2, ACS.EventLog2
+
+[ACS.Install2.NTamd64.Services]
+AddService = ACR100, 2, ACS.Service2, ACS.EventLog2
+
+;===================== ACS ACR100 Common ========================
+
+[ACS.Service2]
+DisplayName     = %ACS.DeviceDesc2%
+ServiceType     = 1 ;%SERVICE_KERNEL_DRIVER%
+StartType       = 3 ;%SERVICE_DEMAND_START%
+ErrorControl    = 1 ;%SERVICE_ERROR_NORMAL%
+ServiceBinary   = %12%\acr100.sys
+
+[ACS.EventLog2]
+AddReg = ACS.AddEventLog2.reg
+
+[ACS.AddEventLog2.reg]
+HKR,, EventMessageFile, 0x00020000, "%%SystemRoot%%\System32\drivers\acr100.sys"
+HKR,, TypesSupported,   0x00010001, 7
+
+
+; ========================= ACS ACR102 ICC Reader =========================
+
+[ACS.Install3]
+AddReg          = ACS.Install3.AddReg
+CopyFiles	= ACS.Install3.CopySYS
+
+[ACS.Install3.NTx86]
+AddReg          = ACS.Install3.AddReg.NT
+CopyFiles	= ACS.Install3.CopySYS.NTx86
+
+[ACS.Install3.NTamd64]
+AddReg          = ACS.Install3.AddReg.NT
+CopyFiles	= ACS.Install3.CopySYS.NTamd64
+
+
+; ======================= Windows 98/ME ==========================
+
+[ACS.Install3.AddReg]
+HKR,,DevLoader,,*ntkern
+HKR,,NTMPDriver,,acr102.sys
+HKR,,AdapterType, 0, "0100"
+HKR,,"VendorName",0,%Vendor%
+HKR,,"IFDName",0,%Reader3%
+HKR,,"CardType",0,%CardType%
+HKR,,"SFDT",0,%SFDT%
+HKR,,"CardVoltage",0,%CardVoltage%
+
+[ACS.Install3.CopySYS]
+acr102.sys,a102w98.sys
+
+[ACS.Install3.Services]
+AddService = ACR102, 2, ACS.Service3
+
+; ============= Windows 2000, XP, 2003 and Vista =================
+
+[ACS.Install3.AddReg.NT]
+HKR,,AdapterType, 0, "0100"
+HKR,,"VendorName",0,%Vendor%
+HKR,,"IFDName",0,%Reader3%
+HKR,,"CardType",0,%CardType%
+HKR,,"SFDT",0,%SFDT%
+HKR,,"CardVoltage",0,%CardVoltage%
+HKLM,"System\CurrentControlSet\Services\SCardSvr","Start", 0x00010001,2
+HKLM,"System\CurrentControlSet\Services\CertPropSvc","Start", 0x00010001,2
+
+[ACS.Install3.CopySYS.NTx86]
+acr102.sys
+
+[ACS.Install3.CopySYS.NTamd64]
+acr102.sys,acr102x64.sys
+
+[ACS.Install3.NTx86.Services]
+AddService = ACR102, 2, ACS.Service3, ACS.EventLog3
+
+[ACS.Install3.NTamd64.Services]
+AddService = ACR102, 2, ACS.Service3, ACS.EventLog3
+
+;===================== ACS ACR102 Common ========================
+
+[ACS.Service3]
+DisplayName     = %ACS.DeviceDesc3%
+ServiceType     = 1 ;%SERVICE_KERNEL_DRIVER%
+StartType       = 3 ;%SERVICE_DEMAND_START%
+ErrorControl    = 1 ;%SERVICE_ERROR_NORMAL%
+ServiceBinary   = %12%\acr102.sys
+
+[ACS.EventLog3]
+AddReg = ACS.AddEventLog3.reg
+
+[ACS.AddEventLog3.reg]
+HKR,, EventMessageFile, 0x00020000, "%%SystemRoot%%\System32\drivers\acr102.sys"
+HKR,, TypesSupported,   0x00010001, 7
+
+
+; ========================== Strings ============================
+[Strings]
+Msft			= "Advanced Card Systems Ltd."
+ACS			= "ACS"
+ACS.DeviceDesc1		= "ACR101 ICC Reader"
+ACS.DeviceDesc2		= "ACR100 ICC Reader"
+ACS.DeviceDesc3		= "ACR102 ICC Reader"
+ClassName 		= "Smart Card Readers"
+Vendor			= "ACS"
+Reader1			= "ACR101 ICC Reader"
+Reader2			= "ACR100 ICC Reader"
+Reader3			= "ACR102 ICC Reader"
+CardType		= 0
+SFDT			= "TRUE"
+CardVoltage		= 0

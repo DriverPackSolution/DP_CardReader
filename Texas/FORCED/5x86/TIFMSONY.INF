@@ -1,0 +1,75 @@
+; Copyright (c) 2003-2007 Texas Instruments
+; TI FlashMedia Installation file for Win2000/XP
+
+[Version]
+Signature=$CHICAGO$
+Class=MTD
+ClassGuid={4d36e970-e325-11ce-bfc1-08002be10318}
+Provider=%MFGNAME%
+CataLogFile=tifmsony.cat
+DriverVer=02/28/2007,2.0.4.7
+
+[Manufacturer]
+%MFGNAME%=DeviceList
+
+[ControlFlags]
+ExcludeFromSelect=*
+
+[DestinationDirs]
+DefaultDestDir = 11
+DriverCopyFiles = 12
+
+[SourceDisksFiles]
+tifmsony.sys=1
+
+[SourceDisksNames]
+1=%INSTDISK%,,,
+
+[DeviceList]
+%DESCRIPTION%=FMDriverInstall,PCI\VEN_104C&DEV_AC8F  ; 7x20
+
+;------------------------------------------------------------------------------
+;  Windows 2000/XP Sections
+;------------------------------------------------------------------------------
+
+[FMDriverInstall.NT]
+AddReg   = FMDriverInstall.AddReg
+CopyFiles=DriverCopyFiles
+
+[DriverCopyFiles]
+tifmsony.sys,,,2
+
+[FMDriverInstall.NT.Services]
+AddService=tifmsony,2,DriverService
+
+[DriverService]
+ServiceType=1
+StartType=3
+ErrorControl=1
+ServiceBinary=%10%\system32\drivers\tifmsony.sys
+
+
+[FMDriverInstall.nt.hw]
+AddReg=FMDriverHwAddReg
+
+[FMDriverHwAddReg]
+; Disable Eject option in the menu of drive icon on XP only
+HKLM,"SOFTWARE\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\FlashMedia#MSorMSProDevice","NoSoftEject",0x00010001,0x00000001
+
+[FMDriverInstall.AddReg]
+; DWORD will go to software branch
+;HKR,,SecurityEnable,0x00010001,1
+; Write to specified registry path
+HKLM,System\CurrentControlSet\Services\tifmsony\Parameters,ShowRemoveDiagBox, 0x10001,0
+
+; This key is to solve W2K "Delay write fail" QFE issue on 2K only
+HKLM,System\CurrentControlSet\Services\Disk,HotPlugAlwaysEnable, 0x00010000,"MemoryStick"
+
+;------------------------------------------------------------------------------
+;  String Definitions
+;------------------------------------------------------------------------------
+
+[Strings]
+MFGNAME="Texas Instruments Inc"
+INSTDISK="TI Installation Disc"
+DESCRIPTION="Texas Instruments PCI7420 Integrated FlashMedia Controller"

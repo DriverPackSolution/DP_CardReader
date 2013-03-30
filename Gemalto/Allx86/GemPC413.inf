@@ -1,0 +1,69 @@
+; GemPC413.INF
+; GemPC413 Serial Smart Card Reader installation Windows 2000
+; Copyright (c) 2001 GEMPLUS
+
+[Version]
+Signature="$Windows NT$"
+Class=SmartCardReader
+ClassGuid={50DD5230-BA8A-11D1-BF5D-0000F805F530}
+Provider=%GEMPLUS%
+CatalogFile=GemPC413.cat
+DriverVer=11/07/2001,1.0.4
+
+[ControlFlags]
+; Prevent legacy install for PnP readers
+ExcludeFromSelect=SERENUM\GEM0413
+
+[Manufacturer]
+%GEMPLUS%=GEMPLUS
+
+[GEMPLUS]
+; DisplayName       	Section           DeviceId
+; -----------       	-------           --------
+%GemPC413.DeviceDesc% = 	GemPC413.Install,  SERENUM\GEM0413
+
+[GemPC413.Install.NT]
+AddReg           = GemPC413.Install.AddReg
+CopyFiles	 = GemPC413.Install.CopyFiles
+
+[GemPC413.Install.AddReg]
+HKR,, AdapterType, 0, "0100"
+HKR,, MaximalBaudRate,0x00010001,38400
+
+[GemPC413.Install.CopyFiles]
+GemPC413.sys,,,2
+
+[GemPC413.Install.NT.Services]
+AddService = GemPC413, 2, GemPC413.Service, GemPC413.EventLog
+
+[GemPC413.Service]
+DisplayName     = %GemPC413.DeviceDesc%
+ServiceType     = 1 ;%SERVICE_KERNEL_DRIVER%
+StartType       = 3 ;%SERVICE_AUTO_START%
+ErrorControl    = 1 ;%SERVICE_ERROR_NORMAL%
+ServiceBinary   = %12%\GemPC413.sys
+
+[GemPC413.EventLog]
+AddReg = GemPC413.AddEventLog.reg
+
+[GemPC413.AddEventLog.reg]
+HKR,, EventMessageFile, 0x00020000, "%%SystemRoot%%\System32\drivers\GemPC413.sys"
+HKR,, TypesSupported,   0x00010001, 7
+
+[DestinationDirs]
+GemPC413.Install.CopyFiles = 12
+DefaultDestDir = 11
+
+[SourceDisksNames]
+1=%Disk%,,,
+
+[SourceDisksFiles]
+GemPC413.SYS=1
+
+
+; ================= Strings =====================
+
+[Strings]
+GEMPLUS                 = "GEMPLUS"
+GemPC413.DeviceDesc     = "GEMPLUS Serial Smart Card Reader"
+Disk			= "Serial Smart Card Reader Installation Disk"

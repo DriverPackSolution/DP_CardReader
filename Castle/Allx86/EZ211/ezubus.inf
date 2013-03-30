@@ -1,0 +1,76 @@
+;
+;	EZUBUS.INF - INF file for Bus Driver of EZ220PU Smart Card Reader
+;	Copyright (C) 2003, Castles Technology CO,. LTD.
+;
+
+[Version]
+Signature="$Windows NT$"
+Class=USB
+ClassGUID={36FC9E60-C465-11CF-8056-444553540000}
+Provider=%Castles%
+DriverVer=11/12/2003,1.00.00.00
+Catalogfile=ezubus9x.cat
+Catalogfile.NT=ezubusNT.cat
+LayoutFile=layout.inf
+
+[ControlFlags]
+ExcludeFromSelect = *
+
+;--------------------------------------------------------------------
+; Device installation
+;--------------------------------------------------------------------    
+[Manufacturer]
+%Castles%=Castles
+
+[Castles]
+%USB\VID_0CA6&PID_0050.DeviceDesc%=EZUBUS,USB\VID_0CA6&PID_0050
+
+[DestinationDirs]
+EZUBUS.CopyList.NT = 12    
+EZUBUS.CopyList.98 = 10,System32\Drivers
+DefaultDestDir = 12
+
+;--------------------------------------------------------------------
+; WinNT/XP installation
+;--------------------------------------------------------------------
+[EZUBUS.NT]
+AddReg=EZUBUS.AddReg
+CopyFiles=EZUBUS.CopyList.NT
+
+[EZUBUS.NT.Services]
+Addservice = EZUBUS, 0x00000002, EZUBUS.AddService
+
+[EZUBUS.AddService]
+DisplayName    = %USB\VID_0CA6&PID_0050.DeviceDesc%
+ServiceType    = 1                  ; SERVICE_KERNEL_DRIVER
+StartType      = 3                  ; SERVICE_DEMAND_START
+ErrorControl   = 1                  ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %12%\ezubus.sys
+
+[EZUBUS.CopyList.NT]
+ezubus.sys,,,2
+
+;--------------------------------------------------------------------
+; Win9x/ME installation
+;--------------------------------------------------------------------
+[EZUBUS]
+AddReg=EZUBUS.AddReg
+CopyFiles=EZUBUS.CopyList.98
+
+[EZUBUS.AddReg]
+HKR,,DevLoader,,*ntkern
+HKR,,NTMPDriver,,ezubus.sys
+
+[EZUBUS.CopyList.98]
+ezubus.sys,,,2
+
+[SourceDisksNames] 
+1 = %DiskName%,,,
+
+[SourceDisksFiles]
+ezubus.sys=1
+
+[Strings]
+DiskName                              ="EZ220PU Installation Disk"
+Castles                               ="Castles Technology"
+USB\VID_0CA6&PID_0050.DeviceDesc      ="EZ220PU Reader Controller"

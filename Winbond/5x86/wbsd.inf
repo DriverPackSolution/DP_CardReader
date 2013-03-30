@@ -1,0 +1,157 @@
+; WBSD.INF
+; Copyright (C) 2001 Winbond Electronics Corp.
+
+[Version]
+Signature=$WINDOWS NT$
+Class=HDC
+ClassGuid={4D36E96A-E325-11CE-BFC1-08002BE10318}
+Provider=%Winbond%
+DriverVer=05/06/2003,2.0.2003.0506
+CatalogFile=wbsdxp.cat
+
+[Manufacturer]
+%Winbond%=DeviceList
+
+[DeviceList]
+%DESCRIPTION%=DriverInstall,*WEC0517
+%DESCRIPTION%=DriverInstall,*WEC0518
+
+[ControlFlags]
+ExcludeFromSelect=*WEC0517, *WEC0518
+
+[DriverInstall.NT]
+CopyFiles=DriverCopyFiles
+LogConfig=LogConfig0, LogConfig1, LogConfig2, LogConfig3, LogConfig4, LogConfig5, LogConfig6, LogConfig7, LogConfig8
+
+[DriverCopyFiles]
+wbsd.sys,,,2
+
+[DriverAddReg]
+HKR, "Parameters", "ClockRegister",     %REG_DWORD%, 0x00000012
+HKR, "Parameters", "DebugLevel",        %REG_DWORD%, 0x00000000
+
+; Use for Non-PNP BIOS
+HKR, "Parameters", "InitializeIC",      %REG_DWORD%, 0x00000000
+HKR, "Parameters", "ConfigRegister",    %REG_DWORD%, 0x0000002E
+HKR, "Parameters", "Hef",               %REG_DWORD%, 0x00000083
+HKR, "Parameters", "LogicDevice",       %REG_DWORD%, 0x00000001
+HKR, "Parameters", "IoBase",            %REG_DWORD%, 0x000002E8
+HKR, "Parameters", "IRQ",               %REG_DWORD%, 0x00000005
+HKR, "Parameters", "SupportMMC",        %REG_DWORD%, 0x00000001
+
+[DriverInstall.NT.HW]
+AddReg = SDICON.AddReg
+
+[SDICON.AddReg]
+HKR,, DeviceGroup,, "SecureDigital"
+; for Label string
+HKLM, %DEVICE_GROUP%\SecureDigital, Label, %REG_SZ%, "Winbond SD Drive"
+; for NO soft eject
+;HKLM, %DEVICE_GROUP%\SecureDigital, NoSoftEject, %REG_DWORD%, 0x00000001
+
+[DriverInstall.NT.Services]
+AddService=WBSD, 0x00000002, DriverService, DriverEventLog
+
+[DriverService]
+DisplayName    = "Winbond Secure Digital Storage (SD/MMC) Device Driver"
+ServiceType    = 1
+StartType      = 3
+ErrorControl   = 1
+ServiceBinary  = %10%\System32\Drivers\WBSD.SYS
+LoadOrderGroup = Primary disk
+AddReg         = DriverAddReg
+
+[DriverEventLog]
+AddReg=DriverAddEventLog.Reg
+
+[DriverAddEventLog.Reg]
+HKR,,EventMessageFile, 0x00020000, "%%SystemRoot%%\System32\Drivers\wbsd.sys"
+HKR,,TypesSupported,0x00010001, 7
+
+[SourceDisksNames]
+1=%SOURCE_DESC1%,,
+
+[SourceDisksFiles]
+wbsd.sys=1,,,,,
+
+[DestinationDirs]
+DefaultDestDir=10,System32\Drivers
+
+[LogConfig0]
+ConfigPriority	= DESIRED
+IOConfig	= 2E8-2EF(3FF::)
+IRQConfig	= 5
+DMAConfig	= 3
+
+[LogConfig1]
+ConfigPriority	= NORMAL
+IOConfig	= 2F8-2FF(3FF::)
+IRQConfig	= 3,4,5,6,7,9,10,11,12
+DMAConfig	= 0,1,2,3
+
+[LogConfig2]
+ConfigPriority	= NORMAL
+IOConfig	= 3F8-3FF(3FF::)
+IRQConfig	= 3,4,5,6,7,9,10,11,12
+DMAConfig	= 0,1,2,3
+
+[LogConfig3]
+ConfigPriority	= NORMAL
+IOConfig	= 2E8-2EF(3FF::)
+IRQConfig	= 3,4,5,6,7,9,10,11,12
+DMAConfig	= 0,1,2,3
+
+[LogConfig4]
+ConfigPriority	= NORMAL
+IOConfig	= 3E8-3EF(3FF::)
+IRQConfig	= 3,4,5,6,7,9,10,11,12
+DMAConfig	= 0,1,2,3
+
+[LogConfig5]
+ConfigPriority	= NORMAL
+IOConfig	= 2E0-2E7(3FF::)
+IRQConfig	= 3,4,5,6,7,9,10,11,12
+DMAConfig	= 0,1,2,3
+
+[LogConfig6]
+ConfigPriority	= NORMAL
+IOConfig	= 3E0-3E7(3FF::)
+IRQConfig	= 3,4,5,6,7,9,10,11,12
+DMAConfig	= 0,1,2,3
+
+[LogConfig7]
+ConfigPriority	= NORMAL
+IOConfig	= 240-247(3FF::)
+IRQConfig	= 3,4,5,6,7,9,10,11,12
+DMAConfig	= 0,1,2,3
+
+[LogConfig8]
+ConfigPriority	= NORMAL
+IOConfig	= 248-24F(3FF::)
+IRQConfig	= 3,4,5,6,7,9,10,11,12
+DMAConfig	= 0,1,2,3
+
+
+[Strings]
+Winbond="Winbond Electronics Corp."
+DESCRIPTION="Winbond Secure Digital Storage (SD/MMC) Device Driver"
+MsSdClassName="Winbond (MS/SD/MMC) Storage"
+SOURCE_DESC1 = "Winbond Secure Digital Controller Source Disk #1"
+DEVICE_GROUP = "SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\AutoplayHandlers\DeviceGroups"
+
+
+REG_TYPE_SZ       = 0x00000000
+REG_BINVALUETYPE  = 0x00000001
+REG_NOCLOBBER     = 0x00000002
+REG_DELVAL        = 0x00000004
+REG_APPEND        = 0x00000008
+REG_KEYONLY       = 0x00000010
+REG_OVERWRITEONLY = 0x00000020
+
+REG_MASK        = 0xFFFF0001
+REG_MULTI_SZ    = 0x00010000
+REG_EXPAND_SZ   = 0x00020000
+REG_BINARY      = 0x00000001
+REG_DWORD       = 0x00010001
+REG_NONE        = 0x00020001
+REG_SZ          = 0x00000000

@@ -1,0 +1,127 @@
+; egatebus.inf
+; Copyright (c) 2002-2006 Axalto
+
+
+[Version]
+Signature=$CHICAGO$
+Class=Egatebus
+ClassGuid={9510EE5D-9613-439a-ADB9-E4DEA5A6B653}
+Provider=%AXL%
+DriverVer=04/25/2006,3.00.06.00
+CatalogFile=egatebus.cat
+
+;------------------------------------------------------------------------------
+;  Class installation sections
+;------------------------------------------------------------------------------
+
+[ClassInstall]
+AddReg=Class.AddReg
+CopyFiles=Class.CopyFiles
+
+[Class.AddReg]
+HKR,,,,%CLASSDESC%
+HKR,,Icon,,"101"
+HKR,,EnumPropPages,,"slbmgp98.dll,EnumPropPages"
+
+[Class.CopyFiles]
+slbmgp98.dll,,,0x2
+
+[ClassInstall32]
+AddReg=Class32.AddReg
+CopyFiles=Class32.CopyFiles
+
+[Class32.AddReg]
+HKR,,,,%CLASSDESC%
+HKR,,Installer32,,"slbmgpg.dll,ClassInstaller"
+HKR,,EnumPropPages32,,"slbmgpg.dll,EnumPropPages"
+HKR,,Icon,,"101"
+
+[Class32.CopyFiles]
+slbmgpg.dll,,,0x2
+
+;------------------------------------------------------------------------------
+;  Global sections
+;------------------------------------------------------------------------------
+
+[Manufacturer]
+%AXL%=DeviceList
+
+[DestinationDirs]
+DefaultDestDir=10,System32\Drivers
+Class32.CopyFiles=11
+Class.CopyFiles=11
+DriverInstall.CopyFiles=10,System32\Drivers
+
+[SourceDisksFiles]
+egatebus.sys=1
+slbmgpg.dll=1
+slbmgp98.dll=1
+
+[SourceDisksNames]
+1=%INSTDISK%,,,.
+
+[DeviceList]
+%DESCRIPTION%=DriverInstall,egatebus
+
+[DriverInstall.CopyFiles]
+egatebus.sys,,,0x2
+
+;------------------------------------------------------------------------------
+;  Windows 2000 Sections
+;------------------------------------------------------------------------------
+
+[DriverInstall.NT]
+CopyFiles=DriverInstall.CopyFiles
+
+
+[DriverInstall.NT.Services]
+AddService=Egatebus,2,DriverInstall.NT.Service
+
+[DriverInstall.NT.Service]
+ServiceType=1
+StartType=3
+ErrorControl=1
+ServiceBinary=%10%\system32\drivers\egatebus.sys
+
+[DriverInstall.NT.hw]
+AddReg=HwAddReg.hw
+
+[HwAddReg.hw]
+HKR,,VirtualReaderCount,0x00010003,1
+
+;------------------------------------------------------------------------------
+;  Windows 98 Sections
+;------------------------------------------------------------------------------
+
+[DriverInstall]
+AddReg=DriverInstall.AddReg
+CopyFiles=DriverInstall.CopyFiles
+
+; Note: ClassInstall not working for some reason, so do it by hand...
+
+[DriverInstall.AddReg]
+HKR,,DevLoader,,*ntkern
+HKR,,NTMPDriver,,"egatebus.sys"
+HKLM,System\CurrentControlSet\Services\Class\{9510EE5D-9613-439a-ADB9-E4DEA5A6B653},Class,,Egatebus
+HKLM,System\CurrentControlSet\Services\Class\{9510EE5D-9613-439a-ADB9-E4DEA5A6B653},Link,,Egatebus
+HKLM,System\CurrentControlSet\Services\Class\Egatebus,,,%CLASSDESC%
+HKLM,System\CurrentControlSet\Services\Class\Egatebus,Link,,"{9510EE5D-9613-439a-ADB9-E4DEA5A6B653}"
+HKLM,System\CurrentControlSet\Services\Class\Egatebus,Icon,1,1,0,0,0
+HKLM,System\CurrentControlSet\Services\Class\Egatebus,EnumPropPages,,"slbmgp98.dll,EnumPropPages"
+
+[DriverInstall.hw]
+AddReg=DriverInstall.Hw.AddReg
+
+[DriverInstall.Hw.AddReg]
+HKR,,VirtualReaderCount,1,1,0,0,0
+
+;------------------------------------------------------------------------------
+;  String Definitions
+;------------------------------------------------------------------------------
+
+[Strings]
+AXL=		"Axalto"
+INSTDISK=	"e-gate Installation Disk"
+DESCRIPTION=	"e-gate Virtual Reader Enumerator"
+CLASSDESC=	"e-gate Virtual Reader Enumerators"
+

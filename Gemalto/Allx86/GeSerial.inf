@@ -1,0 +1,71 @@
+; GeSerial.inf 
+; Copyright (c) 2007 Gemalto
+
+[Version]
+Signature="$CHICAGO$"
+Class=SmartCardReader
+ClassGuid={50DD5230-BA8A-11D1-BF5D-0000F805F530}
+provider=%MFGNAME1%
+CatalogFile=GeSerial.cat
+DriverVer=04/05/2007,3.1.0.4
+
+[ControlFlags]
+; Prevent legacy install for PnP readers
+ExcludeFromSelect = *
+
+[Manufacturer]
+%MFGNAME1%=DeviceListMfg1
+
+[DestinationDirs]
+DriverCopyFiles = 10,System32\Drivers
+DefaultDestDir = 10,System32\Drivers
+
+[SourceDisksFiles]
+GeSerial.sys=1
+
+
+[SourceDisksNames]
+1=%INSTDISK%,,
+
+
+[DeviceListMfg1]
+%GESERIAL.DeviceDesc%  =  DriverInstall,  SERENUM\GEM3417
+
+
+;------------------------------------------------------------------------------
+;  Windows XP and later, x86 only
+;------------------------------------------------------------------------------
+[DriverInstall]
+CopyFiles=DriverCopyFiles
+
+[DriverInstall.Services]
+Addservice = GeSerial, 2, DriverService,EventLogging
+
+[DriverInstall.hw]
+AddReg=DriverHwAddReg
+
+[DriverCopyFiles]
+GeSerial.sys,,,2
+
+[DriverService]
+ServiceType    = 1                  ; SERVICE_KERNEL_DRIVER
+StartType      = 3                  ; SERVICE_DEMAND_START
+ErrorControl   = 1                  ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %10%\System32\Drivers\GeSerial.sys
+
+[EventLogging]
+AddReg=EventLogAddReg
+
+[EventLogAddReg]
+HKR,,EventMessageFile,0x00020000,"%%SystemRoot%%\system32\drivers\GeSerial.sys"
+HKR,,TypesSupported,0x00010001,7
+
+[DriverHwAddReg]
+HKLM,System\CurrentControlSet\Services\SCardSvr,Start,0x00010001,2
+HKLM, System\CurrentControlSet\Services\CertPropSvc,Start,0x00010001,2
+
+
+[Strings]
+MFGNAME1="Gemalto"
+GESERIAL.DeviceDesc = "Serial Smart Card Reader"
+INSTDISK="Installation Disc for Serial Smart Card Reader"

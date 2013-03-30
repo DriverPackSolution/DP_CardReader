@@ -1,0 +1,186 @@
+[Version]
+Signature="$CHICAGO$"
+Class=USB
+ClassGUID={36FC9E60-C465-11CF-8056-444553540000}
+provider=%MSFT%
+LayoutFile=layout.inf, layout1.inf, layout2.inf
+DriverVer=01/15/2007,5.12.20.0164
+CatalogFile=cmiucr.cat
+CatalogFile.ntamd64=cmiucr64.cat
+
+[SourceDisksNames]
+222=%DiskDescription%
+
+[SourceDisksFiles]
+CmiUCR.sys   =222
+CmUCRCF_dis.ico  =222
+CmUCRCF_en.ico  =222
+CmUCRMC_dis.ico  =222
+CmUCRMC_en.ico  =222
+CmUCRMS_dis.ico  =222
+CmUCRMS_en.ico  =222
+CmUCRSD_dis.ico  =222
+CmUCRSD_en.ico  =222
+CmUCRXD_dis.ico  =222
+CmUCRXD_en.ico  =222
+CmUCRXD1_dis.ico  =222
+CmUCRXD1_en.ico  =222
+CmUCRXP_dis.ico  =222
+CmUCRXP_en.ico  =222
+CmUCRSMS_dis.ico =222
+CmUCRSMS_en.ico =222
+CmUCRRm.exe  =222
+CmUCRRm.dll  =222
+CmUCReye.exe =222
+CmUCRRm_x64.exe  =222
+CmUCRRm_x64.dll  =222
+CmUCReye_x64.exe =222
+cmiucr_x64.sys =222
+cmiboot.exe =222
+
+[SourceDisksFiles.amd64]
+CmiUCR.sys   =222
+CmUCRCF_dis.ico  =222
+CmUCRCF_en.ico  =222
+CmUCRMC_dis.ico  =222
+CmUCRMC_en.ico  =222
+CmUCRMS_dis.ico  =222
+CmUCRMS_en.ico  =222
+CmUCRSD_dis.ico  =222
+CmUCRSD_en.ico  =222
+CmUCRXD_dis.ico  =222
+CmUCRXD_en.ico  =222
+CmUCRXD1_dis.ico  =222
+CmUCRXD1_en.ico  =222
+CmUCRXP_dis.ico  =222
+CmUCRXP_en.ico  =222
+CmUCRSMS_dis.ico =222
+CmUCRSMS_en.ico =222
+CmUCRRm.exe  =222
+CmUCRRm.dll  =222
+CmUCReye.exe =222
+CmUCRRm_x64.exe  =222
+CmUCRRm_x64.dll  =222
+CmUCReye_x64.exe =222
+cmiucr_x64.sys =222
+cmiboot.exe =222
+
+[ControlFlags]
+ExcludeFromSelect = *
+
+[Manufacturer]
+%MfgName%=C-Media, NTx86, NTamd64
+
+
+[C-Media.NTx86]
+%USB\VID_0D8C&PID_5200.DeviceDesc%=CMISTOR, USB\VID_0D8C&PID_5200
+
+[C-Media.NTamd64]
+%USB\VID_0D8C&PID_5200.DeviceDesc64%=CMIUCR_x64, USB\VID_0D8C&PID_5200
+
+[PreCopySection]
+HKR,,NoSetupUI,,1
+
+[DestinationDirs]
+CMISTOR.CopyList   = 10, system32\drivers
+ICONS.CopyList      = 10, system32
+Rm.CopyList         = 10, system32
+Watch.CopyList      = 10
+CMIUCR_x64.CopyList = 10, system32\drivers
+Rm_x64.CopyList         = 10, system32
+Watch_x64.CopyList      = 10
+
+
+[CMISTOR.NT]
+CopyFiles=CMISTOR.CopyList,ICONS.CopyList,Rm.CopyList,Watch.CopyList
+AddReg   =Rm.AddReg,Watch.AddReg
+
+[CMIUCR_x64.NT]
+CopyFiles=CMIUCR_x64.CopyList,ICONS.CopyList,Rm_x64.CopyList,Watch_x64.CopyList
+
+[CMISTOR.NT.Services]
+Addservice = CMISTOR, 0x00000002, CMISTOR.AddService
+
+[CMIUCR_x64.NT.Services]
+Addservice = CMIUCR, 0x00000002, CMIUCR_x64.AddService
+
+[CMISTOR.AddService]
+DisplayName    = %CMISTOR.SvcDesc%
+ServiceType    = 1
+StartType      = 3
+ErrorControl   = 1
+ServiceBinary  = %12%\cmiucr.SYS
+
+[CMIUCR_x64.AddService]
+DisplayName    = %CMISTOR.SvcDesc%
+ServiceType    = 1
+StartType      = 3
+ErrorControl   = 1
+ServiceBinary  = %12%\cmiucr_x64.SYS
+AddReg         = Rm_x64.AddReg,Watch_x64.AddReg
+
+[CMISTOR.CopyList]
+cmiucr.SYS
+
+[CMIUCR_x64.CopyList]
+cmiucr_x64.SYS
+
+[ICONS.CopyList]
+CmUCRCF_dis.ico  
+CmUCRCF_en.ico  
+CmUCRMC_dis.ico 
+CmUCRMC_en.ico  
+CmUCRMS_dis.ico 
+CmUCRMS_en.ico  
+CmUCRSD_dis.ico 
+CmUCRSD_en.ico  
+CmUCRXD_dis.ico 
+CmUCRXD_en.ico  
+CmUCRXD1_dis.ico
+CmUCRXD1_en.ico 
+CmUCRXP_dis.ico 
+CmUCRXP_en.ico  
+CmUCRSMS_dis.ico
+CmUCRSMS_en.ico 
+
+[Rm.CopyList]
+CmUCRRm.exe
+CmUCRRm.Dll
+
+[Rm_x64.CopyList]
+CmUCRRm_x64.exe
+CmUCRRm_x64.Dll
+
+[Watch.CopyList]
+CmUCREye.exe
+cmiboot.exe
+
+[Watch_x64.CopyList]
+CmUCREye_x64.exe
+cmiboot.exe
+
+[Rm.AddReg]
+HKLM,%UninstallPath%,UninstallString,,"%10%\system32\CmUCRRm.exe"
+HKLM,%UninstallPath%,DisplayName,,%RmDescription%
+
+[Rm_x64.AddReg]
+HKLM,%UninstallPath%,UninstallString,,"%10%\system32\CmUCRRm_x64.exe"
+HKLM,%UninstallPath%,DisplayName,,%RmDescription%
+
+[Watch.AddReg]
+HKLM,"Software\Microsoft\Windows\CurrentVersion\Run",Cmiboot,,"%10%\cmiboot.exe"
+
+[Watch_x64.AddReg]
+HKLM,"Software\Microsoft\Windows\CurrentVersion\Run",Cmiboot,,"%10%\cmiboot.exe"
+
+
+
+[Strings]
+MSFT="C-Media Inc."
+MfgName="C-Media"
+USB\VID_0D8C&PID_5200.DeviceDesc = "C-Media USB 2.0 Mass Storage Controller(0D8C,5200)"
+USB\VID_0D8C&PID_5200.DeviceDesc64 = "C-Media USB 2.0 Mass Storage Controller(0D8C,5200),x64"
+UninstallPath="Software\Microsoft\Windows\CurrentVersion\Uninstall\C-Media Card Reader Driver USB2.0"
+RmDescription="C-Media Card Reader Driver USB2.0"
+DiskDescription="C-Media Card Reader Driver USB2.0"
+CMISTOR.SvcDesc="CMIUCR.SYS CM320/CM220 Card Reader Driver"

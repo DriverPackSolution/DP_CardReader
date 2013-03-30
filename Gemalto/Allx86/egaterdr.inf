@@ -1,0 +1,108 @@
+; egaterdr.inf
+; Copyright (c) 2002-2006 Axalto
+
+[Version]
+Signature=$CHICAGO$
+Class=SmartCardReader
+ClassGuid={50DD5230-BA8A-11D1-BF5D-0000F805F530}
+Provider=%AXL%
+DriverVer=04/25/2006,3.00.06.00
+CatalogFile=egaterdr.cat
+
+[Manufacturer]
+%AXL%=EgateModels
+
+[DestinationDirs]
+DefaultDestDir=10,System32\Drivers
+EgateInstall.CopyFiles=10,System32\Drivers
+
+[SourceDisksNames]
+1=%DiskName%,,,.
+
+[SourceDisksFiles]
+egaterdr.sys=1
+
+[EgateModels]
+%EgateRdr.DeviceDesc%=EgateInstall,egaterdr
+
+[EgateInstall.CopyFiles]
+egaterdr.sys,,,0x2
+
+;------------------------------------------------------------------------------
+;  Class installation sections
+;------------------------------------------------------------------------------
+[ClassInstall32]
+Addreg=SmartCardReaderClassReg     
+
+[ClassInstall]
+Addreg=SmartCardReaderClassReg
+
+[SmartCardReaderClassReg]
+HKR,,,0,%ClassName%
+HKR,,Icon,,-25
+HKR,,NoInstallClass,,1
+
+;------------------------------------------------------------------------------
+; ============ Add reg for all readers ===============
+;------------------------------------------------------------------------------
+
+[EgateInstall.NT.AddReg]
+HKLM, Software\Microsoft\Cryptography\Calais\Readers,,,
+HKLM, System\CurrentControlSet\Services\SCardSvr,Start,0x00010001,2
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,DLLName,0,wlnotify.dll
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logon,0,SCardStartCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logoff,0,SCardStopCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Lock,0,SCardSuspendCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Unlock,0,SCardResumeCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Enabled,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Impersonate,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Asynchronous,0x00010001,1
+
+
+;------------------------------------------------------------------------------
+;  Windows 2000 Sections
+;------------------------------------------------------------------------------
+
+[EgateInstall.NT]
+CopyFiles=EgateInstall.CopyFiles
+AddReg=EgateInstall.NT.AddReg
+
+
+[EgateInstall.NT.Services]
+AddService=Egaterdr,2,EgateService.NT.Service,EgateService.NT.Eventlog
+
+[EgateService.NT.Service]
+ServiceType=1
+StartType=3
+ErrorControl=1
+ServiceBinary=%10%\system32\drivers\egaterdr.sys
+
+[EgateService.NT.Eventlog]
+AddReg = EgateService.NT.EventLog.AddReg
+
+[EgateService.NT.EventLog.AddReg]
+HKR,,EventMessageFile,0x00020000,"%%SystemRoot%%\System32\drivers\egaterdr.sys"
+HKR,,TypesSupported,0x00010001,7
+
+
+;------------------------------------------------------------------------------
+;  Windows 98 Sections
+;------------------------------------------------------------------------------
+
+[EgateInstall]
+AddReg=EgateInstall.AddReg
+CopyFiles=EgateInstall.CopyFiles
+
+[EgateInstall.AddReg]
+HKR,,DevLoader,,*ntkern
+HKR,,NTMPDriver,,egaterdr.sys
+
+;------------------------------------------------------------------------------
+;  String Definitions
+;------------------------------------------------------------------------------
+
+[Strings]
+AXL			= "Axalto"
+EgateRdr.DeviceDesc	= "e-gate USB Smart card reader"
+DiskName		= "e-gate Installation Disk"
+ClassName               = "Smart card readers"

@@ -1,0 +1,187 @@
+; cmbp0wdm.inf
+; Copyright (c) 2000 - 2005 OMNIKEY
+
+[Version]
+Signature=$CHICAGO$
+Class=SmartCardReader
+ClassGuid={50DD5230-BA8A-11D1-BF5D-0000F805F530}
+Provider=%Provider%
+DriverVer=05/18/2005,3.5.0.12
+CatalogFile=cmbp0wdm.cat
+
+[SourceDisksNames]
+1=%DiskDescription%,,
+
+[SourceDisksFiles]
+cmbp0wdm.sys=1,,
+chksvrn.dll=1,,
+launchn.dll=1,,
+scbase.ex_=1,,
+smclib.ex_=1,,
+cmdiag.cpl=1,,
+cmdiag.ini=1,,
+cmabout.dll=1,,
+cmabout.ini=1,,
+ok.bmp=1,,
+
+[DestinationDirs]
+DefaultDestDir = 10,system32\drivers
+cmbp0wdm.Install.CopyFiles=10,system32\drivers
+cmbp0wdm.Install.NT.CopyFiles=10,system32\drivers
+cmbp0wdm.Install.NT.Util=11
+cmbp0wdm.Install.Scbase=11
+cmbp0wdm.Install.ScOrg=10,system
+cmbp0wdm.Install.Tools=11
+cmbp0wdm.Install.NT.Tools=11
+
+[Manufacturer]
+%Manufacturer%=OMNIKEY
+
+; =================== Class section =======================
+
+[ClassInstall]
+Addreg=ClassReg
+
+[ClassInstall32]
+Addreg=Class32Reg
+
+[ClassReg]
+HKR,,,0,%ClassName%
+HKR,,Icon,,-25
+HKLM,"\Software\Microsoft\Cryptography\Calais\Readers",,,
+
+[Class32Reg]
+HKR,,,0,%ClassName%
+HKR,,Icon,,-25
+HKLM, Software\Microsoft\Cryptography\Calais\Readers,,,
+
+
+; ===================== CardMan ===========================
+
+[ControlFlags]
+ExcludeFromSelect.NT = PCMCIA\CardMan-Mobile-379F
+ExcludeFromSelect.NT = PCMCIA\CardMan-4000-5626
+ExcludeFromSelect.NT = PCMCIA\Smart_Card_Reader-PC-Card-324D
+
+[OMNIKEY]
+; DisplayName       	Section           DeviceId
+; -----------       	-------           --------
+%DeviceDescription% = cmbp0wdm.Install, PCMCIA\CardMan-Mobile-379F
+%DeviceDescription% = cmbp0wdm.Install, PCMCIA\CardMan-4000-5626
+%DeviceDescription% = cmbp0wdm.Install, PCMCIA\Smart_Card_Reader-PC-Card-324D
+
+
+; =================== Win9x specific ======================
+
+[cmbp0wdm.Install]
+AddReg    = cmbp0wdm.Install.AddReg
+CopyFiles = cmbp0wdm.Install.CopyFiles,cmbp0wdm.Install.Scbase,cmbp0wdm.Install.ScOrg,cmbp0wdm.Install.Tools
+
+[cmbp0wdm.Install.HW]
+AddReg    = cmbp0wdm.Install.AddReg.HW
+
+
+
+[cmbp0wdm.Install.AddReg]
+HKR,,DevLoader,,*ntkern
+HKR,,NTMPDriver,,cmbp0wdm.sys
+HKLM,"\Software\Microsoft\Windows\CurrentVersion\RunOnce",launchn,,"rundll32 launchn.dll,InstallSC"
+
+[cmbp0wdm.Install.CopyFiles]
+cmbp0wdm.sys
+
+[cmbp0wdm.Install.Scbase]
+launchn.dll
+scbase.ex_
+smclib.ex_
+
+[cmbp0wdm.Install.ScOrg]
+scbase.exe,scbase.ex_
+smclib.exe,smclib.ex_
+
+[cmbp0wdm.Install.Tools]
+cmdiag.cpl
+cmdiag.ini
+cmabout.dll
+cmabout.ini
+ok.bmp
+
+
+; ================== Win2000 specific =====================
+
+[cmbp0wdm.Install.NT]
+AddReg    = cmbp0wdm.Install.NT.AddReg
+CopyFiles = cmbp0wdm.Install.NT.CopyFiles,cmbp0wdm.Install.NT.Util,cmbp0wdm.Install.NT.Tools
+
+[cmbp0wdm.Install.NT.HW]
+AddReg    = cmbp0wdm.Install.AddReg.HW
+
+[cmbp0wdm.Install.NT.Services]
+AddService = cmbp0wdm, 2, cmbp0wdm.Service.NT, cmbp0wdm.EventLog.NT
+
+
+
+[cmbp0wdm.Install.NT.AddReg]
+HKR,, AdapterType, 0, "0100"
+HKLM, "Software\Microsoft\Windows\CurrentVersion\RunOnce",chksvrn,,"rundll32 chksvrn.dll,StartScardsvr"
+HKLM, "Software\Microsoft\Windows\CurrentVersion\RunOnce",cmdiag,,"rundll32 chksvrn.dll,CheckAndReplaceCmdiag"
+HKLM, Software\Microsoft\Cryptography\Calais\Readers,,,
+HKLM, System\CurrentControlSet\Services\SCardSvr,Start,0x00010001,2
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,DLLName,0,wlnotify.dll
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logon,0,SCardStartCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logoff,0,SCardStopCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Lock,0,SCardSuspendCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Unlock,0,SCardResumeCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Enabled,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Impersonate,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Asynchronous,0x00010001,1
+
+
+[cmbp0wdm.Install.NT.CopyFiles]
+cmbp0wdm.sys,,,2
+
+[cmbp0wdm.Install.NT.Util]
+chksvrn.dll
+
+[cmbp0wdm.Install.NT.Tools]
+; no flags : skip allowed
+cmdiag.new,cmdiag.cpl
+cmdiag.ini
+cmabout.dll
+cmabout.ini
+ok.bmp
+
+[cmbp0wdm.Service.NT]
+DisplayName     = %DeviceDescription%
+ServiceType     = 1 ;%SERVICE_KERNEL_DRIVER%
+StartType       = 3 ;%SERVICE_AUTO_START%
+ErrorControl    = 1 ;%SERVICE_ERROR_NORMAL%
+ServiceBinary   = %12%\cmbp0wdm.sys
+
+[cmbp0wdm.EventLog.NT]
+AddReg = cmbp0wdm.AddEventLog.reg
+
+[cmbp0wdm.AddEventLog.reg]
+HKR,, EventMessageFile, 0x00020000, "%%SystemRoot%%\System32\drivers\cmbp0wdm.sys"
+HKR,, TypesSupported,   0x00010001, 7
+
+
+
+
+; =====================
+; === CardMan 4000 ====
+; =====================
+[cmbp0wdm.Install.AddReg.HW]
+HKR,,"VendorName",,"OMNIKEY"
+HKR,,"IfdType",, "CardMan 4000"
+
+
+
+; ================= Strings =====================
+
+[Strings]
+Provider		= "OMNIKEY"
+Manufacturer    	= "OMNIKEY"
+DeviceDescription	= "CardMan 4000"
+DiskDescription         = "CardMan PC/SC Driver Disk"
+ClassName 		= "Smart Card Readers"

@@ -1,0 +1,76 @@
+;
+;	VENUSBUS.INF - INF file for Bus Driver of VENUS Smart Card Reader
+;	Copyright (C) 2004, Castles Technology CO,. LTD.
+;
+
+[Version]
+Signature="$Windows NT$"
+Class=USB
+ClassGUID={36FC9E60-C465-11CF-8056-444553540000}
+Provider=%Castles%
+DriverVer=06/16/2004,1.0.3.0
+Catalogfile=venusbus9x.cat
+Catalogfile.NT=venusbusNT.cat
+LayoutFile=layout.inf
+
+[ControlFlags]
+ExcludeFromSelect = *
+
+;--------------------------------------------------------------------
+; Device installation
+;--------------------------------------------------------------------    
+[Manufacturer]
+%Castles%=Castles
+
+[Castles]
+%USB\VID_0CA6&PID_0050.DeviceDesc%=VENUSBUS,USB\VID_0CA6&PID_107E
+
+[DestinationDirs]
+VENUSBUS.CopyList.NT = 12    
+VENUSBUS.CopyList.98 = 10,System32\Drivers
+DefaultDestDir = 12
+
+;--------------------------------------------------------------------
+; WinNT/XP installation
+;--------------------------------------------------------------------
+[VENUSBUS.NT]
+AddReg=VENUSBUS.AddReg
+CopyFiles=VENUSBUS.CopyList.NT
+
+[VENUSBUS.NT.Services]
+Addservice = VENUSBUS, 0x00000002, VENUSBUS.AddService
+
+[VENUSBUS.AddService]
+DisplayName    = %USB\VID_0CA6&PID_0050.DeviceDesc%
+ServiceType    = 1                  ; SERVICE_KERNEL_DRIVER
+StartType      = 3                  ; SERVICE_DEMAND_START
+ErrorControl   = 1                  ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %12%\venusbus.sys
+
+[VENUSBUS.CopyList.NT]
+venusbus.sys,,,2
+
+;--------------------------------------------------------------------
+; Win9x/ME installation
+;--------------------------------------------------------------------
+[VENUSBUS]
+AddReg=VENUSBUS.AddReg
+CopyFiles=VENUSBUS.CopyList.98
+
+[VENUSBUS.AddReg]
+HKR,,DevLoader,,*ntkern
+HKR,,NTMPDriver,,venusbus.sys
+
+[VENUSBUS.CopyList.98]
+venusbus.sys,,,2
+
+[SourceDisksNames] 
+1 = %DiskName%,,,
+
+[SourceDisksFiles]
+venusbus.sys=1
+
+[Strings]
+DiskName                              ="VENUS Installation Disk"
+Castles                               ="Castles Technology"
+USB\VID_0CA6&PID_0050.DeviceDesc      ="VENUS Reader Controller"

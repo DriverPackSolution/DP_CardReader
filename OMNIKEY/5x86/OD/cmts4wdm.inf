@@ -1,0 +1,126 @@
+; cmfinr
+; Copyright (c) 2000 - 2004 OMNIKEY AG
+
+[Version]
+Signature=$CHICAGO$
+Class=SmartCardReader
+ClassGuid={50DD5230-BA8A-11D1-BF5D-0000F805F530}
+Provider=%Provider%
+DriverVer=09/02/2004,1.0.2.4
+;CatalogFile=cmfinr.cat
+
+[SourceDisksNames]
+1=%DiskDescription%,,
+
+[SourceDisksFiles]
+cmts4wdm.sys=1,,
+cmdiag.cpl=1,,
+cmdiag.ini=1,,
+cardman.cpl=1,,
+cmabout.dll=1,,
+cmabout.ini=1,,
+ok.bmp=1,,
+chksvrn.dll=1,,
+
+[DestinationDirs]
+DefaultDestDir=11
+cmts4w9x.Install.CopyFilesSer=11
+cmts4w9x.Install.Scbase=11
+cmts4w9x.Install.Sc2=10,system
+cmts4w9x.Tools=11
+cmts4wdm.Install.NT.CopyFiles=10,system32\drivers
+cmts4wdm.NT.Tools=11
+
+[Manufacturer]
+%Manufacturer%=OMNIKEY
+
+
+; ================= Class section =====================
+
+[ClassInstall]
+Addreg=SmartCardReaderClassReg
+
+[SmartCardReaderClassReg]
+HKR,,,0,%ClassName%
+HKR,,Icon,,-25
+HKLM,"\Software\Microsoft\Cryptography\Calais\Readers",,,
+
+
+; ================= Smart Card Reader =====================
+
+;[ControlFlags]
+;ExcludeFromSelect.NT = SERENUM\USA8710
+
+[OMNIKEY]
+; DisplayName       	Section           DeviceId
+; -----------       	-------           --------
+%cmts4wdm.DeviceDesc% = cmts4wdm.Install, SERENUM\USA8710
+
+
+
+; ================== Win2000 specific =====================
+
+[cmts4wdm.Install.NT]
+AddReg          = cmts4wdm.Install.NT.AddReg
+CopyFiles	= cmts4wdm.Install.NT.CopyFiles,cmts4wdm.NT.Tools
+
+[cmts4wdm.Install.NT.HW]
+AddReg    = cmts4wdm.Install.AddReg.HW
+
+[cmts4wdm.Install.NT.Services]
+AddService = cmts4wdm, 2, cmts4wdm.Service.NT, cmts4wdm.EventLog.NT
+
+[cmts4wdm.Install.NT.AddReg]
+HKR,, AdapterType, 0, "0100"
+;set ScardSvr always to 'Automatic'
+HKLM,"SYSTEM\CurrentControlSet\Services\SCardSvr",Start,0x00010001,2
+HKLM,"Software\Microsoft\Windows\CurrentVersion\RunOnce",chksvrn,,"rundll32 chksvrn.dll,StartScardsvr"
+HKLM,"Software\Microsoft\Windows\CurrentVersion\RunOnce",comapi,,%01%\COMAPI_Setup\Setup.exe
+
+
+[cmts4wdm.Install.NT.CopyFiles]
+; 2 : skip not allowed
+cmts4wdm.sys,,,2
+
+[cmts4wdm.NT.Tools]
+; no flags : skip allowed
+cmdiag.cpl
+cmdiag.ini
+cardman.cpl
+cmabout.dll
+cmabout.ini
+ok.bmp
+chksvrn.dll
+
+[cmts4wdm.Service.NT]
+DisplayName     = CardMan FINREAD COM
+ServiceType     = 1 ;%SERVICE_KERNEL_DRIVER%
+StartType       = 3 ;%SERVICE_AUTO_START%
+ErrorControl    = 1 ;%SERVICE_ERROR_NORMAL%
+ServiceBinary   = %12%\cmts4wdm.sys
+
+
+[cmts4wdm.EventLog.NT]
+AddReg = cmts4wdm.AddEventLog.reg
+
+[cmts4wdm.AddEventLog.reg]
+HKR,, EventMessageFile, 0x00020000, "%%SystemRoot%%\System32\drivers\cmts4wdm.sys"
+HKR,, TypesSupported,   0x00010001, 7
+
+
+; ====================================
+; === ResourceMananagerDeviceName ====
+; ====================================
+[cmts4wdm.Install.AddReg.HW]
+HKR,,"VendorName",,"OMNIKEY"
+HKR,,"IfdType",, "CardMan FINREAD"
+
+
+; ================= Strings =====================
+
+[Strings]
+Provider		= "OMNIKEY AG"
+Manufacturer    	= "OMNIKEY AG"
+cmts4wdm.DeviceDesc	= "CardMan FINREAD"
+DiskDescription         = "CardMan FINREAD PC/SC Driver Disk"
+ClassName 		= "Smart Card Readers"

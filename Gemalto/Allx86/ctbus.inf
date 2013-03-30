@@ -1,0 +1,75 @@
+;/*++
+;
+;    ContactLessBUS.INF
+;
+;Abstract:
+;    INF file for installing GemProx bus enumerator driver
+;
+;--*/
+[Version]
+Signature="$WINDOWS NT$"
+Class=System
+ClassGuid={4D36E97D-E325-11CE-BFC1-08002BE10318}
+Provider=%GEMPLUS%
+DriverVer=01/31/2005, 1.0.0.0
+CatalogFile=PnpGemprox.cat
+
+[DestinationDirs]
+DefaultDestDir = 12
+
+[SourceDisksNames]
+1 = %DiskId1%,,,""
+
+[SourceDisksFiles]
+CTbus.sys  = 1,,
+
+;*****************************************
+; ContactLess Bus  Install Section
+;*****************************************
+
+[Manufacturer]
+%StdMfg%=Standard
+
+[Standard]
+;
+; These are the Contactless bus pnp ids
+;
+
+%CTBus.DeviceDesc%=CTBus_Device, root\CTbus
+
+[CTBus_Device.NT]
+CopyFiles=Drivers_Dir
+
+[CTBus_Device.NT.HW]
+AddReg=CTBus_Device.NT.AddReg
+
+[CTBus_Device.NT.AddReg]                            
+HKLM,"SYSTEM\CurrentControlSet\Services\CTBus","NumberOfReader",0x00010001,1
+HKR,,DeviceCharacteristics,0x10001,0x0100         ; Use same security checks on relative opens
+HKR,,Security,,"D:P(A;;GA;;;BA)(A;;GA;;;SY)"      ; Allow generic-all access to Built-in administrators and Local system 
+
+[Drivers_Dir]
+CTbus.sys
+
+
+;-------------- Service installation
+[CTBus_Device.NT.Services]
+AddService = CTbus,%SPSVCINST_ASSOCSERVICE%, ctbus_Service_Inst
+
+; -------------- CTbus driver install sections
+[ctbus_Service_Inst]
+DisplayName    = %ctbus.SVCDESC%
+ServiceType    = 1               ; SERVICE_KERNEL_DRIVER
+StartType      = 3               ; SERVICE_DEMAND_START 
+ErrorControl   = 1               ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %12%\CTbus.sys
+LoadOrderGroup = Extended Base
+
+
+[Strings]
+SPSVCINST_ASSOCSERVICE= 0x00000002
+GEMPLUS = "Gemplus"
+StdMfg = "(Standard system devices)"
+DiskId1 = "ContactLess Bus Installation Disk #1"
+CTBus.DeviceDesc = "ContactLess Bus Enumerator"
+ctbus.SVCDESC = "ContactLess Bus Enumerator"

@@ -1,0 +1,158 @@
+; RISDXC.inf
+; Windows x86,x64 installation file
+; for installing RICOH SDXC/MMC(Multi Media Card) driver
+; Copyright (c) 2001-2011 RICOH Company Ltd.,   All rights Reserved
+; This Driver supports R5U23x/24x PCIe Controller
+; 
+
+[Version] 
+Signature = "$Windows NT$" 
+Class=hdc
+ClassGUID={4d36e96a-e325-11ce-bfc1-08002be10318}
+DriverPackageDisplayName="SD Host Controller" 
+Provider=%Ricoh% 
+;CatalogFile=risdpcie.cat
+CatalogFile.ntx86=risdxc86.cat
+CatalogFile.ntamd64=risdxc64.cat
+DriverVer= 05/25/2011, 6.10.10.32
+
+[DestinationDirs] 
+R5U822.Files.dll = 11 
+R5U822.Files.amd64_sys = 12
+R5U822.Files.x86_sys = 12 
+
+[SourceDisksNames.x86]
+0=%DiskName%
+
+[SourceDisksNames.amd64]
+0=%DiskName%
+
+
+[SourceDisksFiles.x86]
+risdxc86.sys=0,, 
+RiSDIcon.dll=0,,
+RiMMCIcon.dll=0,,
+
+[SourceDisksFiles.amd64]
+risdxc64.sys=0,,
+RiSDIcon.dll=0,,
+RiMMCIcon.dll=0,,
+
+[Manufacturer] 
+%Ricoh%=Ricoh, ntamd64
+
+[Ricoh]
+%R5U822Desc%=R5U822_Inst,PCI\VEN_1180&DEV_E823
+%R5U822Desc%=R5U822_Inst,PCI\VEN_1180&DEV_E823&SUBSYS_00011179
+
+[Ricoh.ntamd64]
+%R5U822Desc%=R5U822_Inst.ntamd64,PCI\VEN_1180&DEV_E823
+%R5U822Desc%=R5U822_Inst.ntamd64,PCI\VEN_1180&DEV_E823&SUBSYS_00011179
+
+
+[R5U822_Inst] 
+CopyFiles = R5U822.Files.x86_sys
+CopyFiles = R5U822.Files.dll
+
+[R5U822_Inst.ntamd64] 
+CopyFiles = R5U822.Files.amd64_sys 
+CopyFiles = R5U822.Files.dll
+
+[R5U822_Inst.Services] 
+AddService = risdxc,0x00000002,R5U822_Service_Instx86,
+
+[R5U822_Inst.ntamd64.Services] 
+AddService = risdxc,0x00000002,R5U822_Service_Instx64,  
+
+[R5U822_Service_Instx86] 
+ServiceType = %SERVICE_KERNEL_DRIVER% 
+StartType = %SERVICE_AUTO_START% 
+ErrorControl = %SERVICE_ERROR_NORMAL% 
+ServiceBinary = %12%\risdxc86.sys
+LoadOrderGroup = "SD / MMC" 
+AddReg        = SDDiskAddReg
+
+[R5U822_Service_Instx64] 
+ServiceType = %SERVICE_KERNEL_DRIVER% 
+StartType = %SERVICE_AUTO_START% 
+ErrorControl = %SERVICE_ERROR_NORMAL% 
+ServiceBinary = %12%\risdxc64.sys
+LoadOrderGroup = "SD / MMC" 
+AddReg        = SDDiskAddReg
+
+[SDDiskAddReg]
+HKR, "Parameters", "SDSystemWaitTime",		%REG_DWORD%, 0x00000040
+;  for MMC v3 CLK is 20MHz then 2, if 12.5MHz then other, 
+HKR, "Parameters", "MMCClkDev",			%REG_DWORD%, 0x00000002 
+;  If support High Speed SD CLK, Set to 1.
+HKR, "Parameters", "HispeedCLK",		%REG_DWORD%, 0x00000001 
+;  If DriveLetter want to be set "SD/MMC", Set to 1.
+HKR, "Parameters", "DriveLetter",		%REG_DWORD%, 0x00000001
+;  DMA Mode
+HKR, "Parameters", "DMAMode",			%REG_DWORD%, 0x00000001  
+;  Select UHS CLK
+;  Defaul(No influence) = 0
+;  200MHz = 0x00C8 (200)
+;  100MHz = 0x0064 (100)
+;   50MHz = 0x0032 (50)
+;   25MHz = 0x0019 (25)
+HKR, "Parameters", "CLK_SEL",			%REG_DWORD%, 0x00000000
+
+
+
+
+[R5U822.Files.dll] 
+RiSDIcon.dll
+RiMMCIcon.dll
+
+[R5U822.Files.x86_sys] 
+risdxc86.sys
+
+[R5U822.Files.amd64_sys] 
+risdxc64.sys
+
+[R5U822_Inst.HW] 
+AddReg = R5U822_Inst.AddReg
+
+[R5U822_Inst.ntamd64.HW] 
+AddReg = R5U822_Inst.AddReg  
+ 
+[R5U822_Inst.AddReg] 
+HKR,,FriendlyName,,%R5U822Desc%
+HKR,,DeviceCharacteristics,0x10001,0x00000101
+HKR,,DeviceType,0x10001,0x00000007
+
+HKLM,"SOFTWARE\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\RISD#DISK_MMC","Icons",0x00010000,"%SystemRoot%\system32\RiMMCIcon.dll,0"
+HKLM,"SOFTWARE\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\RISD#DISK_MMC","Label",,"MMC"
+HKLM,"SOFTWARE\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\RISD#DISK_MMC","NoSoftEject",0x00010001,0x00000001
+HKLM,"SOFTWARE\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\RISD#DISK_MMC","DeviceGroup",,"MMCStorage"
+
+HKLM,"SOFTWARE\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\RISD#DISK_SD","Icons",0x00010000,"%SystemRoot%\system32\RiSDIcon.dll,0"
+HKLM,"SOFTWARE\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\RISD#DISK_SD","Label",,"SD"
+HKLM,"SOFTWARE\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\RISD#DISK_SD","NoSoftEject",0x00010001,0x00000001
+HKLM,"SOFTWARE\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\RISD#DISK_SD","DeviceGroup",,"MMCStorage"
+
+[Strings] 
+
+;  *******Localizable Strings******* 
+Ricoh= "Ricoh Company" 
+DiskName= "Ricoh PCIe SDXC/MMC Host Controller" 
+R5U822Desc= "Ricoh PCIe SDXC/MMC Host Controller" 
+DeviceGroups = "Software\Microsoft\Windows\CurrentVersion\Explorer\AutoplayHandlers\DeviceGroups"
+
+;  *******Non Localizable Strings******* 
+
+SERVICE_BOOT_START = 0x0 
+SERVICE_SYSTEM_START = 0x1 
+SERVICE_AUTO_START = 0x2 
+SERVICE_DEMAND_START = 0x3 
+SERVICE_DISABLED = 0x4 
+
+SERVICE_KERNEL_DRIVER = 0x1 
+SERVICE_ERROR_IGNORE = 0x0 
+SERVICE_ERROR_NORMAL = 0x1 
+SERVICE_ERROR_SEVERE = 0x2 
+SERVICE_ERROR_CRITICAL = 0x3 
+
+REG_EXPAND_SZ = 0x00020000 
+REG_DWORD = 0x00010001 

@@ -1,0 +1,168 @@
+; cmts3wdm.INF
+; Copyright (c) 2000 - 2002 OMNIKEY AG
+
+[Version]
+Signature=$CHICAGO$
+Class=SmartCardReader
+ClassGuid={50DD5230-BA8A-11D1-BF5D-0000F805F530}
+Provider=%Provider%
+DriverVer=04/24/2002,1.0.2.2
+;CatalogFile=cmts3wdm.cat
+
+[SourceDisksNames]
+1=%DiskDescription%,,
+
+[SourceDisksFiles]
+cmts3wdm.sys=1,,
+cmts3w9x.vxd=1,,
+launchn.dll=1,,
+scbase.ex_=1,,
+smclib.ex_=1,,
+dlysw9xn.exe=1,,
+dlysw9in.dll=1,,
+cmdiag.cpl=1,,
+cmdiag.ini=1,,
+cardman.cpl=1,,
+cmabout.dll=1,,
+cmabout.ini=1,,
+ok.bmp=1,,
+
+[DestinationDirs]
+DefaultDestDir=11
+cmts3w9x.Install.CopyFiles=11
+cmts3w9x.Install.Scbase=11
+cmts3w9x.Install.Sc2=10,system
+cmts3w9x.Tools=11
+cmts3wdm.Install.NT.CopyFiles=10,system32\drivers
+cmts3wdm.NT.Tools=11
+
+[Manufacturer]
+%Manufacturer%=OMNIKEY
+
+
+; ================= Class section =====================
+
+[ClassInstall]
+Addreg=SmartCardReaderClassReg
+
+[SmartCardReaderClassReg]
+HKR,,,0,%ClassName%
+HKR,,Icon,,-25
+HKLM,"\Software\Microsoft\Cryptography\Calais\Readers",,,
+
+
+; ================= CardMan =====================
+
+;[ControlFlags]
+;ExcludeFromSelect.NT=SERENUM\USA3610
+
+[OMNIKEY]
+; DisplayName       	Section           DeviceId
+; -----------       	-------           --------
+%cmts3wdm.DeviceDesc% = cmts3wdm.Install, SERENUM\USA3610
+
+
+; =================== Win9x specific ======================
+
+[cmts3wdm.Install]
+CopyFiles=cmts3w9x.Install.CopyFiles,cmts3w9x.Install.Scbase,cmts3w9x.Install.Sc2,cmts3w9x.Tools
+AddReg=cmts3w9x.Install.AddReg
+
+[cmts3wdm.Install.HW]
+AddReg    = cmts3wdm.Install.AddReg.HW
+
+
+[cmts3w9x.Install.AddReg]
+HKR,,DevLoader,0,cmts3w9x.vxd
+HKLM,"Software\Microsoft\Windows\CurrentVersion\RunOnce",launchn,,"rundll32 launchn.dll,InstallSC"
+HKLM,"Software\Microsoft\Windows\CurrentVersion\RunOnce",dlysw9in,,"rundll32 dlysw9in.dll,InstallDelayService"
+
+[cmts3w9x.Install.CopyFiles]
+cmts3w9x.vxd
+
+[cmts3w9x.Install.Scbase]
+launchn.dll
+scbase.exe
+smclib.exe
+
+[cmts3w9x.Install.Sc2]
+scbase.exe,scbase.ex_
+smclib.exe,smclib.ex_
+
+[cmts3w9x.Tools]
+;the delay service may be in use
+;therefore use a temporarily filename
+dlysw9xn.exe,dlysw9xn.exe,dlysw9x1.exe
+dlysw9in.dll
+cmdiag.cpl
+cmdiag.ini
+cardman.cpl
+cmabout.dll
+cmabout.ini
+ok.bmp
+
+
+; ================== Win2000 specific =====================
+
+[cmts3wdm.Install.NT]
+AddReg          = cmts3wdm.Install.NT.AddReg
+CopyFiles	= cmts3wdm.Install.NT.CopyFiles,cmts3wdm.NT.Tools
+
+[cmts3wdm.Install.NT.HW]
+AddReg    = cmts3wdm.Install.AddReg.HW
+
+[cmts3wdm.Install.NT.Services]
+AddService = cmts3wdm, 2, cmts3wdm.Service.NT, cmts3wdm.EventLog.NT
+
+
+[cmts3wdm.Install.NT.AddReg]
+HKR,, AdapterType, 0, "0100"
+;set ScardSvr always to 'Automatic'
+HKLM,"SYSTEM\CurrentControlSet\Services\SCardSvr",Start,0x00010001,2
+
+[cmts3wdm.Install.NT.CopyFiles]
+cmts3wdm.sys,,,2
+
+[cmts3wdm.NT.Tools]
+; no flags : skip allowed
+cmdiag.cpl
+cmdiag.ini
+cardman.cpl
+cmabout.dll
+cmabout.ini
+ok.bmp
+
+[cmts3wdm.Service.NT]
+DisplayName     = %cmts3wdm.DeviceDesc%
+ServiceType     = 1 ;%SERVICE_KERNEL_DRIVER%
+StartType       = 3 ;%SERVICE_AUTO_START%
+ErrorControl    = 1 ;%SERVICE_ERROR_NORMAL%
+ServiceBinary   = %12%\cmts3wdm.sys
+
+[cmts3wdm.EventLog.NT]
+AddReg = cmts3wdm.AddEventLog.reg
+
+[cmts3wdm.AddEventLog.reg]
+HKR,, EventMessageFile, 0x00020000, "%%SystemRoot%%\System32\drivers\cmts3wdm.sys"
+HKR,, TypesSupported,   0x00010001, 7
+
+
+; =====================
+; === CardMan 3610 ====
+; =====================
+[cmts3wdm.Install.AddReg.HW]
+HKR,,"VendorName",,%cmts3wdm.VendorDesc%
+HKR,,"IfdType",, %cmts3wdm.DeviceDesc%
+
+
+
+; ================= Strings =====================
+
+[Strings]
+Provider		= "OMNIKEY AG"
+Manufacturer           	= "OMNIKEY AG"
+cmts3wdm.VendorDesc     = "OMNIKEY"
+cmts3wdm.DeviceDesc	= "CardMan 3610"
+DiskDescription         = "CardMan PC/SC Driver Disk"
+ClassName 		= "Smart Card Readers"
+

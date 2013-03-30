@@ -1,0 +1,159 @@
+; cmes0wdm.inf
+; Copyright (c) 2005 OMNIKEY
+
+[Version]
+Signature=$CHICAGO$
+Class=SmartCardReader
+ClassGuid={50DD5230-BA8A-11D1-BF5D-0000F805F530}
+Provider=%Provider%
+DriverVer=03/10/2005,1.3.0.2
+CatalogFile=cmes0wdm.cat
+
+[SourceDisksNames]
+1=%DiskDescription%,,
+
+[SourceDisksFiles]
+cmes0wdm.sys=1,,
+
+[DestinationDirs]
+DefaultDestDir = 10,system32\drivers
+cmes0wdm.Install.NT.CopyFiles=10,system32\drivers
+
+[Manufacturer]
+%Manufacturer%=OMNIKEY
+
+; =================== Class section =======================
+
+[ClassInstall32]
+Addreg=Class32Reg
+
+[Class32Reg]
+HKR,,,0,%ClassName%
+HKR,,Icon,,-25
+HKLM, Software\Microsoft\Cryptography\Calais\Readers,,,
+
+
+; ===================== CardMan ===========================
+
+
+[OMNIKEY]
+; DisplayName       	Section           DeviceId
+; -----------       	-------           --------
+%DeviceDescription% = cmes0wd1.Install, root\cmes0wd1
+%DeviceDescription% = cmes0wd2.Install, root\cmes0wd2
+%DeviceDescription% = cmes0wd3.Install, root\cmes0wd3
+%DeviceDescription% = cmes0wd4.Install, root\cmes0wd4
+
+
+; ================== Win2000 specific =====================
+
+[cmes0wd1.Install.NT]
+AddReg    = cmes0wdm.Install.NT.AddReg
+CopyFiles = cmes0wdm.Install.NT.CopyFiles
+
+[cmes0wd1.Install.NT.HW]
+AddReg    = cmes0wd1.Install.AddReg.HW
+
+[cmes0wd1.Install.NT.Services]
+AddService = cmes0wdm, 2, cmes0wdm.Service.NT, cmes0wdm.EventLog.NT
+
+
+[cmes0wd2.Install.NT]
+AddReg    = cmes0wdm.Install.NT.AddReg
+CopyFiles = cmes0wdm.Install.NT.CopyFiles
+
+[cmes0wd2.Install.NT.HW]
+AddReg    = cmes0wd2.Install.AddReg.HW
+
+[cmes0wd2.Install.NT.Services]
+AddService = cmes0wdm, 2, cmes0wdm.Service.NT, cmes0wdm.EventLog.NT
+
+
+[cmes0wd3.Install.NT]
+AddReg    = cmes0wdm.Install.NT.AddReg
+CopyFiles = cmes0wdm.Install.NT.CopyFiles
+
+[cmes0wd3.Install.NT.HW]
+AddReg    = cmes0wd3.Install.AddReg.HW
+
+[cmes0wd3.Install.NT.Services]
+AddService = cmes0wdm, 2, cmes0wdm.Service.NT, cmes0wdm.EventLog.NT
+
+
+[cmes0wd4.Install.NT]
+AddReg    = cmes0wdm.Install.NT.AddReg
+CopyFiles = cmes0wdm.Install.NT.CopyFiles
+
+[cmes0wd4.Install.NT.HW]
+AddReg    = cmes0wd4.Install.AddReg.HW
+
+[cmes0wd4.Install.NT.Services]
+AddService = cmes0wdm, 2, cmes0wdm.Service.NT, cmes0wdm.EventLog.NT
+
+
+
+[cmes0wdm.Install.NT.AddReg]
+HKLM, Software\Microsoft\Cryptography\Calais\Readers,,,
+HKLM, System\CurrentControlSet\Services\SCardSvr,Start,0x00010001,2
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,DLLName,0,wlnotify.dll
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logon,0,SCardStartCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logoff,0,SCardStopCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Lock,0,SCardSuspendCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Unlock,0,SCardResumeCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Enabled,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Impersonate,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Asynchronous,0x00010001,1
+
+
+[cmes0wdm.Install.NT.CopyFiles]
+cmes0wdm.sys,,,2
+
+[cmes0wdm.Service.NT]
+DisplayName     = %DeviceDescription%
+ServiceType     = 1 ;%SERVICE_KERNEL_DRIVER%
+StartType       = 3 ;%SERVICE_AUTO_START%
+ErrorControl    = 1 ;%SERVICE_ERROR_NORMAL%
+ServiceBinary   = %12%\cmes0wdm.sys
+
+[cmes0wdm.EventLog.NT]
+AddReg = cmes0wdm.AddEventLog.reg
+
+[cmes0wdm.AddEventLog.reg]
+HKR,, EventMessageFile, 0x00020000, "%%SystemRoot%%\System32\drivers\cmes0wdm.sys"
+HKR,, TypesSupported,   0x00010001, 7
+
+
+
+
+; =====================
+; === CardMan 1010 ====
+; =====================
+[cmes0wd1.Install.AddReg.HW]
+HKR,,"VendorName",,"OMNIKEY"
+HKR,,"IfdType",, "CardMan 1010"
+HKR,,"Port", 0x00010001, 1
+
+[cmes0wd2.Install.AddReg.HW]
+HKR,,"VendorName",,"OMNIKEY"
+HKR,,"IfdType",, "CardMan 1010"
+HKR,,"Port", 0x00010001, 2
+
+[cmes0wd3.Install.AddReg.HW]
+HKR,,"VendorName",,"OMNIKEY"
+HKR,,"IfdType",, "CardMan 1010"
+HKR,,"Port", 0x00010001, 3
+
+[cmes0wd4.Install.AddReg.HW]
+HKR,,"VendorName",,"OMNIKEY"
+HKR,,"IfdType",, "CardMan 1010"
+HKR,,"Port", 0x00010001, 4
+
+
+; ================= Strings =====================
+
+[Strings]
+Provider		= "OMNIKEY"
+Manufacturer    	= "OMNIKEY"
+DeviceDescription	= "CardMan 1010"
+DiskDescription         = "CardMan PC/SC Driver Disk"
+ClassName 		= "Smart Card Readers"

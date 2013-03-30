@@ -1,0 +1,93 @@
+; gticard.inf
+; Texas Instruments UltraMedia GemCore based smartcard interface installation
+; Copyright (c) 2003 Gemplus
+; INSTALL_TYPE = PCMCIA
+
+[Version]
+Signature="$Windows NT$"
+Class=SmartCardReader
+ClassGuid={50DD5230-BA8A-11D1-BF5D-0000F805F530}
+Provider="Gemplus"
+CatalogFile=gticard.cat
+DriverVer=10/23/2003,1.0.9.11
+
+[SourceDisksNames]
+1=%Disk%,,,
+
+[SourceDisksFiles]
+gticard.sys=1
+cttib1.dll=1
+
+[DestinationDirs]
+
+DefaultDestDir = 11
+GTICARD.Install.CopyFiles = 12
+GTICARD.B1Install.CopyFiles=10
+
+[ControlFlags]
+; Prevent legacy install for PnP readers
+ExcludeFromSelect=*
+
+
+[Manufacturer]
+%TI%=TI
+
+[TI]
+; DisplayName       	Section           DeviceId
+; -----------       	-------           --------
+%GTICARD.DeviceDesc% =   GTICARD.Install,   PCMCIA\TEXAS_Instruments-UltraMedia_Smart_Card_Adapter-8465
+%GTICARD.DeviceDesc% =   GTICARD.Install,   PCMCIA\TEXAS_Instruments-UltraMedia_Smart_Card_Adapter
+
+;------------------------------------------------------------------------------
+
+[GTICARD.Install.NT]
+AddReg          = GTICARD.Install.AddReg
+CopyFiles	= GTICARD.Install.CopyFiles
+CopyFiles	= GTICARD.B1Install.CopyFiles
+
+[GTICARD.Install.CopyFiles]
+gticard.sys,,,2
+
+[GTICARD.B1Install.CopyFiles]
+cttib1.dll,,,2
+
+
+[GTICARD.Install.NT.Services]
+AddService = GTICARD, 2, GTICARD.Service, GTICARD.EventLog
+
+[GTICARD.Service]
+ServiceType     = 1 ;%SERVICE_KERNEL_DRIVER%
+StartType       = 3 ;%SERVICE_AUTO_START%
+ErrorControl    = 1 ;%SERVICE_ERROR_NORMAL%
+ServiceBinary   = %12%\gticard.sys
+
+[GTICARD.EventLog]
+AddReg = GTICARD.AddEventLog.reg
+
+[GTICARD.AddEventLog.reg]
+HKR,, EventMessageFile, 0x00020000, "%%SystemRoot%%\System32\drivers\gticard.sys"
+HKR,, TypesSupported,   0x00010001, 7
+
+
+[GTICARD.Install.AddReg]
+HKLM,"SOFTWARE\Gemplus\PCSC_Drivers\UltraMedia"
+HKLM,System\CurrentControlSet\Services\SCardSvr,Start,0x00010001,2
+; Required on Win2000
+HKLM, Software\Microsoft\Cryptography\Calais\Readers,,,
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,DLLName,0,wlnotify.dll
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logon,0,SCardStartCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logoff,0,SCardStopCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Lock,0,SCardSuspendCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Unlock,0,SCardResumeCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Enabled,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Impersonate,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Asynchronous,0x00010001,1
+
+
+; ================= Strings =====================
+[Strings]
+GEMPLUS = "Gemplus"
+TI 		= "Texas Instruments" 
+GTICARD.DeviceDesc = "Texas Instruments UltraMedia GemCore based smartcard interface"
+ClassName          = "Smart card readers"
+Disk	= "Texas Instruments GemCore IFD Handler installation disk"

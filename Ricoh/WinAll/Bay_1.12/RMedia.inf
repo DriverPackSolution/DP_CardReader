@@ -1,0 +1,178 @@
+; RMedia.INF 
+; Windows XP/2000 installation file for installing RICOH Media driver
+; Copyright (c) 2001-2004 RICOH Company Ltd.,   All rights Reserved
+; This Driver supports R5C590/R5C591/R5C593 RICOH MediaCard Controller
+; This INF version is Low active type of SD Write Protect polarity
+
+[Version]
+Signature="$WINDOWS NT$"
+;;Class=DiskDrive
+;;ClassGuid={4D36E967-E325-11CE-BFC1-08002BE10318}
+Class=hdc
+ClassGuid={4D36E96A-E325-11CE-BFC1-08002BE10318}
+Provider=%RICOH%
+DriverVer=05/17/2004,1.04.07.02
+CatalogFile=rmedia.cat
+
+[MemoryStickCopyFiles]
+snymsico.dll
+
+[DestinationDirs]
+DefaultDestDir = 12
+MemoryStickCopyFiles = 10
+
+[DiskCopyfiles]
+rmedia.sys
+
+[SourceDisksNames]
+1=%InstDisk%,
+
+[SourceDisksFiles]
+rmedia.sys=1
+snymsico.dll = 1,,
+
+[Manufacturer]
+%RICOH% = DiskDevice
+
+[DiskDevice]
+%DiskDevDesc% = DiskInstall, PCMCIA\RICOH-Bay_Controller-2AD9
+%DiskDevDesc% = DiskInstall, PCMCIA\RICOH-Bay_Controller-3447
+%DiskDevDesc% = DiskInstall, PCMCIA\RICOH-Bay_Controller-2EA3
+%DiskDevDesc% = DiskInstall, PCMCIA\RICOH-Bay_Controller-1632
+%DiskDevDesc% = DiskInstall, PCMCIA\RICOH-Bay_Controller-70E4
+%DiskDevDesc% = DiskInstall, PCMCIA\RICOH-Bay_Controller-8360
+%DiskDevDesc% = DiskInstall, PCMCIA\RICOH-Bay_Controller-6363
+%DiskDevDesc% = DiskInstall, PCMCIA\RICOH-Bay_Controller-A962
+%DiskDevDesc% = DiskInstall, PCMCIA\RICOH-Bay_Controller-ECD8
+%DiskDevDesc% = DiskInstall, PCMCIA\RICOH-Bay_Controller-1E26
+%DiskDevDesc% = DiskInstall, PCMCIA\RICOH-Bay_Controller-03CB
+%DiskDevDesc% = SDMMCInst, PCMCIA\RICOH-Bay1Controller-F03E
+%DiskDevDesc% = MemoryStickInst, PCMCIA\RICOH-Bay2Controller-F960
+%DiskDevDesc% = SmartMediaInst, PCMCIA\RICOH-Bay4Controller-CE3E
+
+; *****  R590Rev0 RemovableDisk or MemoryStick ******
+[DiskInstall.NT]
+;;CopyFiles = DiskCopyfiles,MemoryStickCopyFiles
+CopyFiles = DiskCopyfiles
+
+[DiskInstall.NT.Services]
+AddService = rmedia, %SPSVCINST_ASSOCSERVICE%, DiskServiceInst
+
+[DiskInstall.NT.HW]
+;;AddReg = MemoryStickReg
+AddReg = BayReg
+
+; ***** R591/593 MemoryStick *****
+[MemoryStickInst.NT]
+CopyFiles = DiskCopyfiles,MemoryStickCopyFiles
+
+[MemoryStickInst.NT.Services]
+AddService = rmedia, %SPSVCINST_ASSOCSERVICE%, DiskServiceInst
+
+[MemoryStickInst.NT.HW]
+AddReg = MemoryStickReg
+
+; ***** R591/593 SD/MMC *****
+[SDMMCInst.NT]
+CopyFiles = DiskCopyfiles
+
+[SDMMCInst.NT.Services]
+AddService = rmedia, %SPSVCINST_ASSOCSERVICE%, DiskServiceInst
+
+[SDMMCInst.NT.HW]
+AddReg = SDMMCReg
+
+; ***** R591/593 SmartMedia *****
+[SmartMediaInst.NT]
+CopyFiles = DiskCopyfiles
+
+[SmartMediaInst.NT.Services]
+AddService = rmedia, %SPSVCINST_ASSOCSERVICE%, DiskServiceInst
+
+[SmartMediaInst.NT.HW]
+AddReg = SmartMediaReg
+
+;*****  Icons File  ********
+[MemoryStickReg]
+HKR,,DeviceGroup,,"MemoryStick"
+HKR,,Icons,0x00010000,"%SystemRoot%\snymsico.dll,0"
+HKR,,Label,,"MemoryStick"
+HKR,,NoSoftEject,0x00010001,"00000000"
+HKR,,FriendlyName,,%MemoryStickDesc%
+HKR,,DeviceCharacteristics,0x10001,0x00000101
+HKR,,DeviceType,0x10001,0x00000007
+
+[BayReg]
+HKR,,DeviceGroup,,"MemoryStick"
+HKR,,Icons,0x00010000,"%SystemRoot%\system32\shell32.dll,-305"
+HKR,,Label,,"MediaCard Drive"
+HKR,,NoSoftEject,0x00010001,"00000000"
+HKR,,FriendlyName,,%DiskDevDesc%
+HKR,,DeviceCharacteristics,0x10001,0x00000101
+HKR,,DeviceType,0x10001,0x00000007
+
+[SmartMediaReg]
+;;HKR,,DeviceGroup,,"SMStorage"
+HKR,,Icons,0x00010000,"%SystemRoot%\system32\shell32.dll,-308"
+HKR,,Label,,"SmartMedia"
+HKR,,NoSoftEject,0x00010001,"00000000"
+HKR,,FriendlyName,,%SmartMediaDesc%
+HKR,,DeviceCharacteristics,0x10001,0x00000101
+HKR,,DeviceType,0x10001,0x00000007
+
+[SDMMCReg]
+;;HKR,,DeviceGroup,,""
+HKR,,Icons,0x00010000,"%SystemRoot%\system32\shell32.dll,-305"
+HKR,,Label,,"SD / MMC"
+HKR,,NoSoftEject,0x00010001,"00000000"
+HKR,,FriendlyName,,%SDMMCDesc%
+HKR,,DeviceCharacteristics,0x10001,0x00000101
+HKR,,DeviceType,0x10001,0x00000007
+
+[DiskServiceInst]
+ServiceType   = %SERVICE_KERNEL_DRIVER%
+StartType     = %SERVICE_BOOT_START%
+ErrorControl  = %SERVICE_ERROR_NORMAL%
+DisplayName   = %DiskServiceDesc%
+ServiceBinary = %12%\rmedia.sys
+AddReg        = DiskAddReg
+
+[DiskAddReg]
+HKR, "Parameters", "BreakOnEntry",      %REG_DWORD%, 0x00000000
+HKR, "Parameters", "DebugLevel",        %REG_DWORD%, 0x00000000
+HKR, "Parameters", "DebugComp",         %REG_DWORD%, 0xFFFFFFFF
+HKR, "Parameters", "DiskSize",          %REG_DWORD%, 0x00100000
+HKR, "Parameters", "DriveLetter",       %REG_SZ%,    "R:"
+HKR, "Parameters", "RootDirEntries",    %REG_DWORD%, 0x00000200
+HKR, "Parameters", "SectorsPerCluster", %REG_DWORD%, 0x00000002
+HKR, "Parameters", "SDWriteProtectInv", %REG_DWORD%, 0x00000000
+HKR, "Parameters", "CardChangeMode", 	%REG_DWORD%, 0x00000000
+HKR, "Parameters", "SurpriseRemoveMode",%REG_DWORD%, 0x00000000
+HKR, "Parameters", "R591Mode",		%REG_DWORD%, 0x00000000
+HKR, "Parameters", "SDSystemWaitTime",		%REG_DWORD%, 0x00000002 
+HKR, "Parameters", "MSSystemWaitTime",		%REG_DWORD%, 0x00000003
+HKR, "Parameters", "PROSystemWaitTime",		%REG_DWORD%, 0x00000003
+HKR, "Parameters", "SMSystemWaitTime",		%REG_DWORD%, 0x00000002 
+
+
+[Strings]
+DeviceGroups = "Software\Microsoft\Windows\CurrentVersion\Explorer\AutoplayHandlers\DeviceGroups"
+RICOH        = "RICOH Company"
+DiskDevDesc  = "Ricoh MediaCard Controller"
+DiskServiceDesc = "Ricoh MediaCard Driver"
+InstDisk        = "RMedia Install Disk"
+;;Passive = "Ricoh MediaCard Controller"
+SmartMediaDesc = "Ricoh SmartMedia Controller"
+MemoryStickDesc = "Ricoh Memorystick Controller"
+SDMMCDesc = "Ricoh SD/MMC Controller"
+
+;*******************************************
+;Handy macro substitutions (non-localizable)
+SPSVCINST_ASSOCSERVICE = 0x00000002
+SPSVCINST_NOCLOBBER_DISPLAYNAME = 0x00000008
+SPSVC_ASSOCS_OR_NOCLOBBER_DISP = 0x0000000a
+SERVICE_KERNEL_DRIVER  = 1
+SERVICE_BOOT_START     = 0
+SERVICE_ERROR_NORMAL   = 1
+REG_DWORD              = 0x00010001
+REG_SZ                 = 0x00000000

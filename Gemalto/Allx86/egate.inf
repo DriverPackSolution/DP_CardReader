@@ -1,0 +1,112 @@
+; egate.inf
+; Copyright (c) 2002-2006 Axalto
+
+[Version]
+Signature=$CHICAGO$
+Class=Egatecard
+ClassGuid={555E05A3-904C-42cf-AEF4-EE4035EC6362}
+Provider=%AXL%
+DriverVer=04/25/2006,3.00.06.00
+CatalogFile=egate.cat
+
+[ClassInstall32]
+AddReg=EGateClass.AddReg
+
+[ClassInstall]
+AddReg=EGateClass.AddReg
+
+[EGateClass.AddReg]
+HKR,,,0,%ClassName%
+HKR,,Icon,,-25
+
+[ControlFlags]
+ExcludeFromSelect=USB\VID_0973&PID_0001
+ExcludeFromSelect=USB\VID_0973&PID_0003
+
+[Manufacturer]
+%AXL%=EGateModels
+
+[EGateModels]
+%EGateDeviceDesc%=EGateInstall,USB\VID_0973&PID_0001
+%EGate7816-12DeviceDesc%=EGateInstall,USB\VID_0973&PID_0003
+
+[DestinationDirs]
+DefaultDestDir=10,System32\Drivers
+EGate.CopyFiles=10,System32\Drivers
+CoInstall.ntx86.CopyFiles=11
+
+[SourceDisksFiles]
+egate.sys=1
+egatecoins.dll=1
+wdmstub.sys=1
+
+[SourceDisksNames]
+1=%DiskName%,,,.
+
+[EGate.CopyFiles]
+egate.sys,,,0x2
+
+;------------------------------------------------------------------------------
+;  Windows 2000 Sections
+;------------------------------------------------------------------------------
+
+[EGateInstall.ntx86]
+CopyFiles=EGate.CopyFiles
+
+[EgatebusInstall]
+Enumegatestack = egaterdr.inf,egatebus.inf
+
+[EGateInstall.ntx86.CoInstallers]
+AddReg          = CoInstall.ntx86.AddReg
+CopyFiles       = CoInstall.ntx86.CopyFiles
+
+
+[EGateInstall.ntx86.Services]
+AddService=Egatecard,2,EGate.ntx86.AddService
+
+[EGate.ntx86.AddService]
+ServiceType=1
+StartType=3
+ErrorControl=1
+ServiceBinary=%10%\System32\Drivers\egate.sys
+
+[EGateInstall.ntx86.HW]
+AddReg=DriverHwAddReg
+
+[DriverHwAddReg]
+; HKR,,DeviceEnable,0x00010001, 01,00,00,00	; Auto power management enabled by default
+HKR,,DeviceEnable,0x00010001, 00,00,00,00	; Auto power management disabled by default
+HKR,,IdleTimeout,0x00010001, 15,0,0,0		; Default timeout is 15 seconds
+
+
+[CoInstall.ntx86.AddReg]
+HKR,,CoInstallers32,0x10000,"egatecoins.dll,install"
+
+[CoInstall.ntx86.CopyFiles]
+egatecoins.dll,,,0x2
+
+;------------------------------------------------------------------------------
+;  Windows 98 Sections
+;------------------------------------------------------------------------------
+
+[EGateInstall]
+AddReg=EGate.AddReg
+CopyFiles=EGate.CopyFiles,StubCopyFiles
+
+[StubCopyFiles]
+wdmstub.sys,,,0x2
+
+[EGate.AddReg]
+HKR,,DevLoader,,*ntkern
+HKR,,NTMPDriver,,"wdmstub.sys,egate.sys"
+
+;------------------------------------------------------------------------------
+;  String Definitions
+;------------------------------------------------------------------------------
+
+[Strings]
+AXL			= "Axalto"
+EGateDeviceDesc		= "e-gate USB Smart Card"
+EGate7816-12DeviceDesc	= "e-gate USB/ISO7816-12 Smart Card"
+DiskName		= "e-gate Installation Disk"
+ClassName		= "e-gate USB Smart Cards"

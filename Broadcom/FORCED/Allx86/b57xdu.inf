@@ -1,0 +1,147 @@
+;*******************************************************************************
+; Copyright (c) 2000-2011 Broadcom Corporation.
+;
+;*******************************************************************************
+[version]
+signature   = "$WINDOWS NT$"
+provider    = %brcm%
+class       = system
+classguid   = {4D36E97D-E325-11CE-BFC1-08002BE10318}
+DriverVer=08/13/2012,1.1.16.0
+CatalogFile=b57xdu.cat
+
+
+[DestinationDirs]
+DefaultDestDir = 12
+b57xdbd_inst_CoInstaller_CopyFiles = 11
+
+[SourceDisksNames]
+1 = %DiskId1%,,,""
+
+[SourceDisksFiles]
+b57xdmp.sys = 1,,
+b57xdbd.sys = 1,,
+wdfcoinstaller01009.dll = 1,,
+
+;*****************************************
+; b57xdbd  Install Section
+;*****************************************
+
+[Manufacturer]
+%brcm%=broadcom, Ntx86, Ntamd64
+
+; For Win2K because it cannot parse decorated sections
+[broadcom]
+%bcmxd_16bf_desc% = b57xdbd_inst,   PCI\VEN_14E4&DEV_16bf
+%bcmxd_client%    = bcmxd_generic,  b57xdbd\xd-sc
+%bcmxd_conf%      = nodrv,          SCSI\ProcessorBroadcomxD_Configuration0001
+
+; For XP and later
+[broadcom.Ntx86]
+%bcmxd_16bf_desc% = b57xdbd_inst,  PCI\VEN_14E4&DEV_16bf
+%bcmxd_client%    = bcmxd_generic, b57xdbd\xd-sc
+%bcmxd_conf%      = nodrv,         SCSI\ProcessorBroadcomxD_Configuration0001
+
+[broadcom.Ntamd64]
+%bcmxd_16bf_desc% = b57xdbd_inst,  PCI\VEN_14E4&DEV_16bf
+%bcmxd_client%    = bcmxd_generic, b57xdbd\xd-sc
+%bcmxd_conf%      = nodrv,         SCSI\ProcessorBroadcomxD_Configuration0001
+
+[b57xdbd_inst]
+CopyFiles=Drivers_Dir_bd
+
+[b57xdbd_inst.HW]
+AddReg=b57xdbd_inst.AddReg
+
+[b57xdbd_inst.AddReg]                            
+HKR,,DeviceCharacteristics,0x10001,0x0100         ; Use same security checks on relative opens
+HKR,,Security,,"D:P(A;;GA;;;BA)(A;;GA;;;SY)"      ; Allow generic-all access to Built-in administrators and Local system 
+
+[Drivers_Dir_bd]
+b57xdbd.sys
+
+[Drivers_Dir_mp]
+b57xdmp.sys
+
+
+;-------------- Service installation
+[b57xdbd_inst.Services]
+AddService = b57xdbd,%SPSVCINST_ASSOCSERVICE%, b57xdbd_Service_Inst
+
+; -------------- b57xdbd driver install sections
+[b57xdbd_Service_Inst]
+DisplayName    = %bcmxd_16bf_svcd%
+ServiceType    = 1               ; SERVICE_KERNEL_DRIVER
+StartType      = 3               ; SERVICE_DEMAND_START 
+ErrorControl   = 1               ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %12%\b57xdbd.sys
+LoadOrderGroup = Extended Base
+
+
+;
+;--- b57xdbd_inst KMDF Coinstaller installation ------
+;
+
+
+[b57xdbd_inst.CoInstallers]
+AddReg=b57xdbd_inst_CoInstaller_AddReg
+CopyFiles=b57xdbd_inst_CoInstaller_CopyFiles
+
+[b57xdbd_inst_CoInstaller_AddReg]
+HKR,,CoInstallers32,0x00010000, "wdfcoinstaller01009.dll,WdfCoInstaller"
+
+[b57xdbd_inst_CoInstaller_CopyFiles]
+wdfcoinstaller01009.dll
+
+
+[b57xdbd_inst.Wdf]
+KmdfService = b57xdbd, b57xdbd_wdfsect
+[b57xdbd_wdfsect]
+KmdfLibraryVersion = 1.9
+
+;
+; miniport
+;
+[bcmxd_generic]
+CopyFiles=Drivers_Dir_mp
+
+[bcmxd_generic.Services]
+AddService = b57xdmp, 0x00000002 , b57xdmp_service, b57xdmp_eventlog
+
+[b57xdmp_service]
+DisplayName	= %BXD_SVCDESC%
+ServiceType    = 1                  ; SERVICE_KERNEL_DRIVER
+StartType      = 3                  ; SERVICE_DEMAND_START
+ErrorControl   = 1
+LoadOrderGroup = SCSI Miniport
+ServiceBinary  = %12%\b57xdmp.sys
+AddReg         = pnpif_reg
+
+[b57xdmp_eventlog]
+AddReg = b57xdmp_eventLog_addreg
+
+[b57xdmp_eventLog_addreg]
+HKR,,EventMessageFile,0x00020000,"%SystemRoot%\System32\IoLogMsg.dll;%SystemRoot%\System32\drivers\b57xdmp.sys"
+HKR,,TypesSupported,0x00010001,7
+
+[pnpif_reg]
+HKR, "Parameters\PnpInterface", "0", 0x00010001, 0x00000001
+HKR, "Parameters\PnpInterface", "1", 0x00010001, 0x00000001
+HKR, "Parameters\PnpInterface", "5", 0x00010001, 0x00000001
+
+
+[nodrv]
+
+[nodrv.Services]
+AddService = , %SPSVCINST_ASSOCSERVICE%
+
+
+[Strings]
+SPSVCINST_ASSOCSERVICE= 0x00000002
+BRCM = "Broadcom Corporation"
+DiskId1 = "b57xdbd Installation Disk #1"
+bcmxd_16bf_desc = "Broadcom xD Picture Bus Driver"
+bcmxd_16bf_svcd = "Broadcom xD Picture Bus Driver Service"
+bcmxd_client  = "Broadcom xD Picture Card Host Controller"
+BXD_SVCDESC = "Broadcom xD Picture vstorp client drv"
+bcmxd_conf = "Broadcom xD configuration device"

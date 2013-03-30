@@ -1,0 +1,63 @@
+[Version]
+Signature="$CHICAGO$"
+Class=SmartCardReader
+provider=%MB%
+DriverVer=15/11/2005,2.2.0.0
+LayoutFile=layout.inf
+
+[Manufacturer]
+%MfgName%=ZuleaSoft
+
+[ZuleaSoft]
+%USB\VID_6666&PID_2667.DeviceDesc%=USBSMARTPrj.Dev, USB\VID_6666&PID_2667
+
+[PreCopySection]
+HKR,,NoSetupUI,,1
+
+[DestinationDirs]
+USBSMARTPrj.Files.Ext = 10,System32\Drivers
+USBSMARTPrj.Files.Inf = 10,INF
+USBSMARTPrj.Files.Dll = 25
+
+[USBSMARTPrj.Dev]
+CopyFiles=USBSMARTPrj.Files.Ext, USBSMARTPrj.Files.Inf, USBSMARTPrj.Files.Dll
+AddReg=USBSMARTPrj.AddReg
+
+[USBSMARTPrj.Dev.NT]
+CopyFiles=USBSMARTPrj.Files.Ext, USBSMARTPrj.Files.Inf, USBSMARTPrj.Files.Dll
+AddReg=USBSMARTPrj.AddReg
+
+[USBSMARTPrj.Dev.NT.Services]
+Addservice = USBSMARTPrj, 0x00000002, USBSMARTPrj.AddService
+
+[USBSMARTPrj.AddService]
+DisplayName    = %USBSMARTPrj.SvcDesc%
+ServiceType    = 1                  ; SERVICE_KERNEL_DRIVER
+StartType      = 3                  ; SERVICE_DEMAND_START
+ErrorControl   = 1                  ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %10%\System32\Drivers\UsbSmart.sys
+LoadOrderGroup = Base
+
+[USBSMARTPrj.AddReg]
+HKR,,DevLoader,,*ntkern
+HKR,,NTMPDriver,,UsbSmart.sys
+HKLM,"System\Currentcontrolset\Services\USBSMARTPrj\Parameters","MaximumTransferSize",0x10001,256
+HKLM,"System\Currentcontrolset\Services\USBSMARTPrj\Parameters","DebugLevel",0x10001,2
+
+
+[USBSMARTPrj.Files.Ext]
+UsbSmart.sys
+
+[USBSMARTPrj.Files.Inf]
+UsbSmart.inf
+
+[USBSMARTPrj.Files.Dll]
+UsbSmart.dll
+
+;---------------------------------------------------------------;
+
+[Strings]
+MB="Zulea Soft"
+MfgName="Zulea"
+USB\VID_6666&PID_2667.DeviceDesc="USB-Smart JCOP BlueZ Smartcard reader"
+USBSMARTPrj.SvcDesc="USB Smart device driver"

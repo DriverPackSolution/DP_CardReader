@@ -1,0 +1,85 @@
+;/*++
+;
+;PNP GemproxXU
+;Abstract:
+;    INF file for installing Pnp device drivers
+;
+;--*/
+[Version]
+Signature="$Windows NT$"
+Class=SmartCardReader
+ClassGuid={50DD5230-BA8A-11D1-BF5D-0000F805F530}
+Provider=%Gemplus%
+DriverVer=10/15/2007,3.0.0.15
+CatalogFile=GemproxXU.cat
+
+
+[DestinationDirs]
+DefaultDestDir = 12
+
+
+;*****************************************
+; Pnp Gemprox Device  Install Section
+;*****************************************
+
+[Manufacturer]
+%StdMfg%=Standard
+
+[Standard]
+; DisplayName       		Section           DeviceId
+; -----------       		-------           --------
+;%GemproxDevice.DeviceDesc%=Gemprox_Device, {b85b7c50-6a01-11d2-b841-00c04fad5171}\PnpGemprox
+%GemproxXUDevice.DeviceDescUsb%=GemproxXU_Device, USB\VID_08E6&PID_5501
+
+[GemproxXU_Device.NT]
+CopyFiles=GemproxXU_Device.NT.Copy
+
+[GemproxXU_Device.NT.Copy]
+GemproxXU.sys
+
+[GemproxXU_Device.NT.HW]
+AddReg=GemproxXU_Device.NT.HW.AddReg
+
+[GemproxXU_Device.NT.HW.AddReg]
+HKLM,"SYSTEM\CurrentControlSet\Services\GemProxXU\Parameters\Device0","COM",0x00010001,0
+HKLM,"SYSTEM\CurrentControlSet\Services\GemProxXU\Parameters\Device0","LedOn",0x00010001,1
+HKLM,"SYSTEM\CurrentControlSet\Services\GemProxXU\Parameters\Device0","LedMode",0x00010001,1
+HKLM,"SYSTEM\CurrentControlSet\Services\GemProxXU\Parameters\Device0","Baudrate",0x00010001,115200
+HKLM,"SYSTEM\CurrentControlSet\Services\GemProxXU\Parameters\Device0","DataRateMax",0x00010001,106
+HKLM,"SYSTEM\CurrentControlSet\Services\GemProxXU\Parameters\Device0","LapsPoolling",0x00010001,1000
+;HKLM,"SYSTEM\CurrentControlSet\Services\GemProxXU\Parameters\Device0","FWITimeOut",0x00010001,9
+;HKLM,"SYSTEM\CurrentControlSet\Services\GemProxXU\Parameters\Device0","MaxRetry",0x00010001,1
+HKLM,"SYSTEM\CurrentControlSet\Services\GemProxXU\Parameters\Device0","PriorityMifare",0x00010001,0
+HKLM,"SYSTEM\CurrentControlSet\Services\EventLog\System\GemProxXU","EventMessageFile",0x00020000,"%SystemRoot%\System32\drivers\GemProxXU.sys;EventMessageFile",0x00020000,"%SystemRoot%\System32\drivers\iologmsg.dll"
+HKLM,"SYSTEM\CurrentControlSet\Services\EventLog\System\GemProxXU","TypesSupported",0x00010001,7
+HKLM,System\CurrentControlSet\Services\SCardSvr,Start,0x00010001,2
+
+;-------------- Service installation
+
+[GemproxXU_Device.NT.Services]
+AddService = GemproxXU, %SPSVCINST_ASSOCSERVICE%, GemproxXU_Service_Inst
+
+[GemproxXU_Service_Inst]
+DisplayName    = %GemproxXU.SVCDESC%
+ServiceType    = 1               ; SERVICE_KERNEL_DRIVER
+StartType      = 3               ; SERVICE_DEMAND_START 
+ErrorControl   = 1               ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %12%\GemproxXU.sys
+
+
+
+[SourceDisksNames]
+1 = %DiskId1%,,,""
+
+[SourceDisksFiles]
+GemproxXU.sys  = 1,,
+
+[Strings]
+SPSVCINST_ASSOCSERVICE= 0x00000002
+Gemplus = "Gemplus"
+StdMfg = "GemproxXU"
+ClassName = "SmartCardReader"
+DiskId1 = "Gemprox-XU Device Installation Disk #1"
+;GemproxDevice.DeviceDesc = "Gemprox PC/SC Contactless Reader"
+GemproxXUDevice.DeviceDescUsb = "Gemprox-XU PC/SC Contactless Reader"
+GemproxXU.SVCDESC = "Gemprox-XU1 PC/SC Contactless Reader"

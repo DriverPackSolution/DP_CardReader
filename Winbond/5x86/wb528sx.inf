@@ -1,0 +1,114 @@
+; WB528SX.INF For WinXP
+; Copyright (C) 2003 Winbond Electronics Corp.
+
+[Version]
+Signature=$WINDOWS NT$
+Class=HDC
+ClassGuid={4D36E96A-E325-11CE-BFC1-08002BE10318}
+Provider=%Winbond%
+DriverVer=12/20/2003,2.0.2003.1220
+CatalogFile=wb528sxxp.cat
+
+[Manufacturer]
+%Winbond%=DeviceList
+
+[DeviceList]
+%DESCRIPTION%=DriverInstall,PCI\VEN_1050&DEV_8483
+
+[ControlFlags]
+ExcludeFromSelect=PCI\VEN_1050&DEV_8483
+
+[DriverInstall.NT]
+CopyFiles=DriverCopyFiles, Copy.ICON
+
+[DriverCopyFiles]
+wb528sx.sys,,,2
+
+[Copy.ICON]
+;wbsm.ico,,,2
+;wbxd.ico,,,2
+;wbnocard.ico,,,2
+
+[DriverAddReg]
+HKR, "Parameters", "ClockRegister",     %REG_DWORD%, 0x00000021
+HKR, "Parameters", "DebugLevel",        %REG_DWORD%, 0x00000000
+
+; Use for Non-PNP BIOS
+HKR, "Parameters", "CardSelect",        %REG_DWORD%, 0x00000003
+HKR, "Parameters", "ConfigRegister",    %REG_DWORD%, 0x0000002E
+HKR, "Parameters", "Hef",               %REG_DWORD%, 0x00000083
+HKR, "Parameters", "LogicDevice",       %REG_DWORD%, 0x00000001
+HKR, "Parameters", "WakeupEnable",      %REG_DWORD%, 0x00000000
+HKR, "Parameters", "SupportPME",        %REG_DWORD%, 0x00000000
+
+
+[DriverInstall.NT.HW]
+AddReg = SMICON.AddReg
+
+[SMICON.AddReg]
+; for Smart Media ICON
+;HKR,, DeviceGroup,, "SmartMedia"
+;HKLM, %DEVICE_GROUP%\SmartMedia, Icons, %REG_MULTI_SZ%, "%%SystemRoot%%\wbsm.ico"
+; for Label string
+HKLM, %DEVICE_GROUP%\SmartMedia, Label, %REG_SZ%, "Winbond SM Drive"
+; for xD Picture ICON
+;HKR,, DeviceGroup,, "xDPicture"
+;HKLM, %DEVICE_GROUP%\xDPicture, Icons, %REG_MULTI_SZ%, "%%SystemRoot%%\wbxd.ico"
+; for Label string
+HKLM, %DEVICE_GROUP%\xDPicture, Label, %REG_SZ%, "Winbond xD Drive"
+
+
+[DriverInstall.NT.Services]
+AddService=WB528SX, 0x00000002, DriverService, DriverEventLog
+
+[DriverService]
+DisplayName    = "Winbond PCI SM/xD Memory Storage (SM) Device Driver"
+ServiceType    = 1
+StartType      = 3
+ErrorControl   = 1
+ServiceBinary  = %10%\System32\Drivers\WB528SX.SYS
+LoadOrderGroup = Primary disk
+AddReg         = DriverAddReg
+
+[DriverEventLog]
+AddReg=DriverAddEventLog.Reg
+
+[DriverAddEventLog.Reg]
+HKR,,EventMessageFile, 0x00020000, "%%SystemRoot%%\System32\Drivers\wb528sx.sys"
+HKR,,TypesSupported,0x00010001, 7
+
+[SourceDisksNames]
+1 = %SOURCE_DESC1%,,
+
+[SourceDisksFiles]
+wb528sx.sys=1,,,,,
+;wbsm.ico=1,,,,,
+;wbxd.ico=1,,,,,
+;wbnocard.ico=1,,,,,
+
+[DestinationDirs]
+DefaultDestDir=10,System32\Drivers
+Copy.ICON=10
+
+
+[Strings]
+Winbond="Winbond Electronics Corp."
+DESCRIPTION="Winbond PCI SM/xD Memory Storage (SM/xD) Device Driver"
+SOURCE_DESC1 = "Winbond PCI SM/xD Memory Controller Source Disk #1"
+DEVICE_GROUP = "SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\AutoplayHandlers\DeviceGroups"
+
+REG_TYPE_SZ       = 0x00000000
+REG_BINVALUETYPE  = 0x00000001
+REG_NOCLOBBER     = 0x00000002
+REG_DELVAL        = 0x00000004
+REG_APPEND        = 0x00000008
+REG_KEYONLY       = 0x00000010
+REG_OVERWRITEONLY = 0x00000020
+
+REG_MASK        = 0xFFFF0001
+REG_MULTI_SZ    = 0x00010000
+REG_EXPAND_SZ   = 0x00020000
+REG_BINARY      = 0x00000001
+REG_DWORD       = 0x00010001
+REG_NONE        = 0x00020001
+REG_SZ          = 0x00000000

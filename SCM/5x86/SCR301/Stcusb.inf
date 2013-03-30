@@ -1,0 +1,106 @@
+; stcusb.inf
+; Copyright (c) 1998 - 2002 SCM Microsystems, Inc
+
+[Version]
+Signature="$CHICAGO$"
+Class=SmartCardReader
+ClassGuid={50DD5230-BA8A-11D1-BF5D-0000F805F530}
+Provider=%SCM%
+DriverVer=03/14/2002,2.10.0.1
+CatalogFile=stcusb.cat
+
+[ControlFlags]
+ExcludeFromSelect = USB\VID_04E6&PID_1001
+ExcludeFromSelect = USB\VID_0066&PID_1001
+
+; ================= Class section =====================
+;[ClassInstall]
+;Addreg=SmartCardReaderClassReg
+
+[ClassInstall32]
+Addreg=SmartCardReaderClassReg
+
+[SmartCardReaderClassReg]
+HKR,,,0,%ClassName%
+HKR,,Icon,,-25
+HKR,,NoInstallClass,,1
+HKR,,Installer32,,"winscard.dll,ClassInstall32"
+
+[DestinationDirs]
+SCMUSB.Install.CopyFiles = 12
+
+[SourceDisksNames]
+1="",,
+
+[Manufacturer]
+%SCM%=SCM
+
+; ============ Add reg for all readers ===============
+
+[Reader.Install.AddReg]
+HKR,, AdapterType, 0, "0100"
+HKLM, Software\Microsoft\Cryptography\Calais\Readers,,,
+HKLM, System\CurrentControlSet\Services\SCardSvr,Start,0x00010001,2
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,DLLName,0,wlnotify.dll
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logon,0,SCardStartCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logoff,0,SCardStopCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Lock,0,SCardSuspendCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Unlock,0,SCardResumeCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Enabled,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Impersonate,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Asynchronous,0x00010001,1
+
+; ===================================================
+; ================= SCM readers =====================
+; ===================================================
+
+[SCM]
+; DisplayName             Section            DeviceId
+; -----------             -------            --------
+%SCMUSB.DeviceDesc%  =    SCMUSB.Install,    USB\VID_04E6&PID_1001
+%SCMUSB.DeviceDesc%  =    SCMUSB.Install,    USB\VID_0066&PID_1001
+
+; *************************
+; SCM USB Smart Card Reader
+; *************************
+
+[SCMUSB.Install.NT]
+AddReg          = Reader.Install.AddReg
+CopyFiles       = SCMUSB.Install.CopyFiles
+
+[SCMUSB.Install.NT.HW]
+AddReg          = SCMUSB.Install.AddReg.HW
+
+[SCMUSB.Install.AddReg.HW]
+HKR,,"VendorName",,"SCM Microsystems"
+HKR,,"IfdType",, "SCR301"
+
+[SCMUSB.Install.CopyFiles]
+stcusb.sys,,,2
+
+[SCMUSB.Install.NT.Services]
+AddService = SCMUSB, 2, SCMUSB.Service, SCMUSB.EventLog
+
+[SCMUSB.Service]
+DisplayName     = %SCMUSB.DeviceDesc%
+ServiceType     = 1 ;%SERVICE_KERNEL_DRIVER%
+StartType       = 3 ;%SERVICE_AUTO_START%
+ErrorControl    = 1 ;%SERVICE_ERROR_NORMAL%
+ServiceBinary   = %12%\stcusb.sys
+
+[SCMUSB.EventLog]
+AddReg = SCMUSB.AddEventLog.reg
+
+[SCMUSB.AddEventLog.reg]
+HKR,, EventMessageFile, 0x00020000, "%%SystemRoot%%\System32\drivers\stcusb.sys"
+HKR,, TypesSupported,   0x00010001, 7
+
+
+[SourceDisksFiles]
+stcusb.sys=1
+
+[Strings]
+SCM                     = "SCM Microsystems"
+SCMUSB.DeviceDesc       = "SCR301 USB Smart Card Reader"
+ClassName               = "Smart card readers"
+

@@ -1,0 +1,101 @@
+; Installation inf for Advanced Card Systems ACR120
+;
+; (c) Copyright 2010 Advanced Card Systems Ltd.
+;
+
+[Version]
+DriverVer=01/28/2010,1.0.1.1
+Signature="$CHICAGO$"
+Class=USB
+ClassGUID={36FC9E60-C465-11CF-8056-444553540000}
+provider=%ACS%
+CatalogFile=acr120.cat
+
+[SourceDisksNames]
+1="ACR120 USB Installation Disk",,,
+
+[SourceDisksFiles]
+acr120.sys = 1
+acr120x64.sys = 1
+acr120u.dll = 1
+acr120ux64.dll = 1
+
+[Manufacturer]
+%MfgName%=ACR120,NTamd64
+
+[ACR120]
+%ACR120.DeviceDesc%=ACR120.Dev, USB\VID_072F&PID_8003
+%ACR120.DeviceDesc%=ACR120.Dev, USB\VID_072F&PID_8103
+
+[ACR120.NTamd64]
+%ACR120.DeviceDesc%=ACR120.Dev, USB\VID_072F&PID_8003
+%ACR120.DeviceDesc%=ACR120.Dev, USB\VID_072F&PID_8103
+
+;[PreCopySection]
+;HKR,,NoSetupUI,,1
+
+[DestinationDirs]
+ACR120.Files.Ext = 11
+ACR120.Files.Ext.NTx86 = 12
+ACR120.Files.Ext.NTamd64 = 12
+ACR120.DLL.Ext = 11
+ACR120.DLL.Ext.NTx86 = 11
+ACR120.DLL.Ext.NTamd64 = 11
+
+[ACR120.Dev]
+CopyFiles=ACR120.Files.Ext,ACR120.DLL.Ext
+AddReg=ACR120.AddReg
+
+[ACR120.Dev.NTx86]
+CopyFiles=ACR120.Files.Ext.NTx86,ACR120.DLL.Ext.NTx86
+AddReg=ACR120.AddReg
+
+[ACR120.Dev.NTamd64]
+CopyFiles=ACR120.Files.Ext.NTamd64,ACR120.DLL.Ext.NTamd64
+AddReg=ACR120.AddReg
+
+[ACR120.Dev.NTx86.Services]
+Addservice = ACR120, 0x00000002, ACR120.AddService
+
+[ACR120.Dev.NTamd64.Services]
+Addservice = ACR120, 0x00000002, ACR120.AddService
+
+[ACR120.AddService]
+DisplayName    = %ACR120.SvcDesc%
+ServiceType    = 1                  ; SERVICE_KERNEL_DRIVER
+StartType      = 3                  ; SERVICE_DEMAND_START
+ErrorControl   = 1                  ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %10%\System32\Drivers\acr120.sys
+LoadOrderGroup = Base
+
+[ACR120.AddReg]
+HKR,,DevLoader,,*ntkern
+HKR,,NTMPDriver,,acr120.sys
+
+
+[ACR120.Files.Ext]
+acr120.sys
+
+[ACR120.Files.Ext.NTx86]
+acr120.sys
+
+[ACR120.Files.Ext.NTamd64]
+acr120.sys,acr120x64.sys
+
+[ACR120.DLL.Ext]
+acr120u.dll
+
+[ACR120.DLL.Ext.NTx86]
+acr120u.dll
+
+[ACR120.DLL.Ext.NTamd64]
+acr120u.dll,acr120ux64.dll
+
+
+;------------------------------STRINGS---------------------------------;
+[Strings]
+ACS="ACS"
+MfgName="ACS"
+ACR120.DeviceDesc="ACR120 USB (Proprietary Mode)"
+ACR120.SvcDesc="ACR120 USB Driver (Proprietary Mode)"
+

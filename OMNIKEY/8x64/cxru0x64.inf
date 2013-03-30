@@ -1,0 +1,916 @@
+; cxru0x64.inf
+; Copyright (c) 2012 HID Global Corporation
+
+[Version]
+Signature=$Windows NT$
+Class=SmartCardReader
+ClassGuid={50DD5230-BA8A-11D1-BF5D-0000F805F530}
+Provider=%Provider%
+DriverVer=11/09/2012,1.2.12.19
+CatalogFile=cxru0x64.cat
+
+[SourceDisksNames]
+1=%DiskDescription%,,
+
+[SourceDisksFiles]
+cxru0x64.sys=1,,
+
+[DestinationDirs]
+DefaultDestDir = 10,system32\drivers
+cxru0x64.Install.NT.CopyFiles=10,system32\drivers
+
+[Manufacturer]
+%Manufacturer%=HID Global,NTamd64
+
+; =================== Class section =======================
+
+[ClassInstall]
+Addreg=SmartCardReaderClassReg
+
+
+[SmartCardReaderClassReg]
+HKR,,,0,%ClassName%
+HKR,,Icon,,-25
+HKR,,NoInstallClass,,1
+HKR,,Installer32,,"winscard.dll,ClassInstall32"
+
+
+; ===================== PnP IDs ===========================
+
+[ControlFlags]
+; All PnP devices should be excluded from manual AddDevice Applet list
+ExcludeFromSelect=*
+
+
+
+[HID Global.NTamd64]
+; DisplayName       	Section           DeviceId
+; -----------       	-------           --------
+%VID1PID1ReaderDescription% =  cm5121.Install, USB\VID_076B&PID_5121
+%VID1PID2ReaderDescription% =  cm5321.Install, USB\VID_076B&PID_5321
+%VID1PID3ReaderDescription% =  cl5121.Install, USB\VID_076B&PID_5120
+%VID1PID4ReaderDescription% =  cl5320.Install, USB\VID_076B&PID_5320
+%VID1PID5ReaderDescription% =  clc100.Install, USB\VID_076B&PID_C100
+%VID1PID6ReaderDescription% =  clc101.Install, USB\VID_076B&PID_C101
+%VID1PID7ReaderDescription% =  cl5cli.Install, USB\VID_076B&PID_532A
+%VID1PID8ReaderDescription% =  owenc.Install, USB\VID_076B&PID_5921
+%VID1PID9ReaderDescription% =  cm5311.Install, USB\VID_076B&PID_5311
+%VID1PID10ReaderDescription% =  cm53pay.Install, USB\VID_076B&PID_532B
+%VID1PID11ReaderDescription% =  cl4121.Install, USB\VID_076B&PID_5820
+%VID1PID12ReaderDescription% =  cm5122.Install, USB\VID_076B&PID_5122
+%VID1PID13ReaderDescription% =  cm5123.Install, USB\VID_076B&PID_5123
+%VID1PID14ReaderDescription% =  cm5322.Install, USB\VID_076B&PID_5322
+%VID1PID15ReaderDescription% =  cm5323.Install, USB\VID_076B&PID_5323
+%VID1PID16ReaderDescription% =  clc102.Install, USB\VID_076B&PID_C102
+%VID1PID17ReaderDescription% =  clc103.Install, USB\VID_076B&PID_C103
+
+%VID2PID1ReaderDescription% =  cmprox.Install, USB\VID_076B&PID_5125
+%VID2PID2ReaderDescription% =  cl5124.Install, USB\VID_076B&PID_5124
+%VID2PID3ReaderDescription% =  clc104.Install, USB\VID_076B&PID_C104
+%VID2PID4ReaderDescription% =  clc105.Install, USB\VID_076B&PID_C105
+
+%VID3PID1ReaderDescription% =  cm6321.Install, USB\VID_076B&PID_6321
+%VID3PID2ReaderDescription% =  cl6cli.Install, USB\VID_076B&PID_632A
+%VID3PID3ReaderDescription% =  cm6310.Install, USB\VID_076B&PID_6310
+%VID3PID4ReaderDescription% =  cm6320.Install, USB\VID_076B&PID_6320
+
+%VID4PID1ReaderDescription% =  hidB000.Install, USB\VID_076B&PID_B000
+
+%VID5PID1ReaderDescription% =  fujiD321.Install, USB\VID_0BF8&PID_101B
+
+; ================== NT specific =====================
+
+[cm5121.Install.NT]
+AddReg    = cxru0x64.Install.NT.AddReg,iClass.AddReg
+CopyFiles = cxru0x64.Install.NT.CopyFiles
+
+[cm5121.Install.NT.HW]
+AddReg    = cm5121.Install.AddReg.HW
+
+[cm5121.Install.NT.Services]
+AddService = cxru0x64, 2, cm5121.Service.NT,cxru0x64.EventLog.NT
+
+[cm5321.Install.NT]
+AddReg    = cxru0x64.Install.NT.AddReg,iClass.AddReg
+CopyFiles = cxru0x64.Install.NT.CopyFiles
+
+[cm5321.Install.NT.HW]
+AddReg    = cm5321.Install.AddReg.HW
+
+[cm5321.Install.NT.Services]
+AddService = cxru0x64, 2, cm5321.Service.NT,cxru0x64.EventLog.NT
+
+[cl5121.Install.NT]
+AddReg    = cxru0x64.Install.NT.AddReg,iClass.AddReg
+CopyFiles = cxru0x64.Install.NT.CopyFiles
+
+[cl5121.Install.NT.HW]
+AddReg    = cl5121.Install.AddReg.HW
+
+[cl5121.Install.NT.Services]
+AddService = cxru0x64, 2, cl5121.Service.NT,cxru0x64.EventLog.NT
+
+[cl5320.Install.NT]
+AddReg    = cxru0x64.Install.NT.AddReg,iClass.AddReg
+CopyFiles = cxru0x64.Install.NT.CopyFiles
+
+[cl5320.Install.NT.HW]
+AddReg    = cl5320.Install.AddReg.HW
+
+[cl5320.Install.NT.Services]
+AddService = cxru0x64, 2, cl5320.Service.NT,cxru0x64.EventLog.NT
+
+[clc100.Install.NT]
+AddReg    = cxru0x64.Install.NT.AddReg,iClass.AddReg
+CopyFiles = cxru0x64.Install.NT.CopyFiles
+
+[clc100.Install.NT.HW]
+AddReg    = clc100.Install.AddReg.HW
+
+[clc100.Install.NT.Services]
+AddService = cxru0x64, 2, clc100.Service.NT,cxru0x64.EventLog.NT
+
+[clc101.Install.NT]
+AddReg    = cxru0x64.Install.NT.AddReg,iClass.AddReg
+CopyFiles = cxru0x64.Install.NT.CopyFiles
+
+[clc101.Install.NT.HW]
+AddReg    = clc101.Install.AddReg.HW
+
+[clc101.Install.NT.Services]
+AddService = cxru0x64, 2, clc101.Service.NT,cxru0x64.EventLog.NT
+
+[cl5cli.Install.NT]
+AddReg    = cxru0x64.Install.NT.AddReg,iClass.AddReg
+CopyFiles = cxru0x64.Install.NT.CopyFiles
+
+[cl5cli.Install.NT.HW]
+AddReg    = cl5cli.Install.AddReg.HW
+
+[cl5cli.Install.NT.Services]
+AddService = cxru0x64, 2, cl5cli.Service.NT,cxru0x64.EventLog.NT
+
+[owenc.Install.NT]
+AddReg    = cxru0x64.Install.NT.AddReg,iClass.AddReg
+CopyFiles = cxru0x64.Install.NT.CopyFiles
+
+[owenc.Install.NT.HW]
+AddReg    = owenc.Install.AddReg.HW
+
+[owenc.Install.NT.Services]
+AddService = cxru0x64, 2, owenc.Service.NT,cxru0x64.EventLog.NT
+
+[cm5311.Install.NT]
+AddReg    = cxru0x64.Install.NT.AddReg,iClass.AddReg
+CopyFiles = cxru0x64.Install.NT.CopyFiles
+
+[cm5311.Install.NT.HW]
+AddReg    = cm5311.Install.AddReg.HW
+
+[cm5311.Install.NT.Services]
+AddService = cxru0x64, 2, cm5311.Service.NT,cxru0x64.EventLog.NT
+
+[cm53pay.Install.NT]
+AddReg    = cxru0x64.Install.NT.AddReg,iClass.AddReg
+CopyFiles = cxru0x64.Install.NT.CopyFiles
+
+[cm53pay.Install.NT.HW]
+AddReg    = cm53pay.Install.AddReg.HW
+
+[cm53pay.Install.NT.Services]
+AddService = cxru0x64, 2, cm53pay.Service.NT,cxru0x64.EventLog.NT
+
+[cl4121.Install.NT]
+AddReg    = cxru0x64.Install.NT.AddReg,iClass.AddReg
+CopyFiles = cxru0x64.Install.NT.CopyFiles
+
+[cl4121.Install.NT.HW]
+AddReg    = cl4121.Install.AddReg.HW
+
+[cl4121.Install.NT.Services]
+AddService = cxru0x64, 2, cl4121.Service.NT,cxru0x64.EventLog.NT
+
+[cm5122.Install.NT]
+AddReg    = cxru0x64.Install.NT.AddReg,iClass.AddReg
+CopyFiles = cxru0x64.Install.NT.CopyFiles
+
+[cm5122.Install.NT.HW]
+AddReg    = cm5122.Install.AddReg.HW
+
+[cm5122.Install.NT.Services]
+AddService = cxru0x64, 2, cm5122.Service.NT,cxru0x64.EventLog.NT
+
+[cm5123.Install.NT]
+AddReg    = cxru0x64.Install.NT.AddReg,iClass.AddReg
+CopyFiles = cxru0x64.Install.NT.CopyFiles
+
+[cm5123.Install.NT.HW]
+AddReg    = cm5123.Install.AddReg.HW
+
+[cm5123.Install.NT.Services]
+AddService = cxru0x64, 2, cm5123.Service.NT,cxru0x64.EventLog.NT
+
+[cm5322.Install.NT]
+AddReg    = cxru0x64.Install.NT.AddReg,iClass.AddReg
+CopyFiles = cxru0x64.Install.NT.CopyFiles
+
+[cm5322.Install.NT.HW]
+AddReg    = cm5322.Install.AddReg.HW
+
+[cm5322.Install.NT.Services]
+AddService = cxru0x64, 2, cm5322.Service.NT,cxru0x64.EventLog.NT
+
+[cm5323.Install.NT]
+AddReg    = cxru0x64.Install.NT.AddReg,iClass.AddReg
+CopyFiles = cxru0x64.Install.NT.CopyFiles
+
+[cm5323.Install.NT.HW]
+AddReg    = cm5323.Install.AddReg.HW
+
+[cm5323.Install.NT.Services]
+AddService = cxru0x64, 2, cm5323.Service.NT,cxru0x64.EventLog.NT
+
+[clc102.Install.NT]
+AddReg    = cxru0x64.Install.NT.AddReg,iClass.AddReg
+CopyFiles = cxru0x64.Install.NT.CopyFiles
+
+[clc102.Install.NT.HW]
+AddReg    = clc102.Install.AddReg.HW
+
+[clc102.Install.NT.Services]
+AddService = cxru0x64, 2, clc102.Service.NT,cxru0x64.EventLog.NT
+
+[clc103.Install.NT]
+AddReg    = cxru0x64.Install.NT.AddReg,iClass.AddReg
+CopyFiles = cxru0x64.Install.NT.CopyFiles
+
+[clc103.Install.NT.HW]
+AddReg    = clc103.Install.AddReg.HW
+
+[clc103.Install.NT.Services]
+AddService = cxru0x64, 2, clc103.Service.NT,cxru0x64.EventLog.NT
+
+
+[cmprox.Install.NT]
+AddReg    = cxru0x64.Install.NT.AddReg
+CopyFiles = cxru0x64.Install.NT.CopyFiles
+
+[cmprox.Install.NT.HW]
+AddReg    = cmprox.Install.AddReg.HW
+
+[cmprox.Install.NT.Services]
+AddService = cxru0x64, 2, cmprox.Service.NT,cxru0x64.EventLog.NT
+
+[cl5124.Install.NT]
+AddReg    = cxru0x64.Install.NT.AddReg
+CopyFiles = cxru0x64.Install.NT.CopyFiles
+
+[cl5124.Install.NT.HW]
+AddReg    = cl5124.Install.AddReg.HW
+
+[cl5124.Install.NT.Services]
+AddService = cxru0x64, 2, cl5124.Service.NT,cxru0x64.EventLog.NT
+
+[clc104.Install.NT]
+AddReg    = cxru0x64.Install.NT.AddReg
+CopyFiles = cxru0x64.Install.NT.CopyFiles
+
+[clc104.Install.NT.HW]
+AddReg    = clc104.Install.AddReg.HW
+
+[clc104.Install.NT.Services]
+AddService = cxru0x64, 2, clc104.Service.NT,cxru0x64.EventLog.NT
+
+[clc105.Install.NT]
+AddReg    = cxru0x64.Install.NT.AddReg
+CopyFiles = cxru0x64.Install.NT.CopyFiles
+
+[clc105.Install.NT.HW]
+AddReg    = clc105.Install.AddReg.HW
+
+[clc105.Install.NT.Services]
+AddService = cxru0x64, 2, clc105.Service.NT,cxru0x64.EventLog.NT
+
+
+
+[cm6321.Install.NT]
+AddReg    = cxru0x64.Install.NT.AddReg,iClass.AddReg
+CopyFiles = cxru0x64.Install.NT.CopyFiles
+
+[cm6321.Install.NT.HW]
+AddReg    = cm6321.Install.AddReg.HW
+
+[cm6321.Install.NT.Services]
+AddService = cxru0x64, 2, cm6321.Service.NT,cxru0x64.EventLog.NT
+
+[cl6cli.Install.NT]
+AddReg    = cxru0x64.Install.NT.AddReg,iClass.AddReg
+CopyFiles = cxru0x64.Install.NT.CopyFiles
+
+[cl6cli.Install.NT.HW]
+AddReg    = cl6cli.Install.AddReg.HW
+
+[cl6cli.Install.NT.Services]
+AddService = cxru0x64, 2, cl6cli.Service.NT,cxru0x64.EventLog.NT
+
+[cm6310.Install.NT]
+AddReg    = cxru0x64.Install.NT.AddReg,iClass.AddReg
+CopyFiles = cxru0x64.Install.NT.CopyFiles
+
+[cm6310.Install.NT.HW]
+AddReg    = cm6310.Install.AddReg.HW
+
+[cm6310.Install.NT.Services]
+AddService = cxru0x64, 2, cm6310.Service.NT,cxru0x64.EventLog.NT
+
+[cm6320.Install.NT]
+AddReg    = cxru0x64.Install.NT.AddReg,iClass.AddReg
+CopyFiles = cxru0x64.Install.NT.CopyFiles
+
+[cm6320.Install.NT.HW]
+AddReg    = cm6320.Install.AddReg.HW
+
+[cm6320.Install.NT.Services]
+AddService = cxru0x64, 2, cm6320.Service.NT,cxru0x64.EventLog.NT
+
+
+
+[hidB000.Install.NT]
+AddReg    = cxru0x64.Install.NT.AddReg,iClass.AddReg
+CopyFiles = cxru0x64.Install.NT.CopyFiles
+
+[hidB000.Install.NT.HW]
+AddReg    = hidB000.Install.AddReg.HW
+
+[hidB000.Install.NT.Services]
+AddService = cxru0x64, 2, hidB000.Service.NT,cxru0x64.EventLog.NT
+
+
+[fujiD321.Install.NT]
+AddReg    = cxru0x64.Install.NT.AddReg,iClass.AddReg
+CopyFiles = cxru0x64.Install.NT.CopyFiles
+
+[fujiD321.Install.NT.HW]
+AddReg    = fujiD321.Install.AddReg.HW
+
+[fujiD321.Install.NT.Services]
+AddService = cxru0x64, 2, fujiD321.Service.NT,cxru0x64.EventLog.NT
+
+
+
+[cxru0x64.Install.NT.AddReg]
+HKR,, AdapterType, 0, "0100"
+HKLM,"SYSTEM\CurrentControlSet\Services\SCardSvr",Start,0x00010001,2
+HKLM,"System\CurrentControlSet\Services\CertPropSvc",Start,0x00010001,2
+HKLM, Software\Microsoft\Cryptography\Calais\Readers,,,
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,DLLName,0,wlnotify.dll
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logon,0,SCardStartCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logoff,0,SCardStopCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Lock,0,SCardSuspendCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Unlock,0,SCardResumeCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Enabled,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Impersonate,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Asynchronous,0x00010001,1
+
+
+; ================= iClass Settings =====================
+[iClass.AddReg]
+HKLM, SYSTEM\CurrentControlSet\Control\CardMan\RFID\,,,
+HKLM, SYSTEM\CurrentControlSet\Control\CardMan\RFID\iCLASSFreeZoneKeys,,,
+HKLM, SYSTEM\CurrentControlSet\Control\CardMan\RFID\iCLASSFreeZoneKeys,SLOT27_KMC0,0,2302E40BC9820FB7F91A
+HKLM, SYSTEM\CurrentControlSet\Control\CardMan\RFID\iCLASSFreeZoneKeys,SLOT28_KMD1,0,24027BBC11D901C1F83B
+HKLM, SYSTEM\CurrentControlSet\Control\CardMan\RFID\iCLASSFreeZoneKeys,SLOT29_KMC1,0,250244C5A9CB723E10FF
+HKLM, SYSTEM\CurrentControlSet\Control\CardMan\RFID\iCLASSFreeZoneKeys,SLOT2A_KMD2,0,2602F95B72625D96E5FF
+HKLM, SYSTEM\CurrentControlSet\Control\CardMan\RFID\iCLASSFreeZoneKeys,SLOT2B_KMC2,0,270218CDC0317BEBC5AD
+HKLM, SYSTEM\CurrentControlSet\Control\CardMan\RFID\iCLASSFreeZoneKeys,SLOT2C_KMD3,0,2802BC920ADBE7BF6475
+HKLM, SYSTEM\CurrentControlSet\Control\CardMan\RFID\iCLASSFreeZoneKeys,SLOT2D_KMC3,0,29028F152F5319A06C59
+HKLM, SYSTEM\CurrentControlSet\Control\CardMan\RFID\iCLASSFreeZoneKeys,SLOT2E_KMD4,0,2A02F8DB31E84EBDE3EE
+HKLM, SYSTEM\CurrentControlSet\Control\CardMan\RFID\iCLASSFreeZoneKeys,SLOT2F_KMC4,0,2B02736413FA8A8642CA
+HKLM, SYSTEM\CurrentControlSet\Control\CardMan\RFID\iCLASSFreeZoneKeys,SLOT30_KMD5,0,2C025DA7573C127F8129
+HKLM, SYSTEM\CurrentControlSet\Control\CardMan\RFID\iCLASSFreeZoneKeys,SLOT31_KMC5,0,2D02F9D69A65512E9ECE
+HKLM, SYSTEM\CurrentControlSet\Control\CardMan\RFID\iCLASSFreeZoneKeys,SLOT32_KMD6,0,2E02059B57B9F01E023F
+HKLM, SYSTEM\CurrentControlSet\Control\CardMan\RFID\iCLASSFreeZoneKeys,SLOT33_KMC6,0,2F02C6D26E85C7454D47
+HKLM, SYSTEM\CurrentControlSet\Control\CardMan\RFID\iCLASSFreeZoneKeys,SLOT34_KMD7,0,3002EF810B8B11E483F1
+HKLM, SYSTEM\CurrentControlSet\Control\CardMan\RFID\iCLASSFreeZoneKeys,SLOT35_KMC7,0,3102E44C320DD5FFF3AB
+HKLM, SYSTEM\CurrentControlSet\Control\CardMan\RFID\iCLASSFreeZoneKeys,SLOT36_KMTD,0,3202AD336FB826D841C8
+HKLM, SYSTEM\CurrentControlSet\Control\CardMan\RFID\iCLASSFreeZoneKeys,SLOT37_KMTC,0,330232790AC2AE503051
+HKLM, SYSTEM\CurrentControlSet\Control\CardMan\RFID\iCLASSFreeZoneKeys,SLOT38_KMD0B1,0,34025ED28AC4AEB80287
+
+
+[cxru0x64.Install.NT.CopyFiles]
+cxru0x64.sys,,,2
+
+
+
+
+
+[cm5121.Service.NT]
+DisplayName     = %VID1PID1ReaderDescription%
+ServiceType     = 1 ;%SERVICE_KERNEL_DRIVER%
+StartType       = 3 ;%SERVICE_AUTO_START%
+ErrorControl    = 1 ;%SERVICE_ERROR_NORMAL%
+ServiceBinary   = %12%\cxru0x64.sys
+[cm5321.Service.NT]
+DisplayName     = %VID1PID2ReaderDescription%
+ServiceType     = 1 ;%SERVICE_KERNEL_DRIVER%
+StartType       = 3 ;%SERVICE_AUTO_START%
+ErrorControl    = 1 ;%SERVICE_ERROR_NORMAL%
+ServiceBinary   = %12%\cxru0x64.sys
+[cl5121.Service.NT]
+DisplayName     = %VID1PID3ReaderDescription%
+ServiceType     = 1 ;%SERVICE_KERNEL_DRIVER%
+StartType       = 3 ;%SERVICE_AUTO_START%
+ErrorControl    = 1 ;%SERVICE_ERROR_NORMAL%
+ServiceBinary   = %12%\cxru0x64.sys
+[cl5320.Service.NT]
+DisplayName     = %VID1PID4ReaderDescription%
+ServiceType     = 1 ;%SERVICE_KERNEL_DRIVER%
+StartType       = 3 ;%SERVICE_AUTO_START%
+ErrorControl    = 1 ;%SERVICE_ERROR_NORMAL%
+ServiceBinary   = %12%\cxru0x64.sys
+[clc100.Service.NT]
+DisplayName     = %VID1PID5ReaderDescription%
+ServiceType     = 1 ;%SERVICE_KERNEL_DRIVER%
+StartType       = 3 ;%SERVICE_AUTO_START%
+ErrorControl    = 1 ;%SERVICE_ERROR_NORMAL%
+ServiceBinary   = %12%\cxru0x64.sys
+[clc101.Service.NT]
+DisplayName     = %VID1PID6ReaderDescription%
+ServiceType     = 1 ;%SERVICE_KERNEL_DRIVER%
+StartType       = 3 ;%SERVICE_AUTO_START%
+ErrorControl    = 1 ;%SERVICE_ERROR_NORMAL%
+ServiceBinary   = %12%\cxru0x64.sys
+[cl5cli.Service.NT]
+DisplayName     = %VID1PID7ReaderDescription%
+ServiceType     = 1 ;%SERVICE_KERNEL_DRIVER%
+StartType       = 3 ;%SERVICE_AUTO_START%
+ErrorControl    = 1 ;%SERVICE_ERROR_NORMAL%
+ServiceBinary   = %12%\cxru0x64.sys
+[owenc.Service.NT]
+DisplayName     = %VID1PID8ReaderDescription%
+ServiceType     = 1 ;%SERVICE_KERNEL_DRIVER%
+StartType       = 3 ;%SERVICE_AUTO_START%
+ErrorControl    = 1 ;%SERVICE_ERROR_NORMAL%
+ServiceBinary   = %12%\cxru0x64.sys
+[cm5311.Service.NT]
+DisplayName     = %VID1PID9ReaderDescription%
+ServiceType     = 1 ;%SERVICE_KERNEL_DRIVER%
+StartType       = 3 ;%SERVICE_AUTO_START%
+ErrorControl    = 1 ;%SERVICE_ERROR_NORMAL%
+ServiceBinary   = %12%\cxru0x64.sys
+[cm53pay.Service.NT]
+DisplayName     = %VID1PID10ReaderDescription%
+ServiceType     = 1 ;%SERVICE_KERNEL_DRIVER%
+StartType       = 3 ;%SERVICE_AUTO_START%
+ErrorControl    = 1 ;%SERVICE_ERROR_NORMAL%
+ServiceBinary   = %12%\cxru0x64.sys
+[cl4121.Service.NT]
+DisplayName     = %VID1PID11ReaderDescription%
+ServiceType     = 1 ;%SERVICE_KERNEL_DRIVER%
+StartType       = 3 ;%SERVICE_AUTO_START%
+ErrorControl    = 1 ;%SERVICE_ERROR_NORMAL%
+ServiceBinary   = %12%\cxru0x64.sys
+[cm5122.Service.NT]
+DisplayName     = %VID1PID12ReaderDescription%
+ServiceType     = 1 ;%SERVICE_KERNEL_DRIVER%
+StartType       = 3 ;%SERVICE_AUTO_START%
+ErrorControl    = 1 ;%SERVICE_ERROR_NORMAL%
+ServiceBinary   = %12%\cxru0x64.sys
+[cm5123.Service.NT]
+DisplayName     = %VID1PID13ReaderDescription%
+ServiceType     = 1 ;%SERVICE_KERNEL_DRIVER%
+StartType       = 3 ;%SERVICE_AUTO_START%
+ErrorControl    = 1 ;%SERVICE_ERROR_NORMAL%
+ServiceBinary   = %12%\cxru0x64.sys
+[cm5322.Service.NT]
+DisplayName     = %VID1PID14ReaderDescription%
+ServiceType     = 1 ;%SERVICE_KERNEL_DRIVER%
+StartType       = 3 ;%SERVICE_AUTO_START%
+ErrorControl    = 1 ;%SERVICE_ERROR_NORMAL%
+ServiceBinary   = %12%\cxru0x64.sys
+[cm5323.Service.NT]
+DisplayName     = %VID1PID15ReaderDescription%
+ServiceType     = 1 ;%SERVICE_KERNEL_DRIVER%
+StartType       = 3 ;%SERVICE_AUTO_START%
+ErrorControl    = 1 ;%SERVICE_ERROR_NORMAL%
+ServiceBinary   = %12%\cxru0x64.sys
+[clc102.Service.NT]
+DisplayName     = %VID1PID16ReaderDescription%
+ServiceType     = 1 ;%SERVICE_KERNEL_DRIVER%
+StartType       = 3 ;%SERVICE_AUTO_START%
+ErrorControl    = 1 ;%SERVICE_ERROR_NORMAL%
+ServiceBinary   = %12%\cxru0x64.sys
+[clc103.Service.NT]
+DisplayName     = %VID1PID17ReaderDescription%
+ServiceType     = 1 ;%SERVICE_KERNEL_DRIVER%
+StartType       = 3 ;%SERVICE_AUTO_START%
+ErrorControl    = 1 ;%SERVICE_ERROR_NORMAL%
+ServiceBinary   = %12%\cxru0x64.sys
+
+[cmprox.Service.NT]
+DisplayName     = %VID2PID1ReaderDescription%
+ServiceType     = 1 ;%SERVICE_KERNEL_DRIVER%
+StartType       = 3 ;%SERVICE_AUTO_START%
+ErrorControl    = 1 ;%SERVICE_ERROR_NORMAL%
+ServiceBinary   = %12%\cxru0x64.sys
+[cl5124.Service.NT]
+DisplayName     = %VID2PID2ReaderDescription%
+ServiceType     = 1 ;%SERVICE_KERNEL_DRIVER%
+StartType       = 3 ;%SERVICE_AUTO_START%
+ErrorControl    = 1 ;%SERVICE_ERROR_NORMAL%
+ServiceBinary   = %12%\cxru0x64.sys
+[clc104.Service.NT]
+DisplayName     = %VID2PID3ReaderDescription%
+ServiceType     = 1 ;%SERVICE_KERNEL_DRIVER%
+StartType       = 3 ;%SERVICE_AUTO_START%
+ErrorControl    = 1 ;%SERVICE_ERROR_NORMAL%
+ServiceBinary   = %12%\cxru0x64.sys
+[clc105.Service.NT]
+DisplayName     = %VID2PID4ReaderDescription%
+ServiceType     = 1 ;%SERVICE_KERNEL_DRIVER%
+StartType       = 3 ;%SERVICE_AUTO_START%
+ErrorControl    = 1 ;%SERVICE_ERROR_NORMAL%
+ServiceBinary   = %12%\cxru0x64.sys
+
+
+[cm6321.Service.NT]
+DisplayName     = %VID3PID1ReaderDescription%
+ServiceType     = 1 ;%SERVICE_KERNEL_DRIVER%
+StartType       = 3 ;%SERVICE_AUTO_START%
+ErrorControl    = 1 ;%SERVICE_ERROR_NORMAL%
+ServiceBinary   = %12%\cxru0x64.sys
+[cl6cli.Service.NT]
+DisplayName     = %VID3PID2ReaderDescription%
+ServiceType     = 1 ;%SERVICE_KERNEL_DRIVER%
+StartType       = 3 ;%SERVICE_AUTO_START%
+ErrorControl    = 1 ;%SERVICE_ERROR_NORMAL%
+ServiceBinary   = %12%\cxru0x64.sys
+[cm6310.Service.NT]
+DisplayName     = %VID3PID3ReaderDescription%
+ServiceType     = 1 ;%SERVICE_KERNEL_DRIVER%
+StartType       = 3 ;%SERVICE_AUTO_START%
+ErrorControl    = 1 ;%SERVICE_ERROR_NORMAL%
+ServiceBinary   = %12%\cxru0x64.sys
+[cm6320.Service.NT]
+DisplayName     = %VID3PID4ReaderDescription%
+ServiceType     = 1 ;%SERVICE_KERNEL_DRIVER%
+StartType       = 3 ;%SERVICE_AUTO_START%
+ErrorControl    = 1 ;%SERVICE_ERROR_NORMAL%
+ServiceBinary   = %12%\cxru0x64.sys
+
+
+[hidB000.Service.NT]
+DisplayName     = %VID4PID1ReaderDescription%
+ServiceType     = 1 ;%SERVICE_KERNEL_DRIVER%
+StartType       = 3 ;%SERVICE_AUTO_START%
+ErrorControl    = 1 ;%SERVICE_ERROR_NORMAL%
+ServiceBinary   = %12%\cxru0x64.sys
+
+
+[fujiD321.Service.NT]
+DisplayName     = %VID5PID1ReaderDescription%
+ServiceType     = 1 ;%SERVICE_KERNEL_DRIVER%
+StartType       = 3 ;%SERVICE_AUTO_START%
+ErrorControl    = 1 ;%SERVICE_ERROR_NORMAL%
+ServiceBinary   = %12%\cxru0x64.sys
+
+
+
+[cxru0x64.EventLog.NT]
+AddReg = cxru0x64.AddEventLog.reg
+
+[cxru0x64.AddEventLog.reg]
+HKR,, EventMessageFile, 0x00020000, "%%SystemRoot%%\System32\drivers\cxru0x64.sys"
+HKR,, TypesSupported,   0x00010001, 7
+
+
+; =====================
+; === OMNIKEY 5x21 ====
+; =====================
+[cm5121.Install.AddReg.HW]
+HKR,,"VendorName",,"OMNIKEY"
+HKR,,"IfdType",, "CardMan 5x21"
+;settings for 5121 based reader
+HKR,,"632_ISO14443A",0x00000001,12,3f,13,3F,15,13,16,3F,1b,a9,1c,ff
+HKR,,"632_ISO14443B",0x00000001,12,3f,13,03,15,3F,16,3F,1b,ad,1c,88
+HKR,,"632_ISO15693", 0x00000001,12,3f,13,11,15,3f,16,3F,1b,e0,1c,ff
+HKR,,"632_ICLASS",   0x00000001,12,3f,13,11,15,3f,16,3F,1b,e0,1c,ff
+
+
+; =====================
+; === OMNIKEY 5x21 ====
+; =====================
+[cm5321.Install.AddReg.HW]
+HKR,,"VendorName",,"OMNIKEY"
+HKR,,"IfdType",, "CardMan 5x21"
+HKR,,"632_ISO14443A",0x00000001,12,3f,13,3f,15,13,16,3f,1b,a9,1c,ff
+HKR,,"632_ISO14443B",0x00000001,12,3f,13,06,15,3f,16,3f,1b,ac,1c,ff
+HKR,,"632_ISO15693" ,0x00000001,12,3f,13,21,15,3f,16,3f,1b,d0,1c,ed
+HKR,,"632_ICLASS"   ,0x00000001,12,3f,13,02,15,3f,16,3f,1b,e0,1c,ed
+
+
+; =====================
+; === OMNIKEY 5x21 ====
+; =====================
+[cl5121.Install.AddReg.HW]
+HKR,,"VendorName",,"OMNIKEY"
+HKR,,"IfdType",, "CardMan 5x21"
+;settings for 5121 based reader
+HKR,,"632_ISO14443A",0x00000001,12,3f,13,3F,15,13,16,3F,1b,a9,1c,ff
+HKR,,"632_ISO14443B",0x00000001,12,3f,13,03,15,3f,16,3F,1b,ad,1c,88
+HKR,,"632_ISO15693", 0x00000001,12,3f,13,11,15,3f,16,3F,1b,e0,1c,ff
+HKR,,"632_ICLASS",   0x00000001,12,3f,13,11,15,3f,16,3F,1b,e0,1c,ff
+
+
+; =====================
+; === OMNIKEY 5x21 ====
+; =====================
+[cl5320.Install.AddReg.HW]
+HKR,,"VendorName",,"OMNIKEY"
+HKR,,"IfdType",, "CardMan 5x21"
+HKR,,"632_ISO14443A",0x00000001,12,3f,13,3f,15,13,16,3f,1b,a9,1c,ff
+HKR,,"632_ISO14443B",0x00000001,12,3f,13,06,15,3f,16,3f,1b,ac,1c,ff
+HKR,,"632_ISO15693" ,0x00000001,12,3f,13,21,15,3f,16,3f,1b,d0,1c,ed
+HKR,,"632_ICLASS"   ,0x00000001,12,3f,13,02,15,3f,16,3f,1b,e0,1c,ed
+
+
+; =====================
+; === OMNIKEY 5x21 ====
+; =====================
+[clc100.Install.AddReg.HW]
+HKR,,"VendorName",,"OMNIKEY"
+HKR,,"IfdType",, "CardMan 5x21"
+HKR,,"632_ISO14443A",0x00000001,12,3f,13,3f,15,13,16,3f,1b,a9,1c,ff
+HKR,,"632_ISO14443B",0x00000001,12,3f,13,06,15,3f,16,3f,1b,ac,1c,ff
+HKR,,"632_ISO15693" ,0x00000001,12,3f,13,21,15,3f,16,3f,1b,d0,1c,ed
+HKR,,"632_ICLASS"   ,0x00000001,12,3f,13,02,15,3f,16,3f,1b,e0,1c,ed
+
+
+; =====================
+; === OMNIKEY 5x21 ====
+; =====================
+[clc101.Install.AddReg.HW]
+HKR,,"VendorName",,"OMNIKEY"
+HKR,,"IfdType",, "CardMan 5x21"
+HKR,,"632_ISO14443A",0x00000001,12,3f,13,3f,15,13,16,3f,1b,a9,1c,ff
+HKR,,"632_ISO14443B",0x00000001,12,3f,13,06,15,3f,16,3f,1b,ac,1c,ff
+HKR,,"632_ISO15693" ,0x00000001,12,3f,13,21,15,3f,16,3f,1b,d0,1c,ed
+HKR,,"632_ICLASS"   ,0x00000001,12,3f,13,02,15,3f,16,3f,1b,e0,1c,ed
+
+
+; =========================
+; === OMNIKEY 5321 CLi ====
+; =========================
+[cl5cli.Install.AddReg.HW]
+HKR,,"VendorName",,"OMNIKEY"
+HKR,,"IfdType",, "5321"
+HKR,,"632_ISO14443A",0x00000001,12,3f,13,3f,15,13,16,3f,1b,a9,1c,ff
+HKR,,"632_ISO14443B",0x00000001,12,3f,13,0f,15,3f,16,3f,1b,ac,1c,ff
+HKR,,"632_ISO15693" ,0x00000001,12,3f,13,06,15,3f,16,3f,1b,d0,1c,ed
+HKR,,"632_ICLASS"   ,0x00000001,12,3f,13,06,15,3f,16,3f,1b,d0,1c,ed
+
+
+; =====================
+; === OMNIKEY 5x21 ====
+; =====================
+[owenc.Install.AddReg.HW]
+HKR,,"VendorName",,"OMNIKEY"
+HKR,,"IfdType",, "5x21"
+HKR,,"632_ISO14443A",0x00000001,12,3F,13,3F,15,13,16,3F,1B,A9,1C,EC
+HKR,,"632_ISO14443B",0x00000001,12,3F,13,15,15,3F,16,3F,1B,AC,1C,EC
+HKR,,"632_ISO15693" ,0x00000001,12,3F,13,06,15,3F,16,3F,1B,D0,1C,ED
+HKR,,"632_ICLASS"   ,0x00000001,12,3F,13,13,15,3F,16,3F,1B,E0,1C,ED
+
+
+; =====================
+; === OMNIKEY 5311 ====
+; =====================
+[cm5311.Install.AddReg.HW]
+HKR,,"VendorName",,"OMNIKEY"
+HKR,,"IfdType",, "5311"
+HKR,,"632_ISO14443A",0x00000001,12,3F,13,3F,15,13,16,3F,1B,A9,1C,EC
+HKR,,"632_ISO14443B",0x00000001,12,3F,13,15,15,3F,16,3F,1B,AC,1C,EC
+HKR,,"632_ISO15693" ,0x00000001,12,3F,13,06,15,3F,16,3F,1B,D0,1C,ED
+HKR,,"632_ICLASS"   ,0x00000001,12,3F,13,13,15,3F,16,3F,1B,E0,1C,ED
+
+
+; =========================
+; === OMNIKEY 5321 PAY ====
+; =========================
+[cm53pay.Install.AddReg.HW]
+HKR,,"VendorName",,"OMNIKEY"
+HKR,,"IfdType",, "5321 PAY"
+HKR,,"632_ISO14443A",0x00000001,12,3F,13,3F,15,13,16,3F,1B,A6,1C,BF
+HKR,,"632_ISO14443B",0x00000001,12,3F,13,19,15,3F,16,3F,1B,AC,1C,58
+HKR,,"632_ISO15693" ,0x00000001,12,3F,13,06,15,3F,16,3F,1B,D0,1C,ED
+HKR,,"632_ICLASS"   ,0x00000001,12,3F,13,21,15,3F,16,3F,1B,E9,1C,ED
+
+
+; =========================
+; === OMNIKEY 4121 CL ====
+; =========================
+[cl4121.Install.AddReg.HW]
+HKR,,"VendorName",,"OMNIKEY"
+HKR,,"IfdType",, "4121"
+HKR,,"632_ISO14443A",0x00000001,12,3F,13,3F,15,13,16,3F,1B,A6,1C,9A
+HKR,,"632_ISO14443B",0x00000001,12,3F,13,0C,15,3F,16,3F,1B,BC,1C,6A
+HKR,,"632_ISO15693" ,0x00000001,12,3F,13,21,15,3F,16,3F,1B,D0,1C,AA
+HKR,,"632_ICLASS"   ,0x00000001,12,3F,13,05,15,3F,16,3F,1B,E0,1C,AA
+
+
+; =========================
+; === OMNIKEY 5x21 ====
+; =========================
+[cm5122.Install.AddReg.HW]
+HKR,,"VendorName",,"OMNIKEY"
+HKR,,"IfdType",, "CardMan 5x21"
+
+
+; =========================
+; === OMNIKEY 5x21 ====
+; =========================
+[cm5123.Install.AddReg.HW]
+HKR,,"VendorName",,"OMNIKEY"
+HKR,,"IfdType",, "CardMan 5x21"
+
+
+; =========================
+; === OMNIKEY 5x21 ====
+; =========================
+[cm5322.Install.AddReg.HW]
+HKR,,"VendorName",,"OMNIKEY"
+HKR,,"IfdType",, "CardMan 5x21"
+
+
+; =========================
+; === OMNIKEY 5x23 ====
+; =========================
+[cm5323.Install.AddReg.HW]
+HKR,,"VendorName",,"OMNIKEY"
+HKR,,"IfdType",, "CardMan 5x23"
+
+
+; =========================
+; === OMNIKEY 5x21 ====
+; =========================
+[clc102.Install.AddReg.HW]
+HKR,,"VendorName",,"OMNIKEY"
+HKR,,"IfdType",, "CardMan 5x21"
+
+
+; =========================
+; === OMNIKEY 5x21 ====
+; =========================
+[clc103.Install.AddReg.HW]
+HKR,,"VendorName",,"OMNIKEY"
+HKR,,"IfdType",, "CardMan 5x21"
+
+
+
+; =====================
+; === OMNIKEY 5x25 ====
+; =====================
+[cmprox.Install.AddReg.HW]
+HKR,,"VendorName",,"OMNIKEY"
+HKR,,"IfdType",, "CardMan 5x25"
+
+
+; =====================
+; === OMNIKEY 5x25 ====
+; =====================
+[cl5124.Install.AddReg.HW]
+HKR,,"VendorName",,"OMNIKEY"
+HKR,,"IfdType",, "CardMan 5x25"
+
+
+; =====================
+; === OMNIKEY 5x25 ====
+; =====================
+[clc104.Install.AddReg.HW]
+HKR,,"VendorName",,"OMNIKEY"
+HKR,,"IfdType",, "CardMan 5x25"
+
+
+; =====================
+; === OMNIKEY 5x25 ====
+; =====================
+[clc105.Install.AddReg.HW]
+HKR,,"VendorName",,"OMNIKEY"
+HKR,,"IfdType",, "CardMan 5x25"
+
+
+
+; =====================
+; === OMNIKEY 6321 ====
+; =====================
+[cm6321.Install.AddReg.HW]
+HKR,,"VendorName",,"OMNIKEY"
+HKR,,"IfdType",, "6321"
+HKR,,"632_ISO14443A",0x00000001,12,3F,13,3F,15,13,16,3F,1B,A9,1C,EC
+HKR,,"632_ISO14443B",0x00000001,12,3F,13,15,15,3F,16,3F,1B,AC,1C,EC
+HKR,,"632_ISO15693", 0x00000001,12,3F,13,06,15,3F,16,3F,1B,D0,1C,ED
+HKR,,"632_ICLASS",   0x00000001,12,3F,13,13,15,3F,16,3F,1B,E9,1C,ED
+
+
+; =========================
+; === OMNIKEY 6321 CLi ====
+; =========================
+[cl6cli.Install.AddReg.HW]
+HKR,,"VendorName",,"OMNIKEY"
+HKR,,"IfdType",, "6321"
+HKR,,"632_ISO14443A",0x00000001,12,3F,13,3F,15,13,16,3F,1B,A9,1C,EC
+HKR,,"632_ISO14443B",0x00000001,12,3F,13,15,15,3F,16,3F,1B,AC,1C,EC
+HKR,,"632_ISO15693", 0x00000001,12,3F,13,06,15,3F,16,3F,1B,D0,1C,ED
+HKR,,"632_ICLASS",   0x00000001,12,3F,13,13,15,3F,16,3F,1B,E9,1C,ED
+
+
+; ========================
+; === OMNIKEY 6311 CL ====
+; ========================
+[cm6310.Install.AddReg.HW]
+HKR,,"VendorName",,"OMNIKEY"
+HKR,,"IfdType",, "6311"
+HKR,,"632_ISO14443A",0x00000001,12,3F,13,3F,15,13,16,3F,1B,A9,1C,EC
+HKR,,"632_ISO14443B",0x00000001,12,3F,13,15,15,3F,16,3F,1B,AC,1C,EC
+HKR,,"632_ISO15693", 0x00000001,12,3F,13,06,15,3F,16,3F,1B,D0,1C,ED
+HKR,,"632_ICLASS",   0x00000001,12,3F,13,13,15,3F,16,3F,1B,E9,1C,ED
+
+
+; ========================
+; === OMNIKEY 6321 CL ====
+; ========================
+[cm6320.Install.AddReg.HW]
+HKR,,"VendorName",,"OMNIKEY"
+HKR,,"IfdType",, "6321"
+HKR,,"632_ISO14443A",0x00000001,12,3F,13,3F,15,13,16,3F,1B,A9,1C,EC
+HKR,,"632_ISO14443B",0x00000001,12,3F,13,15,15,3F,16,3F,1B,AC,1C,EC
+HKR,,"632_ISO15693", 0x00000001,12,3F,13,06,15,3F,16,3F,1B,D0,1C,ED
+HKR,,"632_ICLASS",   0x00000001,12,3F,13,13,15,3F,16,3F,1B,E9,1C,ED
+
+
+
+
+; ========================
+; === HID identiCLASS ====
+; ========================
+[hidB000.Install.AddReg.HW]
+HKR,,"VendorName",,"HID"
+HKR,,"IfdType",, "identiCLASS"
+HKR,,"632_ISO14443A",0x00000001,12,3F,13,3F,15,13,16,3F,1b,A9,1C,FF
+HKR,,"632_ISO14443B",0x00000001,12,3F,13,06,15,3F,16,3F,1b,AC,1C,FF
+HKR,,"632_ISO15693" ,0x00000001,12,3F,13,21,15,3F,16,3F,1b,D0,1C,ED
+HKR,,"632_ICLASS"   ,0x00000001,12,3F,13,02,15,3F,16,3F,1b,E0,1C,ED
+
+
+
+; ========================
+; === Dual Smartcard Reader D321 ====
+; ========================
+[fujiD321.Install.AddReg.HW]
+HKR,,"VendorName",,"Fujitsu"
+HKR,,"IfdType",, "Dual Smartcard Reader D321"
+HKR,,"632_ISO14443A",0x00000001,12,3F,13,3F,15,13,16,3F,1b,A9,1C,FF
+HKR,,"632_ISO14443B",0x00000001,12,3F,13,06,15,3F,16,3F,1b,AC,1C,FF
+HKR,,"632_ISO15693" ,0x00000001,12,3F,13,21,15,3F,16,3F,1b,D0,1C,ED
+HKR,,"632_ICLASS"   ,0x00000001,12,3F,13,02,15,3F,16,3F,1b,E0,1C,ED
+
+
+
+
+
+; ================= Strings =====================
+
+[Strings]
+Provider		= "HID Global"
+Manufacturer    	= "HID Global"
+VID1PID1ReaderDescription     = "OMNIKEY 5x21"
+VID1PID2ReaderDescription     = "OMNIKEY 5x21"
+VID1PID3ReaderDescription     = "OMNIKEY 5x21"
+VID1PID4ReaderDescription     = "OMNIKEY 5x21"
+VID1PID5ReaderDescription     = "OMNIKEY 5x21"
+VID1PID6ReaderDescription     = "OMNIKEY 5x21"
+VID1PID7ReaderDescription     = "OMNIKEY 5321 CLi"
+VID1PID8ReaderDescription     = "OMNIKEY 5x21"
+VID1PID9ReaderDescription     = "OMNIKEY 5311"
+VID1PID10ReaderDescription    = "OMNIKEY 5321 PAY"
+VID1PID11ReaderDescription    = "OMNIKEY 4121 CL"
+VID1PID12ReaderDescription    = "OMNIKEY 5x21"
+VID1PID13ReaderDescription    = "OMNIKEY 5x21"
+VID1PID14ReaderDescription    = "OMNIKEY 5x21"
+VID1PID15ReaderDescription    = "OMNIKEY 5x23"
+VID1PID16ReaderDescription    = "OMNIKEY 5x21"
+VID1PID17ReaderDescription    = "OMNIKEY 5x21"
+
+
+VID2PID1ReaderDescription     = "OMNIKEY 5x25"
+VID2PID2ReaderDescription     = "OMNIKEY 5x25"
+VID2PID3ReaderDescription     = "OMNIKEY 5x25"
+VID2PID4ReaderDescription     = "OMNIKEY 5x25"
+VID3PID1ReaderDescription     = "OMNIKEY 6321"
+VID3PID2ReaderDescription     = "OMNIKEY 6321 CLi"
+VID3PID3ReaderDescription     = "OMNIKEY 6311 CL"
+VID3PID4ReaderDescription     = "OMNIKEY 6321 CL"
+VID4PID1ReaderDescription     = "HID identiCLASS"
+VID5PID1ReaderDescription     = "Dual Smartcard Reader D321"
+DiskDescription         = "OMNIKEY PC/SC Driver Disk"
+ClassName 		= "Smart Card Readers"

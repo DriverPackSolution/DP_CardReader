@@ -1,0 +1,46 @@
+End User License Agreement 
+
+IMPORTANT - CAREFULLY READ ALL THE TERMS AND CONDITIONS OF THIS LICENSE AGREEMENT (THIS "AGREEMENT") BEFORE INSTALLING THE SOFTWARE. BY CLICKING “I ACCEPT” AND PROCEEDING WITH THE INSTALLATION OF THE SOFTWARE YOU ARE INDICATING THAT YOU HAVE READ, UNDERSTAND AND ACCEPT THIS AGREEMENT, AND THAT YOU AGREE TO BE BOUND BY ITS TERMS. SHOULD YOU CHOOSE NOT TO BE BOUND BY THE TERMS AND CONDITIONS OF THIS AGREEMENT, DO NOT CLICK “I ACCEPT” AND DO NOT PROCEED WITH THE INSTALLATION OF THE SOFTWARE.
+
+1. 	Software License.  
+
+(a)	License Grant.  Subject to Your compliance with the terms and conditions of this Agreement, HID Global Corporation ("HID") grants You a personal, non-exclusive, non-transferable, non-sublicensable right to install the enclosed software program, in object code form only (the "Software") on Your networked or standalone computers for access and use by You and for Your benefit in conjunction with OMNIKEY brand reader devices. This Agreement does not convey to You an interest in or to the Software, but only a limited right of use revocable in accordance with the terms of this Agreement. 
+
+	(b) 	Third Party Technologies. The Software may include or be bundled with other software programs licensed under different terms and/or licensed by a vendor other than HID. Use of any software programs accompanied by a separate license agreement is governed by that separate license agreement. Any third party software that may be provided with the Software is included for use at Your option. HID is not responsible for any third party’s software and shall have no liability for Your use of third party software.  
+
+2. 	License Restrictions.  HID reserves all rights not expressly granted to You under this Agreement. You may not modify or alter the Software in any way. You may not disassemble, decompile or reverse engineer the Software in order to obtain the source code, which is a trade secret of HID and/or its suppliers. You may not lease, sublicense or otherwise rent the Software and accompanying documentation.  
+
+3. 	Ownership.  No title to or ownership in the Software is transferred to You.  You acknowledge and agree that HID and its suppliers own and retain all rights, title and interest in the Software and ownership of all intellectual property rights in the Software, including any adaptations or copies. You acquire only a license to use the Software. The Software is the propriety product of HID and its suppliers and is protected by United States copyright laws and international provisions. You must treat the Software as any other copyrighted material with the exception that You may reproduce the Software in non-printed machine-readable form for purposes of the permitted uses described above. You agree not to attempt in any way to obliterate or destroy the trade secret or copyright notice in all copies of the Software. In no event shall You copy the documentation, or any portion thereof, accompanying the Software. You may not use, copy, modify, or transfer the Software or documentation accompanying this Software except as expressly provided in this Agreement. 
+
+4. 	Term.  This license is effective until terminated. You may terminate it by destroying the Software and accompanying documentation and all copies thereof. This license will also terminate if You fail to comply with any term or provision of this Agreement. You agree upon such termination to destroy the Software and accompanying documentation and all copies thereof.
+
+5. 	Limited Warranty.  In the absence of any optional warranty or continuing provisions extended by a formal written agreement, HID warrants its Software in accordance with the following:
+
+(a) 	Limited Warranty.  HID warrants solely on its behalf and for your benefit alone, that for a period of ninety (90) days from your receipt of the Software (the "Warranty Period") optical media on which the Software is recorded shall be free from defects in materials and workmanship under normal use. Except as expressly provided herein, neither HID nor its suppliers warrant the performance or results of the Software, that the Software will meet your requirements, or that the Software will run uninterrupted or error free.
+
+(b) 	Exclusive Remedy.  HID’s entire liability and your exclusive remedy shall be the replacement of any media not meeting the limited warranty set forth above, provided it is returned to HID. Warranty claims must be received by HID within the Warranty Period. In the event of a warranty claim, you shall be responsible for the removal of the defective Software, shipping charges for return to HID, and installation of its replacement. Replaced Software and media, or any part thereof, shall become the property of HID and shall be returned to HID at your expense. 
+
+6.	WARRANTY DISCLAIMER.  THE EXPRESS WARRANTIES SET FORTH IN THIS AGREEMENT ARE IN LIEU OF ALL OTHER WARRANTIES, EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION, ANY WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, TITLE AND NON-INFRINGEMENT, AND TO THE EXTENT PERMITTED BY APPLICABLE LAW ALL SUCH OTHER WARRANTIES ARE HEREBY DISCLAIMED AND EXCLUDED BY HID AND ITS SUPPLIERS. Some jurisdictions do not allow certain disclaimers and limitations of warranties, so portions of the above limitations may not apply to you. This limited warranty gives you specific rights and you may also have other rights which vary from state to state.
+
+7. 	LIMITATION OF LIABILITY.  IN NO EVENT SHALL HID OR ITS SUPPLIERS BE LIABLE TO YOU FOR ANY DAMAGES, INCLUDING, WITHOUT LIMITATION, ANY SPECIAL, INDIRECT, INCIDENTAL, PUNITIVE OR CONSEQUENTIAL DAMAGES, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THE SOFTWARE, INCLUDING WITHOUT LIMITATION, LOSS OF PROFITS, BUSINESS, DATA, GOODWILL, OR ANTICIPATED SAVINGS, EVEN IF ADVISED OF THE POSSIBILITY OF THOSE DAMAGES. IN NO EVENT WILL HID’S AGGREGATE LIABILITY FOR DIRECT DAMAGES TO PROPERTY OR PERSON (WHETHER IN ONE INSTANCE OR A SERIES OF INSTANCES) EXCEED THE AMOUNT PAID BY YOU FOR THE SOFTWARE OUT OF WHICH SUCH CLAIM AROSE. In those jurisdictions that do not allow the exclusion or limitation of damages, HID’s liability shall be limited or excluded to the maximum extent allowed within those jurisdictions.
+
+8. 	U.S. Government Restricted Rights.  The Software and documentation are provided with RESTRICTED RIGHTS. Use, duplication or disclosure by the Government is subject to restrictions as set forth in subparagraph (b)(3) of the Right in Technical Data and Computer Software clause at DFARS 252.227-7013 or subparagraphs (c) (1) and (2) of the Commercial Computer Software - Restricted Rights at 48CFR 52.227-19, as applicable. Supplier is HID Global Corporation, 9292 Jeronimo  Road, Irvine, California 92618.
+
+9. 	Export.  You agree that you do not intend to and will not, directly or indirectly, export or transmit the Software or related documentation and technical data to any country to which such export or transmission is restricted by any applicable U.S. regulation or statue, without the prior written consent, if required, of the Bureau of Export Administration of the U.S. Department of Commerce, or such other governmental entity as may have jurisdiction over such export or transmission. You represent and warrant that you are not located in, under the control of, or a national or resident of any such country.
+
+10.	Indemnification.  You shall defend, indemnify, and hold HID, its officers, directors and employees, harmless from and against any and all claims, damages, losses, costs or other expenses (including reasonable attorneys’ fees) that arise directly or indirectly out of your willful misconduct or unauthorized use of the Software.
+
+11.	Miscellaneous.  
+
+(a)	Severability.  If any provision of this Agreement is invalid or unenforceable under applicable law, then it shall be, to that extent, deemed omitted and the remaining provisions will continue in full force and effect. 
+
+(b)	Governing Law.  The validity and performance of this Agreement shall be governed by California law (without reference to choice of law principles), and applicable federal law. The United Nations Convention on Contracts for the International Sale of Goods shall not apply.
+
+(c)	Construction.  This Agreement is deemed entered into in California, and shall be construed as to its fair meaning and not strictly for or against either party. 
+
+(d)	Attorneys’ Fees.  In the event of any legal action or proceeding relating to this Agreement, the prevailing party shall be entitled to recover its attorneys’ fees in addition to any other relief granted.
+
+(e)	Entire Agreement; Modification.  This Agreement sets forth the entire understanding and agreement between you and HID and may be amended only in a writing signed by both parties.
+
+YOU ACKNOWLEDGE THAT YOU HAVE READ THIS AGREEMENT, UNDERSTAND IT AND AGREE TO BE BOUND BY ITS TERMS AND CONDITIONS. YOU FURTHER AGREE THAT IT IS THE COMPLETE AND EXCLUSIVE STATEMENT OF THE AGREEMENT BETWEEN YOU AND HID, WHICH SUPERSEDES ANY PROPOSAL OR PRIOR AGREEMENT, ORAL OR
+WRITTEN, AND ANY OTHER COMMUNICATIONS BETWEEN YOU AND HID RELATING TO THE SUBJECT MATTER OF THIS AGREEMENT.

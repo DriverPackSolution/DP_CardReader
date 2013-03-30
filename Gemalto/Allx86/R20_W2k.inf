@@ -1,0 +1,107 @@
+; R20_W2K.inf
+;
+; Installation file (.inf) for the Reflex 20.
+;
+; © Copyright SchlumbergerSema 1999, 2002
+;
+
+[Version]
+Signature="$Windows NT$"
+Class=SmartCardReader
+ClassGUID={50DD5230-BA8A-11D1-BF5D-0000F805F530}
+Provider=%SLB%
+Catalogfile=R20_W2K.cat
+DriverVer=03/08/2002,3.06.00.01
+
+; - Plug'n'Play Installation -----------------------------
+[ControlFlags]
+ExcludeFromSelect=PCMCIA\PSCR-SLB_REFLEX_20-18F3
+
+; ================= Class section =====================
+
+[ClassInstall32]
+Addreg=SmartCardReaderClassReg     
+
+[SmartCardReaderClassReg]
+HKR,,,0,%ClassName%
+HKR,,Icon,,-25
+
+[Manufacturer]
+%SLB%   = SLB.Mfg
+
+[Reader.Install.AddReg]
+HKLM, Software\Microsoft\Cryptography\Calais\Readers,,,
+HKLM, System\CurrentControlSet\Services\SCardSvr,Start,0x00010001,2
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,DLLName,0,wlnotify.dll
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logon,0,SCardStartCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logoff,0,SCardStopCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Lock,0,SCardSuspendCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Unlock,0,SCardResumeCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Enabled,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Impersonate,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Asynchronous,0x00010001,1
+
+[SLB.Mfg]
+; DisplayName       Section         DeviceId
+; -----------       -------         --------
+%SLB.DeviceDesc0% = R20_W2K.Install, PCMCIA\PSCR-SLB_REFLEX_20-18F3
+
+[R20_W2K.Install.NT]
+AddReg     = Reader.Install.AddReg, R20_W2K.Install.AddReg
+CopyFiles  = R20_W2K.Install.CopyFiles
+
+
+;- Destination folders ----------------------------------
+[DestinationDirs]
+R20_W2K.Install.CopyFiles = 12
+DefaultDestDir   = 12
+
+
+;- Installation Sections --------------------------------
+
+[R20_W2K.Install.AddReg]
+HKR,, AdapterType, 0, "0100"
+
+[R20_W2K.Install.NT.HW]
+AddReg          = R20_W2K.Install.AddReg.HW
+
+[R20_W2K.Install.AddReg.HW]
+HKR,,VendorName,,%VendorName%
+HKR,,IfdType,,%IfdType%
+
+[R20_W2K.Install.CopyFiles]
+R20_W2K.sys
+
+[R20_W2K.Install.NT.Services]
+AddService = R20_W2K, 0x00000002 , R20_W2K.Service, R20_W2K.EventLog
+
+[R20_W2K.Service]
+DisplayName     = %SLB.DeviceDesc0%
+ServiceType    = 1                  ; SERVICE_KERNEL_DRIVER
+StartType      = 3                  ; SERVICE_DEMAND_START
+ErrorControl   = 1                  ; SERVICE_ERROR_IGNORE
+ServiceBinary  = %12%\R20_W2K.sys
+
+[R20_W2K.EventLog]
+AddReg = R20_W2K.AddEventLog.reg
+
+[R20_W2K.AddEventLog.reg]
+HKR,,EventMessageFile,0x00020000,"%%SystemRoot%%\System32\drivers\R20_W2K.sys"
+HKR,,TypesSupported,0x00010001,7
+
+[SourceDisksFiles]
+R20_W2K.sys=1
+
+
+[SourceDisksNames]
+1 = %DiskId1%,,,""
+
+
+[Strings]
+SLB.DeviceDesc0 = "Reflex 20 Smart card reader"
+DiskId1 	= ""                     
+SLB 		= "SchlumbergerSema"
+ClassName       = "Smart card readers"
+VendorName	= "SchlumbergerSema"
+IfdType		= "Reflex 20"
+

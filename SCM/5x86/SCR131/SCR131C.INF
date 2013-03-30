@@ -1,0 +1,114 @@
+;
+; SCR131C.INF
+;
+; Setup Information file for SCR13x Serial Smart Card Reader for Windows 2000 and Windows XP
+;
+; (c) Copyright 2005.,SCM Microsystems Inc.
+;
+
+[Version]
+Signature="$Windows NT$"
+Class=SmartCardReader
+ClassGuid={50DD5230-BA8A-11D1-BF5D-0000F805F530}
+Provider=%SCM%
+DriverVer=08/19/2005,4.14.00.01
+CatalogFile = SCR131C.cat
+
+
+[ControlFlags]
+; Prevent legecay install for PnP readers
+ExcludeFromSelect=SERENUM\SCME002
+ExcludeFromSelect=SERENUM\SCM5115
+
+; ================= Class section =====================
+[Manufacturer]
+%SCM%   = SCM
+
+
+[Reader.Install.AddReg]
+HKR,,,0,%ClassName%
+HKR,,Icon,,-25
+HKLM, Software\Microsoft\Cryptography\Calais\Readers,,,
+HKLM, System\CurrentControlSet\Services\SCardSvr,Start,0x00010001,2
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,DLLName,0,wlnotify.dll
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logon,0,SCardStartCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logoff,0,SCardStopCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Lock,0,SCardSuspendCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Unlock,0,SCardResumeCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Enabled,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Impersonate,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Asynchronous,0x00010001,1
+; Configurable F and D values
+;HKR,, FValue , 0x00010001, 1
+;HKR,, DValue , 0x00010001, 1
+HKR,, BufferSize , 0x00010001, 131072
+;HKR,, CardSpecificATR, 1, 3B,34,D6,00,30,42,30,30
+;HKR,, TranslatedATR, 1, 3B,34,B5,00,30,42,30,30
+HKR,, IFDType,0,%PCSC_CCID%
+HKR,, VendorName,0,%SCM%
+
+
+[SCM]
+; DisplayName       	Section          DeviceId
+; -----------       	-------          --------
+%SCR131C.DeviceDesc% = 	SCR131C.Install, SERENUM\SCME002
+%SCR131C.DeviceDesc% = 	SCR131C.Install, SERENUM\SCM5115
+
+
+;- Destination folders ----------------------------------
+[DestinationDirs]
+SCR131C.Install.CopyFiles = 12
+DefaultDestDir   = 12
+
+
+; ================= INSTALL NT ================= 
+[SCR131C.Install.NT]
+AddReg          = Reader.Install.AddReg, SCR131C.Install.AddReg
+CopyFiles	= SCR131C.Install.CopyFiles
+
+
+[SCR131C.Install.AddReg]
+HKR,, AdapterType, 0, "0100"
+
+
+[SCR131C.Install.CopyFiles]
+SCR131C.sys,,,2
+
+
+[SCR131C.Install.NT.Services]
+AddService = SCR131C, 0x00000002, SCR131C.Service, SCR131C.EventLog
+
+
+[SCR131C.Service]
+DisplayName     = %SCR131C.DeviceDesc%
+ServiceType     = 1 ;%SERVICE_KERNEL_DRIVER%
+StartType       = 3 ;%SERVICE_AUTO_START%
+ErrorControl    = 1 ;%SERVICE_ERROR_NORMAL%
+ServiceBinary   = %12%\SCR131C.sys
+
+
+[SCR131C.EventLog]
+AddReg = SCR131C.AddEventLog.reg
+
+
+[SCR131C.AddEventLog.reg]
+HKR,, EventMessageFile, 0x00020000, "%%SystemRoot%%\System32\drivers\SCR131C.sys"
+HKR,, TypesSupported,   0x00010001, 7
+
+
+[SourceDisksFiles]
+SCR131C.sys=1
+
+
+[SourceDisksNames]
+1 = %DiskId1%,,
+
+
+; ================= Strings =====================
+
+[Strings]
+DiskId1 		= "SCM Microsytems Installation Disk #1 (SmartCardReader)"
+SCM			= "SCM Microsystems Inc."
+SCR131C.DeviceDesc	= "SCR13x Serial Smart Card Reader" 
+PCSC_CCID		= "SCR131 Serial Smart Card Reader"
+ClassName 		= "Smart Card Readers"

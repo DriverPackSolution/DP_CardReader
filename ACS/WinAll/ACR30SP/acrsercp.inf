@@ -1,0 +1,102 @@
+; Acrsercp.inf
+; Copyright (c) 1999 - 2004 Advanced Card Systems Ltd
+
+[Version]
+DriverVer=08/14/2007,2.0.5.7
+CatalogFile=acrsercp.cat	;cat file from MS
+Signature="$Windows NT$"
+Class=SmartCardReader
+ClassGuid={50DD5230-BA8A-11D1-BF5D-0000F805F530}
+Provider=%ACS%
+
+[ControlFlags]
+; Prevent legacy install for PnP readers
+ExcludeFromSelect=SERENUM\ACS0150
+
+; ================= Class section =====================
+
+[ClassInstall32]
+Addreg=SmartCardReaderClassReg
+
+[SmartCardReaderClassReg]
+HKR,,,0,%ClassName%
+HKR,,Icon,,-25
+HKLM,"\Software\Microsoft\Cryptography\Calais\Readers",,,
+
+[Manufacturer]
+%Mft%=ACS,NTamd64
+
+; ================= ACR EMV Readers =====================
+
+[ACS]
+; DisplayName      Section      DeviceId
+; -----------      -------	--------
+%ACS.DeviceDesc% = ACS.Install, SERENUM\ACS0150
+
+[ACS.NTamd64]
+%ACS.DeviceDesc% = ACS.Install, SERENUM\ACS0150
+
+[ACS.Install.NTx86]
+AddReg          = ACS.Install.AddReg
+CopyFiles	= ACS.Install.CopyFiles.NTx86
+
+[ACS.Install.NTamd64]
+AddReg          = ACS.Install.AddReg
+CopyFiles	= ACS.Install.CopyFiles.NTamd64
+
+[ACS.Install.AddReg]
+HKR,, AdapterType, 0, "0100"
+HKLM,%NameKey%,"VendorName",0,%Vendor%
+HKLM,%NameKey%,"IFDName",0,%Reader%
+HKLM,%NameKey%,"BaudRate",0x00010001,%BaudRate%
+HKLM,"System\CurrentControlSet\Services\SCardSvr","Start", 0x00010001,2
+
+[ACS.Install.CopyFiles.NTx86]
+acrsercp.sys
+
+[ACS.Install.CopyFiles.NTamd64]
+acrsercp.sys,acrsercpx64.sys
+
+[ACS.Install.NTx86.Services]
+AddService = Acrsercp, 2, ACS.Service, ACS.EventLog
+
+[ACS.Install.NTamd64.Services]
+AddService = Acrsercp, 2, ACS.Service, ACS.EventLog
+
+[ACS.Service]
+DisplayName     = %ACS.DeviceDesc%
+ServiceType     = 1 ;%SERVICE_KERNEL_DRIVER%
+StartType       = 3 ;%SERVICE_AUTO_START%
+ErrorControl    = 1 ;%SERVICE_ERROR_NORMAL%
+ServiceBinary   = %12%\acrsercp.sys
+
+[ACS.EventLog]
+AddReg = ACS.AddEventLog.reg
+
+[ACS.AddEventLog.reg]
+HKR,, EventMessageFile, 0x00020000, "%%SystemRoot%%\System32\drivers\acrsercp.sys"
+HKR,, TypesSupported,   0x00010001, 7
+
+[SourceDisksNames]
+1="ACR Serial Smart Card Reader Install Disk",,,
+
+[SourceDisksFiles]
+acrsercp.sys=1
+acrsercpx64.sys=1
+
+[DestinationDirs]
+ACS.Install.CopyFiles.NTx86 = 12
+ACS.Install.CopyFiles.NTamd64 = 12
+
+; ================= Strings =====================
+
+[Strings]
+ACS			   = "Advanced Card System"
+Mft			   = "Advanced Card System"
+ACS.DeviceDesc	= "ACR30SP Smart Card Reader"
+ClassName 		= "Smart Card Readers"
+NameKey			= "System\CurrentControlSet\Services\ACRS"
+Vendor			= "ACS"
+Reader			= "ACR30SP"
+BaudRate		   = 115200
+CommandMode		= 2	;0-Auto / 1-EMV / 2-PCSC

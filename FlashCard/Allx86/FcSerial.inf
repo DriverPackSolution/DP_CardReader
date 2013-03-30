@@ -1,0 +1,90 @@
+; Windows Virtual Serial Port Setup File
+; Copyright (c) 2002,2003 Flash Card
+; Manufacturer: Flash Card
+
+[Version]
+signature  = "$WINDOWS NT$"
+Class      = Ports
+Provider   = %FlashCard%
+ClassGuid  = {4D36E978-E325-11CE-BFC1-08002BE10318}
+DriverVer  = 10/11/2011,1.3.0.0
+CatalogFile= FcSerial.cat
+
+[SourceDisksNames]
+1000 = %FCSRCDISK%,"",,
+
+[SourceDisksFiles]
+FcSerial.sys = 1000
+
+[ControlFlags]
+ExcludeFromSelect = *
+
+[DestinationDirs]
+DefaultDestDir = 12
+
+[Manufacturer]
+%FlashCard% = FcSerialPort
+
+[FcSerialPort]
+
+%FcDevice00% = FcInstall00, USB\VID_12d1&PID_1441&MI_02
+%FcDevice01% = FcInstall00, USB\VID_12d1&PID_1441&MI_03
+%FcDevice02% = FcInstall00, USB\VID_12d1&PID_1441&MI_04
+
+%FcDevice01% = FcInstall00, USB\VID_12d1&PID_1442&MI_00
+%FcDevice00% = FcInstall00, USB\VID_12d1&PID_1442&MI_01
+%FcDevice00% = FcInstall00, USB\VID_12d1&PID_14b9&MI_00
+%FcDevice01% = FcInstall00, USB\VID_12d1&PID_14b9&MI_01
+
+%VDFDevice01% = FcInstall00, USB\VID_12d1&PID_14FB&MI_00
+%VDFDevice00% = FcInstall00, USB\VID_12d1&PID_14FB&MI_01
+%VDFDevice00% = FcInstall00, USB\VID_12d1&PID_14FC&MI_00
+%VDFDevice01% = FcInstall00, USB\VID_12d1&PID_14FC&MI_01
+
+%QcomDevice02% = FcInstall00, USB\VID_12d1&PID_1001&MI_00
+%QcomDevice00% = FcInstall00, USB\VID_12d1&PID_1001&MI_01
+%QcomDevice01% = FcInstall00, USB\VID_12d1&PID_1001&MI_02
+%QcomDevice02% = FcInstall00, USB\VID_12d1&PID_1003&MI_00
+%QcomDevice01% = FcInstall00, USB\VID_12d1&PID_1003&MI_01
+%QcomDevice02% = FcInstall00, USB\VID_12d1&PID_1c05&MI_00
+%QcomDevice00% = FcInstall00, USB\VID_12d1&PID_1c05&MI_01
+%QcomDevice01% = FcInstall00, USB\VID_12d1&PID_1c05&MI_02
+
+%FcDevice00% = FcInstall00, USB\VID_12d1&PID_15FF&MI_02
+
+; ###### Installation Section ######
+[FcInstall00.NT]
+CopyFiles = CopyFileSection00
+AddReg = All00, AddReg.NT
+
+[FcInstall00.NT.Services]
+AddService = FcSerial,  0x00000002, Fc_Service_Inst00
+
+[Fc_Service_Inst00]
+DisplayName   = "Fc Serial Port Driver"
+ServiceType   = 1
+StartType     = 3
+ErrorControl  = 1
+ServiceBinary = %12%\FcSerial.sys
+
+[CopyFileSection00]
+FcSerial.sys,,,0x20
+
+[All00]
+HKR,,NTMPDriver,,FcSerial.sys
+
+[AddReg.NT]
+HKR,,PortSubClass,1,01
+HKR,,EnumPropPages32,,"MsPorts.dll,SerialPortPropPageProvider"
+
+[Strings]
+FlashCard   = "Flash Card"
+FCSRCDISK = "Flash Card USB Driver Disk"
+FcDevice00 = "FC - Application Interface"
+FcDevice01 = "FC - PC UI Interface"
+FcDevice02 = "FC - Serial Port"
+VDFDevice00= "QuickStart Update Diagnostics Port (Huawei)"
+VDFDevice01= "QuickStart Update Secondary Port (Huawei)"
+QcomDevice00 = "HUAWEI Mobile Connect - 3G Application Interface"
+QcomDevice01 = "HUAWEI Mobile Connect - 3G PC UI Interface"
+QcomDevice02 = "HUAWEI Mobile Connect - 3G Modem"

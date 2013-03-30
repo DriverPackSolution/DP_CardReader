@@ -1,0 +1,159 @@
+; cmtu0wdm.INF
+; Copyright (c) 2000 - 2004 OMNIKEY AG
+
+[Version]
+Signature=$CHICAGO$
+Class=SmartCardReader
+ClassGuid={50DD5230-BA8A-11D1-BF5D-0000F805F530}
+Provider=%Provider%
+DriverVer=06/09/2004,1.0.4.0
+;we have to remove this for the uncertified driver
+;CatalogFile=cmtu0wdm.cat
+
+[SourceDisksNames]
+1=%DiskDescription%,,
+
+[SourceDisksFiles]
+cmtu0wdm.sys=1,,
+launchn.dll=1,,
+scbase.ex_=1,,
+smclib.ex_=1,,
+cmdiag.cpl=1,,
+cmdiag.ini=1,,
+cardman.cpl=1,,
+cmabout.ini=1,,
+cmabout.dll=1,,
+ok.bmp=1,,
+
+[DestinationDirs]
+DefaultDestDir=11
+cmtu0wdm.Install.CopyFiles=10,system32\drivers
+cmtu0wdm.Install.NT.CopyFiles=10,system32\drivers
+cmtu0wdm.Install.Scbase=11
+cmtu0wdm.Install.Sc2=10,system
+cm8630.Tools=11
+cmtu0wdm.NT.Tools=11
+
+[Manufacturer]
+%Manufacturer%=OMNIKEY
+
+; =================== Class section =======================
+
+[ClassInstall]
+Addreg=SmartCardReaderClassReg
+
+[SmartCardReaderClassReg]
+HKR,,,0,%ClassName%
+HKR,,Icon,,-25
+HKLM,"\Software\Microsoft\Cryptography\Calais\Readers",,,
+
+
+; ===================== CardMan ===========================
+
+; we have to remove this for the uncertified driver
+;[ControlFlags]
+;ExcludeFromSelect.NT = USB\VID_076B&PID_8630
+
+[OMNIKEY]
+; DisplayName       	Section           DeviceId
+; -----------       	-------           --------
+%cm8630.DeviceDesc% = cm8630.Install, USB\VID_076B&PID_8630
+
+
+; =================== Win9x specific ======================
+
+[cm8630.Install]
+AddReg    = cm8630.Install.AddReg
+CopyFiles = cmtu0wdm.Install.CopyFiles,cmtu0wdm.Install.Scbase,cmtu0wdm.Install.Sc2,cm8630.Tools
+
+[cm8630.Install.HW]
+AddReg    = cm8630.Install.AddReg.HW
+
+
+[cm8630.Install.AddReg]
+HKR,,DevLoader,,*ntkern
+HKR,,NTMPDriver,,cmtu0wdm.sys
+HKLM,"\Software\Microsoft\Windows\CurrentVersion\RunOnce",launchn,,"rundll32 launchn.dll,InstallSC"
+
+
+
+[cmtu0wdm.Install.CopyFiles]
+cmtu0wdm.sys
+
+[cmtu0wdm.Install.Scbase]
+launchn.dll
+scbase.ex_
+smclib.ex_
+
+[cmtu0wdm.Install.Sc2]
+scbase.exe,scbase.ex_
+smclib.exe,smclib.ex_
+
+
+[cm8630.Tools]
+cmdiag.cpl
+cmdiag.ini
+cardman.cpl
+cmabout.ini
+cmabout.dll
+ok.bmp
+
+
+
+; ================== Win2000 specific =====================
+
+[cm8630.Install.NT]
+AddReg    = cmtu0wdm.Install.NT.AddReg
+CopyFiles = cmtu0wdm.Install.NT.CopyFiles,cmtu0wdm.NT.Tools
+
+[cm8630.Install.NT.HW]
+AddReg    = cm8630.Install.AddReg.HW
+
+[cm8630.Install.NT.Services]
+AddService = cmtu0wdm, 2, cmtu0wdm.Service.NT
+
+
+[cmtu0wdm.Install.NT.AddReg]
+HKR,, AdapterType, 0, "0100"
+;set ScardSvr always to 'Automatic'
+HKLM,"SYSTEM\CurrentControlSet\Services\SCardSvr",Start,0x00010001,2
+
+
+[cmtu0wdm.Install.NT.CopyFiles]
+; 2 : skip not allowed
+cmtu0wdm.sys,,,2
+
+[cmtu0wdm.NT.Tools]
+cmdiag.cpl
+cmdiag.ini
+cardman.cpl
+cmabout.ini
+cmabout.dll
+ok.bmp
+
+
+[cmtu0wdm.Service.NT]
+DisplayName     = "CardMan 8630 USB"
+ServiceType     = 1 ;%SERVICE_KERNEL_DRIVER%
+StartType       = 3 ;%SERVICE_AUTO_START%
+ErrorControl    = 1 ;%SERVICE_ERROR_NORMAL%
+ServiceBinary   = %12%\cmtu0wdm.sys
+
+
+
+; =====================
+; === CardMan 8630 ====
+; =====================
+[cm8630.Install.AddReg.HW]
+HKR,,"VendorName",,"OMNIKEY"
+HKR,,"IfdType",, "CardMan 8630"
+
+
+; ================= Strings =====================
+
+[Strings]
+Provider		= "OMNIKEY AG"
+Manufacturer    	= "OMNIKEY AG"
+cm8630.DeviceDesc	= "CardMan 8630"
+DiskDescription         = "CardMan PC/SC Driver Disk"
+ClassName 		= "Smart Card Readers"

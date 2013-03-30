@@ -1,0 +1,111 @@
+; r30_w2k.inf
+; Copyright (c) 2000 - 2002 OMNIKEY AG
+
+[Version]
+Signature=$CHICAGO$
+Class=SmartCardReader
+ClassGuid={50DD5230-BA8A-11D1-BF5D-0000F805F530}
+Provider=%Provider%
+DriverVer=07/04/2002,3.5.0.5
+CatalogFile=r30_w2k.cat
+
+[SourceDisksNames]
+1=%DiskDescription%,,
+
+[SourceDisksFiles]
+r30_w2k.sys=1,,
+
+[DestinationDirs]
+DefaultDestDir = 10,system32\drivers
+r30wdm.Install.NT.CopyFiles=10,system32\drivers
+
+[Manufacturer]
+%Manufacturer%=SLB
+
+; =================== Class section =======================
+
+[ClassInstall]
+Addreg=SmartCardReaderClassReg
+
+[SmartCardReaderClassReg]
+HKR,,,0,%ClassName%
+HKR,,Icon,,-25
+HKLM,"\Software\Microsoft\Cryptography\Calais\Readers",,,
+
+
+; ===================== CardMan ===========================
+
+[ControlFlags]
+ExcludeFromSelect.NT = PCMCIA\SLB-Reflex30_SmartCard_Reader-12C6
+
+[SLB]
+; DisplayName       	Section           DeviceId
+; -----------       	-------           --------
+%DeviceDescription% = r30wdm.Install, PCMCIA\SLB-Reflex30_SmartCard_Reader-12C6
+
+
+; ================== Win2000 specific =====================
+
+[r30wdm.Install.NT]
+AddReg    = r30wdm.Install.NT.AddReg
+CopyFiles = r30wdm.Install.NT.CopyFiles
+
+[r30wdm.Install.NT.HW]
+AddReg    = r30wdm.Install.AddReg.HW
+
+[r30wdm.Install.NT.Services]
+AddService = r30wdm, 2, r30wdm.Service.NT, r30wdm.EventLog.NT
+
+
+
+[r30wdm.Install.NT.AddReg]
+HKR,, AdapterType, 0, "0100"
+HKLM, Software\Microsoft\Cryptography\Calais\Readers,,,
+HKLM, System\CurrentControlSet\Services\SCardSvr,Start,0x00010001,2
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,DLLName,0,wlnotify.dll
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logon,0,SCardStartCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logoff,0,SCardStopCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Lock,0,SCardSuspendCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Unlock,0,SCardResumeCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Enabled,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Impersonate,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Asynchronous,0x00010001,1
+
+
+[r30wdm.Install.NT.CopyFiles]
+r30_w2k.sys,,,2
+
+[r30wdm.Service.NT]
+DisplayName     = %DeviceDescription%
+ServiceType     = 1 ;%SERVICE_KERNEL_DRIVER%
+StartType       = 3 ;%SERVICE_AUTO_START%
+ErrorControl    = 1 ;%SERVICE_ERROR_NORMAL%
+ServiceBinary   = %12%\r30_w2k.sys
+
+[r30wdm.EventLog.NT]
+AddReg = r30wdm.AddEventLog.reg
+
+[r30wdm.AddEventLog.reg]
+HKR,, EventMessageFile, 0x00020000, "%%SystemRoot%%\System32\drivers\r30_w2k.sys"
+HKR,, TypesSupported,   0x00010001, 7
+
+
+
+
+; =====================
+; === Reflex 30 Smart card reader ====
+; =====================
+[r30wdm.Install.AddReg.HW]
+HKR,,"VendorName",,"SchlumbergerSema"
+HKR,,"IfdType",, "Reflex 30"
+
+
+
+; ================= Strings =====================
+
+[Strings]
+Provider		= "SchlumbergerSema"
+Manufacturer    	= "SchlumbergerSema"
+DeviceDescription	= "Reflex 30 Smart card reader"
+DiskDescription         = "Reflex 30 Installation Disk"
+ClassName 		= "Smart Card Readers"

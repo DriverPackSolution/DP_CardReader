@@ -1,0 +1,97 @@
+; okcfgx86.inf
+; Copyright (c) 2000 - 2010 HID Global Corp.
+
+[Version]
+Signature="$Windows NT$"
+Class=SmartCardReader
+ClassGUID={50dd5230-ba8a-11d1-bf5d-0000f805f530}
+Provider=%Provider%
+DriverVer=03/12/2010,1.0.0.8
+CatalogFile=okcfgx86.cat
+
+[SourceDisksNames]
+1=%DiskDescription%,,
+
+[SourceDisksFiles]
+okcfgx86.sys=1,,
+
+[Manufacturer]
+%Manufacturer%=HID,NTx86 
+
+[ControlFlags]
+ExcludeFromSelect.NT = USB\VID_076B&PID_2061
+ExcludeFromSelect.NT = USB\VID_076B&PID_F020
+
+[DestinationDirs]
+DefaultDestDir = 10,system32\drivers
+okcfgx86.Install.NT = 10,system32\drivers
+okcfgx86.Install.NT.CopyFiles = 10,system32\drivers
+
+[HID.NTx86]
+; DisplayName       	Section           DeviceId
+; -----------       	-------           --------
+%ReaderDescription% =  okcfgx86.Install, USB\VID_076B&PID_2061
+%ReaderDescription% =  okcfgx86.Install, USB\VID_076B&PID_F020
+
+;---------------------------------------------------------------;
+
+[okcfgx86.Install.NT]
+CopyFiles = okcfgx86.Install.NT.CopyFiles
+
+[okcfgx86.Install.NT.CopyFiles]
+okcfgx86.sys,,,2
+
+;---------------------------------------------------------------;
+
+[okcfgx86.Install.NT.Services]
+AddService = okcfgx86, 0x00000002, okcfgx86.Service.NT, okcfgx86.EventLog.NT
+
+[okcfgx86.Service.NT]
+DisplayName = %ReaderDescription%
+ServiceType = 1
+StartType = 3
+ErrorControl = 1
+ServiceBinary = %12%\okcfgx86.sys
+
+[okcfgx86.EventLog.NT]
+AddReg = okcfgx86.AddEventLog.reg
+
+[okcfgx86.AddEventLog.reg]
+HKR,, EventMessageFile, 0x00020000, "%%SystemRoot%%\System32\drivers\okcfgx86.sys"
+HKR,, TypesSupported,   0x00010001, 7
+
+;=================================================================
+; WDF Coinstaller installation
+;=================================================================
+
+[DestinationDirs]
+CoInstaller_CopyFiles = 11
+
+[SourceDisksFiles]
+wdfcoinstaller01007.dll=1
+
+[okcfgx86.Install.NT.CoInstallers]
+AddReg=CoInstaller_AddReg
+CopyFiles=CoInstaller_CopyFiles
+
+[CoInstaller_CopyFiles]
+wdfcoinstaller01007.dll
+
+[CoInstaller_AddReg]
+HKR,,CoInstallers32,0x00010000, "wdfcoinstaller01007.dll,WdfCoInstaller"
+
+[okcfgx86.Install.NT.Wdf]
+KmdfService = okcfgx86, okcfgx86_wdfsect
+
+[okcfgx86_wdfsect]
+KmdfLibraryVersion = 1.5
+
+;---------------------------------------------------------------;
+
+[Strings]
+Provider = "HID Global Corporation"
+Manufacturer = "HID Global Corporation"
+ReaderDescription = "OMNIKEY 2061 Bluetooth CFG"
+DiskDescription = "OKCFGKMDF Driver Disk"
+ClassName = "Smart Card Readers"
+

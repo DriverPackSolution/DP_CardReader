@@ -1,0 +1,169 @@
+; cmts1wdm.INF
+; Copyright (c) 2000 - 2002 OMNIKEY AG
+
+[Version]
+Signature=$CHICAGO$
+Class=SmartCardReader
+ClassGuid={50DD5230-BA8A-11D1-BF5D-0000F805F530}
+Provider=%Provider%
+DriverVer=04/24/2002,1.0.2.2
+;CatalogFile=cmts1wdm.cat
+
+[SourceDisksNames]
+1=%DiskDescription%,,
+
+[SourceDisksFiles]
+cmts1wdm.sys=1,,
+cmts1w9x.vxd=1,,
+launchn.dll=1,,
+scbase.ex_=1,,
+smclib.ex_=1,,
+dlysw9xn.exe=1,,
+dlysw9in.dll=1,,
+cmdiag.cpl=1,,
+cmdiag.ini=1,,
+cardman.cpl=1,,
+cmabout.dll=1,,
+cmabout.ini=1,,
+ok.bmp=1,,
+
+[DestinationDirs]
+DefaultDestDir=11
+cmts1w9x.Install.CopyFiles=11
+cmts1w9x.Install.Scbase=11
+cmts1w9x.Install.Sc2=10,system
+cmts1w9x.Tools=11
+cmts1wdm.Install.NT.CopyFiles=10,system32\drivers
+cmts1wdm.NT.Tools=11
+
+[Manufacturer]
+%Manufacturer%=OMNIKEY
+
+
+; ================= Class section =====================
+
+[ClassInstall]
+Addreg=SmartCardReaderClassReg
+
+[SmartCardReaderClassReg]
+HKR,,,0,%ClassName%
+HKR,,Icon,,-25
+HKLM,"\Software\Microsoft\Cryptography\Calais\Readers",,,
+
+
+; ================= CardMan =====================
+
+;[ControlFlags]
+;ExcludeFromSelect.NT=SERENUM\USA8630
+
+[OMNIKEY]
+; DisplayName       	Section           DeviceId
+; -----------       	-------           --------
+%cmts1wdm.DeviceDesc% = cmts1wdm.Install, SERENUM\USA8630
+
+
+; =================== Win9x specific ======================
+
+[cmts1wdm.Install]
+CopyFiles=cmts1w9x.Install.CopyFiles,cmts1w9x.Install.Scbase,cmts1w9x.Install.Sc2,cmts1w9x.Tools
+AddReg=cmts1w9x.Install.AddReg
+
+[cmts1wdm.Install.HW]
+AddReg    = cmts1wdm.Install.AddReg.HW
+
+
+[cmts1w9x.Install.AddReg]
+HKR,,DevLoader,0,cmts1w9x.vxd
+HKLM,"Software\Microsoft\Windows\CurrentVersion\RunOnce",launchn,,"rundll32 launchn.dll,InstallSC"
+HKLM,"Software\Microsoft\Windows\CurrentVersion\RunOnce",dlysw9in,,"rundll32 dlysw9in.dll,InstallDelayService"
+
+[cmts1w9x.Install.CopyFiles]
+cmts1w9x.vxd
+
+[cmts1w9x.Install.Scbase]
+launchn.dll
+scbase.ex_
+smclib.ex_
+
+[cmts1w9x.Install.Sc2]
+scbase.exe,scbase.ex_
+smclib.exe,smclib.ex_
+
+
+[cmts1w9x.Tools]
+;the delay service may be in use
+;therefore use a temporarily filename
+dlysw9xn.exe,dlysw9xn.exe,dlysw9x1.exe
+dlysw9in.dll
+cmdiag.cpl
+cmdiag.ini
+cardman.cpl
+cmabout.dll
+cmabout.ini
+ok.bmp
+
+
+; ================== Win2000 specific =====================
+
+[cmts1wdm.Install.NT]
+AddReg          = cmts1wdm.Install.NT.AddReg
+CopyFiles	= cmts1wdm.Install.NT.CopyFiles,cmts1wdm.NT.Tools
+
+[cmts1wdm.Install.NT.HW]
+AddReg    = cmts1wdm.Install.AddReg.HW
+
+[cmts1wdm.Install.NT.Services]
+AddService = cmts1wdm, 2, cmts1wdm.Service.NT, cmts1wdm.EventLog.NT
+
+
+[cmts1wdm.Install.NT.AddReg]
+HKR,, AdapterType, 0, "0100"
+;set ScardSvr always to 'Automatic'
+HKLM,"SYSTEM\CurrentControlSet\Services\SCardSvr",Start,0x00010001,2
+
+[cmts1wdm.Install.NT.CopyFiles]
+cmts1wdm.sys,,,2
+
+[cmts1wdm.NT.Tools]
+; no flags : skip allowed
+cmdiag.cpl
+cmdiag.ini
+cardman.cpl
+cmabout.dll
+cmabout.ini
+ok.bmp
+
+[cmts1wdm.Service.NT]
+DisplayName     = "CardMan 8630 COM"
+ServiceType     = 1 ;%SERVICE_KERNEL_DRIVER%
+StartType       = 3 ;%SERVICE_AUTO_START%
+ErrorControl    = 1 ;%SERVICE_ERROR_NORMAL%
+ServiceBinary   = %12%\cmts1wdm.sys
+
+[cmts1wdm.EventLog.NT]
+AddReg = cmts1wdm.AddEventLog.reg
+
+[cmts1wdm.AddEventLog.reg]
+HKR,, EventMessageFile, 0x00020000, "%%SystemRoot%%\System32\drivers\cmts1wdm.sys"
+HKR,, TypesSupported,   0x00010001, 7
+
+
+; =====================
+; === CardMan 8630 ====
+; =====================
+[cmts1wdm.Install.AddReg.HW]
+HKR,,"VendorName",,%cmts1wdm.VendorDesc%
+HKR,,"IfdType",, %cmts1wdm.DeviceDesc%
+
+
+
+; ================= Strings =====================
+
+[Strings]
+Provider		= "OMNIKEY AG"
+Manufacturer           	= "OMNIKEY AG"
+cmts1wdm.VendorDesc     = "OMNIKEY"
+cmts1wdm.DeviceDesc	= "CardMan 8630"
+DiskDescription         = "CardMan PC/SC Driver Disk"
+ClassName 		= "Smart Card Readers"
+

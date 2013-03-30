@@ -1,0 +1,1352 @@
+                          ============================
+                           R E L E A S E    N O T E S
+                          ============================
+
+                          Broadcom SD 3.0 Driver
+
+                  Copyright (c) 2009-2012 Broadcom Corporation
+                               All rights reserved.
+
+
+Version 1.0.0.243 - August 14, 2012
+----------------------------------------
+  Enhancement:
+  =============
+  1.  Driver will respond with a ProducId of "SD" for SD cards and "MMC" for
+      MMC cards for the SCSIOP_INQUIRY command. 
+
+Version 1.0.0.242 - August 9, 2012
+----------------------------------------
+  1.  Problem
+       CQ65116: 16MB MMC card can not be detected
+      Cause:
+       The SD clock was running too fast causing errors when sending
+       MMC commands.
+      Change:
+       Slow the SD clock to 300KHz when enumerating MMC cards.
+
+Version 1.0.0.241 - July 10, 2012
+----------------------------------------
+  1.  Problem
+       CQ64414: Unable to detect Apacer 4GB C6 SDHC
+      Cause:
+        Data CRC errors were occurring during multiple block reads.
+      Change:
+        When read errors are detected use the UHS delay path.
+
+Version 1.0.0.240 - June 19, 2012
+----------------------------------------
+  1.  Problem
+       CQ62604: SD card cannot be auto-detected when install SD driver with
+                the card inserted
+      Cause:
+        Host controller did not reset during driver installation.
+      Change:
+        Reset host controller during driver installation.
+
+Version 1.0.0.239 - June 13, 2012
+----------------------------------------
+  1.  Problem
+       CQ63802: After plug in/out SD card then plug in xD unable to detect.
+      Cause:
+       Debouncing code was not running. Code was disabled when build script
+       was ported to Win8 build environment.
+      Change:
+        Enable debouncing code.
+
+  2.  Problem
+       CQ63716: Install SD driver will yellow mark in Win7.
+      Cause:
+       The new Win8 build environment is linking with the bufferoverflowfastfailk.lib
+       which is causing a bugcheck on OS versions prior to Win8. 
+      Change:
+       Use BufferOverflowK.lib instead of bufferoverflowfastfailk.lib.
+
+  3.  Problem
+       CQ63672: Lower performance on 57785 on OEM system.
+      Cause:
+       Driver was limiting the speed of the OEM system to workaround some card
+       detection issues. It turns out that we don't need this workaround since
+       the card detection issues were resolved (CQ62894 and CQ63309).
+      Change:
+       Remove 4-part ID check that limited the speed.
+
+  4.  Problem
+       CQ63309: Unable to detect Transcend 1GB MMC card.
+      Cause:
+       Driver was using a wrong clock source during enumeration.
+      Change:
+       Use 63MHz clock source when enumerating MMC cards. Switch back to base clock
+       source after completion of enumeration.
+
+  5.  Problem
+       CQ62894: Unable to read/write to Transcend Class 6 4GB SDHC card.
+      Cause:
+       Changes made since 1.0.0.227 affected the detection of this card.
+      Change:
+       Do not use the UHS tap delay path by default. Only use if errors are detected.
+       Use base clock source (50/200MHz) at the start of enumeration.
+       Do not send a command to switch the current limit for non-UHS cards.             
+
+Version 1.0.0.238 - June 5, 2012
+----------------------------------------
+  Enhancements:
+  =============
+  1.  Migrate to WDK 8400.
+
+Version 1.0.0.237a - April 25, 2012
+----------------------------------------
+
+  1.  Customer Request:
+        Added additional 4-part IDs to INF file to limit speed to SD 2.0.
+
+Version 1.0.0.237 - April 20, 2012
+----------------------------------------
+
+  1.  Customer Request:
+        Change source clock to 63MHz base on 4-part ID.
+
+Version 1.0.0.236 - April 20, 2012
+----------------------------------------
+  1.  Problem
+       CQ62057: On OEM system, some non-UHS SD card is not detected.
+      Cause:
+       Signal integrity on the data lines were causing data CRC during
+       data transfers.
+      Change:
+        Enabled the tap delay path for HS cards.
+
+Version 1.0.0.235A - February 10, 2012
+----------------------------------------
+  1.  Problem
+       CQ61541: Failed on WHQL infchk testing.
+      Change:
+        Fixed errors in INF file.
+
+Version 1.0.0.235 - February 9, 2012
+----------------------------------------
+  1.  Enhancement:
+        Limit speed of SD interface by setting registy key value in INF file.
+
+Version 1.0.0.234 - February 8, 2012
+----------------------------------------
+
+  1.  Customer Request:
+        Limit speed to SD 2.0.
+
+  2.  Enhancement:
+        Always use the I/O delay path for SD and MMC cards.
+
+  3.  Enhancement:
+        Adjust the tap delay value whenever a CRC error is detected.
+
+Version 1.0.0.233 - January 16, 2012
+----------------------------------------
+
+  1.  Problem:
+        CQ60761, CQ60738: Unable to detect SD card after a couple times of quickly
+                          insertion/removal.
+      Cause:
+        Driver ignored card detect event because the card remove event did not
+        finish the freeing of driver internal data structures due to card
+        detect event.
+      Change:
+        Modified driver to free internal data structures if they are not NULL 
+        before handling the card detect event.
+
+  2.  Problem:
+        CQ60129: Unable to detect SanDisk Extreme Pro SDHC UHS-I 8G.
+      Cause:
+        Driver was sending commands to UHS SD card before the SD bus signal
+        voltage had completed transition from 3.3v to 1.8v.
+      Change:
+        Modified driver to wait 20 milliseconds to allow enough time to
+        transition to 1.8v.
+
+Version 1.0.0.232 - November 29, 2011
+----------------------------------------
+
+  1.  Problem:
+        Newly created data file lost after card removed.
+      Cause:
+        This problem was introduced in version 1.0.0.229 with the return of
+        success for the SCSIOP_MEDIUM_REMOVAL command when the card is present.
+      Change:
+        Return success for the SCSIOP_MEDIUM_REMOVAL command only if the PREVENT
+        bit field is not set and the card is present.
+
+Version 1.0.0.231 - November 11, 2011
+----------------------------------------
+
+  1.  Problem:
+        CQ59649: [OEM]SD 2.0 card read performance is much lower with
+                 SD 3.0 enabled vs. SD 3.0 disabled.
+      Cause:
+        When SD 3.0 is enabled the driver is using the 63MHz clock source to
+        enumerate the card and not switching back to the base clock source
+        of 200MHz after completing the card enumeration on SD 2.0 cards.
+      Change:
+        Driver will switch the clock source to the base clock after enumerating
+        the SD 2.0 cards.
+
+Version 1.0.0.230 - October 28, 2011
+----------------------------------------
+
+  1.  Problem:
+        TOPRAM SDXC card was not detected if SD 3.0 is enabled.
+      Cause:
+        Driver was setting the clock speed to 200MHz even though according to its
+        operation modes the max clock speed it supported is 100MHz.
+      Change:
+        Driver will check the operational modes of the card and then set
+        appropriate clock speed.
+
+Version 1.0.0.229 - October 21, 2011
+----------------------------------------
+
+  1.  Problem:
+        CQ58103: Aspen-SD: In Win XP SP3, the eject function in context menu fails.
+      Cause:
+        Driver was returning an error value for the SCSIOP_MEDIUM_REMOVAL command.
+      Change:
+        Driver will return a success value for the SCSIOP_MEDIUM_REMOVAL command
+        when the card is present.
+
+Version 1.0.0.228 - September 30, 2011
+----------------------------------------
+
+  1.  Enhancement:
+        Enable UHS mode on more OEM platforms.
+
+Version 1.0.0.227 - September 13, 2011
+----------------------------------------
+
+  1.  Problem:
+        CQ58479: Aspen-CR-SD : It fails to copy data to Sandisk 512M SD card
+                 on OEM system.
+      Cause:
+        Aspen host controller was getting data CRC errors on write commands.
+      Change:
+        Added error recovery to switch to serial mode when write commands
+        failure occurs.
+
+Version 1.0.0.226 - August 18, 2011
+----------------------------------------
+
+  1.  Problem:
+        CQ50589: Aspen-B0-SD-xD interaction: Cannot detect xD-Picture card
+                 after inserting/removing a specific sd card.
+      Cause:
+        Reset was not done when SD card was removed. This CQ was re-opened
+        due to change in last release.
+      Change:
+        Only reset when SD card is removed.
+
+Version 1.0.0.225 - August 10, 2011
+----------------------------------------
+
+  1.  Problem:
+        CQ50770: Aspen-B0-SD: Reload SD driver would break MS file transfer.
+      Cause:
+        Driver was resetting host controller when SD card was not present.
+      Change:
+        Reset only if SD card is present.
+
+Version 1.0.0.224 - August 5, 2011
+----------------------------------------
+
+  1.  Problem:
+        CQ50719: Aspen-B0-MS: Failed to read file when MS card
+                 inserted then install MS and SD driver.
+      Cause:
+        Driver was resetting host controller and setting clock register
+        when SD card was not present.
+      Change:
+        Reset and set clock register only if SD card is present.
+
+Version 1.0.0.223 - August 2, 2011
+----------------------------------------
+
+  1.  Problem:
+        CQ55745: Aspen-B0-SD: Compatibility-SanDisk 8G C6 SDHC 
+        inaccessible after resuming from S3/S4 mode.
+      Cause:
+        Timeout error in reading SD CID.
+      Change:
+        Added retry of enumerating card when timeout error occurs.
+
+Version 1.0.0.222 - May 6, 2011
+----------------------------------------
+
+  1.  Problem:
+        CQ52415: Aspen-B0-SD-1.0.0.220: SDXC USH card unrecognized with
+        SD3.0 default disabled.
+        CQ55348: Aspen-B0-MS: R/W performance is very low.
+      Cause:
+        The enhancment in version 1.0.0.220 was only applicable to
+        SDXC (UHS) cards.
+      Change:
+        Added checks to apply the enhancement only for SDXC cards.
+
+
+Version 1.0.0.221 - May 4, 2011
+----------------------------------------
+
+  1.  Problem:
+        CQ55040: Aspen CR SD/MMC: system BSOD when inserting a
+        Kingston 1G MMC plus card
+      Cause:
+        A synchronous routine to perform the switch command was called
+        that cause the internal data structure to be corrupted thus
+        causing the BSOD.
+      Change:
+        Use the asynchronous routine to perform the switch command.
+
+
+Version 1.0.0.220 - January 18, 2011
+----------------------------------------
+
+  Enhancements:
+  =============
+  1.  Request:
+        Select a different clock source during enumeration that is a better fit
+        for the slow card clock speeds during card enumeration.
+
+
+Version 1.0.0.219 - January 13, 2011
+----------------------------------------
+
+  1.  Problem:
+        ScsiPortNotification with ResetDetected causes an unneeded delay during
+        card initialization.
+      Cause:
+        Function is meant for use by real SCSI bus controllers that have a
+        significant recovery time requirement after a reset.
+      Change:
+        Eliminate the notification so ScsiPort will not wait several seconds.
+
+
+Version 1.0.0.218 - December 11, 2010
+----------------------------------------
+
+  1.  Problem:
+        Some SD/MMC cards may not be detected after resume from S3/S4.
+      Cause:
+        This is introduced in 1.0.0.217 that more than one requestor
+        would try to enumerate the card.
+      Change:
+        Change the driver to start debounce timer to detect the media
+        only if card is present upon start and resume. If the driver starts
+        with no media, it follows the old way before v1.0.0.217.
+
+Version 1.0.0.217 - December 11, 2010
+----------------------------------------
+
+  1.  Problem:
+        Some SD cards fail to be detected on some OEM systems.
+      Cause:
+        The SD socket is causing unexpected card insertion
+        and removal events to be generated.
+      Change:
+        This driver modifies the algorithm used to detect
+        SD/MMC cards.
+
+Version 1.0.0.216 - December 9, 2010
+----------------------------------------
+
+  1.  Problem:
+        CQ51547: Driver fails to detect SD card.
+      Cause:
+        Change list to fix a problem introduced this issue.
+      Change:
+        Undo change list #129372
+
+
+Version 1.0.0.215 - December 7, 2010
+----------------------------------------
+
+  1.  Problem:
+        CQ51389: A class 10 card still shows write-protected state
+        after card is unlocked.
+      Cause:
+    The driver does not clear the RO flag when it should.
+      Change:
+        This driver manages the RO flag correctly.
+
+  1.  Problem:
+        UHS operation was broken in driver in 1.0.0.212.
+      Cause:
+    A fix implemented in 1.0.0.212 interferes with UHS normal
+        operation.
+      Change:
+        This driver restores UHS proper operation.
+
+
+Version 1.0.0.214 - December 2, 2010
+----------------------------------------
+
+  1.  Problem:
+        CQ51340: Aspen-B0-XD: Unable to detect MS or SD card after quick
+        removal of XD card
+      Cause:
+    The LSI has an issue with this use case, so needs a SW WAR
+      Change:
+        This driver implements a WAR which resets the card reader
+        functions as required.
+      Impact:
+        Requires LAN driver version 14.4.2.2 or later
+    Requires xD driver version 1.0.0.41 or later
+    Requires MS driver version 1.0.0.216 or later
+
+Version 1.0.0.213 - November 26, 2010
+----------------------------------------
+
+  1.  Problem:
+        A customer reported that the prior version interferes with playing
+        sounds.
+      Cause:
+        We introduced a synchronous delay in the last version. The delay
+        stalls the processor.
+      Change:
+        This version attemtps to debounce the socket without using this
+        delay.
+      Impact:
+        None.
+
+Version 1.0.0.212 - November 6, 2010
+----------------------------------------
+
+  Enhancements:
+  =============
+  1.  Request:
+        Turn on the delayed I/O data path when there are command errors
+        (requested by LSI to enumerate some trouble cards).
+
+  2.  Request:
+        Inserting 100ms delay (wait for the bouncing to stop) after the card
+        insert interrupt, and before proceeding to enumerate the card.
+
+Version 1.0.0.211 - November 4, 2010
+----------------------------------------
+  1.  Problem:
+        UHS capable cards do not enumerate on 85x platforms.
+      Cause:
+        The driver is attempting to use the card in UHS mode, which is
+        not supported on the 85x.
+      Change:
+        This version enumerate UHS cards in High Speed mode.
+      Impact:
+        None.
+
+
+  1.  Problem:
+        The clock source may be set incorrectly when this driver gains
+        control.
+      Cause:
+        Other drivers sharing the chip may leave the clock source set
+        incorrectly.
+      Change:
+        This version restore the default clock source each time a card
+        is inserted.
+      Impact:
+        None.
+
+
+Version 1.0.0.210 - October 31, 2010
+----------------------------------------
+  1.  Problem:
+        CQ50555- Some MMC cards are not recognized if using SD driver 1.0.0.204
+      Cause:
+        The MMC protocol was not implemented correctly in past drivers.
+      Change:
+        Fixed the implementation.
+      Impact:
+        None.
+      Notes: Driver version 1.0.0.209 was a bad release, so is skipped.
+
+
+
+Version 1.0.0.208 - October 27, 2010
+----------------------------------------
+  1.  Problem:
+        CQ50546 - K60/K62: After resuming from S3/S4 without an SD card inserted, the device
+        is still mounted.
+      Cause:
+        The suspend resume/algorithm did not support this scenario.
+      Change:
+        This driver implements a better suspend/resume algorithm.
+      Impact:
+        None.
+
+
+Version 1.0.0.207 - October 26, 2010
+----------------------------------------
+  1.  Problem:
+        CQ50477 - Unable to recognize an xD card after MMC card was previously inserted.
+        CQ50589 - Cannot detect xD-Picture card after inserting/removing a specific sd card.
+      Cause:
+        After driver issues soft reset for all, the sd_clk will stop, this make partial logics
+        are not reset correctly.
+      Change:
+        Implement proper reset sequences to make device state machine transit correctly.
+      Impact:
+        None.
+
+
+Version 1.0.0.206 - October 23, 2010
+----------------------------------------
+  1.  Problem:
+        CQ50517, SD 3.0 Driver BSOD with 64GB SDXC Card.
+      Cause:
+        UHS processing was changed in prior drivers to accomodate Aspen B0. This
+        change needs to take A0 into account.
+      Change:
+        Fixed UHS processing to work for Aspen A0 and B0.
+      Impact:
+      Notes:.
+
+  2.  Problem:
+        CQ50555, Some MMC cards are not recognized if using SD driver 1.0.0.204.
+      Cause:
+        The MMC 4/8-bit implementation fails to enumerate the card if the bus width
+        test does not complete
+      Change:
+        This driver select the card serial mode if the 4/8-bit bus width test does
+        not complete.
+      Impact:
+      Notes:.
+
+Version 1.0.0.205 - October 22, 2010
+----------------------------------------
+  1.  Problem:
+        CQ50554, Aspen-57785x_B0-The system into S3/S4/S5 mode is too slow when
+        the SD driver is installed..
+      Cause:
+        The previous driver stopped processing the OS requests upon resuming.
+      Change:
+        Fixed a bug in the driver which prevented normalprocessing of OS requests
+        upon system resume.
+      Impact:
+      Notes:.
+
+
+Version 1.0.0.204 - October 20, 2010
+----------------------------------------
+  1.  Problem:
+        CQ50476, Aspen-B0-MMC has a low read/write speed.
+      Cause:
+        The previous driver only supported MMC serial mode.
+      Change:
+        This driver implements 4/8-bit parallel mode, which performs faster.
+      Impact:
+      Notes: Not all MMC cards support parallel mode. Only the cards with this
+             feature will show a performance boost.
+
+
+Version 1.0.0.203 - October 17, 2010
+----------------------------------------
+  1.  Problem:
+        CQ49126, Aspen-B0-FPGA-SD:ACPI only works once.
+      Cause:
+        The suspend/resume implementation in the driver was incorrect.
+      Change:
+        Implemented suspend/resume correctly.
+      Impact:
+      Notes:
+
+  2.  Problem:
+        CQ49838, Unable to recognize an xD card after SD card was previously inserted
+      Cause:
+        The SDHC needs WAR which resets the controller once an SD card is removed.
+      Change:
+        Implemented WAR.
+      Impact:
+      Notes: The original issue is still seen with MMC cards. There should be a
+             separate CQ for that.
+
+  3.  Problem:
+        CQ50403, The SD driver has a BSOD on xD DTM Plug and Play Driver Test
+      Cause:
+        Same as CQ49126.
+      Change:
+        Same as CQ49126
+      Impact:
+      Notes:
+
+  4.  Problem:
+        UHS support is missing for Aspen B0
+      Cause:
+        The UHS HW tuning algorithm requires new steps for Aspen B0.
+      Change:
+        Implemented the changes required to support Aspen B0 HW tuning.
+      Impact:
+      Notes: UHS is only supported on soldered Aspen B0 boards
+
+  Restrictions + known issues (may be fixed in later versions):
+  ==============================================================
+  1.  A couple of small memory leaks occur in ScsiPort when driver is disabled.
+      Microsoft confirms bug in ScsiPort and will escalate to sustaining
+      engineering for Vista and Windows 7.
+  2.  SDR104 does not work on some hardware configurations such as mission board.
+
+
+
+Version 1.0.0.202 - August 24, 2010
+----------------------------------------
+  1.  Problem:
+        UHS card are no longer using max speed. UHS is broken
+        in 1.0.0.201.
+      Cause:
+        Incorrect test condition in the code to decide if UHS
+        support should be enabled or not. This problem is
+        corrected in this version.
+      Change:
+        Fixed the test condition in the driver source code.
+      Impact:
+      Notes:
+
+
+  Restrictions + known issues (may be fixed in later versions):
+  ==============================================================
+  1.  A couple of small memory leaks occur in ScsiPort when driver is disabled.
+      Microsoft confirms bug in ScsiPort and will escalate to sustaining
+      engineering for Vista and Windows 7.
+  2.  SDR104 does not work on some hardware configurations such as mission board.
+
+
+Version 1.0.0.201 - August 23, 2010
+----------------------------------------
+  1.  Problem:
+        CQ49280 - 64GB SDXC UHS card not recognized.
+      Cause:
+        B0 FPGA cannot use UHS.
+      Change:
+        Force UHS cards to use SDHC (HS) on the FPGA.
+      Impact:
+      Notes:
+
+  2.  Problem:
+      Cause:
+      Change:
+      Impact:
+      Notes:
+
+  3.  Problem:
+      Cause:
+      Change:
+      Impact:
+      Notes:
+
+
+  Enhancements:
+  =============
+  1.  Request:
+      Change:
+      Impact:
+      Notes:
+
+  2.  Request:
+      Change:
+      Impact:
+      Notes:
+
+  3.  Request:
+      Change:
+      Impact:
+      Notes:
+
+
+  Restrictions + known issues (may be fixed in later versions):
+  ==============================================================
+  1.  A couple of small memory leaks occur in ScsiPort when driver is disabled.
+      Microsoft confirms bug in ScsiPort and will escalate to sustaining
+      engineering for Vista and Windows 7.
+  2.  SDR104 does not work on some hardware configurations such as mission board.
+
+
+Version 1.0.0.200 - August 12, 2010
+----------------------------------------
+  1.  Problem:
+        CQ49280 - 64GB SDXC card not recognized.
+      Cause:
+        Driver Type A was being used and the default B should be set.
+      Change:
+        Remove setting of Driver Type A and let it default to B.
+      Impact:
+      Notes:
+
+  2.  Problem:
+      Cause:
+      Change:
+      Impact:
+      Notes:
+
+  3.  Problem:
+      Cause:
+      Change:
+      Impact:
+      Notes:
+
+
+  Enhancements:
+  =============
+  1.  Request:
+      Change:
+      Impact:
+      Notes:
+
+  2.  Request:
+      Change:
+      Impact:
+      Notes:
+
+  3.  Request:
+      Change:
+      Impact:
+      Notes:
+
+
+  Restrictions + known issues (may be fixed in later versions):
+  ==============================================================
+  1.  A couple of small memory leaks occur in ScsiPort when driver is disabled.
+      Microsoft confirms bug in ScsiPort and will escalate to sustaining
+      engineering for Vista and Windows 7.
+  2.  SDR104 does not work on some hardware configurations such as mission board.
+
+
+Version 1.0.0.198 - August 6, 2010
+----------------------------------------
+  1.  Problem:
+        CQ49093 - SD Card disappears after approximately 15 minute idle period.
+      Cause:
+        Windows issues a stop unit request to save power.
+      Change:
+        Ignore stop unit CBD with immediate bit set.
+      Impact:
+      Notes:
+
+  2.  Problem:
+      Cause:
+      Change:
+      Impact:
+      Notes:
+
+  3.  Problem:
+      Cause:
+      Change:
+      Impact:
+      Notes:
+
+
+  Enhancements:
+  =============
+  1.  Request:
+      Change:
+      Impact:
+      Notes:
+
+  2.  Request:
+      Change:
+      Impact:
+      Notes:
+
+  3.  Request:
+      Change:
+      Impact:
+      Notes:
+
+
+  Restrictions + known issues (may be fixed in later versions):
+  ==============================================================
+  1.  A couple of small memory leaks occur in ScsiPort when driver is disabled.
+      Microsoft confirms bug in ScsiPort and will escalate to sustaining
+      engineering for Vista and Windows 7.
+  2.  SDR104 does not work on some hardware configurations.
+
+
+Version 1.0.0.197 - July 26, 2010
+----------------------------------------
+  1.  Problem:
+        Added some code that doesn't work properly in 64-bit.
+      Cause:
+        Sign extension and byte order issues.
+      Change:
+        Revert to earlier version of the code.
+      Impact:
+      Notes:
+
+  2.  Problem:
+      Cause:
+      Change:
+      Impact:
+      Notes:
+
+  3.  Problem:
+      Cause:
+      Change:
+      Impact:
+      Notes:
+
+
+  Enhancements:
+  =============
+  1.  Request:
+      Change:
+      Impact:
+      Notes:
+
+  2.  Request:
+      Change:
+      Impact:
+      Notes:
+
+  3.  Request:
+      Change:
+      Impact:
+      Notes:
+
+
+  Restrictions + known issues (may be fixed in later versions):
+  ==============================================================
+  1.  A couple of small memory leaks occur in ScsiPort when driver is disabled.
+      SRZ opened with Microsoft, but fixes are uncertain.
+  2.  SDR104 does not work on some hardware configurations.
+
+
+Version 1.0.0.196 - July 26, 2010
+----------------------------------------
+  1.  Problem:
+        CQ48891 - Immediate re-recognition after safely removing hardware
+        CQ47599 - Aspen-CR-SD3.0: "Safely remove HW" icon doesn't appear on
+        taskbar (it shows but doesn't work properly on v1.0.0.11)
+      Cause:
+        Disk drive was not being destroyed by driver.
+      Change:
+        Stop unit changed to fake LU removal.  PnP IRP trapped to fake LU
+        removal when eject is seen.
+      Impact:
+        Minimal
+      Notes:
+
+  2.  Problem:
+      Cause:
+      Change:
+      Impact:
+      Notes:
+
+  3.  Problem:
+      Cause:
+      Change:
+      Impact:
+      Notes:
+
+
+  Enhancements:
+  =============
+  1.  Request:
+      Change:
+      Impact:
+      Notes:
+
+  2.  Request:
+      Change:
+      Impact:
+      Notes:
+
+  3.  Request:
+      Change:
+      Impact:
+      Notes:
+
+
+  Restrictions + known issues (may be fixed in later versions):
+  ==============================================================
+  1.  A couple of small memory leaks occur in ScsiPort when driver is disabled.
+      SRZ opened with Microsoft, but fixes are uncertain.
+  2.  SDR104 does not work on some hardware configurations.
+
+
+Restrictions + known issues (may be fixed in later versions):
+==============================================================
+  1.  A couple of small memory leaks occur in ScsiPort when driver is disabled.
+      SRZ opened with Microsoft, but fixes are uncertain.
+
+
+Version 1.0.0.142 - July 8, 2010
+----------------------------------------
+  1.  Problem:
+        Standard inquiry enhanced to return media size information.
+      Cause:
+        Read capacity was being relied upon to provide this information.
+      Change:
+        Append size information if requested.
+      Impact:
+        None
+      Notes:
+
+  2.  Problem:
+      Cause:
+      Change:
+      Impact:
+      Notes:
+
+  3.  Problem:
+      Cause:
+      Change:
+      Impact:
+      Notes:
+
+
+  Enhancements:
+  =============
+  1.  Request:
+        Implement UHS104 support for compatible SDXC cards.
+      Change:
+        Significant
+      Impact:
+        Improved data transfer speeds.
+      Notes:
+
+  2.  Request:
+        Improve memory leak detection in ScsiPort.
+      Change:
+        Allow size of structure LUN_EX to control if it is allocated.
+      Impact:
+        None
+      Notes:
+
+  3.  Request:
+        Allow override of UHS104 to UHS50 via a registry key.
+      Change:
+        HwFindAdapter() parses a string to determine if override is desired.
+      Impact:
+        Minor
+      Notes:
+
+
+Restrictions + known issues (may be fixed in later versions):
+==============================================================
+  1.  No support for UHS
+  2.  A couple of small memory leaks occur in ScsiPort when driver is disabled.
+      SRZ opened with Microsoft, but fixes are uncertain.
+
+
+Version 1.0.0.101 - June 16, 2010
+----------------------------------------
+  1.  Problem:
+        CQ48270 - Fails to continue data transfer after system resume from S1,
+        S3, & S4.
+      Cause:
+        Bus change notification issued on both stopping the adapter and
+        restarting it.  SRBs submitted during host controller and flash memory
+        card initialization are rejected.
+      Change:
+        Omit the bus change notifications if start and stop adapter processing
+        is in progress.  Return a busy indication to SRBs during initialization.
+      Impact:
+      Notes:
+
+  2.  Problem:
+      Cause:
+      Change:
+      Impact:
+      Notes:
+
+  3.  Problem:
+      Cause:
+      Change:
+      Impact:
+      Notes:
+
+
+  Enhancements:
+  =============
+  1.  Request:
+      Change:
+      Impact:
+      Notes:
+
+
+Restrictions + known issues (may be fixed in later versions):
+==============================================================
+  1.  No support for UHS
+  2.  A couple of small memory leaks occur in ScsiPort when driver is disabled.
+      SRZ opened with Microsoft, but fixes are uncertain.
+
+
+Version 1.0.0.87 - June 14, 2010
+----------------------------------------
+  1.  Problem:
+        CQ48295 - Performance is lower with the 1.0.0.86 or 1.0.0.80 driver.
+      Cause:
+        The new code was resetting the 4-bit flag when setting the 8-bt flag.
+      Change:
+        Use an OR statement to retain the 4-bit flag when adding the 8-bit flag.
+      Impact:
+        Speed improvement of 4x.
+      Notes:
+
+  2.  Problem:
+      Cause:
+      Change:
+      Impact:
+      Notes:
+
+  3.  Problem:
+      Cause:
+      Change:
+      Impact:
+      Notes:
+
+
+  Enhancements:
+  =============
+  1.  Request:
+      Change:
+      Impact:
+      Notes:
+
+
+Restrictions + known issues (may be fixed in later versions):
+==============================================================
+  1.  No support for UHS
+  2.  A couple of small memory leaks occur in ScsiPort when driver is disabled.
+      SRZ opened with Microsoft, but fixes are uncertain.
+
+
+Version 1.0.0.86 - June 10, 2010
+----------------------------------------
+  1.  Problem:
+        CQ48232 & CQ48233 - Unable to access or detect specific MMC cards.
+      Cause:
+        Cards unstable at higher speeds and bus widths.
+      Change:
+        Run all MMC cards at lower speeds and 1-bit data bus width.
+      Impact:
+      Notes:
+
+  2.  Problem:
+        CQ47211 - Microsoft inbox driver cannot detect some MMC cards.
+      Cause:
+        Improper access to specific MMC cards.
+      Change:
+        Added MMC support to Broadcom SD driver.
+      Impact:
+        Some cards will require Broadcom driver and not inbox driver.
+      Notes:
+
+  3.  Problem:
+        CQ48192 - Unable to detect SD card after ungraceful remove and re-insert.
+      Cause:
+        Removal of "Software Reset for All" will not allows host controller to
+        be reset to a known state.
+      Change:
+        Allow "Software Reset for All" when media is present.
+      Impact:
+      Notes:
+        New chip revision will do this in hardware.
+
+
+  Enhancements:
+  =============
+  1.  Request:
+      Change:
+      Impact:
+      Notes:
+
+
+Restrictions + known issues (may be fixed in later versions):
+==============================================================
+  1.  No support for UHS
+  2.  A couple of small memory leaks occur in ScsiPort when driver is disabled.
+      SRZ opened with Microsoft, but fixes are uncertain.
+
+
+Version 1.0.0.80 - June 8, 2010
+----------------------------------------
+  1.  Problem:
+        CQ47211 - Compatibility test- Unable to detect Viking 256M MMC &
+        Kingston 128M MMC+ Cards
+      Cause:
+        Microsoft's driver has several bugs.
+      Change:
+        Added support for MMC & MMC+ media in the Broadcom Secure Digital driver.
+      Impact:
+      Notes:
+
+  2.  Problem:
+      Cause:
+      Change:
+      Impact:
+      Notes:
+
+  3.  Problem:
+      Cause:
+      Change:
+      Impact:
+      Notes:
+
+
+  Enhancements:
+  =============
+  1.  Request:
+        Support MMC & MMC+ flash memory cards.
+      Change:
+        Add code to properly initialize MMC cards.
+      Impact:
+        Significant to MMC path, but minor to main code paths.
+      Notes:
+
+
+Restrictions + known issues (will be fixed in later versions):
+==============================================================
+  1.  No support for MMC
+  2.  No support for UHS
+  3.  Added power management, but suspend/resume while copying files is
+      still not supported
+  4.  A couple of small memory leaks occur in ScsiPort when driver is disabled.
+
+
+Version 1.0.0.13 - May 26, 2010
+----------------------------------------
+  1.  Problem:
+      Cause:
+      Change:
+      Impact:
+      Notes:
+
+  2.  Problem:
+      Cause:
+      Change:
+      Impact:
+      Notes:
+
+  3.  Problem:
+      Cause:
+      Change:
+      Impact:
+      Notes:
+
+
+  Enhancements:
+  =============
+  1.  Request:
+        AMD64 support.
+      Change:
+        Significant.
+      Impact:
+        Major
+      Notes:
+
+
+Restrictions + known issues (will be fixed in later versions):
+==============================================================
+  1.  No support for MMC
+  2.  No support for UHS
+  3.  Added power management, but suspend/resume while copying files is
+      still not supported
+  4.  Small memory leak when the driver is disabled
+  5.  x86 only
+
+
+Version 1.0.0.12 - May 20, 2010
+----------------------------------------
+  1.  Problem:
+        Exceeded boundary in query adapter control.
+      Cause:
+        If statement should be less than and not less than or equal.
+      Change:
+        Made the change.
+      Impact:
+        Eliminate assert when used with checked build of ScsiPort.
+      Notes:
+
+  2.  Problem:
+      Cause:
+      Change:
+      Impact:
+      Notes:
+
+  3.  Problem:
+      Cause:
+      Change:
+      Impact:
+      Notes:
+
+
+  Enhancements:
+  =============
+  1.  Request:
+      Change:
+      Impact:
+        None
+      Notes:
+
+
+Version 1.0.0.11 - May 17, 2010
+----------------------------------------
+  1.  Problem:
+        Unnecessary registry key value in inf.
+      Cause:
+        Old value is for non-PnP devices only.
+      Change:
+        Remove BusType registry entry.
+      Impact:
+      Notes:
+
+  2.  Problem:
+        CQ47599 - Safely remove hardware does not appear in taskbar.
+      Cause:
+        ScsiPort does not support this capability.
+      Change:
+        Modify query capabilities to indicate required values.
+      Impact:
+      Notes:
+
+  3.  Problem:
+        CQ47691 - Data loss after remove/insert media in XP.
+      Cause:
+        Media not completely flushed to disk.
+      Change:
+        Modify query capabilities to indicate required values.
+      Impact:
+      Notes:
+        This CQ affects Memory Stick also.
+
+
+  Enhancements:
+  =============
+  1.  Request:
+      Change:
+      Impact:
+        None
+      Notes:
+
+
+Version 1.0.0.5 - May 7, 2010
+----------------------------------------
+
+  Bug fix:
+  =============
+  1.  Request:
+        Add support for susend/resume.
+      Change:
+        Feature implemented
+      Impact:
+      Notes:
+
+  2.  Problem:
+        Software reset for all resets Memory Stick function
+      Cause:
+        Hardware limitation
+      Change:
+        Turn off clock and power instead of a reset all
+      Impact:
+      Notes:
+
+
+Version 1.0.0.4 - May 4 , 2010
+----------------------------------------
+
+  Bug fix:
+  =============
+  1.  Request:
+        Implement SD media write protect.
+      Change:
+        Feature implemented.
+      Impact:
+      Notes:
+
+Version 1.0.0.3 - May 1, 2010
+----------------------------------------
+
+  Bug fix:
+  =============
+  1.  Request:
+      Change:
+        Temporarily disable UHS mode until UHS104 mode becomes
+        functional.
+      Impact:
+      Notes:
+
+Version 1.0.0.2 - May 29, 2010
+----------------------------------------
+
+  Bug fix:
+  =============
+  1.  Request:
+        Fix for intermittent BSOD during data transfer. This is the
+        same issue reported against the prior driver version.
+      Change:
+        Driver fix to manage the DMA memory correctly. The prior fix
+        was incorrect.
+      Impact:
+      Notes:
+
+
+Version 1.0.0.1 - May 27, 2010
+----------------------------------------
+
+  Bug fix:
+  =============
+  1.  Request:
+        Fix for intermittent BSOD during data transfer.
+      Change:
+        Driver fix to manage the DMA memory correctly.
+      Impact:
+      Notes:
+
+
+Version 1.0.0.0A - May 26, 2010
+----------------------------------------
+
+  Enhancements:
+  =============
+  1.  Request:
+        Changed the device class to "SD Host Controller" to avoid confusing
+        the user. The device class in the prior version suggested a SCSI
+        device.
+      Change:
+      Impact:
+      Notes:
+
+
+
+Version 1.0.0.0 - May 23, 2010
+----------------------------------------
+
+  Enhancements:
+  =============
+  1.  Request:
+        Initial release
+      Change:
+      Impact:
+      Notes:
+
+
+Acknowledgement:
+===============
+
+Copyright (c) 1992-2009 The FreeBSD Project. All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions
+are met:
+1. Redistributions of source code must retain the above copyright
+   notice, this list of conditions and the following disclaimer.
+2. Redistributions in binary form must reproduce the above copyright
+   notice, this list of conditions and the following disclaimer in the
+   documentation and/or other materials provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY THE AUTHOR AND CONTRIBUTORS ``AS IS'' AND
+ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ARE DISCLAIMED.  IN NO EVENT SHALL THE AUTHOR OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+SUCH DAMAGE.
+

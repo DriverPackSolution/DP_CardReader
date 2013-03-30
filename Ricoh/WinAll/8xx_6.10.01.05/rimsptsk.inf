@@ -1,0 +1,149 @@
+; rimsptsk.inf
+; Windows x86,x64 installation file
+; for installing RICOH Memory Stick driver
+; Copyright (c) 2001-2009 RICOH Company Ltd.,   All rights Reserved
+; This Driver supports R5C8xx RICOH Controller
+; 
+
+[Version] 
+Signature = "$Windows NT$" 
+Class=hdc
+ClassGUID={4d36e96a-e325-11ce-bfc1-08002be10318} 
+Provider=%Ricoh% 
+CatalogFile.ntx86=rimsptsk.cat
+CatalogFile.ntamd64=rimspx64.cat
+DriverVer= 03/07/2011, 6.10.01.05
+
+[DestinationDirs] 
+rimsptsk.Files.dll = 11 
+rimsptsk.Files.amd64_sys = 12
+rimsptsk.Files.x86_sys = 12 
+
+[SourceDisksNames.x86]
+0=%DiskName%
+
+[SourceDisksNames.amd64]
+0=%DiskName%
+
+[SourceDisksFiles.x86]
+rimsptsk.sys=0,, 
+snymsico.dll=0,, 
+
+[SourceDisksFiles.amd64]
+rimspx64.sys=0,, 
+snymsico.dll=0,, 
+
+
+[Manufacturer] 
+%Ricoh%=Ricoh, ntamd64
+
+[Ricoh]
+%rimsptskDesc%=rimsptsk_Inst,PCI\VEN_1180&DEV_0592
+%rimsptskDesc%=rimsptsk_Inst,PCI\VEN_1180&DEV_0592&SUBSYS_00011179
+%rimsptskDesc%=rimsptsk_Inst,PCI\VEN_1180&DEV_0592&SUBSYS_FF1E1179
+%rimsptskDesc%=rimsptsk_Inst,PCI\VEN_1180&DEV_0592&SUBSYS_FF101179
+%rimsptskDesc%=rimsptsk_Inst,PCI\VEN_1180&DEV_0592&SUBSYS_FF501179
+%rimsptskDesc%=rimsptsk_Inst,PCI\VEN_1180&DEV_0592&SUBSYS_FF401179
+%rimsptskDesc%=rimsptsk_Inst,PCI\VEN_1180&DEV_0592&SUBSYS_FF621179
+%rimsptskDesc%=rimsptsk_Inst,PCI\VEN_1180&DEV_0592&SUBSYS_FF601179
+%rimsptskDesc%=rimsptsk_Inst,PCI\VEN_1180&DEV_0592&SUBSYS_FF181179
+%rimsptskDesc%=rimsptsk_Inst,PCI\VEN_1180&DEV_0592&SUBSYS_FE1E1179
+
+[Ricoh.ntamd64]
+%rimsptskDesc%=rimsptsk_Inst.ntamd64,PCI\VEN_1180&DEV_0592
+%rimsptskDesc%=rimsptsk_Inst.ntamd64,PCI\VEN_1180&DEV_0592&SUBSYS_00011179
+%rimsptskDesc%=rimsptsk_Inst.ntamd64,PCI\VEN_1180&DEV_0592&SUBSYS_FF1E1179
+%rimsptskDesc%=rimsptsk_Inst.ntamd64,PCI\VEN_1180&DEV_0592&SUBSYS_FF101179
+%rimsptskDesc%=rimsptsk_Inst.ntamd64,PCI\VEN_1180&DEV_0592&SUBSYS_FF501179
+%rimsptskDesc%=rimsptsk_Inst.ntamd64,PCI\VEN_1180&DEV_0592&SUBSYS_FF401179
+%rimsptskDesc%=rimsptsk_Inst.ntamd64,PCI\VEN_1180&DEV_0592&SUBSYS_FF621179
+%rimsptskDesc%=rimsptsk_Inst.ntamd64,PCI\VEN_1180&DEV_0592&SUBSYS_FF601179
+%rimsptskDesc%=rimsptsk_Inst.ntamd64,PCI\VEN_1180&DEV_0592&SUBSYS_FF181179
+%rimsptskDesc%=rimsptsk_Inst.ntamd64,PCI\VEN_1180&DEV_0592&SUBSYS_FE1E1179
+
+
+[rimsptsk_Inst] 
+CopyFiles = rimsptsk.Files.dll, rimsptsk.Files.x86_sys 
+
+[rimsptsk_Inst.ntamd64] 
+CopyFiles = rimsptsk.Files.dll, rimsptsk.Files.amd64_sys
+
+[rimsptsk_Inst.Services] 
+AddService = rimsptsk,0x00000002,rimsptsk_Service_Instx86, 
+
+[rimsptsk_Inst.ntamd64.Services] 
+AddService = rimsptsk,0x00000002,rimsptsk_Service_Instx64, 
+
+[rimsptsk_Service_Instx86] 
+ServiceType = %SERVICE_KERNEL_DRIVER% 
+StartType = %SERVICE_AUTO_START% 
+ErrorControl = %SERVICE_ERROR_NORMAL% 
+ServiceBinary = %12%\rimsptsk.sys 
+LoadOrderGroup = "MemoryStick"
+AddReg        = MsDiskAddReg
+
+[rimsptsk_Service_Instx64] 
+ServiceType = %SERVICE_KERNEL_DRIVER% 
+StartType = %SERVICE_AUTO_START% 
+ErrorControl = %SERVICE_ERROR_NORMAL% 
+ServiceBinary = %12%\rimspx64.sys 
+LoadOrderGroup = "MemoryStick"
+AddReg        = MsDiskAddReg
+
+
+[MsDiskAddReg]
+HKR, "Parameters", "MSSystemWaitTime",		%REG_DWORD%, 0x00000080
+HKR, "Parameters", "PROSystemWaitTime",		%REG_DWORD%, 0x00000080
+
+[rimsptsk.Files.dll] 
+snymsico.dll
+
+[rimsptsk.Files.x86_sys] 
+rimsptsk.sys
+
+[rimsptsk.Files.amd64_sys]
+rimspx64.sys
+
+[rimsptsk_Inst.HW] 
+AddReg = rimsptsk_Inst.AddReg 
+
+[rimsptsk_Inst.ntamd64.HW] 
+AddReg = rimsptsk_Inst.AddReg 
+ 
+[rimsptsk_Inst.AddReg] 
+HKR,,FriendlyName,,"Ricoh Memory Stick Controller"
+HKR,,DeviceCharacteristics,0x10001,0x00000101
+HKR,,DeviceType,0x10001,0x00000007
+HKR,,DeviceGroup,,"MemoryStick"
+
+HKLM,"SOFTWARE\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\RIMSPTSK#DISK","Icons",0x00010000,"%%SystemRoot%%\system32\snymsico.dll,0"
+HKLM,"SOFTWARE\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\RIMSPTSK#DISK","Label",,"MemoryStick"
+HKLM,"SOFTWARE\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\RIMSPTSK#DISK","NoSoftEject",0x00010001,0x00000001
+HKLM,"SOFTWARE\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\RIMSPTSK#DISK","DeviceGroup",,"MemoryStick"
+
+HKLM,"SOFTWARE\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\RIMSPTSK#PRO-DISK","Icons",0x00010000,"%%SystemRoot%%\system32\snymsico.dll,1"
+HKLM,"SOFTWARE\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\RIMSPTSK#PRO-DISK","Label",,"MemoryStick PRO"
+HKLM,"SOFTWARE\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\RIMSPTSK#PRO-DISK","NoSoftEject",0x00010001,0x00000001
+HKLM,"SOFTWARE\Microsoft\Windows NT\CurrentVersion\PerHwIdStorage\RIMSPTSK#PRO-DISK","DeviceGroup",,"MemoryStick"
+
+[Strings] 
+;  *******Localizable Strings******* 
+Ricoh= "Ricoh Company" 
+DiskName= "Ricoh Memory Stick Bus Host Adapter" 
+rimsptskDesc= "Ricoh Memory Stick Host Controller" 
+;  *******Non Localizable Strings******* 
+
+SERVICE_BOOT_START = 0x0 
+SERVICE_SYSTEM_START = 0x1 
+SERVICE_AUTO_START = 0x2 
+SERVICE_DEMAND_START = 0x3 
+SERVICE_DISABLED = 0x4 
+
+SERVICE_KERNEL_DRIVER = 0x1 
+SERVICE_ERROR_IGNORE = 0x0 
+SERVICE_ERROR_NORMAL = 0x1 
+SERVICE_ERROR_SEVERE = 0x2 
+SERVICE_ERROR_CRITICAL = 0x3 
+
+REG_EXPAND_SZ = 0x00020000 
+REG_DWORD = 0x00010001 

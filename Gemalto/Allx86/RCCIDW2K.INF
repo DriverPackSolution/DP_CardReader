@@ -1,0 +1,102 @@
+; RCCIDW2K.INF
+;
+; Installation file (.inf) for the Reflex USB V3 Smart card reader for Windows 2K/XP/Server 2003
+;
+; Copyright © Axalto 2002, 2006
+;
+
+[Version]
+Signature="$Windows NT$"
+Class=SmartCardReader
+ClassGuid={50DD5230-BA8A-11D1-BF5D-0000F805F530}
+Provider=%Mfg%
+CatalogFile=RCCIDW2K.cat
+DriverVer=02/10/2006,4.31.00.01
+
+[Manufacturer]
+%Mfg% = Models
+
+[Models]
+%PCSC_CCID% = PCSC_CCID,USB\VID_04E6&PID_511C
+
+[ControlFlags]
+ExcludeFromSelect.NT=USB\VID_04E6&PID_511C
+
+[SourceDisksNames]
+1=%Floppy_Description%,RCCIDW2K.sys,,
+
+[SourceDisksFiles]
+RCCIDW2K.sys=1
+
+[DestinationDirs]
+DefaultDestDir=10,system32\drivers
+PCSC_CCID.NTCopyFiles=10,system32\drivers
+
+[PCSC_CCID.NTCopyFiles]
+RCCIDW2K.sys,,
+
+[PCSC_CCID.AddReg]
+HKR,,ShortProviderName,0,%ShortProviderName%
+HKR,,ReaderName,0,%PCSC_CCID%
+HKLM, Software\Microsoft\Cryptography\Calais\Readers,,,
+HKLM, System\CurrentControlSet\Services\SCardSvr,Start,0x00010001,2
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,DLLName,0,wlnotify.dll
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logon,0,SCardStartCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logoff,0,SCardStopCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Lock,0,SCardSuspendCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Unlock,0,SCardResumeCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Enabled,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Impersonate,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Asynchronous,0x00010001,1
+
+[PCSC_CCID.NT.AddReg]
+; Configurable F and D values
+;HKR,, FValue , 0x00010001, 1
+;HKR,, DValue , 0x00010001, 1
+HKR,, BufferSize , 0x00010001, 131072
+;HKR,, CardSpecificATR, 1, 3B,34,D6,00,30,42,30,30
+;HKR,, TranslatedATR, 1, 3B,34,B5,00,30,42,30,30
+HKR,, IFDType,0,%PCSC_CCID%
+HKR,, VendorName,0,%Mfg%
+
+[PCSC_CCID.AddReg.HW]
+HKR,, SelectiveSuspend , 0x00010001, 1
+HKR,, WaitWakeEnabled , 0x00010001, 1
+HKR,, IdleTime , 0x00010001, 5
+
+[PCSC_CCID.NT]
+CopyFiles= PCSC_CCID.NTCopyFiles
+AddReg= PCSC_CCID.AddReg, PCSC_CCID.NT.AddReg
+
+[PCSC_CCID.NT.HW]
+AddReg= PCSC_CCID.AddReg.HW
+
+[PCSC_CCID.NT.Services]
+AddService = %SERVICE_CCID%,0x00000002,PCSC_CCID_Service_Inst,PCSC_CCID_EventLog_Inst
+
+[PCSC_CCID_Service_Inst]
+ServiceType     = 1 ;%SERVICE_KERNEL_DRIVER%
+StartType       = 3 ;%SERVICE_AUTO_START%
+ErrorControl    = 1 ;%SERVICE_ERROR_NORMAL%
+ServiceBinary   = %12%\RCCIDW2K.sys
+DisplayName     = %SERVICE_CCID%
+AddReg= PCSC_CCID.AddReg
+
+[PCSC_CCID_EventLog_Inst]
+AddReg=PCSC_CCID.AddEventLogReg
+
+[PCSC_CCID.AddEventLogReg]
+HKR,,EventMessageFile,0x00020000,"%%SystemRoot%%\System32\IoLogMsg.dll;%%SystemRoot%%\System32\drivers\RCCIDW2K.sys"
+HKR,,CategoryMessageFile,0x00020000,"%%SystemRoot%%\System32\drivers\RCCIDW2K.sys"
+HKR,,CategoryCount,0x00010001,1
+HKR,,TypesSupported,0x00010001,7
+
+
+;;===========================
+[Strings]
+Mfg = "Axalto"
+ShortProviderName = "Axalto"
+Floppy_Description = ""
+PCSC_CCID="Reflex USB V3"
+SERVICE_CCID="Reflex USB V3 Smart card reader"
+ClassName="Smart Card Readers"

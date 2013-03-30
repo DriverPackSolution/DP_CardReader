@@ -1,0 +1,254 @@
+; cxbs1wdm.inf
+
+[Version]
+Signature=$CHICAGO$
+Class=SmartCardReader
+ClassGuid={50DD5230-BA8A-11D1-BF5D-0000F805F530}
+Provider=%Provider%
+DriverVer=06/23/2005,1.1.0.37
+CatalogFile=cxbs1wdm.cat
+
+[SourceDisksNames]
+1=%DiskDescription%,,
+
+[SourceDisksFiles]
+cxbs1wdm.sys=1,,
+cxbs1w9x.vxd=1,,
+oemdiag.cpl=1,,
+oemdiag.ini=1,,
+chksvrn.dll=1,,
+launchn.dll=1,,
+scbase.ex_=1,,
+smclib.ex_=1,,
+dlysw9xn.exe=1,,
+dlysw9in.dll=1,,
+
+
+[DestinationDirs]
+DefaultDestDir = 10,system32\drivers
+cxbs1wdm.Install.NT.CopyFiles=10,system32\drivers
+cxbs1wdm.Install.NT.Tools=11
+cxbs1wdm.Install.NT.W2kTools=11
+cxbs1w9x.Install.CopyFiles=11
+cxbs1w9x.Install.Scbase=11
+cxbs1w9x.Install.ScOrg=11
+cxbs1w9x.Install.Tools=11
+
+[Manufacturer]
+%Manufacturer%=OEM
+; =================== Class section =======================
+
+[ClassInstall]
+Addreg=SmartCardReaderClassReg
+
+[ClassInstall32]
+Addreg=SmartCardReaderClassReg
+
+[SmartCardReaderClassReg]
+HKR,,,0,%ClassName%
+HKR,,Icon,,-25
+
+
+; ================================================
+
+[ControlFlags]
+ExcludeFromSelect.NT = SERENUM\USA3e11
+ExcludeFromSelect.NT = SERENUM\USA3e12
+
+
+
+
+[OEM]
+; DisplayName       	Section           DeviceId
+; -----------       	-------           --------
+%VID2PID1ReaderDescription% =  serial.Install, SERENUM\USA3e11
+%VID2PID2ReaderDescription% =  serialhp.Install, SERENUM\USA3e12
+
+
+; =================== Win9x specific ======================
+
+
+
+
+[serial.Install]
+AddReg    = serial.Install.AddReg
+CopyFiles = cxbs1w9x.Install.CopyFiles,cxbs1w9x.Install.Scbase,cxbs1w9x.Install.ScOrg,cxbs1w9x.Install.Tools
+
+[serial.Install.HW]
+AddReg    = serial.Install.AddReg.HW
+
+[serialhp.Install]
+AddReg    = serialhp.Install.AddReg
+CopyFiles = cxbs1w9x.Install.CopyFiles,cxbs1w9x.Install.Scbase,cxbs1w9x.Install.ScOrg,cxbs1w9x.Install.Tools
+
+[serialhp.Install.HW]
+AddReg    = serialhp.Install.AddReg.HW
+
+
+
+
+
+
+
+
+
+
+[serial.Install.AddReg]
+HKR,,DevLoader,0,cxbs1w9x.vxd
+HKLM,"\Software\Microsoft\Windows\CurrentVersion\RunOnce",launchn,,"rundll32 launchn.dll,InstallSC"
+HKLM,"\Software\Microsoft\Windows\CurrentVersion\RunOnce",dlysw9in,,"rundll32 dlysw9in.dll,InstallDelayService"
+HKLM,"\Software\Microsoft\Cryptography\Calais\Readers",,,
+
+[serialhp.Install.AddReg]
+HKR,,DevLoader,0,cxbs1w9x.vxd
+HKLM,"\Software\Microsoft\Windows\CurrentVersion\RunOnce",launchn,,"rundll32 launchn.dll,InstallSC"
+HKLM,"\Software\Microsoft\Windows\CurrentVersion\RunOnce",dlysw9in,,"rundll32 dlysw9in.dll,InstallDelayService"
+HKLM,"\Software\Microsoft\Cryptography\Calais\Readers",,,
+
+
+
+
+
+
+
+
+[cxbs1w9x.Install.CopyFiles]
+cxbs1w9x.vxd
+
+[cxbs1w9x.Install.Scbase]
+launchn.dll
+scbase.ex_
+smclib.ex_
+
+[cxbs1w9x.Install.ScOrg]
+scbase.exe,scbase.ex_
+smclib.exe,smclib.ex_
+
+[cxbs1w9x.Install.Tools]
+oemdiag.cpl
+oemdiag.ini
+;the delay service may be in use
+;therefore use a temporarily filename
+dlysw9xn.exe,dlysw9xn.exe,dlysw9x1.exe
+dlysw9in.dll
+
+; ================== Win2000 specific =====================
+
+
+
+[serial.Install.NT]
+AddReg    = cxbs1wdm.Install.NT.AddReg
+CopyFiles = cxbs1wdm.Install.NT.CopyFiles,cxbs1wdm.Install.NT.Tools,cxbs1wdm.Install.NT.W2kTools
+
+[serial.Install.NT.HW]
+AddReg    = serial.Install.AddReg.HW
+
+[serial.Install.NT.Services]
+AddService = cxbs1wdm, 2, serial.Service.NT,cxbs1wdm.EventLog.NT
+
+[serialhp.Install.NT]
+AddReg    = cxbs1wdm.Install.NT.AddReg
+CopyFiles = cxbs1wdm.Install.NT.CopyFiles,cxbs1wdm.Install.NT.Tools,cxbs1wdm.Install.NT.W2kTools
+
+[serialhp.Install.NT.HW]
+AddReg    = serialhp.Install.AddReg.HW
+
+[serialhp.Install.NT.Services]
+AddService = cxbs1wdm, 2, serialhp.Service.NT,cxbs1wdm.EventLog.NT
+
+
+
+
+
+
+
+[cxbs1wdm.Install.NT.AddReg]
+HKR,, AdapterType, 0, "0100"
+HKLM,"SYSTEM\CurrentControlSet\Services\SCardSvr",Start,0x00010001,2
+HKLM,"Software\Microsoft\Windows\CurrentVersion\RunOnce",chksvrn,,"rundll32 chksvrn.dll,StartScardsvr"
+HKLM,"Software\Microsoft\Windows\CurrentVersion\RunOnce",cmdiag,,"rundll32 chksvrn.dll,CheckAndReplaceOEMDiag"
+HKLM, Software\Microsoft\Cryptography\Calais\Readers,,,
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,DLLName,0,wlnotify.dll
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logon,0,SCardStartCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logoff,0,SCardStopCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Lock,0,SCardSuspendCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Unlock,0,SCardResumeCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Enabled,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Impersonate,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Asynchronous,0x00010001,1
+
+[cxbs1wdm.Install.NT.CopyFiles]
+cxbs1wdm.sys,,,2
+
+
+[cxbs1wdm.Install.NT.Tools]
+; no flags : skip allowed
+oemdiag.new,oemdiag.cpl
+oemdiag.ini
+
+
+[cxbs1wdm.Install.NT.W2kTools]
+chksvrn.dll
+
+
+
+
+
+
+[serial.Service.NT]
+DisplayName     = "OEM Serial Smart Card Reader"
+ServiceType     = 1 ;%SERVICE_KERNEL_DRIVER%
+StartType       = 3 ;%SERVICE_AUTO_START%
+ErrorControl    = 1 ;%SERVICE_ERROR_NORMAL%
+ServiceBinary   = %12%\cxbs1wdm.sys
+[serialhp.Service.NT]
+DisplayName     = "OEM Serial Smart Card Reader"
+ServiceType     = 1 ;%SERVICE_KERNEL_DRIVER%
+StartType       = 3 ;%SERVICE_AUTO_START%
+ErrorControl    = 1 ;%SERVICE_ERROR_NORMAL%
+ServiceBinary   = %12%\cxbs1wdm.sys
+
+
+
+
+
+[cxbs1wdm.EventLog.NT]
+AddReg = cxbs1wdm.AddEventLog.reg
+
+[cxbs1wdm.AddEventLog.reg]
+HKR,, EventMessageFile, 0x00020000, "%%SystemRoot%%\System32\drivers\cxbs1wdm.sys"
+HKR,, TypesSupported,   0x00010001, 7
+
+
+
+; =====================
+; === Serial Smart Card Reader ====
+; =====================
+[serial.Install.AddReg.HW]
+HKR,,"VendorName",,"Serial"
+HKR,,"IfdType",, "Smart Card Reader"
+
+
+
+; =====================
+; === Serial Smart Card Reader ====
+; =====================
+[serialhp.Install.AddReg.HW]
+HKR,,"VendorName",,"Serial"
+HKR,,"IfdType",, "Smart Card Reader"
+
+
+
+
+
+
+
+; ================= Strings =====================
+
+[Strings]
+Provider		= "OEM"
+Manufacturer    	= "OEM"
+VID2PID1ReaderDescription     = "Serial Smart Card Reader"
+VID2PID2ReaderDescription     = "Serial Smart Card Reader"
+DiskDescription         = "PC/SC driver disk"
+ClassName 		= "Smart Card Readers"

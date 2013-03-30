@@ -1,0 +1,88 @@
+;==========================================================
+; AM USB Smart Card Driver, EmvScard.inf
+;==========================================================
+
+[Version]
+Signature="$WINDOWS NT$"
+Class=SmartCardReader
+ClassGuid={50DD5230-BA8A-11D1-BF5D-0000F805F530}
+provider=%MFGNAME%
+CatalogFile=EmvScard.cat
+DriverVer=04/23/2010, 1.18.0.13
+
+
+[Manufacturer]
+%MFGNAME%=DeviceList, NTamd64
+
+[DeviceList]
+"Generic PC/SC Usb Smart Card Reader"=DriverInstall, USB\VID_058F&PID_9520
+"Generic PC/SC Usb Smart Card Reader"=DriverInstall, USB\VID_058F&PID_9525
+
+[DeviceList.NTamd64]
+"Generic PC/SC Usb Smart Card Reader"=DriverInstall, USB\VID_058F&PID_9520
+"Generic PC/SC Usb Smart Card Reader"=DriverInstall, USB\VID_058F&PID_9525
+
+
+;----------------------------------------------------------------------------
+;   CopyFile Sections
+;----------------------------------------------------------------------------
+[SourceDisksNames]
+1="Installation Disc for Generic Usb Reader"
+
+[SourceDisksFiles]
+EmvScard.sys=1
+EmvScard.dll=1
+
+[DestinationDirs]
+DriverCopyFiles  = 12
+CoInstallCopyFile = 11
+
+
+;------------------------------------------------------------------------------
+;  Driver Installation
+;------------------------------------------------------------------------------
+[DriverInstall.NT]
+AddReg=DriverAddReg
+CopyFiles=DriverCopyFiles
+
+[DriverAddReg]
+HKLM, Software\Microsoft\Cryptography\Calais\Readers,,,
+HKLM, System\CurrentControlSet\Services\SCardSvr,Start,0x00010001,2
+HKLM, System\CurrentControlSet\Services\CertPropSvc,Start,0x00010001,2
+
+[DriverCopyFiles]
+EmvScard.sys
+
+
+;----------------------------------------------------------------------------
+; Co-installer section
+;----------------------------------------------------------------------------
+[DriverInstall.NT.CoInstallers]
+CopyFiles = CoInstallCopyFile
+AddReg = CoInstallersAddReg
+
+[CoInstallCopyFile]
+EmvScard.dll
+
+[CoInstallersAddReg]
+HKR,,CoInstallers32,0x00010000,"EmvScard.dll,CoInstallerProc"
+
+;--------------------------------------------------------------
+[DriverInstall.NT.Services]
+Addservice = EmvScard, 2, DriverService
+
+[DriverService]
+DisplayName    = "Am USB SmartCard Reader Driver"
+ServiceType    = 1                  ; SERVICE_KERNEL_DRIVER
+StartType      = 3                  ; SERVICE_AUTO_START
+ErrorControl   = 1                  ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %12%\EmvScard.sys
+
+
+;------------------------------------------------------------------------------
+;  String Definitions
+;------------------------------------------------------------------------------
+[Strings]
+MFGNAME = "Generic PC/SC"
+
+

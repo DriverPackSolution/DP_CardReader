@@ -1,0 +1,827 @@
+                          ============================
+                           R E L E A S E    N O T E S
+                          ============================
+
+                          Broadcom xD Picture Card Driver
+
+                  Copyright (c) 2009-2012 Broadcom Corporation
+                               All rights reserved.
+
+
+Version 1.1.16.0 - August 13, 2012
+----------------------------------------
+  Bug fix:
+  ------------
+  1. Problem: 
+       xD driver responding with a vendor ID of "xD" for SCSIOP_INQUIRY command.
+     Change:
+       Driver will respond with a vendor ID of "Broadcom".
+
+Version 1.1.15.0 - June 15, 2012
+----------------------------------------
+  Enhancements:
+  =============
+  1. Migrate to WDK 8400.
+
+Version 1.1.14.0 - June 5, 2012
+----------------------------------------
+  Bug fix:
+  ------------
+  1. Problem: 
+       CQ63054 - xD driver install v1.1.13.0 with memory card inserted unable to detect.
+     Cause:
+       A pending card removal was sent to the Scsi Port driver.
+     Change:
+       Driver will send pending card removal event only when a eject PNP event is detected.
+
+Version 1.1.13.0 - April 26, 2012
+----------------------------------------
+  Bug fix:
+  ------------
+  1. Problem: 
+       CQ62627 - Win8: xD graceful remove by safely remove button will keep device icon.
+     Cause:
+       Scsi Port driver was not notified of a pending card removal.
+     Change:
+       Driver will notify Scsi Port driver when a pending card removal is detected.
+
+Version 1.1.12.0 - February 24, 2012
+----------------------------------------
+  Bug fix:
+  ------------
+  1. Problem: 
+       xD device lost during S3 stress test. 
+     Cause:
+       Enhancement added in version 1.1.2.0 to shortern the xD media detection time
+       on OEM systems by disabling PCIe power management during xD enumeration
+       was conflicting with the bootcode accessing the same registers. This
+       conflict would cause the registers to have a value that disabled the xD
+       device.
+     Change:
+       Removed enhancement since it is not needed because driver now builds
+       the FTL table dynamically.
+
+Version 1.1.11.0 - February 14, 2012
+----------------------------------------
+  Bug fix:
+  ------------
+  1. Problem: 
+       CQ61542 - Save text document file in xD then re-plug in find the data is lost.
+     Cause:
+       Change in the last release (Version 1.1.10.0).
+     Change:
+       Driver will check the Windows OS version and return a success value for the 
+       SCSIOP_MEDIUM_REMOVAL command when the card is present if the OS is XP or earlier.
+       For Windows OS that is Vista or later driver will return fail.
+
+Version 1.1.10.0 - December 21, 2011
+----------------------------------------
+  Bug fix:
+  ------------
+  1. Problem: 
+       CQ60311 - Aspen-xD: In Win XP SP3, the eject function in context menu fails 
+     Cause:
+       Driver was returning an error value for the SCSIOP_MEDIUM_REMOVAL command.
+     Change:
+       Driver will return a success value for the SCSIOP_MEDIUM_REMOVAL command
+       when the card is present.
+
+Version 1.1.9.0 - November 4, 2011
+----------------------------------------
+  Bug fix:
+  ------------
+  1. Problem: 
+       xD H type cards are not detected when the base clock is at 200MHz. 
+     Cause:
+       xD H type card access timing values are different than the non-H
+       type cards when base clock is at 200MHz.
+     Change:
+       Use H type access timing values for H type cards.
+
+Version 1.1.8.0 - September 30, 2011
+----------------------------------------
+  Bug fix:
+  ------------
+  1. Problem: 
+       xD cards are not detected when the SD function is in UHS mode. 
+     Cause:
+       The default xD card access timing is incorrect for the clock source
+       selected in UHS mode.
+     Change:
+       Adjust the xD card timing when the SD function is in UHS mode.
+
+Version 1.1.7.0 - June 30, 2011
+----------------------------------------
+  Bug fix:
+  ------------
+  1. Problem: 
+       CQ55712 - Quickly insert and remove XD card will pop format error message. 
+     Cause:
+        Card was removed during the mapping of Zone 0 as part of the OS access
+        of the boot records.
+     Change:
+        Map zone 0 as part of the card enumeration.
+
+  2. Problem: 
+       CQ55708 - Unable format NTFS type with bad XD cards.
+       CQ56234 - Unable to write from CrystalDiskMark.
+     Cause:
+        Bug in the Aspen chip where a write would fail after a redundant read.
+     Change:
+        After a redundant read, do a read before a write.
+
+Version 1.1.6.0 - May 17, 2011
+----------------------------------------
+  Bug fix:
+  ------------
+  1. Request:
+       Excessive R/W error may trigger an undesired bus reset from upper layer
+       which could result in BSOD.
+     Change:
+       Return proper sense data in case of access failure to avoid a bus reset.
+
+Version 1.1.5.0 - May 04, 2011
+----------------------------------------
+  Enhancement:
+  ------------
+  1. Request:
+        Reduce media detection time.
+     Change:
+        Build FTL on-fly.
+        
+Version 1.1.4.0 - Jan 20, 2011
+----------------------------------------
+  Bug fix:
+  --------
+  1. Problem: 
+       Starting the driver with a bad xD card inserted could hang 
+       Device Manager. 
+     Cause:
+        A bug was introduced in previous code clean-up.
+
+
+Version 1.1.3.0 - Jan 19, 2011
+----------------------------------------
+  Bug fix:
+  --------
+  1. Problem: 
+        CQ#52357 - Unable to detect card after swapping XD cards during s3/s4.
+     Cause:
+        There is a small window that the capacity of the media is not correctly
+        updated upon resume.
+     Change:
+        Update the capacity correctly.
+
+
+
+Version 1.1.2.0 - Jan 11, 2011
+----------------------------------------
+  Enhancement:
+  1. Request - Shortern the xD media detection time on ODM systems.
+     Change  - Disable PCIe power management during xD enumeration.
+
+
+Version 1.1.1.1 - Jan 06, 2010
+----------------------------------------
+  Bug fix:
+  --------
+  1. CQ52017, CQ52015. Regression due to code clean-up and logic change.
+
+  Enhancements:
+  =============
+  1. Enabled sequential read optimization for PC formatted media.
+
+
+Version 1.1.1.0 - Dec 23, 2011
+----------------------------------------
+  Bug fix:
+  --------
+  1. The previous version exposed a new timing scenario that
+     has not occurred before. It may cause ungraceful removal
+     to fail.
+
+  Enhancements:
+  =============
+  1. Massive code clean-up in miniport.
+  
+Version 1.1.0.0 - Dec 22, 2010
+----------------------------------------
+  Enhancements:
+  =============
+  1. Massive code clean-up in VBD.
+  2. Streamline the card state management.
+
+
+Version 1.0.0.43 - Dec 11, 2010
+----------------------------------------
+  Enhancements:
+  =============
+  1. Request:
+       Top level reset.
+  2. Request:
+       Workaround faulty socket.
+
+Version 1.0.0.42 - Dec 03, 2010
+----------------------------------------
+  Enhancements:
+  =============
+  1. Request:
+       Slow down the clock during media reset and id read to improve
+       user experience.
+
+Version 1.0.0.41 - Dec 02, 2010
+----------------------------------------
+  Enhancements:
+  =============
+  1. Request:
+        Added K57 driver support for top level CR reset.
+  2. Request:
+        Give 100ms delay to send top reset command.
+
+Version 1.0.0.40 - Dec 01, 2010
+----------------------------------------
+  Enhancements:
+  =============
+  1. Request:
+        Initial support for top level CR reset for mdeia card 
+        interaction scenarios.
+
+Version 1.0.0.39 - Nov 26, 2010
+----------------------------------------
+  Enhancements:
+  =============
+  1. Request:
+        Improve user experience in the case of removing xD card during 
+        enumeration. A reinsertion is eliminated.
+
+Version 1.0.0.38 - Nov 22, 2010
+----------------------------------------
+  Enhancements:
+  =============
+  1. Request:
+        On a ODM system, format failure is observed on certain xD card.
+     Change:
+        Retry up to 10 times when error occurs.
+
+
+Version 1.0.0.37 - Nov 19, 2010
+----------------------------------------
+  Enhancements:
+  =============
+  1. Request:
+        Enhance the media identifying algorithm to better differentiate xD media 
+        such that swapping media during S3/S4 works more reliably.
+
+  2. Request:
+        Windows may ask to "Scan the disk" when reinserting an xD media which was 
+        removed without using the "Safe remove" applet. 
+        If users refuse to perform a "scan and fix", the files on media may 
+        not be accessed as expected.
+
+  3. Request:
+        Workaround a Windows bug where the caching effect is not taking into
+        account when estimating the copy time and speed. The workaround has
+        positive effect on FAT/FAT32/exFat file system.
+  
+
+Version 1.0.0.36 - Nov 10, 2010
+----------------------------------------
+  Bug fixes:
+  =============
+  1. Swapping xD media during S3/S4 does not work.
+
+  Enhancements:
+  =============
+  1. Use "xD Picture" for device friently name.
+
+
+
+Version 1.0.0.35 - Nov 10, 2010
+----------------------------------------
+  Bug fixes:
+  =============
+  1. Give at least 150 millisecond for the xD media internal regulator
+     to settle before accessing the media.
+
+Version 1.0.0.34 - Nov 09, 2010
+----------------------------------------
+  1. Back out item #2 in version 1.0.0.33.
+
+Version 1.0.0.33 - Nov 09, 2010
+----------------------------------------
+  Enhancements:
+  =============
+  1. Request:
+        Bring the xD device to "Devices and Printers" console.
+
+  2. Request:
+        Change the debounce timer from 600ms to 100ms which reduces
+         xD card detection time by 0.5 seconds.
+
+  3. Request:
+        Integrate FTL-11/10/2010.
+
+
+Version 1.0.0.31 - Nov 06, 2010
+----------------------------------------
+  Enhancements:
+  =============
+  1. Request:
+        Implement "Safely removal" icon in systray in addition to the 
+        eject button in explorer.
+
+Version 1.0.0.30 - Nov 05, 2010
+----------------------------------------
+  Bug fixes:
+  =============
+  1. Problem:
+        System may BSOD while running DTM system test - Unreported memory script.
+     Cause:
+        Reporting phony memory to Microsoft SCSIPORT may not be compatible on
+        some systems.
+     Change:
+        Use other workaround to convince SCSIPORT to load the miniport. Refer to
+        CL#126686.
+        
+
+
+Version 1.0.0.29 - Nov 04, 2010
+----------------------------------------
+  Enhancements:
+  =============
+  1. Request:
+        Clear bit 12, 13 of reg 0x198 as suggested whenever a xD card is detected.
+
+
+Version 1.0.0.28 - Nov 04, 2010
+----------------------------------------
+  Bug fixes:
+  ==========
+  1. Problem:
+        CQ#50789 and 50790 changing LUN configuration during S3 or S4 may not 
+        work as expected.
+     
+     Change:
+        Workaround power management abnormalities in scsiport.
+
+
+Version 1.0.0.26 - Nov 01, 2010
+----------------------------------------
+  Bug fixes:
+  ==========
+  1. Problem: 
+        CQ#50741 - 57785 B0 - Graceful Removal after plug-in XD card will pop 
+        "You need to Format the disk.." info with exFAT
+     Cause:
+        Write cache is not being flushed into disk at graceful removal, unload or
+        suspend/resume.
+     Fix:
+        Change the driver to flash internal write cache to disk when user 
+        gracefully removes the disk from system.
+
+
+Version 1.0.0.25 - Oct 29, 2010
+----------------------------------------
+  Bug fixes:
+  ==========
+  1. Problem: 
+        xD card cannot be accessed on some OEM systems.
+
+  Enhancements:
+  1. Request:
+        Use the following timing setting for H and conventional cards.
+      N = 1:
+        Access_time_reg1 = 32’h2011_3423;
+        Access_time_reg2 = 32’h0243_2323;
+        Access_time_reg3 = 32’h0604_0605;
+        Access_time_reg4 = 32’h4223_0606;
+
+
+Version 1.0.0.24 - Oct 28, 2010
+----------------------------------------
+  Bug fixes:
+  ==========
+  1. Request: 
+        Timing tweak in previous version of driver break operations on
+        non H cards.
+     Change:
+        Apply 1 extra cycle only for H and conventional cards. Use
+        default clock for M/M+ cards.
+
+Version 1.0.0.23 - Oct 27, 2010
+----------------------------------------
+  Bug fixes:
+  ==========
+  1. Request: 
+        Some xD H mark cards cannot be detected, formatted or accessed
+        reliably.
+     Change:
+        Tweak the xD access timing to provide better margin.
+
+
+Version 1.0.0.22 - Oct 26, 2010
+----------------------------------------
+  Bug fixes:
+  ==========
+  1. Request: 
+        Some xD 2GB or 1GB M/M+ cards cannot be formatted to NTFS or FAT32
+     Change:
+        Fixed a math problem in the optimizer introduced in previous release.
+
+
+Version 1.0.0.21 - Oct 25, 2010
+----------------------------------------
+  Bug fixes:
+  ==========
+  1. Request: 
+        xD M+ cards slow performance.
+     Change:
+        Optimized the write operation to avoid back to back
+        access to the same block.
+
+  2. Request:
+        Some xD card may not be detected or initialized.
+     Change:
+        Enable data interrupt eariler to avoid missing completion
+        interrupts.
+
+
+Version 1.0.0.20 - Oct 22, 2010
+----------------------------------------
+  Bug fixes:
+  ==========
+  1. Request: Integrated new FTL.
+  2. Request: Clear WP bit at the end of program, erase commands.
+
+
+Version 1.0.0.19 - Oct 14, 2010
+----------------------------------------
+  Bug fixes:
+  ==========
+  1. Problem:
+        xD card performance is low.
+     Fix:
+        Convince the OS to default the disk setting to 
+        "Optimized for Performance" instead of "Optimized for quick removal".
+
+  2. Problem:
+        System may freeze when an xD card with loose contacts is inserted.
+     Fix:
+        Cards with loose contact can generate a lot of noise on insertion
+        or removal. It triggers a bug in the code where a system call
+        is called at wrong IRQL. Fix the debouncing code.
+        
+
+       
+
+Version 1.0.0.18 - Oct 13, 2010
+----------------------------------------
+  Bug fixes:
+  ----------
+  1. Problem: 
+        CQ#50403 - BSOD may occur on DTM test.
+     Fix:
+        Clean up the debouncing timer safely.
+
+Version 1.0.0.17 - Oct 11, 2010
+----------------------------------------
+
+  Enhancements:
+  ========
+  1. Request: Add xD power control.
+  2. Request: New debouncing handling for xD card insertion and removal events.
+  3. Request: Add 500 ms delay for xD internal regulator to settle after card insertion.
+
+Version 1.0.0.16 - Sep 27, 2010
+----------------------------------------
+
+  Bug fix:
+  ========
+  1. Problem:
+        xD media safe removal related issues CQ#48294, 49715 and 49716.
+     Fix:
+        Change the driver such that the "Safely Remove" icon doesn't show 
+        up in the system tray. Fix a bug in the eject path so that the media
+        is not reported to the OS after ejecting the media from Windows
+        explorer.
+
+
+Version 1.0.0.15 - Sep 17, 2010
+----------------------------------------
+
+  Enhancements:
+  ============
+     1. Enable ECC check by default.
+     
+     Change: Remove ECC error debug break in check build driver to allow 
+             experimental ECC support. 
+
+Version 1.0.0.14 - Sep 01, 2010
+----------------------------------------
+
+  Bug fixes:
+  ========
+  1. Problem: 
+        When inserting or removing xD media, system may BSOD,
+        DPC timeout.
+     Cause:
+        A bug is introduced in the previous version of the driver
+        where the interrupt state may not be updated correctly when
+        a media is inserted or removed. Under certain timing conditions,
+        it may confused the driver to complete a bogus transaction which
+        may lead to system crash or hang.
+     Fix:
+        Changed the driver to update the interrupt state correctly.
+
+Version 1.0.0.13 - Aug 31, 2010
+----------------------------------------
+
+  Bug fixes:
+  ========
+  1. Problem: 
+        Some xD media cards are not compatible.
+     Fix:
+        Fixes 2 FTL mapping problems.
+  
+  Enhancements:
+  ============
+  1. Requirement:
+        Remove page 31 access workaround.
+
+  2. Requirement:
+        Enhance insertion and removal events debouncing.
+
+
+Version 1.0.0.12 - Aug 16, 2010
+----------------------------------------
+
+  Bug fix:
+  ========
+  1. Problem: 
+        Sector read/write may timeout when disabling MS/SD
+        functions.
+     Cause:
+        Windows may mask off interrupt for more than 2 seconds
+        when disabling a MS/SD function which exceeds the timeout
+        limit set by the xD driver.
+     Fix:
+        Increase the timeout limit.
+  
+  2. Problem:
+        16MB and 32MB cards are not detected.
+     Cause:
+        The number of address cycle is not programmed correctly.
+     Fix:
+        Program the correct value for the affected cards.
+
+  
+   3. Problem:
+        Some cards are not detected.
+     Cause:
+        Second read following a read on 32th page will not complete.
+     Fix:
+        Applied functional reset and xD media reset when necessary.
+
+
+Version 1.0.0.11 - Aug 16, 2010
+----------------------------------------
+
+  Bug fix:
+  ========
+  1. Problem: 
+        Driver does not detect 512MB xD media.
+     Fix:
+        Fixed a switch block that the 512MB case is missing.
+
+  Improvement:
+  ========
+  1. Change: 
+        Added functional reset for B0.
+     
+Version 1.0.0.10 - Jun 10, 2010
+----------------------------------------
+
+  Bug Fix:
+  ========
+  1. Problem: 
+        Interrupt sharing may cause problem when resuming from
+        S3/S4.
+     Fix:
+        Changed the driver to verify power state after resuming.
+
+
+Version 1.0.0.9 - Jun 10, 2010
+----------------------------------------
+
+  Bug Fix:
+  ========
+  1. Problem: 
+        CQ#47941 CR-XD:Unplugging an XD card will cause a 
+           blue screen during a file transfer
+     Fix:
+        Added code to support ungraceful removal during file IO.
+
+Version 1.0.0.8 - Jun 08, 2010
+----------------------------------------
+
+  Bug Fix:
+  ========
+  1. Problem: 
+        CQ#48063 CR_SD3.0_xD: BSOD occurs while formatting SD card 
+        if xD driver is installed.
+     Cause:
+        The xD card reset event could interfere with the SD card's 
+        operation.
+     Fix:
+        Changed the xD card detection logic such that it doesn't 
+        affect the SD bus.
+
+
+Version 1.0.0.7 - Jun 03, 2010
+----------------------------------------
+
+  Bug Fix:
+  ========
+  1. Problem: 
+        Resuming from S3/S4 from VDISK mode may BSOD.
+     Fix:
+        Do not touch interrupt in VDKSK mode.
+
+  2. Problem: 
+        A bug was introduced in previous version that the xD card
+        CIS string is not properly copied.
+
+  3. Problem:
+        Resume from S3/S4 on Win7 system would BSOD.
+     Casue:
+        The forced bus rescan causes side effect on some systems that
+        doesn't need the workaround. SCSIPORT would stuck the PNP
+        state transition which causes BCC_9f subcode 4.
+     Fix:
+        Removed the power management workaround implemented in v1.0.0.3.
+
+  4. Problem:
+       CQ48146 Aspen-CR-XD: Unable to Access XD device after resume from S3/S4.
+     Cause:
+       This is newly introduced while fixing other bugs. The driver would 
+       mistakenly enable ECC and/or disable DMA access. It will make the access
+       to the media very slow and/or not able to access the media due to outstanding
+       ECC problem.
+    Fix:
+       Correct the driver so that it doesn't alter the setting incorrectly.
+
+  Known issues:
+  =============
+  1.  Symptom:
+        The media may not be detected if inserted after resuming from S3/S4 on
+        some systems.
+      Cause:
+        A workaround for SCSIport power management is removed to address problem #3
+        in the bug fix list.
+      Workaround:
+        The media should be detected again if user go to device manager and perform
+        a "scan for new hardware".
+      Future action:
+        This problem will be fix in next release.
+
+
+Version 1.0.0.5 - May 26, 2010
+----------------------------------------
+
+  Bug Fix:
+  ========
+  1. Problem: 
+        CQ47933 CR-XD: The XD device will disappear after resuming 
+        from s3/s4 during a file transfer.
+     Fix:
+        Finished power management code.
+
+  2. Problem: 
+        CQ47934 CR-XD: The XD device will disappear from Windows 
+        explorer after running  the disable/enable test.
+
+        CQ47935 CR-XD: Unable to auto detect XD device after installing 
+        the driver when the XD card is already plugged in
+
+     Cause:
+        The controller may or may not generate card insertion interrupt
+        when a xD card is inserted.
+     Fix:
+        Change the detection logic such that the driver to poll the card state 
+        at initialization and resuming from S3, S4 mode.
+
+   Enhancements:
+   =============
+   1. Request: 
+      Enhance the driver so that it handles the case where xD media is unpluged 
+      in the middle of building FTL table.
+   2. Request:
+      Recover from some hardware access timeout gracefully.
+       
+
+Version 1.0.0.4 - May 19, 2010
+----------------------------------------
+
+  Bug Fix:
+  =============
+  1.  Request:
+        System may prompt to format the media even
+        the media has been formatted previously when
+        DMA is turned on.
+      Cause:
+        The shared memory is not aligned to DMA boundary
+        so that the chip may generate DMA interrupt prematurely
+        causing invalid data being read.
+      Change:
+        Force the shared memory align to DMA boundary.
+      Impact:
+      Notes:
+
+  2.  Request:
+        Read Tail operation timeout if ECC mode is on.
+      Change:
+        Always clear enable ECC bit when reading tail.
+      Impact:
+      Notes:
+   
+   Enhancements:
+   =============
+   1.  Request:
+         Turn DMA on by default.
+       Change:
+         As requested.
+
+Version 1.0.0.3 - May 18, 2010
+----------------------------------------
+
+  Bug Fix:
+  =============
+  1.  Request:
+        Virtual Disk may not suspend to S3 or S4.
+      Change:
+        Set the flags for storage device properly.
+      Impact:
+      Notes:
+
+  2. Request:
+       On some systems, scsi miniport may not get notification
+       when resuming from S3.
+     Change:
+       Force a bus rescan in the bus driver.
+     Impact:
+     Notes:
+      
+Version 1.0.0.2 - May 13, 2010
+----------------------------------------
+
+  Enhancements:
+  =============
+  1.  Request:
+        Single INF file to install both drivers.
+      Change:
+      Impact:
+      Notes:
+
+  2. Request:
+       Initial AMD64/X64 support.
+     Change:
+     Impact:
+     Notes:
+
+  3. Request:
+       Enabled virtual disk io to test UM functionality.
+     Change:
+     Impact:
+     Notes:
+     
+
+
+
+Restrictions + known issues (will be fixed in later versions):
+==============================================================
+  1.  Does not recover from hardware access timeout.
+      System will hang, BSOD when hardware access failure.
+  2.  Does not support ECC.
+  3.  DMA has to be disabled when building FTL mapping table. 
+      On some system, FTL table may take more than 30 seconds
+      build. The media will not appear until the FTL table
+      is built.
+  4.  No power management (sleep, resume ..)
+  5.  Media may not be detected when the driver starts with 
+      media inserted. To workaround this, one should insert
+      the media after the driver started or unplug and plug in
+      the media.
+  6.  x86 only
+  7. Limited SCSI command emulation.
+
+Version 1.0.0.0 - May 01, 2010
+----------------------------------------
+
+  Enhancements:
+  =============
+  1.  Request:
+        Initial release
+      Change:
+      Impact:
+      Notes:
+

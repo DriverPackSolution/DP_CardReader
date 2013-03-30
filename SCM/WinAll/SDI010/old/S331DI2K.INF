@@ -1,0 +1,1196 @@
+; S331DI2K.INF
+;
+; Installation file (.inf) for the SCR331-DI USB Smart Card Readers for Windows 2000/XP/Vista 32 and 64 Bit.
+;
+; Copyright © SCM Microsystems Inc.,2002-2009
+;
+
+[Version]
+Signature="$Windows NT$"
+Class=SmartCardReader
+ClassGuid={50DD5230-BA8A-11D1-BF5D-0000F805F530}
+Provider=%Mfg%
+CatalogFile=S331DI2K.cat
+DriverVer=01/12/2009,5.15
+
+[Manufacturer]
+%Mfg% = Models,NTamd64
+
+[ClassInstall32]
+AddReg=AddClassReg
+
+
+[Models]
+%GENERIC% = GENERIC,USB\VID_04E6&PID_5111
+%BDR% = BDR,USB\VID_04E6&PID_511B
+%SDI010% = SDI010,USB\VID_04E6&PID_5121
+%3M% = 3M,USB\VID_04E6&PID_5123
+%VIISAGE% = VIISAGE,USB\VID_04E6&PID_5124
+%EPASSPORT% = EPASSPORT,USB\VID_04E6&PID_5125
+%VISOTECH% = VISOTECH,USB\VID_04E6&PID_5126
+%CMT% = CMT,USB\VID_04E6&PID_5127
+%DATACARD% = DATACARD,USB\VID_04E6&PID_5128
+%ZEBRA% = ZEBRA,USB\VID_04E6&PID_512A
+
+[Models.NTamd64]
+%GENERIC% = GENERICx64,USB\VID_04E6&PID_5111
+%BDR% = BDRx64,USB\VID_04E6&PID_511B
+%SDI010% = SDI010x64,USB\VID_04E6&PID_5121
+%3M% = 3Mx64,USB\VID_04E6&PID_5123
+%VIISAGE% = VIISAGEx64,USB\VID_04E6&PID_5124
+%EPASSPORT% = EPASSPORTx64,USB\VID_04E6&PID_5125
+%VISOTECH% = VISOTECHx64,USB\VID_04E6&PID_5126
+%CMT% = CMTx64,USB\VID_04E6&PID_5127
+%DATACARD% = DATACARDx64,USB\VID_04E6&PID_5128
+%ZEBRA% = ZEBRAx64,USB\VID_04E6&PID_512A
+
+[ControlFlags]
+ExcludeFromSelect=USB\VID_04E6&PID_5111
+ExcludeFromSelect=USB\VID_04E6&PID_511B
+ExcludeFromSelect=USB\VID_04E6&PID_5121
+ExcludeFromSelect=USB\VID_04E6&PID_5123
+ExcludeFromSelect=USB\VID_04E6&PID_5124
+ExcludeFromSelect=USB\VID_04E6&PID_5125
+ExcludeFromSelect=USB\VID_04E6&PID_5126
+ExcludeFromSelect=USB\VID_04E6&PID_5127
+ExcludeFromSelect=USB\VID_04E6&PID_5128
+ExcludeFromSelect=USB\VID_04E6&PID_512A
+
+[SourceDisksNames]
+1 = %Floppy_Description%,,,""
+1 = %Floppy_Description%, S331DI2K.sys,,
+1 = %Floppy_Description%, SDI0102K.sys,,
+1 = %Floppy_Description%, ePass2k.SYS,,
+1 = %Floppy_Description%, CMTCT32.SYS,,
+1 = %Floppy_Description%, DISCx64.SYS,,
+1 = %Floppy_Description%, SDISCx64.SYS,,
+1 = %Floppy_Description%, EPSCx64.SYS,,
+1 = %Floppy_Description%, CMTCT64.SYS,,
+
+[SourceDisksFiles]
+S331DI2K.sys=1
+SDI0102K.sys=1
+ePass2k.SYS=1
+CMTCT32.SYS=1
+DISCx64.SYS=1
+SDISCx64.sys=1
+EPSCx64.SYS=1
+CMTCT64.SYS=1
+
+[DestinationDirs]
+DefaultDestDir=10,system32\drivers
+GENERIC.NTCopyFiles=10,system32\drivers
+SDI010.NTCopyFiles=10,system32\drivers
+3M.NTCopyFiles=10,system32\drivers
+VIISAGE.NTCopyFiles=10,system32\drivers
+EPASSPORT.NTCopyFiles=10,system32\drivers
+CMT.NTCopyFiles=10,system32\drivers
+DATACARD.NTCopyFiles=10,system32\drivers
+ZEBRA.NTCopyFiles=10,system32\drivers
+GENERICx64.NTCopyFiles=10,system32\drivers
+SDI010x64.NTCopyFiles=10,system32\drivers
+3Mx64.NTCopyFiles=10,system32\drivers
+VIISAGEx64.NTCopyFiles=10,system32\drivers
+EPASSPORTx64.NTCopyFiles=10,system32\drivers
+CMTx64.NTCopyFiles=10,system32\drivers
+DATACARDx64.NTCopyFiles=10,system32\drivers
+ZEBRAx64.NTCopyFiles=10,system32\drivers
+
+[AddClassReg]
+HKR,,,0,%ClassName%
+HKR,,NoInstallClass,,1
+HKR,,Installer32,,"winscard.dll,ClassInstall32"
+
+;*******************************************************************************************************
+; x86 specific 
+;*******************************************************************************************************
+
+[GENERIC.NTCopyFiles]
+S331DI2K.sys,,
+
+[GENERIC.AddReg]
+HKR,,ShortProviderName,0,%ShortProviderName%
+HKR,,ReaderName,0,%GENERIC%
+HKLM, Software\Microsoft\Cryptography\Calais\Readers,,,
+HKLM, System\CurrentControlSet\Services\SCardSvr,Start,0x00010001,2
+HKLM, System\CurrentControlSet\Services\CertPropSvc,Start,0x00010001,2
+HKLM, System\CurrentControlSet\Services\SCM,NumOfPDO,0x00000001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,DLLName,0,wlnotify.dll
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logon,0,SCardStartCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logoff,0,SCardStopCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Lock,0,SCardSuspendCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Unlock,0,SCardResumeCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Enabled,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Impersonate,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Asynchronous,0x00010001,1
+
+[GENERIC.NT.AddReg]
+HKR,, BufferSize , 0x00010001, 131072
+HKR,, TCLMifareSwitch,0x00000001, 1
+;HKR,, FValue , 0x00010001, 1
+;HKR,, DValue , 0x00010001, 1
+;HKR,, CardSpecificATR, 1, 3B,34,D6,00,30,42,30,30
+;HKR,, TranslatedATR, 1, 3B,34,B5,00,30,42,30,30
+HKR,, IfdType,0,%GenericIfdType%
+HKR,, VendorName,0,%GenericMfg%
+
+[GENERIC.AddReg.HW]
+HKR,, WaitWakeEnabled , 0x00010001, 0
+
+[GENERIC.NT]
+CopyFiles= GENERIC.NTCopyFiles
+AddReg= GENERIC.AddReg, GENERIC.NT.AddReg
+
+[GENERIC.NT.HW]
+AddReg= GENERIC.AddReg.HW
+
+[GENERIC.NT.Services]
+AddService = S331DI2K,0x00000002,GENERIC_Service_Inst,GENERIC_EventLog_Inst
+
+[GENERIC_Service_Inst]
+ServiceType     = 1 ;%SERVICE_KERNEL_DRIVER%
+StartType       = 3 ;%SERVICE_AUTO_START%
+ErrorControl    = 1 ;%SERVICE_ERROR_NORMAL%
+ServiceBinary   = %12%\S331DI2K.sys
+DisplayName     = %GenericDisplayName%
+AddReg= GENERIC.AddReg
+
+[GENERIC_EventLog_Inst]
+AddReg=GENERIC.AddEventLogReg
+
+[GENERIC.AddEventLogReg]
+HKR,,EventMessageFile,0x00020000,"%%SystemRoot%%\System32\IoLogMsg.dll;%%SystemRoot%%\System32\drivers\S331DI2K.sys"
+HKR,,TypesSupported,0x00010001,7
+
+;--------------------------------------------------------------
+; For BDR
+;--------------------------------------------------------------
+
+[BDR.AddReg]
+HKR,,ShortProviderName,0,%ShortProviderName%
+HKR,,ReaderName,0,%BDR%
+HKLM, Software\Microsoft\Cryptography\Calais\Readers,,,
+HKLM, System\CurrentControlSet\Services\SCardSvr,Start,0x00010001,2
+HKLM, System\CurrentControlSet\Services\CertPropSvc,Start,0x00010001,2
+HKLM, System\CurrentControlSet\Services\SCM,NumOfPDO,0x00000001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,DLLName,0,wlnotify.dll
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logon,0,SCardStartCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logoff,0,SCardStopCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Lock,0,SCardSuspendCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Unlock,0,SCardResumeCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Enabled,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Impersonate,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Asynchronous,0x00010001,1
+
+[BDR.NT.AddReg]
+HKR,, BufferSize , 0x00010001, 131072
+HKR,, TCLMifareSwitch,0x00000001, 1
+;HKR,, FValue , 0x00010001, 1
+;HKR,, DValue , 0x00010001, 1
+;HKR,, CardSpecificATR, 1, 3B,34,D6,00,30,42,30,30
+;HKR,, TranslatedATR, 1, 3B,34,B5,00,30,42,30,30
+HKR,, IfdType,0,%BDRIfdType%
+HKR,, VendorName,0,%BDRMfg%
+
+[BDR.AddReg.HW]
+HKR,, WaitWakeEnabled , 0x00010001, 0
+
+[BDR.NT]
+CopyFiles= GENERIC.NTCopyFiles
+AddReg= BDR.AddReg, BDR.NT.AddReg
+
+[BDR.NT.HW]
+AddReg= BDR.AddReg.HW
+
+[BDR.NT.Services]
+AddService = S331DI2K,0x00000002,GENERIC_Service_Inst,GENERIC_EventLog_Inst
+
+
+;--------------------------------------------------------------
+; For VISOTECH
+;--------------------------------------------------------------
+
+[VISOTECH.AddReg]
+HKR,,ShortProviderName,0,%ShortProviderName%
+HKR,,ReaderName,0,%VISOTECH%
+HKLM, Software\Microsoft\Cryptography\Calais\Readers,,,
+HKLM, System\CurrentControlSet\Services\SCardSvr,Start,0x00010001,2
+HKLM, System\CurrentControlSet\Services\CertPropSvc,Start,0x00010001,2
+HKLM, System\CurrentControlSet\Services\SCM,NumOfPDO,0x00000001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,DLLName,0,wlnotify.dll
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logon,0,SCardStartCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logoff,0,SCardStopCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Lock,0,SCardSuspendCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Unlock,0,SCardResumeCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Enabled,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Impersonate,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Asynchronous,0x00010001,1
+
+[VISOTECH.NT.AddReg]
+HKR,, BufferSize , 0x00010001, 131072
+HKR,, TCLMifareSwitch,0x00000001, 1
+;HKR,, FValue , 0x00010001, 1
+;HKR,, DValue , 0x00010001, 1
+;HKR,, CardSpecificATR, 1, 3B,34,D6,00,30,42,30,30
+;HKR,, TranslatedATR, 1, 3B,34,B5,00,30,42,30,30
+HKR,, IfdType,0,%BDRIfdType%
+HKR,, VendorName,0,%BDRMfg%
+
+[VISOTECH.AddReg.HW]
+HKR,, WaitWakeEnabled , 0x00010001, 0
+
+[VISOTECH.NT]
+CopyFiles= GENERIC.NTCopyFiles
+AddReg= VISOTECH.AddReg, VISOTECH.NT.AddReg
+
+[VISOTECH.NT.HW]
+AddReg= VISOTECH.AddReg.HW
+
+[VISOTECH.NT.Services]
+AddService = S331DI2K,0x00000002,GENERIC_Service_Inst,GENERIC_EventLog_Inst
+
+;--------------------------------------------------------------
+; For CROSSMATCH
+;--------------------------------------------------------------
+
+[CMT.NTCopyFiles]
+CMTCT32.sys,,
+
+[CMT.AddReg]
+HKR,,ShortProviderName,0,%ShortProviderName%
+HKR,,ReaderName,0,%CMT%
+HKLM, Software\Microsoft\Cryptography\Calais\Readers,,,
+HKLM, System\CurrentControlSet\Services\SCardSvr,Start,0x00010001,2
+HKLM, System\CurrentControlSet\Services\CertPropSvc,Start,0x00010001,2
+HKLM, System\CurrentControlSet\Services\SCM,NumOfPDO,0x00000001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,DLLName,0,wlnotify.dll
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logon,0,SCardStartCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logoff,0,SCardStopCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Lock,0,SCardSuspendCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Unlock,0,SCardResumeCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Enabled,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Impersonate,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Asynchronous,0x00010001,1
+
+[CMT.NT.AddReg]
+HKR,, BufferSize , 0x00010001, 131072
+HKR,, TCLMifareSwitch,0x00000001, 1
+;HKR,, FValue , 0x00010001, 1
+;HKR,, DValue , 0x00010001, 1
+;HKR,, CardSpecificATR, 1, 3B,34,D6,00,30,42,30,30
+;HKR,, TranslatedATR, 1, 3B,34,B5,00,30,42,30,30
+HKR,, IfdType,0,%CMTIfdType%
+HKR,, VendorName,0,%CMTMfg%
+
+[CMT.AddReg.HW]
+HKR,, WaitWakeEnabled , 0x00010001, 0
+
+[CMT.NT]
+CopyFiles=  CMT.NTCopyFiles
+AddReg= CMT.AddReg, CMT.NT.AddReg
+
+[CMT.NT.HW]
+AddReg= CMT.AddReg.HW
+
+[CMT.NT.Services]
+AddService = CMTCT32,0x00000002,CMT_Service_Inst,CMT_EventLog_Inst
+
+[CMT_Service_Inst]
+ServiceType     = 1 ;%SERVICE_KERNEL_DRIVER%
+StartType       = 3 ;%SERVICE_AUTO_START%
+ErrorControl    = 1 ;%SERVICE_ERROR_NORMAL%
+ServiceBinary   = %12%\CMTCT32.sys
+DisplayName     = %CMTDisplayName%
+AddReg= CMT.AddReg
+
+[CMT_EventLog_Inst]
+AddReg=CMT.AddEventLogReg
+
+[CMT.AddEventLogReg]
+HKR,,EventMessageFile,0x00020000,"%%SystemRoot%%\System32\IoLogMsg.dll;%%SystemRoot%%\System32\drivers\CMTCT32.sys"
+HKR,,TypesSupported,0x00010001,7
+
+;-----------------------------------------------------
+;	For SDI010
+;-----------------------------------------------------
+
+[SDI010.NTCopyFiles]
+SDI0102K.sys,,
+
+[SDI010.AddReg]
+HKR,,ShortProviderName,0,%ShortProviderName%
+HKR,,ReaderName,0,%SDI010%
+HKLM, Software\Microsoft\Cryptography\Calais\Readers,,,
+HKLM, System\CurrentControlSet\Services\SCardSvr,Start,0x00010001,2
+HKLM, System\CurrentControlSet\Services\CertPropSvc,Start,0x00010001,2
+HKLM, System\CurrentControlSet\Services\SCM,NumOfPDO,0x00000001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,DLLName,0,wlnotify.dll
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logon,0,SCardStartCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logoff,0,SCardStopCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Lock,0,SCardSuspendCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Unlock,0,SCardResumeCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Enabled,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Impersonate,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Asynchronous,0x00010001,1
+
+[SDI010.NT.AddReg]
+HKR,, BufferSize , 0x00010001, 131072
+HKR,, TCLMifareSwitch,0x00000001, 1
+;HKR,, FValue , 0x00010001, 1
+;HKR,, DValue , 0x00010001, 1
+;HKR,, CardSpecificATR, 1, 3B,34,D6,00,30,42,30,30
+;HKR,, TranslatedATR, 1, 3B,34,B5,00,30,42,30,30
+HKR,, IfdType,0,%SDI010IfdType%
+HKR,, VendorName,0,%SDI010Mfg%
+
+[SDI010.AddReg.HW]
+HKR,, WaitWakeEnabled , 0x00010001, 0
+
+[SDI010.NT]
+CopyFiles=  SDI010.NTCopyFiles
+AddReg= SDI010.AddReg, SDI010.NT.AddReg
+
+[SDI010.NT.HW]
+AddReg= SDI010.AddReg.HW
+
+[SDI010.NT.Services]
+AddService = SDI0102K,0x00000002,SDI010_Service_Inst,SDI010_EventLog_Inst
+
+
+[SDI010_Service_Inst]
+ServiceType     = 1 ;%SERVICE_KERNEL_DRIVER%
+StartType       = 3 ;%SERVICE_AUTO_START%
+ErrorControl    = 1 ;%SERVICE_ERROR_NORMAL%
+ServiceBinary   = %12%\SDI0102K.sys
+DisplayName     = %SDI010DisplayName%
+AddReg= SDI010.AddReg
+
+[SDI010_EventLog_Inst]
+AddReg=SDI010.AddEventLogReg
+
+[SDI010.AddEventLogReg]
+HKR,,EventMessageFile,0x00020000,"%%SystemRoot%%\System32\IoLogMsg.dll;%%SystemRoot%%\System32\drivers\SDI0102K.sys"
+HKR,,TypesSupported,0x00010001,7
+
+
+;-----------------------------------------------------
+;	For 3M
+;-----------------------------------------------------
+
+[3M.NTCopyFiles]
+S331DI2K.sys,,
+
+[3M.AddReg]
+HKR,,ShortProviderName,0,%ShortProviderName%
+HKR,,ReaderName,0,%3M%
+HKLM, Software\Microsoft\Cryptography\Calais\Readers,,,
+HKLM, System\CurrentControlSet\Services\SCardSvr,Start,0x00010001,2
+HKLM, System\CurrentControlSet\Services\CertPropSvc,Start,0x00010001,2
+HKLM, System\CurrentControlSet\Services\SCM,NumOfPDO,0x00000001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,DLLName,0,wlnotify.dll
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logon,0,SCardStartCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logoff,0,SCardStopCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Lock,0,SCardSuspendCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Unlock,0,SCardResumeCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Enabled,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Impersonate,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Asynchronous,0x00010001,1
+
+[3M.NT.AddReg]
+HKR,, BufferSize , 0x00010001, 131072
+HKR,, TCLMifareSwitch,0x00000001, 1
+;HKR,, FValue , 0x00010001, 1
+;HKR,, DValue , 0x00010001, 1
+;HKR,, CardSpecificATR, 1, 3B,34,D6,00,30,42,30,30
+;HKR,, TranslatedATR, 1, 3B,34,B5,00,30,42,30,30
+HKR,, IfdType,0,%3MIfdType%
+HKR,, VendorName,0,%3MMfg%
+
+[3M.AddReg.HW]
+HKR,, WaitWakeEnabled , 0x00010001, 0
+
+[3M.NT]
+CopyFiles= 3M.NTCopyFiles
+AddReg= 3M.AddReg, 3M.NT.AddReg
+
+[3M.NT.HW]
+AddReg= 3M.AddReg.HW
+
+[3M.NT.Services]
+AddService = S331DI2K,0x00000002,GENERIC_Service_Inst,GENERIC_EventLog_Inst
+
+;-----------------------------------------------------
+;	For Viisage
+;-----------------------------------------------------
+
+[VIISAGE.NTCopyFiles]
+S331DI2K.sys,,
+
+[VIISAGE.AddReg]
+HKR,,ShortProviderName,0,%ShortProviderName%
+HKR,,ReaderName,0,%VIISAGE%
+HKLM, Software\Microsoft\Cryptography\Calais\Readers,,,
+HKLM, System\CurrentControlSet\Services\SCardSvr,Start,0x00010001,2
+HKLM, System\CurrentControlSet\Services\CertPropSvc,Start,0x00010001,2
+HKLM, System\CurrentControlSet\Services\SCM,NumOfPDO,0x00000001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,DLLName,0,wlnotify.dll
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logon,0,SCardStartCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logoff,0,SCardStopCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Lock,0,SCardSuspendCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Unlock,0,SCardResumeCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Enabled,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Impersonate,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Asynchronous,0x00010001,1
+
+[VIISAGE.NT.AddReg]
+HKR,, BufferSize , 0x00010001, 131072
+HKR,, TCLMifareSwitch,0x00000001, 1
+;HKR,, FValue , 0x00010001, 1
+;HKR,, DValue , 0x00010001, 1
+;HKR,, CardSpecificATR, 1, 3B,34,D6,00,30,42,30,30
+;HKR,, TranslatedATR, 1, 3B,34,B5,00,30,42,30,30
+HKR,, IfdType,0,%ViisageIfdType%
+HKR,, VendorName,0,%ViisageMfg%
+
+[VIISAGE.AddReg.HW]
+HKR,, WaitWakeEnabled , 0x00010001, 0
+
+[VIISAGE.NT]
+CopyFiles= VIISAGE.NTCopyFiles
+AddReg= VIISAGE.AddReg, VIISAGE.NT.AddReg
+
+[VIISAGE.NT.HW]
+AddReg= VIISAGE.AddReg.HW
+
+[VIISAGE.NT.Services]
+AddService = S331DI2K,0x00000002,GENERIC_Service_Inst,GENERIC_EventLog_Inst
+
+
+;-----------------------------------------------------
+;	For EPASSPORT
+;-----------------------------------------------------
+
+[EPASSPORT.NTCopyFiles]
+ePass2k.SYS,,
+
+[EPASSPORT.AddReg]
+HKR,,ShortProviderName,0,%ShortProviderName%
+HKR,,ReaderName,0,%EPASSPORT%
+HKLM, Software\Microsoft\Cryptography\Calais\Readers,,,
+HKLM, System\CurrentControlSet\Services\SCardSvr,Start,0x00010001,2
+HKLM, System\CurrentControlSet\Services\CertPropSvc,Start,0x00010001,2
+HKLM, System\CurrentControlSet\Services\SCM,NumOfPDO,0x00000001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,DLLName,0,wlnotify.dll
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logon,0,SCardStartCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logoff,0,SCardStopCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Lock,0,SCardSuspendCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Unlock,0,SCardResumeCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Enabled,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Impersonate,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Asynchronous,0x00010001,1
+
+[EPASSPORT.NT.AddReg]
+HKR,, BufferSize , 0x00010001, 131072
+HKR,, TCLMifareSwitch,0x00000001, 1
+;HKR,, FValue , 0x00010001, 1
+;HKR,, DValue , 0x00010001, 1
+;HKR,, CardSpecificATR, 1, 3B,34,D6,00,30,42,30,30
+;HKR,, TranslatedATR, 1, 3B,34,B5,00,30,42,30,30
+HKR,, IfdType,0,%EPassportIfdType%
+HKR,, VendorName,0,%EPassportMfg%
+
+[EPASSPORT.AddReg.HW]
+HKR,, WaitWakeEnabled , 0x00010001, 0
+
+[EPASSPORT.NT]
+CopyFiles= EPASSPORT.NTCopyFiles
+AddReg= EPASSPORT.AddReg, EPASSPORT.NT.AddReg
+
+[EPASSPORT.NT.HW]
+AddReg= EPASSPORT.AddReg.HW
+
+[EPASSPORT.NT.Services]
+AddService = ePass2k,0x00000002,EPASSPORT_Service_Inst,EPASSPORT_EventLog_Inst
+
+[EPASSPORT_Service_Inst]
+ServiceType     = 1 ;%SERVICE_KERNEL_DRIVER%
+StartType       = 3 ;%SERVICE_AUTO_START%
+ErrorControl    = 1 ;%SERVICE_ERROR_NORMAL%
+ServiceBinary   = %12%\ePass2k.SYS
+DisplayName     = %EPassportDisplayName%
+AddReg= EPASSPORT.AddReg
+
+[EPASSPORT_EventLog_Inst]
+AddReg=EPASSPORT.AddEventLogReg
+
+[EPASSPORT.AddEventLogReg]
+HKR,,EventMessageFile,0x00020000,"%%SystemRoot%%\System32\IoLogMsg.dll;%%SystemRoot%%\System32\drivers\ePass2k.SYS"
+HKR,,TypesSupported,0x00010001,7
+
+;-----------------------------------------------------
+;	For Datacard
+;-----------------------------------------------------
+
+[DATACARD.NTCopyFiles]
+S331DI2K.sys,,
+
+[DATACARD.AddReg]
+HKR,,ShortProviderName,0,%ShortProviderName%
+HKR,,ReaderName,0,%DATACARD%
+HKLM, Software\Microsoft\Cryptography\Calais\Readers,,,
+HKLM, System\CurrentControlSet\Services\SCardSvr,Start,0x00010001,2
+HKLM, System\CurrentControlSet\Services\CertPropSvc,Start,0x00010001,2
+HKLM, System\CurrentControlSet\Services\SCM,NumOfPDO,0x00000001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,DLLName,0,wlnotify.dll
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logon,0,SCardStartCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logoff,0,SCardStopCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Lock,0,SCardSuspendCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Unlock,0,SCardResumeCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Enabled,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Impersonate,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Asynchronous,0x00010001,1
+
+[DATACARD.NT.AddReg]
+HKR,, BufferSize , 0x00010001, 131072
+HKR,, TCLMifareSwitch,0x00000001, 1
+;HKR,, FValue , 0x00010001, 1
+;HKR,, DValue , 0x00010001, 1
+;HKR,, CardSpecificATR, 1, 3B,34,D6,00,30,42,30,30
+;HKR,, TranslatedATR, 1, 3B,34,B5,00,30,42,30,30
+HKR,, IfdType,0,%DatacardIfdType%
+HKR,, VendorName,0,%DatacardMfg%
+
+[DATACARD.AddReg.HW]
+HKR,, WaitWakeEnabled , 0x00010001, 0
+
+[DATACARD.NT]
+CopyFiles= DATACARD.NTCopyFiles
+AddReg= DATACARD.AddReg, DATACARD.NT.AddReg
+
+[DATACARD.NT.HW]
+AddReg= DATACARD.AddReg.HW
+
+[DATACARD.NT.Services]
+AddService = S331DI2K,0x00000002,GENERIC_Service_Inst,GENERIC_EventLog_Inst
+
+;-----------------------------------------------------
+;	For ZEBRA
+;-----------------------------------------------------
+
+[ZEBRA.NTCopyFiles]
+SDI0102K.sys,,
+
+[ZEBRA.AddReg]
+HKR,,ShortProviderName,0,%ShortProviderName%
+HKR,,ReaderName,0,%ZEBRA%
+HKLM, Software\Microsoft\Cryptography\Calais\Readers,,,
+HKLM, System\CurrentControlSet\Services\SCardSvr,Start,0x00010001,2
+HKLM, System\CurrentControlSet\Services\CertPropSvc,Start,0x00010001,2
+HKLM, System\CurrentControlSet\Services\SCM,NumOfPDO,0x00000001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,DLLName,0,wlnotify.dll
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logon,0,SCardStartCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logoff,0,SCardStopCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Lock,0,SCardSuspendCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Unlock,0,SCardResumeCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Enabled,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Impersonate,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Asynchronous,0x00010001,1
+
+[ZEBRA.NT.AddReg]
+HKR,, BufferSize , 0x00010001, 131072
+HKR,, TCLMifareSwitch,0x00000001, 1
+;HKR,, FValue , 0x00010001, 1
+;HKR,, DValue , 0x00010001, 1
+;HKR,, CardSpecificATR, 1, 3B,34,D6,00,30,42,30,30
+;HKR,, TranslatedATR, 1, 3B,34,B5,00,30,42,30,30
+HKR,, IfdType,0,%ZEBRAIfdType%
+HKR,, VendorName,0,%ZEBRAMfg%
+
+[ZEBRA.AddReg.HW]
+HKR,, WaitWakeEnabled , 0x00010001, 0
+
+[ZEBRA.NT]
+CopyFiles= ZEBRA.NTCopyFiles
+AddReg= ZEBRA.AddReg, ZEBRA.NT.AddReg
+
+[ZEBRA.NT.HW]
+AddReg= ZEBRA.AddReg.HW
+
+[ZEBRA.NT.Services]
+AddService = SDI0102K,0x00000002,SDI010_Service_Inst,SDI010_EventLog_Inst
+
+;*************************************************************************************************************************
+; x64 specific section
+;*************************************************************************************************************************
+
+[GENERICx64.NTCopyFiles]
+DISCx64.SYS,,
+
+[GENERICx64.AddReg]
+HKR,,ShortProviderName,0,%ShortProviderName%
+HKR,,ReaderName,0,%GENERIC%
+HKLM, Software\Microsoft\Cryptography\Calais\Readers,,,
+HKLM, System\CurrentControlSet\Services\SCardSvr,Start,0x00010001,2
+HKLM, System\CurrentControlSet\Services\CertPropSvc,Start,0x00010001,2
+HKLM, System\CurrentControlSet\Services\SCM,NumOfPDO,0x00000001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,DLLName,0,wlnotify.dll
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logon,0,SCardStartCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logoff,0,SCardStopCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Lock,0,SCardSuspendCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Unlock,0,SCardResumeCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Enabled,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Impersonate,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Asynchronous,0x00010001,1
+
+[GENERICx64.NT.AddReg]
+HKR,, BufferSize , 0x00010001, 131072
+HKR,, TCLMifareSwitch,0x00000001, 1
+;HKR,, FValue , 0x00010001, 1
+;HKR,, DValue , 0x00010001, 1
+;HKR,, CardSpecificATR, 1, 3B,34,D6,00,30,42,30,30
+;HKR,, TranslatedATR, 1, 3B,34,B5,00,30,42,30,30
+HKR,, IfdType,0,%GenericIfdType%
+HKR,, VendorName,0,%GenericMfg%
+
+[GENERICx64.AddReg.HW]
+HKR,, WaitWakeEnabled , 0x00010001, 0
+
+[GENERICx64.NT]
+CopyFiles= GENERICx64.NTCopyFiles
+AddReg= GENERICx64.AddReg, GENERICx64.NT.AddReg
+
+[GENERICx64.NT.HW]
+AddReg= GENERICx64.AddReg.HW
+
+[GENERICx64.NT.Services]
+AddService = DISCx64,0x00000002,GENERIC_Service_Instx64,GENERIC_EventLog_Instx64
+
+[GENERIC_Service_Instx64]
+ServiceType     = 1 ;%SERVICE_KERNEL_DRIVER%
+StartType       = 3 ;%SERVICE_AUTO_START%
+ErrorControl    = 1 ;%SERVICE_ERROR_NORMAL%
+ServiceBinary   = %12%\DISCx64.sys
+DisplayName     = %GenericDisplayName%
+AddReg= GENERICx64.AddReg
+
+[GENERIC_EventLog_Instx64]
+AddReg=GENERICx64.AddEventLogReg
+
+[GENERICx64.AddEventLogReg]
+HKR,,EventMessageFile,0x00020000,"%%SystemRoot%%\System32\IoLogMsg.dll;%%SystemRoot%%\System32\drivers\DISCx64.sys"
+HKR,,TypesSupported,0x00010001,7
+
+;--------------------------------------------------------------
+; For BDR x64 Specific
+;--------------------------------------------------------------
+
+[BDRx64.AddReg]
+HKR,,ShortProviderName,0,%ShortProviderName%
+HKR,,ReaderName,0,%BDR%
+HKLM, Software\Microsoft\Cryptography\Calais\Readers,,,
+HKLM, System\CurrentControlSet\Services\SCardSvr,Start,0x00010001,2
+HKLM, System\CurrentControlSet\Services\CertPropSvc,Start,0x00010001,2
+HKLM, System\CurrentControlSet\Services\SCM,NumOfPDO,0x00000001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,DLLName,0,wlnotify.dll
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logon,0,SCardStartCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logoff,0,SCardStopCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Lock,0,SCardSuspendCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Unlock,0,SCardResumeCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Enabled,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Impersonate,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Asynchronous,0x00010001,1
+
+[BDRx64.NT.AddReg]
+HKR,, BufferSize , 0x00010001, 131072
+HKR,, TCLMifareSwitch,0x00000001, 1
+;HKR,, FValue , 0x00010001, 1
+;HKR,, DValue , 0x00010001, 1
+;HKR,, CardSpecificATR, 1, 3B,34,D6,00,30,42,30,30
+;HKR,, TranslatedATR, 1, 3B,34,B5,00,30,42,30,30
+HKR,, IfdType,0,%BDRIfdType%
+HKR,, VendorName,0,%BDRMfg%
+
+[BDRx64.AddReg.HW]
+HKR,, WaitWakeEnabled , 0x00010001, 0
+
+[BDRx64.NT]
+CopyFiles= GENERICx64.NTCopyFiles
+AddReg= BDRx64.AddReg, BDRx64.NT.AddReg
+
+[BDRx64.NT.HW]
+AddReg= BDRx64.AddReg.HW
+
+[BDRx64.NT.Services]
+AddService = DISCx64,0x00000002,GENERIC_Service_Instx64,GENERIC_EventLog_Instx64
+
+
+
+;--------------------------------------------------------------
+; For VISOTECH x64 Specific
+;--------------------------------------------------------------
+
+[VISOTECHx64.AddReg]
+HKR,,ShortProviderName,0,%ShortProviderName%
+HKR,,ReaderName,0,%VISOTECH%
+HKLM, Software\Microsoft\Cryptography\Calais\Readers,,,
+HKLM, System\CurrentControlSet\Services\SCardSvr,Start,0x00010001,2
+HKLM, System\CurrentControlSet\Services\CertPropSvc,Start,0x00010001,2
+HKLM, System\CurrentControlSet\Services\SCM,NumOfPDO,0x00000001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,DLLName,0,wlnotify.dll
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logon,0,SCardStartCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logoff,0,SCardStopCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Lock,0,SCardSuspendCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Unlock,0,SCardResumeCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Enabled,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Impersonate,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Asynchronous,0x00010001,1
+
+[VISOTECHx64.NT.AddReg]
+HKR,, BufferSize , 0x00010001, 131072
+HKR,, TCLMifareSwitch,0x00000001, 1
+;HKR,, FValue , 0x00010001, 1
+;HKR,, DValue , 0x00010001, 1
+;HKR,, CardSpecificATR, 1, 3B,34,D6,00,30,42,30,30
+;HKR,, TranslatedATR, 1, 3B,34,B5,00,30,42,30,30
+HKR,, IfdType,0,%BDRIfdType%
+HKR,, VendorName,0,%BDRMfg%
+
+[VISOTECHx64.AddReg.HW]
+HKR,, WaitWakeEnabled , 0x00010001, 0
+
+[VISOTECHx64.NT]
+CopyFiles= GENERICx64.NTCopyFiles
+AddReg= VISOTECHx64.AddReg, VISOTECHx64.NT.AddReg
+
+[VISOTECHx64.NT.HW]
+AddReg= VISOTECHx64.AddReg.HW
+
+[VISOTECHx64.NT.Services]
+AddService = DISCx64,0x00000002,GENERIC_Service_Instx64,GENERIC_EventLog_Instx64
+
+;--------------------------------------------------------------
+; For CROSSMATCH x64 Specific
+;--------------------------------------------------------------
+
+[CMTx64.NTCopyFiles]
+CMTCT64.SYS,,
+
+[CMTx64.AddReg]
+HKR,,ShortProviderName,0,%ShortProviderName%
+HKR,,ReaderName,0,%CMT%
+HKLM, Software\Microsoft\Cryptography\Calais\Readers,,,
+HKLM, System\CurrentControlSet\Services\SCardSvr,Start,0x00010001,2
+HKLM, System\CurrentControlSet\Services\CertPropSvc,Start,0x00010001,2
+HKLM, System\CurrentControlSet\Services\SCM,NumOfPDO,0x00000001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,DLLName,0,wlnotify.dll
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logon,0,SCardStartCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logoff,0,SCardStopCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Lock,0,SCardSuspendCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Unlock,0,SCardResumeCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Enabled,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Impersonate,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Asynchronous,0x00010001,1
+
+[CMTx64.NT.AddReg]
+HKR,, BufferSize , 0x00010001, 131072
+HKR,, TCLMifareSwitch,0x00000001, 1
+;HKR,, FValue , 0x00010001, 1
+;HKR,, DValue , 0x00010001, 1
+;HKR,, CardSpecificATR, 1, 3B,34,D6,00,30,42,30,30
+;HKR,, TranslatedATR, 1, 3B,34,B5,00,30,42,30,30
+HKR,, IfdType,0,%CMTIfdType%
+HKR,, VendorName,0,%CMTMfg%
+
+[CMTx64.AddReg.HW]
+HKR,, WaitWakeEnabled , 0x00010001, 0
+
+[CMTx64.NT]
+CopyFiles= CMTx64.NTCopyFiles
+AddReg= CMTx64.AddReg, CMTx64.NT.AddReg
+
+[CMTx64.NT.HW]
+AddReg= CMTx64.AddReg.HW
+
+[CMTx64.NT.Services]
+AddService = CMTCTx64,0x00000002,CMT_Service_Instx64,CMT_EventLog_Instx64
+
+[CMT_Service_Instx64]
+ServiceType     = 1 ;%SERVICE_KERNEL_DRIVER%
+StartType       = 3 ;%SERVICE_AUTO_START%
+ErrorControl    = 1 ;%SERVICE_ERROR_NORMAL%
+ServiceBinary   = %12%\CMTCT64.sys
+DisplayName     = %CMTDisplayName%
+AddReg= CMTx64.AddReg
+
+[CMT_EventLog_Instx64]
+AddReg=CMTx64.AddEventLogReg
+
+[CMTx64.AddEventLogReg]
+HKR,,EventMessageFile,0x00020000,"%%SystemRoot%%\System32\IoLogMsg.dll;%%SystemRoot%%\System32\drivers\CMTCT64.sys"
+HKR,,TypesSupported,0x00010001,7
+
+
+;-----------------------------------------------------
+;	For SDI010 x64 Specific
+;-----------------------------------------------------
+
+[SDI010x64.NTCopyFiles]
+SDISCx64.SYS,,
+
+[SDI010x64.AddReg]
+HKR,,ShortProviderName,0,%ShortProviderName%
+HKR,,ReaderName,0,%SDI010%
+HKLM, Software\Microsoft\Cryptography\Calais\Readers,,,
+HKLM, System\CurrentControlSet\Services\SCardSvr,Start,0x00010001,2
+HKLM, System\CurrentControlSet\Services\CertPropSvc,Start,0x00010001,2
+HKLM, System\CurrentControlSet\Services\SCM,NumOfPDO,0x00000001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,DLLName,0,wlnotify.dll
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logon,0,SCardStartCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logoff,0,SCardStopCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Lock,0,SCardSuspendCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Unlock,0,SCardResumeCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Enabled,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Impersonate,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Asynchronous,0x00010001,1
+
+[SDI010x64.NT.AddReg]
+HKR,, BufferSize , 0x00010001, 131072
+HKR,, TCLMifareSwitch,0x00000001, 1
+;HKR,, FValue , 0x00010001, 1
+;HKR,, DValue , 0x00010001, 1
+;HKR,, CardSpecificATR, 1, 3B,34,D6,00,30,42,30,30
+;HKR,, TranslatedATR, 1, 3B,34,B5,00,30,42,30,30
+HKR,, IfdType,0,%SDI010IfdType%
+HKR,, VendorName,0,%SDI010Mfg%
+
+[SDI010x64.AddReg.HW]
+HKR,, WaitWakeEnabled , 0x00010001, 0
+
+[SDI010x64.NT]
+CopyFiles=  SDI010x64.NTCopyFiles
+AddReg= SDI010x64.AddReg, SDI010x64.NT.AddReg
+
+[SDI010x64.NT.HW]
+AddReg= SDI010x64.AddReg.HW
+
+[SDI010x64.NT.Services]
+AddService = SDISCx64,0x00000002,SDI010_Service_Instx64,SDI010_EventLog_Instx64
+
+
+[SDI010_Service_Instx64]
+ServiceType     = 1 ;%SERVICE_KERNEL_DRIVER%
+StartType       = 3 ;%SERVICE_AUTO_START%
+ErrorControl    = 1 ;%SERVICE_ERROR_NORMAL%
+ServiceBinary   = %12%\SDISCx64.SYS
+DisplayName     = %SDI010DisplayName%
+AddReg= SDI010x64.AddReg
+
+[SDI010_EventLog_Instx64]
+AddReg=SDI010x64.AddEventLogReg
+
+[SDI010x64.AddEventLogReg]
+HKR,,EventMessageFile,0x00020000,"%%SystemRoot%%\System32\IoLogMsg.dll;%%SystemRoot%%\System32\drivers\SDISCx64.SYS"
+HKR,,TypesSupported,0x00010001,7
+
+
+;-----------------------------------------------------
+;	For 3M x64 Specific
+;-----------------------------------------------------
+
+[3Mx64.NTCopyFiles]
+DISCx64.SYS,,
+
+[3Mx64.AddReg]
+HKR,,ShortProviderName,0,%ShortProviderName%
+HKR,,ReaderName,0,%3M%
+HKLM, Software\Microsoft\Cryptography\Calais\Readers,,,
+HKLM, System\CurrentControlSet\Services\SCardSvr,Start,0x00010001,2
+HKLM, System\CurrentControlSet\Services\CertPropSvc,Start,0x00010001,2
+HKLM, System\CurrentControlSet\Services\SCM,NumOfPDO,0x00000001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,DLLName,0,wlnotify.dll
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logon,0,SCardStartCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logoff,0,SCardStopCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Lock,0,SCardSuspendCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Unlock,0,SCardResumeCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Enabled,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Impersonate,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Asynchronous,0x00010001,1
+
+[3Mx64.NT.AddReg]
+HKR,, BufferSize , 0x00010001, 131072
+HKR,, TCLMifareSwitch,0x00000001, 1
+;HKR,, FValue , 0x00010001, 1
+;HKR,, DValue , 0x00010001, 1
+;HKR,, CardSpecificATR, 1, 3B,34,D6,00,30,42,30,30
+;HKR,, TranslatedATR, 1, 3B,34,B5,00,30,42,30,30
+HKR,, IfdType,0,%3MIfdType%
+HKR,, VendorName,0,%3MMfg%
+
+[3Mx64.AddReg.HW]
+HKR,, WaitWakeEnabled , 0x00010001, 0
+
+[3Mx64.NT]
+CopyFiles= 3Mx64.NTCopyFiles
+AddReg= 3Mx64.AddReg, 3Mx64.NT.AddReg
+
+[3Mx64.NT.HW]
+AddReg= 3Mx64.AddReg.HW
+
+[3Mx64.NT.Services]
+AddService = DISCx64,0x00000002,GENERIC_Service_Instx64,GENERIC_EventLog_Instx64
+
+;-----------------------------------------------------
+;	For Viisage x64 Specific
+;-----------------------------------------------------
+
+[VIISAGEx64.NTCopyFiles]
+DISCx64.SYS,,
+
+[VIISAGEx64.AddReg]
+HKR,,ShortProviderName,0,%ShortProviderName%
+HKR,,ReaderName,0,%VIISAGE%
+HKLM, Software\Microsoft\Cryptography\Calais\Readers,,,
+HKLM, System\CurrentControlSet\Services\SCardSvr,Start,0x00010001,2
+HKLM, System\CurrentControlSet\Services\CertPropSvc,Start,0x00010001,2
+HKLM, System\CurrentControlSet\Services\SCM,NumOfPDO,0x00000001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,DLLName,0,wlnotify.dll
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logon,0,SCardStartCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logoff,0,SCardStopCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Lock,0,SCardSuspendCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Unlock,0,SCardResumeCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Enabled,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Impersonate,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Asynchronous,0x00010001,1
+
+[VIISAGEx64.NT.AddReg]
+HKR,, BufferSize , 0x00010001, 131072
+HKR,, TCLMifareSwitch,0x00000001, 1
+;HKR,, FValue , 0x00010001, 1
+;HKR,, DValue , 0x00010001, 1
+;HKR,, CardSpecificATR, 1, 3B,34,D6,00,30,42,30,30
+;HKR,, TranslatedATR, 1, 3B,34,B5,00,30,42,30,30
+HKR,, IfdType,0,%ViisageIfdType%
+HKR,, VendorName,0,%ViisageMfg%
+
+[VIISAGEx64.AddReg.HW]
+HKR,, WaitWakeEnabled , 0x00010001, 0
+
+[VIISAGEx64.NT]
+CopyFiles= VIISAGEx64.NTCopyFiles
+AddReg= VIISAGEx64.AddReg, VIISAGEx64.NT.AddReg
+
+[VIISAGEx64.NT.HW]
+AddReg= VIISAGEx64.AddReg.HW
+
+[VIISAGEx64.NT.Services]
+AddService = DISCx64,0x00000002,GENERIC_Service_Instx64,GENERIC_EventLog_Instx64
+
+
+;-----------------------------------------------------
+;	For EPASSPORT
+;-----------------------------------------------------
+
+[EPASSPORTx64.NTCopyFiles]
+EPSCx64.SYS,,
+
+[EPASSPORTx64.AddReg]
+HKR,,ShortProviderName,0,%ShortProviderName%
+HKR,,ReaderName,0,%EPASSPORT%
+HKLM, Software\Microsoft\Cryptography\Calais\Readers,,,
+HKLM, System\CurrentControlSet\Services\SCardSvr,Start,0x00010001,2
+HKLM, System\CurrentControlSet\Services\CertPropSvc,Start,0x00010001,2
+HKLM, System\CurrentControlSet\Services\SCM,NumOfPDO,0x00000001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,DLLName,0,wlnotify.dll
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logon,0,SCardStartCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logoff,0,SCardStopCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Lock,0,SCardSuspendCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Unlock,0,SCardResumeCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Enabled,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Impersonate,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Asynchronous,0x00010001,1
+
+[EPASSPORTx64.NT.AddReg]
+HKR,, BufferSize , 0x00010001, 131072
+HKR,, TCLMifareSwitch,0x00000001, 1
+;HKR,, FValue , 0x00010001, 1
+;HKR,, DValue , 0x00010001, 1
+;HKR,, CardSpecificATR, 1, 3B,34,D6,00,30,42,30,30
+;HKR,, TranslatedATR, 1, 3B,34,B5,00,30,42,30,30
+HKR,, IfdType,0,%EPassportIfdType%
+HKR,, VendorName,0,%EPassportMfg%
+
+[EPASSPORTx64.AddReg.HW]
+HKR,, WaitWakeEnabled , 0x00010001, 0
+
+[EPASSPORTx64.NT]
+CopyFiles= EPASSPORTx64.NTCopyFiles
+AddReg= EPASSPORTx64.AddReg, EPASSPORTx64.NT.AddReg
+
+[EPASSPORTx64.NT.HW]
+AddReg= EPASSPORTx64.AddReg.HW
+
+[EPASSPORTx64.NT.Services]
+AddService = EPSCx64,0x00000002,EPASSPORT_Service_Instx64,EPASSPORT_EventLog_Instx64
+
+[EPASSPORT_Service_Instx64]
+ServiceType     = 1 ;%SERVICE_KERNEL_DRIVER%
+StartType       = 3 ;%SERVICE_AUTO_START%
+ErrorControl    = 1 ;%SERVICE_ERROR_NORMAL%
+ServiceBinary   = %12%\EPSCx64.SYS
+DisplayName     = %EPassportDisplayName%
+AddReg= EPASSPORTx64.AddReg
+
+[EPASSPORT_EventLog_Instx64]
+AddReg=EPASSPORTx64.AddEventLogReg
+
+[EPASSPORTx64.AddEventLogReg]
+HKR,,EventMessageFile,0x00020000,"%%SystemRoot%%\System32\IoLogMsg.dll;%%SystemRoot%%\System32\drivers\EPSCx64.SYS"
+HKR,,TypesSupported,0x00010001,7
+
+;-----------------------------------------------------
+;	For DATACARD x64 Specific
+;-----------------------------------------------------
+
+[DATACARDx64.NTCopyFiles]
+DISCx64.SYS,,
+
+[DATACARDx64.AddReg]
+HKR,,ShortProviderName,0,%ShortProviderName%
+HKR,,ReaderName,0,%DATACARD%
+HKLM, Software\Microsoft\Cryptography\Calais\Readers,,,
+HKLM, System\CurrentControlSet\Services\SCardSvr,Start,0x00010001,2
+HKLM, System\CurrentControlSet\Services\CertPropSvc,Start,0x00010001,2
+HKLM, System\CurrentControlSet\Services\SCM,NumOfPDO,0x00000001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,DLLName,0,wlnotify.dll
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logon,0,SCardStartCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logoff,0,SCardStopCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Lock,0,SCardSuspendCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Unlock,0,SCardResumeCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Enabled,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Impersonate,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Asynchronous,0x00010001,1
+
+[DATACARDx64.NT.AddReg]
+HKR,, BufferSize , 0x00010001, 131072
+HKR,, TCLMifareSwitch,0x00000001, 1
+;HKR,, FValue , 0x00010001, 1
+;HKR,, DValue , 0x00010001, 1
+;HKR,, CardSpecificATR, 1, 3B,34,D6,00,30,42,30,30
+;HKR,, TranslatedATR, 1, 3B,34,B5,00,30,42,30,30
+HKR,, IfdType,0,%DatacardIfdType%
+HKR,, VendorName,0,%DatacardMfg%
+
+[DATACARDx64.AddReg.HW]
+HKR,, WaitWakeEnabled , 0x00010001, 0
+
+[DATACARDx64.NT]
+CopyFiles= DATACARDx64.NTCopyFiles
+AddReg= DATACARDx64.AddReg, DATACARDx64.NT.AddReg
+
+[DATACARDx64.NT.HW]
+AddReg= DATACARDx64.AddReg.HW
+
+[DATACARDx64.NT.Services]
+AddService = DISCx64,0x00000002,GENERIC_Service_Instx64,GENERIC_EventLog_Instx64
+
+
+;-----------------------------------------------------
+;	For ZEBRA x64 Specific
+;-----------------------------------------------------
+
+[ZEBRAx64.NTCopyFiles]
+SDISCx64.SYS,,
+
+[ZEBRAx64.AddReg]
+HKR,,ShortProviderName,0,%ShortProviderName%
+HKR,,ReaderName,0,%ZEBRA%
+HKLM, Software\Microsoft\Cryptography\Calais\Readers,,,
+HKLM, System\CurrentControlSet\Services\SCardSvr,Start,0x00010001,2
+HKLM, System\CurrentControlSet\Services\CertPropSvc,Start,0x00010001,2
+HKLM, System\CurrentControlSet\Services\SCM,NumOfPDO,0x00000001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,DLLName,0,wlnotify.dll
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logon,0,SCardStartCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logoff,0,SCardStopCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Lock,0,SCardSuspendCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Unlock,0,SCardResumeCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Enabled,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Impersonate,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Asynchronous,0x00010001,1
+
+[ZEBRAx64.NT.AddReg]
+HKR,, BufferSize , 0x00010001, 131072
+HKR,, TCLMifareSwitch,0x00000001, 1
+;HKR,, FValue , 0x00010001, 1
+;HKR,, DValue , 0x00010001, 1
+;HKR,, CardSpecificATR, 1, 3B,34,D6,00,30,42,30,30
+;HKR,, TranslatedATR, 1, 3B,34,B5,00,30,42,30,30
+HKR,, IfdType,0,%ZEBRAIfdType%
+HKR,, VendorName,0,%ZEBRAMfg%
+
+[ZEBRAx64.AddReg.HW]
+HKR,, WaitWakeEnabled , 0x00010001, 0
+
+[ZEBRAx64.NT]
+CopyFiles= ZEBRAx64.NTCopyFiles
+AddReg= ZEBRAx64.AddReg, ZEBRAx64.NT.AddReg
+
+[ZEBRAx64.NT.HW]
+AddReg= ZEBRAx64.AddReg.HW
+
+[ZEBRAx64.NT.Services]
+AddService = SDISCx64,0x00000002,SDI010_Service_Instx64,SDI010_EventLog_Instx64
+
+;-------------------------------------------------------------
+
+[Strings]
+Mfg = "SCM Microsystems Inc."
+ShortProviderName = "SCM"
+Description = "Server for SmartCard Reader"
+Floppy_Description = "Installation Disk"
+
+GENERIC="USB Smartcard Reader"
+GenericIfdType="SCR331-DI Smart Card Reader"
+GenericMfg = "SCM Microsystems Inc."
+GenericDisplayName="USB SmartCardReader"
+
+BDR="USB SmartCard Reader"
+BDRIfdType="SCR331-DI Smart Card Reader"
+BDRMfg = "SCM Microsystems Inc."
+
+VISOTECH="USB SmartCard Reader"
+VISOTECHIfdType="SCR331-DI Smart Card Reader"
+VISOTECHMfg = "SCM Microsystems Inc."
+
+CMT="D SCAN AUTHENTICATOR CF Smart Card Reader"
+CMTIfdType="D SCAN CF Smart Card Reader"
+CMTMfg="Cross Match Technologies GmbH"
+CMTDisplayName="D SCAN AUTHENTICATOR CF Smart Card Reader"
+
+SDI010="SDI010 Smart Card Reader"
+SDI010IfdType="SDI010 Smart Card Reader"
+SDI010Mfg = "SCM Microsystems Inc."
+SDI010DisplayName="SDI010 SmartCard Reader"
+
+3M="USB SmartCard Reader"
+3MIfdType="SCR331-DI Smart Card Reader"
+3MMfg = "SCM Microsystems Inc."
+
+VIISAGE="USB SmartCard Reader"
+ViisageIfdType="SCR331-DI Smart Card Reader"
+ViisageMfg = "SCM Microsystems Inc."
+
+EPASSPORT="ePassport Smart Card Reader"
+EPassportIfdType="ePassport Smart Card Reader"
+EPassportMfg = "SCM Microsystems Inc."
+EPassportDisplayName="ePassport SmartCard Reader"
+
+DATACARD="USB SmartCard Reader"
+DatacardIfdType="SCR331-DI Smart Card Reader"
+DatacardMfg = "SCM Microsystems Inc."
+
+ZEBRA="SDI010 Smart Card Reader"
+ZEBRAIfdType="SDI010 Smart Card Reader"
+ZEBRAMfg = "SCM Microsystems Inc."
+ZEBRADisplayName="SDI010 SmartCard Reader"
+
+ClassName="Smart Card Readers"

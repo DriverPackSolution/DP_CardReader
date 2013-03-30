@@ -1,0 +1,112 @@
+; THIS IS THE O2MICRO CARDBUS 'INF' FILE FOR WINDOWS XP
+; Copyright (c) 1997-2005 O2Micro Corp.
+
+[Version]
+Signature="$Windows NT$"
+Class=PCMCIA
+ClassGUID={4d36e977-e325-11ce-bfc1-08002be10318}
+Provider=%O2MicroMfg%
+DriverVer=12/14/2004,5.1.2600.0
+Catalogfile=o2mwxp.cat
+
+[SourceDisksFiles]
+[SourceDisksNames]
+
+[Manufacturer]
+%O2MicroMfg%=O2Micro
+
+[ControlFlags]
+ExcludeFromSelect=PCCARD
+ExcludeFromSelect=PCI\VEN_1217&DEV_6832
+ExcludeFromSelect=PCI\VEN_1217&DEV_6836
+ExcludeFromSelect=PCI\VEN_1217&DEV_6872
+ExcludeFromSelect=PCI\VEN_1217&DEV_6925
+ExcludeFromSelect=PCI\VEN_1217&DEV_6933
+ExcludeFromSelect=PCI\VEN_1217&DEV_6972
+ExcludeFromSelect=PCI\VEN_1217&DEV_7112
+ExcludeFromSelect=PCI\VEN_1217&DEV_7113
+ExcludeFromSelect=PCI\VEN_1217&DEV_7114
+ExcludeFromSelect=PCI\VEN_1217&DEV_7134
+ExcludeFromSelect=PCI\VEN_1217&DEV_7135
+ExcludeFromSelect=PCI\VEN_1217&DEV_71E2
+ExcludeFromSelect=PCI\VEN_1217&DEV_7212
+ExcludeFromSelect=PCI\VEN_1217&DEV_7213
+ExcludeFromSelect=PCI\VEN_1217&DEV_7223
+ExcludeFromSelect=PCI\VEN_1217&DEV_7233
+
+[O2Micro]
+%PCI\VEN_1217&DEV_6832.DeviceDesc%=O2MCB, PCI\VEN_1217&DEV_6832
+%PCI\VEN_1217&DEV_6836.DeviceDesc%=O2MCB, PCI\VEN_1217&DEV_6836
+%PCI\VEN_1217&DEV_6872.DeviceDesc%=O2MCB, PCI\VEN_1217&DEV_6872
+%PCI\VEN_1217&DEV_6925.DeviceDesc%=O2MCB, PCI\VEN_1217&DEV_6925
+%PCI\VEN_1217&DEV_6933.DeviceDesc%=O2MCB, PCI\VEN_1217&DEV_6933
+%PCI\VEN_1217&DEV_6972.DeviceDesc%=O2MCB, PCI\VEN_1217&DEV_6972
+%PCI\VEN_1217&DEV_7112.DeviceDesc%=O2MCB, PCI\VEN_1217&DEV_7112
+%PCI\VEN_1217&DEV_7113.DeviceDesc%=O2MCB, PCI\VEN_1217&DEV_7113
+%PCI\VEN_1217&DEV_7114.DeviceDesc%=O2MCB, PCI\VEN_1217&DEV_7114
+%PCI\VEN_1217&DEV_7134.DeviceDesc%=O2MCB, PCI\VEN_1217&DEV_7134
+%PCI\VEN_1217&DEV_7135.DeviceDesc%=O2MCB, PCI\VEN_1217&DEV_7135
+%PCI\VEN_1217&DEV_71E2.DeviceDesc%=O2MCB, PCI\VEN_1217&DEV_71E2
+%PCI\VEN_1217&DEV_7212.DeviceDesc%=O2MCB, PCI\VEN_1217&DEV_7212
+%PCI\VEN_1217&DEV_7213.DeviceDesc%=O2MCB, PCI\VEN_1217&DEV_7213
+%PCI\VEN_1217&DEV_7223.DeviceDesc%=O2MCB, PCI\VEN_1217&DEV_7223
+%PCI\VEN_1217&DEV_7233.DeviceDesc%=O2MCB, PCI\VEN_1217&DEV_7233
+
+[pcmcia_Service_Inst]
+ServiceType    = 1
+StartType      = 0
+ErrorControl   = 1
+ServiceBinary  = %12%\pcmcia.sys
+LoadOrderGroup = System Bus Extender
+
+[pcmcia_EventLog_Inst]
+AddReg = pcmcia_EventLog_AddReg
+
+[pcmcia_EventLog_AddReg]
+;REG_EXPAND_SZ = 0x00020000
+HKR,,EventMessageFile,0x00020000,"%%SystemRoot%%\System32\IoLogMsg.dll"
+;REG_DWORD=0x00010001
+HKR,,TypesSupported,0x00010001,7
+
+[pcmcia_Location_AddReg]
+HKR,,UINumberDescFormat,,%PCCARDSlot%
+
+[O2MCB]
+Include=Pcmcia.inf
+Needs=CARDBUS
+Needs=O2MicroCompatReg
+Needs=CSReg
+Needs=CARDBUSReg
+
+[O2MCB.Services]
+AddService = pcmcia, 2, pcmcia_Service_Inst, pcmcia_EventLog_Inst
+
+[O2MCB.HW]
+AddReg=O2MCBLocationReg
+
+[O2MCB.PosDup]
+*PNP0E00
+
+[O2MCBLocationReg]
+HKR,,UINumberDescFormat,,%CARDBUSSlot%
+
+[Strings]
+O2MicroMfg="O2Micro Int'l"
+PCCARDSlot  = "PCCard Slot %1!u!"
+CARDBUSSlot = "CardBus Slot %1!u!"
+PCI\VEN_1217&DEV_6832.DeviceDesc="O2Micro OZ6832/6833 CardBus Controller"
+PCI\VEN_1217&DEV_6836.DeviceDesc="O2Micro OZ6836/6860 CardBus Controller"
+PCI\VEN_1217&DEV_6872.DeviceDesc="O2Micro OZ6812 CardBus Controller"
+PCI\VEN_1217&DEV_6925.DeviceDesc="O2Micro OZ6922 CardBus Controller"
+PCI\VEN_1217&DEV_7213.DeviceDesc="O2Micro OZ6933E CardBus Controller"
+PCI\VEN_1217&DEV_6933.DeviceDesc="O2Micro OZ6933/711E1 CardBus/SmartCardBus Controller"
+PCI\VEN_1217&DEV_6972.DeviceDesc="O2Micro OZ6912/601/711E0 CardBus/SmartCardBus Controller"
+PCI\VEN_1217&DEV_7112.DeviceDesc="O2Micro OZ711EC1/M1 SmartCardBus/MemoryCardBus Controller"
+PCI\VEN_1217&DEV_7113.DeviceDesc="O2Micro OZ711EC1 SmartCardBus Controller"
+PCI\VEN_1217&DEV_7114.DeviceDesc="O2Micro OZ711M1/MC1 MemoryCardBus Controller"
+PCI\VEN_1217&DEV_7134.DeviceDesc="O2Micro OZ711MP1/MS1 MemoryCardBus Controller"
+PCI\VEN_1217&DEV_7135.DeviceDesc="O2Micro OZ711EZ1 MemoryCardBus Controller"
+PCI\VEN_1217&DEV_71E2.DeviceDesc="O2Micro OZ711E2 SmartCardBus Controller"
+PCI\VEN_1217&DEV_7212.DeviceDesc="O2Micro OZ711M2 MemoryCardBus Controller"
+PCI\VEN_1217&DEV_7223.DeviceDesc="O2Micro OZ711M3/MC3 MemoryCardBus Controller"
+PCI\VEN_1217&DEV_7233.DeviceDesc="O2Micro OZ711MP3/MS3 MemoryCardBus Controller"

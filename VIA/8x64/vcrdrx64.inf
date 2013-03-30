@@ -1,0 +1,95 @@
+; Copyright (c)  VIA Technologies, Inc.  All rights reserved.
+
+[Version]
+Signature="$WINDOWS NT$"
+Class=MTD
+ClassGuid={4D36E970-E325-11CE-BFC1-08002BE10318}
+Provider=%VIA%
+DriverVer=05/15/2012,6.2.8301.372
+CatalogFile=vcrdrx64.cat
+
+[DestinationDirs]
+DefaultDestDir = 12
+
+[SourceDisksNames]
+1 = %DiskId1%,,,""
+
+[SourceDisksFiles]
+vcrdrx64.sys  = 1
+
+;*****************************************
+; VIA Card Reader Driver Install Section
+; Host Controller : SD/MMC/MS/MSPro/MSPro-HG
+;*****************************************
+
+[Manufacturer]
+%StdMfg%=Standard,NTamd64
+
+; For XP and later
+[Standard.NTamd64]
+%VIA.SD.MS.DeviceDesc%=VIACardReader, PCI\VEN_1106&DEV_9530
+%VIA.SD.MS.SBDesc%=VIACardReader, PCI\VEN_1106&DEV_9530&REV_40 
+%VIA.SD.DeviceDesc%=VIACardReader, PCI\VEN_1106&DEV_9283
+%VIA.MS.DeviceDesc%=VIACardReader, PCI\VEN_1106&DEV_9284
+
+[VIACardReader.NT]
+CopyFiles=Drivers_Dir
+
+[VIACardReader.NT.HW]
+AddReg=VIACardReader.NT.AddReg
+
+[VIACardReader.NT.AddReg]                            
+HKR,,DeviceCharacteristics,0x10001,0x0100         ; Use same security checks on relative opens
+HKR,,Security,,"D:P(A;;GA;;;BA)(A;;GA;;;SY)"      ; Allow generic-all access to Built-in administrators and Local system 
+
+[Drivers_Dir]
+vcrdrx64.sys
+
+;-------------- Service installation
+[VIACardReader.NT.Services]
+AddService = vcrdrx64,%SPSVCINST_ASSOCSERVICE%, CardReader_Service_Inst
+
+; -------------- dynambus driver install sections
+[CardReader_Service_Inst]
+DisplayName    = %VIACardReaderDESC%
+ServiceType    = 1               ; SERVICE_KERNEL_DRIVER
+StartType      = 3               ; SERVICE_DEMAND_START 
+ErrorControl   = 1               ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %12%\vcrdrx64.sys
+
+;
+;--- Coinstaller installation ------
+;
+[DestinationDirs]
+VIACardReader_CoInstaller_CopyFiles = 11
+
+[VIACardReader.NT.CoInstallers]
+AddReg=VIACardReader_CoInstaller_AddReg
+CopyFiles=VIACardReader_CoInstaller_CopyFiles
+
+[VIACardReader_CoInstaller_AddReg]
+;HKR,,CoInstallers32,0x00010000, "wdfcoinstaller01009.dll,WdfCoInstaller"
+
+[VIACardReader_CoInstaller_CopyFiles]
+;wdfcoinstaller01009.dll
+vcrdrICO.dll
+
+[SourceDisksFiles]
+;wdfcoinstaller01009.dll=1 ; make sure the number matches with SourceDisksNames
+vcrdrICO.dll=1
+
+[VIACardReader.NT.Wdf]
+KmdfService = vcrdrx64, dynambus_wdfsect
+[dynambus_wdfsect]
+KmdfLibraryVersion = 1.9
+
+[Strings]
+SPSVCINST_ASSOCSERVICE= 0x00000002
+VIA = "VIA Technologies, Inc"
+StdMfg = "(VIA MSP Card Reader driver)"
+DiskId1 = "VIA MSP Card Reader driver Installation Disk #1"
+VIA.SD.MS.DeviceDesc = "VIA MSP Card Reader Host Controller"
+VIA.SD.DeviceDesc = "VIA VX11 Secure Digital Card Reader Host Controller"
+VIA.MS.DeviceDesc = "VIA VX11 Memory Stick Card Reader Host Controller"
+VIA.SD.MS.SBDesc = "VIA VT8261 Card Reader"
+VIACardReaderDESC = "VIA MSP Card Reader Host Controller"

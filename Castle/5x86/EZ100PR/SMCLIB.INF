@@ -1,0 +1,43 @@
+[Version]
+signature="$Chicago$"
+Provider=%Provider%
+AdvancedINF=2.5,"You need a new version of advpack.dll"
+
+[SourceDisksNames]
+1=%DiskName%,,1
+
+[SourceDisksFiles]
+smclib.inf=1
+smclib.sys=1
+smclib.vxd=1
+
+[DestinationDirs]
+VXDFiles.Win=11
+WDMFiles=10,system32\drivers
+DriverFiles=12
+
+[DefaultInstall]
+CopyFiles=WDMFiles,VXDFiles.Win
+Addreg=SmclibRegister.Win
+SmartReboot=A
+
+[VXDFiles.Win]
+smclib.vxd,,,0x0020
+
+[SmclibRegister.Win]
+HKLM,"SYSTEM\CurrentControlSet\Services\VxD\SMCLIB","StaticVxD",0,"smclib.vxd"
+HKLM,"SYSTEM\CurrentControlSet\Services\VxD\SMCLIB","Start",1,0
+
+[DefaultInstall.NT]
+CopyFiles=DriverFiles
+SmartReboot=A
+
+[WDMFiles]
+smclib.sys,,,0x0021
+
+[DriverFiles]
+smclib.sys,,,0x0021
+
+[Strings]
+Provider="Microsoft Corporation"
+DiskName="Smart Card Driver Library"

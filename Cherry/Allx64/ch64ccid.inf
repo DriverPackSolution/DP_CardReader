@@ -1,0 +1,83 @@
+; ch64ccid.inf		REV01
+;
+; Installation file (.inf) PC/SC-Driver (IFD-Handler) for CHERRY Smartcard Reader
+;
+; (c) Copyright 2005-2010 ZF Elektronics GmbH 
+;
+
+[Version]
+Signature=$CHICAGO$
+Class=SmartCardReader
+ClassGuid={50DD5230-BA8A-11D1-BF5D-0000F805F530}
+Provider=%CHERRY%
+CatalogFile=ch64ccid.cat
+DriverVer=02/09/2010,1.8.0.2
+
+[Manufacturer]
+%CHERRY%=DeviceList,NTamd64
+
+[DestinationDirs]
+DefaultDestDir=10,System32\Drivers
+
+[SourceDisksFiles]
+ch64ccid.sys=1,,
+
+[SourceDisksNames]
+1=%INSTDISK%,,,
+
+[DeviceList.NTamd64]
+;%DESCRIPTION%=DriverInstall,USB\VID_046A&PID_0010&Mi_01
+;%DESCRIPTION%=DriverInstall,USB\VID_046A&PID_002D
+%DESCRIPTION%=DriverInstall,USB\VID_046A&PID_005B&Mi_01
+%ChySmartBoardTwin.DeviceDescr%=DriverInstall,USB\VID_046A&PID_0069&Mi_01
+%ChySmartTerminalXX1X.DeviceDescr%=DriverInstall,USB\VID_046A&PID_0070
+%ChySmartBoardXX1X.DeviceDescr%=DriverInstall,USB\VID_046A&PID_0071&Mi_01
+%ChySmartTerminalTwin.DeviceDescr%=DriverInstall,USB\VID_046A&PID_0072
+
+
+;------------------------------------------------------------------------------
+;  Windows XP 64 Sections
+;------------------------------------------------------------------------------
+
+; TODO Add a LogConfig command to the following install section if this is a legacy device
+
+[DriverInstall.NTamd64]
+CopyFiles=DriverCopyFiles.NTamd64
+AddReg = Driver.AddReg
+
+[DriverCopyFiles.NTamd64]
+ch64ccid.sys,,,2
+
+[DriverInstall.NTamd64.Services]
+AddService=CH64CCID,2,DriverService
+
+[DriverService]
+ServiceType=1
+StartType=3
+ErrorControl=1
+ServiceBinary=%10%\system32\drivers\ch64ccid.sys
+
+[DriverHwAddReg]
+
+[DriverInstall.NTamd64.hw]
+AddReg=DriverHwAddReg
+
+[Driver.AddReg]
+HKLM, System\CurrentControlSet\Services\SCardSvr,Start,0x00010001,2
+HKLM, System\CurrentControlSet\Services\CertPropSvc,Start,0x00010001,2
+
+
+;------------------------------------------------------------------------------
+;  String Definitions
+;------------------------------------------------------------------------------
+
+[Strings]
+CHERRY="ZF Electronics GmbH"
+INSTDISK="Cherry Installation Disc"
+
+DESCRIPTION="SmartBoard XX1X"
+ChySmartBoardXX1X.DeviceDescr="SmartBoard XX1X"
+ChySmartBoardTwin.DeviceDescr="SmartBoard Twin"
+ChySmartTerminalXX1X.DeviceDescr="SmartTerminal XX1X"
+ChySmartTerminalTwin.DeviceDescr="SmartTerminal Twin"
+

@@ -1,0 +1,90 @@
+; CMFU0WDM.INF
+; Copyright (c) 2001-2003 OMNIKEY AG
+;
+
+[Version]
+Signature=$CHICAGO$
+Class = Biometric
+ClassGuid = {53D29EF7-377C-4D14-864B-EB3A85769359} 
+Provider=%Provider%
+DriverVer=11/27/2002,1.0.0.2
+;we have to remove this for the uncertified driver
+;CatalogFile=cmfu0wdm.cat
+
+[SourceDisksNames]
+1=%DiskDescription%,,
+
+[SourceDisksFiles]
+cmfu0wdm.sys=1,,
+
+[DestinationDirs]
+DefaultDestDir=10,system32\drivers
+Fprint.Install.CopyFiles=10,system32\drivers
+
+[Manufacturer]
+%Manufacturer%=DeviceList
+
+; =================== Class section =======================
+
+[ClassInstall32]
+Addreg=BiometricClassReg
+
+[ClassInstall]
+Addreg=BiometricClassReg
+
+[BiometricClassReg]
+HKR,,,0,%ClassName%
+HKR,,Icon,,-25
+
+
+; ================== Device section =======================
+
+; we have to remove this for the uncertified driver
+;[ControlFlags]
+;ExcludeFromSelect.NT = USB\VID_076B&PID_1BD0
+;ExcludeFromSelect.NT = USB\VID_076B&PID_1BD1
+
+[DeviceList]
+%CM7120FPDescription%=Fprint.Install, USB\VID_076B&PID_1BD0
+%CM7121FPDescription%=Fprint.Install, USB\VID_076B&PID_1BD1
+
+
+; =================== Win9x specific ======================
+[Fprint.Install]
+AddReg = Fprint.Install.AddReg
+CopyFiles = Fprint.Install.CopyFiles
+
+[Fprint.Install.AddReg]
+HKR,,DevLoader,,*ntkern
+HKR,,NTMPDriver,,cmfu0wdm.sys
+
+
+; ================== Win2000 specific =====================
+[Fprint.Install.NT]
+CopyFiles = Fprint.Install.CopyFiles
+
+[Fprint.Install.NT.Services]
+AddService = cmfu0wdm,2,Fprint.Service.NT
+
+[Fprint.Service.NT]
+DisplayName    = %CM712xFPDescription%
+ServiceType    = 1 ;SERVICE_KERNEL_DRIVER
+StartType      = 3 ;SERVICE_AUTO_START
+ErrorControl   = 1 ;SERVICE_ERROR_NORMAL
+ServiceBinary  = %10%\System32\Drivers\cmfu0wdm.sys
+
+; ================== common =====================
+[Fprint.Install.CopyFiles]
+cmfu0wdm.sys
+
+
+; ================= Strings =====================
+[Strings]
+Provider		= "OMNIKEY AG"
+Manufacturer		= "OMNIKEY AG"
+DiskDescription		= "CardMan Installation Disk"
+CM7120FPDescription	= "CardMan 7120 Fingerprint"
+CM7121FPDescription	= "CardMan 7120 Fingerprint"
+CM712xFPDescription	= "CardMan 712x Fingerprint"
+ClassName 		= "Biometric Device"
+

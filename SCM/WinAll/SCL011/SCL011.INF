@@ -1,0 +1,163 @@
+; SCL011.INF
+;
+; Installation file (.inf) for SCL011 Contactless Readers
+; for Windows 2000/XP/Vista/7 32 and 64 Bit.
+; 
+; Copyright © SCM Microsystems Inc.,2009-2010
+
+[Version]
+Signature="$Windows NT$"
+Class=SmartCardReader
+ClassGuid={50DD5230-BA8A-11D1-BF5D-0000F805F530}
+Provider=%Mfg%
+CatalogFile=SCL011.cat
+DriverVer=05/07/2010,5.06
+
+[Manufacturer]
+%Mfg% = Models,NTamd64
+
+[Models]
+%PCSC_CCID% = PCSC_CCID,USB\VID_04E6&PID_5292
+
+[Models.NTamd64]
+%PCSC_CCID% = PCSC_CCIDx64,USB\VID_04E6&PID_5292
+
+[ControlFlags]
+ExcludeFromSelect=USB\VID_04E6&PID_5292
+
+[SourceDisksNames]
+1 = %Floppy_Description%,,,""
+1 = %Floppy_Description%, SCL01132.sys,,
+1 = %Floppy_Description%,SCL01164.sys,,
+
+[SourceDisksFiles]
+SCL01132.sys=1
+SCL01164.sys=1
+
+[DestinationDirs]
+DefaultDestDir=10,system32\drivers
+PCSC_CCID.NTCopyFiles=10,system32\drivers
+PCSC_CCIDx64.NTCopyFiles=10,system32\drivers
+
+;*******************************************************************************************************
+;SCL011 x86 section
+;*******************************************************************************************************
+
+[PCSC_CCID.NTCopyFiles]
+SCL01132.sys,,
+
+[PCSC_CCID.AddReg]
+HKR,,ShortProviderName,0,%ShortProviderName%
+HKR,,ReaderName,0,%PCSC_READERNAME%
+HKLM, Software\Microsoft\Cryptography\Calais\Readers,,,
+HKLM, System\CurrentControlSet\Services\SCardSvr,Start,0x00010001,2
+HKLM, System\CurrentControlSet\Services\CertPropSvc,Start,0x00010001,2
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,DLLName,0,wlnotify.dll
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logon,0,SCardStartCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logoff,0,SCardStopCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Lock,0,SCardSuspendCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Unlock,0,SCardResumeCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Enabled,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Impersonate,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Asynchronous,0x00010001,1
+
+[PCSC_CCID.NT.AddReg]
+HKR,, BufferSize , 0x00010001, 131072
+HKR,, IfdType,0,%SCL011GenIfdType%
+HKR,, VendorName,0,%VendorName%
+
+[PCSC_CCID.AddReg.HW]
+HKR,, WaitWakeEnabled , 0x00010001, 0
+
+[PCSC_CCID.NT]
+CopyFiles= PCSC_CCID.NTCopyFiles
+AddReg= PCSC_CCID.AddReg, PCSC_CCID.NT.AddReg
+
+[PCSC_CCID.NT.HW]
+AddReg= PCSC_CCID.AddReg.HW
+
+[PCSC_CCID.NT.Services]
+AddService = SCL01132,0x00000002,PCSC_CCID_Service_Inst,PCSC_CCID_EventLog_Inst
+
+[PCSC_CCID_Service_Inst]
+ServiceType     = 1 ;%SERVICE_KERNEL_DRIVER%
+StartType       = 3 ;%SERVICE_AUTO_START%
+ErrorControl    = 1 ;%SERVICE_ERROR_NORMAL%
+ServiceBinary   = %12%\SCL01132.sys
+DisplayName     = %DisplayName%
+AddReg		= PCSC_CCID.AddReg
+
+[PCSC_CCID_EventLog_Inst]
+AddReg=PCSC_CCID.AddEventLogReg
+
+[PCSC_CCID.AddEventLogReg]
+HKR,,EventMessageFile,0x00020000,"%%SystemRoot%%\System32\IoLogMsg.dll;%%SystemRoot%%\System32\drivers\SCL01132.sys"
+HKR,,TypesSupported,0x00010001,7
+
+;*************************************************************************************************************************
+; SCL011 x64 section
+;*************************************************************************************************************************
+
+[PCSC_CCIDx64.NTCopyFiles]
+SCL01164.sys,,
+
+[PCSC_CCIDx64.AddReg]
+HKR,,ShortProviderName,0,%ShortProviderName%
+HKR,,ReaderName,0,%PCSC_READERNAME%
+HKLM, Software\Microsoft\Cryptography\Calais\Readers,,,
+HKLM, System\CurrentControlSet\Services\SCardSvr,Start,0x00010001,2
+HKLM, System\CurrentControlSet\Services\CertPropSvc,Start,0x00010001,2
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,DLLName,0,wlnotify.dll
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logon,0,SCardStartCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logoff,0,SCardStopCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Lock,0,SCardSuspendCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Unlock,0,SCardResumeCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Enabled,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Impersonate,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Asynchronous,0x00010001,1
+
+[PCSC_CCIDx64.NT.AddReg]
+HKR,, BufferSize , 0x00010001, 131072
+HKR,, IfdType,0,%SCL011GenIfdType%
+HKR,, VendorName,0,%VendorName%
+
+[PCSC_CCIDx64.AddReg.HW]
+HKR,, WaitWakeEnabled , 0x00010001, 0
+
+[PCSC_CCIDx64.NT]
+CopyFiles= PCSC_CCIDx64.NTCopyFiles
+AddReg= PCSC_CCIDx64.AddReg, PCSC_CCIDx64.NT.AddReg
+
+[PCSC_CCIDx64.NT.HW]
+AddReg= PCSC_CCIDx64.AddReg.HW
+
+[PCSC_CCIDx64.NT.Services]
+AddService = SCL01164,0x00000002,PCSC_CCID_Service_Instx64,PCSC_CCID_EventLog_Instx64
+
+[PCSC_CCID_Service_Instx64]
+ServiceType     = 1 ;%SERVICE_KERNEL_DRIVER%
+StartType       = 3 ;%SERVICE_AUTO_START%
+ErrorControl    = 1 ;%SERVICE_ERROR_NORMAL%
+ServiceBinary   = %12%\SCL01164.sys
+DisplayName     = %DisplayName%
+AddReg		= PCSC_CCIDx64.AddReg
+
+[PCSC_CCID_EventLog_Instx64]
+AddReg=PCSC_CCIDx64.AddEventLogReg
+
+[PCSC_CCIDx64.AddEventLogReg]
+HKR,,EventMessageFile,0x00020000,"%%SystemRoot%%\System32\IoLogMsg.dll;%%SystemRoot%%\System32\drivers\SCL01164.sys"
+HKR,,TypesSupported,0x00010001,7
+
+
+[Strings]
+Mfg = "SCM Microsystems Inc."
+ShortProviderName = "SCM"
+Description = "Server for SmartCard Reader"
+Floppy_Description = "Installation Disk"
+VendorName="SCM Microsystems Inc."
+ClassName="Smart Card Readers"
+DisplayName="SCL011 Contactless Reader"
+PCSC_READERNAME="SCL011 Contactless Reader"
+SCL011GenIfdType="SCL011 Contactless Reader"
+PCSC_CCID="SCL011 Contactless Reader"

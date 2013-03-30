@@ -1,0 +1,120 @@
+[GL827]
+CacheFunction, 0
+ChangeIcon, 0
+CombineModeMaxChain, 0
+DynamicDisk, 0
+SeparateRemove, 0
+SurpriseRemovalOK, 0
+WriteProtect, 0
+
+[GL826]
+CacheFunction, 0
+ChangeIcon, 1
+CombineModeMaxChain, 0
+DynamicDisk, 1
+SeparateRemove, 1
+SurpriseRemovalOK, 1
+WriteProtect, 0
+
+[GL827L]
+CacheFunction, 0
+ChangeIcon, 0
+CombineModeMaxChain, 0
+DynamicDisk, 0
+SeparateRemove, 0
+SurpriseRemovalOK, 0
+WriteProtect, 0
+
+[GL827S]
+CacheFunction, 0
+ChangeIcon, 1
+CombineModeMaxChain, 1
+DynamicDisk, 1
+SeparateRemove, 1
+SurpriseRemovalOK, 1
+SuspendTimer, 0
+WriteProtect, 0
+
+[GL836]
+CacheFunction, 0
+ChangeIcon, 0
+CombineModeMaxChain, 0
+DynamicDisk, 0
+SeparateRemove, 0
+SurpriseRemovalOK, 0
+WriteProtect, 0
+
+[GL823]
+CacheFunction, 0
+ChangeIcon, 0
+CombineModeMaxChain, 0
+DynamicDisk, 0
+SeparateRemove, 0
+SurpriseRemovalOK, 0
+WriteProtect, 0
+
+[GL822]
+CacheFunction, 0
+ChangeIcon, 0
+CombineModeMaxChain, 0
+DynamicDisk, 0
+SurpriseRemovalOK, 0
+WriteProtect, 0
+
+[GL839]
+CacheFunction, 0
+ChangeIcon, 1
+CombineModeMaxChain, 1
+DynamicDisk, 1
+SeparateRemove, 1
+SurpriseRemovalOK, 1
+WriteProtect, 0
+
+[GL3220]
+CacheFunction, 0
+ChangeIcon, 0
+CombineModeMaxChain, 1
+DynamicDisk, 0
+SeparateRemove, 0
+SurpriseRemovalOK, 0
+WriteProtect, 0
+
+[GL3221]
+CacheFunction, 0
+ChangeIcon, 0
+CombineModeMaxChain, 1
+DynamicDisk, 0
+SeparateRemove, 0
+SurpriseRemovalOK, 0
+WriteProtect, 0
+
+[GL3222]
+CacheFunction, 0
+ChangeIcon, 0
+CombineModeMaxChain, 1
+DynamicDisk, 0
+SeparateRemove, 0
+SurpriseRemovalOK, 0
+WriteProtect, 0
+
+[GL830]
+CombineModeMaxChain, 1
+SurpriseRemovalOK, 0
+WriteProtect, 0
+
+[GL3310]
+CombineModeMaxChain, 1
+SurpriseRemovalOK, 0
+WriteProtect, 0
+
+[GL3311]
+CombineModeMaxChain, 1
+SurpriseRemovalOK, 0
+WriteProtect, 0
+
+[GL3320]
+CombineModeMaxChain, 1
+SurpriseRemovalOK, 0
+WriteProtect, 0
+
+[END]

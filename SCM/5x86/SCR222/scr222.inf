@@ -1,0 +1,69 @@
+[Version]
+Signature="$CHICAGO$"
+Class=Biometric
+ClassGUID={EFC39ADE-E668-4a3b-A861-8D93D2B87C95}
+Provider=%SCM%
+CatalogFile=scr222.cat
+DriverVer=06/16/2004,1.9.0.1
+
+; ================= Class section =====================
+
+[ClassInstall32]
+Addreg=BiometricClassReg     
+
+[BiometricClassReg]
+HKR,,,0,%ClassName%
+HKR,,Icon,,-5
+
+
+; ================= Device Install section =====================
+
+[Manufacturer]
+%SCM%=SCM
+
+[DestinationDirs]
+SCR222FP.CopyFiles = 10,System32\Drivers
+
+[SourceDisksNames]
+1 = %Disk1Name%,,,""
+
+[SourceDisksFiles]
+scr222.sys=1
+
+
+[SCM]
+%SCR222FP.DRVDESC%=SCR222FP_Inst, PCMCIA\SCR222_PC_Card-Finger_Print_Reader-355C
+[SCR222FP_Inst]
+CopyFiles=SCR222FP.CopyFiles
+AddReg=SCR222FP.AddReg
+
+[SCR222FP_Inst.NT]
+CopyFiles=SCR222FP.CopyFiles
+AddReg=SCR222FP.AddReg
+
+[SCR222FP.CopyFiles]
+scr222.sys
+
+[SCR222FP_Inst.NT.Services]
+AddService=ATPCCDrv, 0x00000002, SCR222FP.AddService 
+
+
+[SCR222FP.AddReg]
+HKR,,DevLoader,,*ntkern
+HKR,,NTMPDriver,,scr222.sys
+HKR,,EnableIRQSharing,1,01,00,00,00
+
+
+[SCR222FP.AddService]
+DisplayName    = %SCR222FP.SVCDESC%                            
+ServiceType    = 1                  ; SERVICE_KERNEL_DRIVER
+StartType      = 3                  ; SERVICE_MANUAL_START
+ErrorControl   = 1                  ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %10%\System32\Drivers\scr222.sys                            
+
+[Strings]
+SCM="SCM Microsystems."
+ClassName = "Biometric Authentication Devices"
+SCR222FP.SVCDESC = "SCR222 Fingerprint Reader"
+SCR222FP.DRVDESC = "SCR222 Fingerprint Reader"
+Disk1Name="Fingerprint CD-ROM"

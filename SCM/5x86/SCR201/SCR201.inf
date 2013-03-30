@@ -1,0 +1,104 @@
+; SCR201.inf
+;
+; Installation file (.inf) for the SCR201 Smart Card Reader.
+;
+; (c) Copyright 2002 SCM Microsystems Inc.
+;
+
+[Version]
+Signature="$Windows NT$"
+Class=SmartCardReader
+ClassGUID={50DD5230-BA8A-11D1-BF5D-0000F805F530}
+Provider=%SCM%
+Catalogfile=SCR201.cat
+DriverVer=01/14/2005,3.21.00.01
+
+; - Plug'n'Play Installation -----------------------------
+[ControlFlags]
+ExcludeFromSelect=PCMCIA\PSCR-SMART_CARD_READER-488C
+
+; ================= Class section =====================
+
+[ClassInstall32]
+Addreg=SmartCardReaderClassReg     
+
+[SmartCardReaderClassReg]
+HKR,,,0,%ClassName%
+HKR,,Icon,,-25
+
+[Manufacturer]
+%SCM%   = SCM.Mfg
+
+[Reader.Install.AddReg]
+HKLM, System\CurrentControlSet\Services\Pcmcia\Parameters,DisableIsaToPciRouting,0x00010001,0
+HKLM, Software\Microsoft\Cryptography\Calais\Readers,,,
+HKLM, System\CurrentControlSet\Services\SCardSvr,Start,0x00010001,2
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,DLLName,0,wlnotify.dll
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logon,0,SCardStartCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logoff,0,SCardStopCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Lock,0,SCardSuspendCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Unlock,0,SCardResumeCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Enabled,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Impersonate,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Asynchronous,0x00010001,1
+
+[SCM.Mfg]
+; DisplayName       Section         DeviceId
+; -----------       -------         --------
+%SCM.DeviceDesc0% = SCM488C.Install, PCMCIA\PSCR-SMART_CARD_READER-488C
+
+[SCM488C.Install.NT]
+AddReg     = Reader.Install.AddReg, SCM488C.Install.AddReg
+CopyFiles  = SCM488C.Install.CopyFiles
+
+;- Destination folders ----------------------------------
+[DestinationDirs]
+SCM488C.Install.CopyFiles = 12
+DefaultDestDir   = 12
+
+;- Installation Sections --------------------------------
+
+[SCM488C.Install.AddReg]
+HKR,, AdapterType, 0, "0100"
+
+[SCM488C.Install.NT.HW]
+AddReg          = SCM488C.Install.AddReg.HW
+
+[SCM488C.Install.AddReg.HW]
+HKR,,VendorName,,%VendorName%
+HKR,,IfdType,,%IfdType%
+
+[SCM488C.Install.CopyFiles]
+SCR201.sys,,,2
+
+[SCM488C.Install.NT.Services]
+AddService = SCM488C, 0x00000002 , SCM488C.Service, SCM488C.EventLog
+
+[SCM488C.Service]
+DisplayName     = %SCM.DeviceDesc0%
+ServiceType    = 1                  ; SERVICE_KERNEL_DRIVER
+StartType      = 3                  ; SERVICE_DEMAND_START
+ErrorControl   = 1                  ; SERVICE_ERROR_IGNORE
+ServiceBinary  = %12%\SCR201.sys
+
+[SCM488C.EventLog]
+AddReg = SCM488C.AddEventLog.reg
+
+[SCM488C.AddEventLog.reg]
+HKR,,EventMessageFile,0x00020000,"%%SystemRoot%%\System32\drivers\SCR201.sys"
+HKR,,TypesSupported,0x00010001,7
+
+[SourceDisksFiles]
+SCR201.sys=1
+
+[SourceDisksNames]
+1 = %DiskId1%,,
+
+[Strings]
+SCM.DeviceDesc0 = "SCR201"
+DiskId1 	= "SCM Microsystems Installation Disk #1 (SmartCardReader)"
+SCM 		= "SCM Microsystems Inc."
+ClassName       = "Smart card readers"
+VendorName	= "SCM Microsystems Inc."
+IfdType		= "SCR201"
+

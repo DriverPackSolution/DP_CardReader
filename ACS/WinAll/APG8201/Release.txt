@@ -1,0 +1,46 @@
+Release Notes for APG8201 Driver
+===============================
+
+----------------------------------------------
+Update: 1.1.6.9 (RW)	 Date: 28-January-2010
+----------------------------------------------
+
+Description:
+- APG8201 driver package for win98/ME, 2000, XP, 2003/2008, Vista and Windows 7 (x86 & x64).
+
+Changes:
+- WHQL certified drivers signed by Microsoft for:
+  * 2000
+  * Windows XP (x86 & x64)
+  * Windows Vista (x86 & x64)
+  * Windows 7 (x86 & x64)
+  * Windows Server 2003 (x86 & x64)
+  * Windows Server 2008 (x86 & x64)
+  * Windows Server 2008 R2 (x64)
+
+--------------------------------------------
+Update: 1.1.6.9 (RW)  Date: 18-December-2009
+--------------------------------------------
+
+Description:
+- APG8201 driver package for win98/ME, 2000, XP, 2003/2008, Vista and Windows 7 (x86 & x64).
+
+Changes:
+- Solved conflict with certain antivirus programs.
+- Improved sleepmode handling.
+- 1 driver package for all mentioned OS's.
+- ACS SPC Signed for Vista/Win7 x86 & x64.
+
+--------------------------------------------
+Version: 1.1.6.9 (GC)	  Date: 31-July-2009
+--------------------------------------------
+
+Description:
+- APG8201 driver package for win98/ME, 2000, XP, 2003/2008, Vista and Windows 7 (x86 & x64).
+
+Changes:
+- Same as ACR83U but remove old firmware version support.
+- 1 driver package for all mentioned OS's.
+- ACS SPC Signed for Vista/Win7 x86 & x64.
+
+-----------------------------------------------

@@ -1,0 +1,230 @@
+; GTWinSER.inf
+; Gemplus Serial/PCCard Smartcard interface installation
+; Copyright (c) 2004 Gemplus
+; INSTALL_TYPE = SERIAL
+
+[Version]
+Signature=$CHICAGO$
+Class=SmartCardReader
+ClassGuid={50DD5230-BA8A-11D1-BF5D-0000F805F530}
+
+Provider="Gemplus"
+CatalogFile=GTwinSER.cat
+DriverVer=06/26/2004, 1.0.5.11
+
+[SourceDisksNames]
+1=%Disk%,,,
+
+[SourceDisksFiles]
+GTwinSER.sys=1
+
+
+[DestinationDirs]
+DefaultDestDir = 11
+GTWINSER.Install.CopyFiles = 12
+
+[ControlFlags]
+; Prevent legacy install for PnP readers
+ExcludeFromSelect=*
+
+[Manufacturer]
+%GEMPLUS%=Gemplus,NTx86.5.1
+
+[Gemplus]
+%GTWINSER.DeviceDesc%  =  GTWINSER.Install,  SERENUM\GEM3417
+%GemPCCARD.DeviceDesc% =  GemPCCARD.Install, "PCMCIA\Gemplus-SerialPort-0D37"
+%GemPCCARD.DeviceDesc% =  GemPCCARD.Install, SERENUM\GEM0403
+
+[Gemplus.NTx86.5.1]
+%GTWINSER.DeviceDesc%  =  GTWINSERXP.Install,  SERENUM\GEM3417
+%GemPCCARD.DeviceDesc% =  GemPCCARDXP.Install, "PCMCIA\Gemplus-SerialPort-0D37"
+%GemPCCARD.DeviceDesc% =  GemPCCARDXP.Install, SERENUM\GEM0403
+
+
+;------------------------------------------------------------------------------
+;GemTwinSer installations
+;------------------------------------------------------------------------------
+; 98,2K installation
+;-------------------
+[GTWINSER.Install.CopyFiles]
+GTwinSER.sys,,,2
+
+; GemTwinSer installation on  Win9x WDM
+[GTWINSER.Install]
+AddReg          = GTWINSER.Install.AddReg
+CopyFiles	= GTWINSER.Install.CopyFiles
+
+; GemTwinSer installation on 2k
+[GTWINSER.Install.NT]
+AddReg          = GTWINSER.Install.AddReg,Reader.Install.AddReg
+CopyFiles	= GTWINSER.Install.CopyFiles
+
+; Service installation on 2k
+[GTWINSER.Install.NT.Services]
+AddService = GTWINSER, 2, GTWINSER.Service, GTWINSER.EventLog
+
+; XP installation
+;-------------------
+[GTWINSERXP.Install.CopyFiles]
+GTwinSER.sys,,,2
+
+; GemTwinSer installation
+[GTWINSERXP.Install]
+AddReg          = GTWINSER.Install.AddReg
+CopyFiles	= GTWINSER.Install.CopyFiles
+
+; Service installation
+[GTWINSERXP.Install.Services]
+AddService = GTWINSER, 2, GTWINSER.Service, GTWINSER.EventLog
+
+
+;------------------------------------------------------------------------------
+;GemPCCard installations
+;------------------------------------------------------------------------------
+; 98,2K installation
+;-------------------
+[GemPCCARD.Install.CopyFiles]
+GTwinSER.sys,,,2
+
+; PCCard install on Win9x WDM
+[GemPCCARD.Install]
+AddReg          = GTWINSER.Install.AddReg
+CopyFiles	= GTWINSER.Install.CopyFiles
+
+; PCCard install on 2k
+[GemPCCARD.Install.NT]
+AddReg          = GTWINSER.Install.AddReg,Reader.Install.AddReg
+CopyFiles	= GTWINSER.Install.CopyFiles
+; Resource config
+LogConfig=c14,c1a,c23,c2a,c34,c3a,c43,c4a,caa
+
+
+; Service installation on 2k and +
+[GemPCCARD.Install.NT.Services]
+AddService = GTWINSER, 2, GTWINSER.Service, GTWINSER.EventLog
+
+
+; PCCard Serial PnP Filter installation on 2k and +
+[GemPCCARD.Install.NT.HW]
+AddReg=GemPCCARD.Install.HW.AddReg
+
+;PnP Serial Lower Filter
+[GemPCCARD.Install.HW.AddReg]
+HKR,,"LowerFilters",0x00010000, Serial
+
+
+; XP installation
+;-------------------
+[GemPCCARDXP.Install.CopyFiles]
+GTwinSER.sys,,,2
+
+; PCCard install
+[GemPCCARDXP.Install]
+AddReg          = GTWINSER.Install.AddReg
+CopyFiles	= GTWINSER.Install.CopyFiles
+; Resource config
+LogConfig=c14,c1a,c23,c2a,c34,c3a,c43,c4a,caa
+
+; Service installation
+[GemPCCARDXP.Install.Services]
+AddService = GTWINSER, 2, GTWINSER.Service, GTWINSER.EventLog
+
+; PCCard Serial PnP Filter installation
+[GemPCCARDXP.Install.HW]
+AddReg=GemPCCARD.Install.HW.AddReg
+
+;------------------------------------------------------------------------------
+;Common installations directives
+;------------------------------------------------------------------------------
+
+[GTWINSER.Service]
+ServiceType     = 1 ;%SERVICE_KERNEL_DRIVER%
+StartType       = 3 ;%SERVICE_AUTO_START%
+ErrorControl    = 1 ;%SERVICE_ERROR_NORMAL%
+ServiceBinary   = %12%\GTwinSER.sys
+
+[GTWINSER.EventLog]
+AddReg = GTWINSER.AddEventLog.reg
+
+[GTWINSER.AddEventLog.Reg]
+HKR,, EventMessageFile, 0x00020000, "%%SystemRoot%%\System32\drivers\GTwinSER.sys"
+HKR,, TypesSupported,   0x00010001, 7
+
+[GTWINSER.Install.AddReg]
+HKLM,System\CurrentControlSet\Services\SCardSvr,Start,0x00010001,2
+
+; Required only on Win2000
+[Reader.Install.AddReg]
+HKLM, Software\Microsoft\Cryptography\Calais\Readers,,,
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,DLLName,0,wlnotify.dll
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logon,0,SCardStartCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logoff,0,SCardStopCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Lock,0,SCardSuspendCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Unlock,0,SCardResumeCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Enabled,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Impersonate,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Asynchronous,0x00010001,1
+
+;----------------------------------------------------------------------------------------------------
+; COM port resources sections
+;----------------------------------------------------------
+; The following sections are COM port resource configs.
+; Section name format means:
+; Char 1 = c (COM port)
+; Char 2 = I/O config: 1 (3f8), 2 (2f8), 3 (3e8), 4 (2e8), a (any)
+; Char 3 = IRQ config: #, a (any)
+
+[c14]                   ; COM1,IRQ4
+ConfigPriority=HARDRECONFIG
+IOConfig=3f8-3ff(3ff::)
+IRQConfig=S:4
+
+[c1a]                   ; COM1, any IRQ
+ConfigPriority=HARDRECONFIG
+IOConfig=3f8-3ff(3ff::)
+IRQConfig=S:3,4,5,7,9,10,11,12,14,15
+
+[c23]                   ; COM2, IRQ3
+ConfigPriority=HARDRECONFIG
+IOConfig=2f8-2ff(3ff::)
+IRQConfig=S:3
+
+[c2a]                   ; COM2, any IRQ
+ConfigPriority=HARDRECONFIG
+IOConfig=2f8-2ff(3ff::)
+IRQConfig=S:3,4,5,7,9,10,11,12,14,15
+
+[c34]                   ; COM3, IRQ4
+ConfigPriority=HARDRECONFIG
+IOConfig=3e8-3ef(3ff::)
+IRQConfig=S:4
+
+[c3a]                   ; COM3, any IRQ
+ConfigPriority=HARDRECONFIG
+IOConfig=3e8-3ef(3ff::)
+IRQConfig=S:3,4,5,7,9,10,11,12,14,15
+
+
+[c43]                   ; COM4, IRQ3
+ConfigPriority=HARDRECONFIG
+IOConfig=2e8-2ef(3ff::)
+IRQConfig=S:3,5
+
+[c4a]                   ; COM4, any IRQ
+ConfigPriority=HARDRECONFIG
+IOConfig=2e8-2ef(3ff::)
+IRQConfig=S:3,4,5,7,9,10,11,12,14,15
+
+[caa]                   ; Any base, any IRQ
+ConfigPriority=HARDRECONFIG
+IOConfig=8@100-ffff%fff8(3ff::)
+IRQConfig=S:3,4,5,7,9,10,11,12,14,15
+
+; End COM port LogConfig sections
+;---------------------------------------------------------------------------
+; ================= Strings =====================
+[Strings]
+GEMPLUS               = "Gemplus"
+GemPCCARD.DeviceDesc  = "GemPC Card Reader"
+GTWINSER.DeviceDesc   = "Serial Smart Card Reader"
+Disk		      = "Installation Disk for Serial/PCCard Readers"

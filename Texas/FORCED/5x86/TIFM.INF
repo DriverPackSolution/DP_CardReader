@@ -1,0 +1,71 @@
+; Copyright (c) 2006 Texas Instruments
+; TI FlashMedia Installation file for Win2000/XP
+
+[Version]
+Signature=$CHICAGO$
+Class=MTD
+ClassGuid={4d36e970-e325-11ce-bfc1-08002be10318}
+Provider=%MFGNAME%
+CataLogFile=tifm.cat
+DriverVer=07/21/2006,1.0.2.5
+
+[Manufacturer]
+%MFGNAME%=DeviceList
+
+[ControlFlags]
+ExcludeFromSelect=*
+
+[DestinationDirs]
+DefaultDestDir = 11
+DriverCopyFiles = 12
+
+[SourceDisksFiles]
+tifm.sys=1
+
+[SourceDisksNames]
+1=%INSTDISK%,,,
+
+[DeviceList]
+%DESCRIPTION%=FMDriverInstall,PCI\VEN_104C&DEV_AC8F  ; 7x20
+
+;------------------------------------------------------------------------------
+;  Windows 2000/XP Sections
+;------------------------------------------------------------------------------
+
+[FMDriverInstall.NT]
+AddReg   = FMDriverInstall.AddReg
+CopyFiles=DriverCopyFiles
+
+[DriverCopyFiles]
+tifm.sys,,,2
+
+[FMDriverInstall.NT.Services]
+AddService=tifm,2,DriverService
+
+[DriverService]
+ServiceType=1
+StartType=3
+ErrorControl=1
+ServiceBinary=%10%\system32\drivers\tifm.sys
+
+[FMDriverInstall.nt.hw]
+AddReg=FMDriverHwAddReg
+
+[FMDriverHwAddReg]
+
+[FMDriverInstall.AddReg]
+; DWORD will go to software branch
+;HKR,,SecurityEnable,0x00010001,1
+; Write to specified registry path
+HKLM,System\CurrentControlSet\Services\tifm\Parameters,ShowRemoveDiagBox, 0x10001,1
+; this flag is for W2K QFE "Delayed write fail"
+HKLM,System\CurrentControlSet\Services\Disk,HotPlugAlwaysEnable, 0x00010000,"SD","MMC","MemoryStick","MemoryStickPro"
+
+;------------------------------------------------------------------------------
+;  String Definitions
+;------------------------------------------------------------------------------
+
+[Strings]
+MFGNAME="Texas Instruments Inc"
+INSTDISK="TI Installation Disc"
+DESCRIPTION="Texas Instruments PCIxx20 Integrated FlashMedia Controller"

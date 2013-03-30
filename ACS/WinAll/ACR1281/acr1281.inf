@@ -1,0 +1,810 @@
+; ACR1281.INF
+; Copyright (c) 2012 Advanced Card Systems Ltd.
+; 
+; USB Smart Card Driver for ACR1281D PCSC/CCID reader
+
+[Version]
+DriverVer=10/19/2012,1.0.0.2
+Signature="$Windows NT$"
+Class=SmartCardReader
+ClassGuid={50DD5230-BA8A-11D1-BF5D-0000F805F530}
+Provider=%ACS%
+CatalogFile.NT=acr1281.cat
+
+[SourceDisksNames]
+1 = %SourceDiskName%,,,""
+
+[SourceDisksFiles]
+a1281icc.sys        = 1
+a1281pcc.sys        = 1
+a1281iccx64.sys     = 1
+a1281pccx64.sys     = 1
+a1281c1bus.sys      = 1
+a1281c1busx64.sys   = 1
+a12812sbus.sys      = 1
+a12812sbusx64.sys   = 1
+a1281c1icc.sys      = 1
+a1281c1iccx64.sys   = 1
+a1281c1pcc.sys      = 1
+a1281c1pccx64.sys   = 1
+a1281c1sam.sys      = 1
+a1281c1samx64.sys   = 1
+a1281c7pcc.sys      = 1
+a1281c7pccx64.sys   = 1
+a1281c7sam.sys      = 1
+a1281c7samx64.sys    = 1
+
+
+[DestinationDirs]
+ACS.Install1.CopySYS.NTx86          = 12
+ACS.Install1.CopySYS.NTamd64        = 12
+ACS.Install2.CopySYS.NTx86          = 12
+ACS.Install2.CopySYS.NTamd64        = 12
+ACS.Install6.CopySYS.NTx86          = 12
+ACS.Install6.CopySYS.NTamd64        = 12
+ACS.Install7.CopySYS.NTx86          = 12
+ACS.Install7.CopySYS.NTamd64        = 12
+ACS.Install.Bus1.CopyFiles.NTx86    = 12
+ACS.Install.Bus1.CopyFiles.NTamd64  = 12
+ACS.Install.Bus2.CopyFiles.NTx86    = 12
+ACS.Install.Bus2.CopyFiles.NTamd64  = 12
+ACS.Install.Icc1.CopyFiles.NTx86    = 12
+ACS.Install.Icc1.CopyFiles.NTamd64  = 12
+ACS.Install.Icc2.CopyFiles.NTx86    = 12
+ACS.Install.Icc2.CopyFiles.NTamd64  = 12
+ACS.Install.Picc1.CopyFiles.NTx86   = 12
+ACS.Install.Picc1.CopyFiles.NTamd64 = 12
+ACS.Install.Picc2.CopyFiles.NTx86   = 12
+ACS.Install.Picc2.CopyFiles.NTamd64 = 12
+ACS.Install.Sam1.CopyFiles.NTx86    = 12
+ACS.Install.Sam1.CopyFiles.NTamd64  = 12
+ACS.Install.Sam2.CopyFiles.NTx86    = 12
+ACS.Install.Sam2.CopyFiles.NTamd64  = 12
+
+[Manufacturer]
+%ACS%=ACS,NTamd64
+
+; ============================== ACR1281 Reader ==============================
+
+[ACS]
+; DisplayName           Section           DeviceId
+; -----------           -------           --------
+%ACS.DeviceDesc1% = ACS.Install1, USB\VID_072F&PID_220F             ;ACR1281 PBOC PICC Reader
+%ACS.DeviceDesc2% = ACS.Install2, USB\VID_072F&PID_0901             ;ACR1281 BSI PICC Reader
+%ACS.DeviceDesc3% = ACS.Install3, USB\VID_072F&PID_2208&MI_00       ;ACR1281 PBOC Dual Reader PICC
+%ACS.DeviceDesc4% = ACS.Install4, USB\VID_072F&PID_2208&MI_01       ;ACR1281 PBOC Dual Reader ICC
+%ACS.DeviceDesc3% = ACS.Install3, USB\VID_072F&PID_220A&MI_00       ;ACR1281 BSI Dual Reader PICC
+%ACS.DeviceDesc4% = ACS.Install4, USB\VID_072F&PID_220A&MI_01       ;ACR1281 BSI Dual Reader ICC
+%ACS.DeviceDesc5% = ACS.Install5, USB\VID_072F&PID_2223             ;ACR1281U PICC
+%ACS.DeviceDesc6% = ACS.Install6, USB\VID_072F&PID_2220&MI_00       ;ACR1281 1S PICC Reader PICC
+%ACS.DeviceDesc7% = ACS.Install7, USB\VID_072F&PID_2220&MI_01       ;ACR1281 1S PICC Reader SAM
+%ACS.DeviceDesc.Bus1%  = ACS.Install.Bus1,  USB\VID_072F&PID_2224     ;ACR1281 C1 Reader
+%ACS.DeviceDesc.Icc1%  = ACS.Install.Icc1,  *ACO0731             
+%ACS.DeviceDesc.Picc1% = ACS.Install.Picc1, *ACO0732
+%ACS.DeviceDesc.Sam1%  = ACS.Install.Sam1,  *ACO0733
+%ACS.DeviceDesc.Bus2%  = ACS.Install.Bus2,  USB\VID_072F&PID_2215     ;ACR1281 2S Reader
+%ACS.DeviceDesc.Icc2%  = ACS.Install.Icc2,  *ACO0737             
+%ACS.DeviceDesc.Picc2% = ACS.Install.Picc2, *ACO0738
+%ACS.DeviceDesc.Sam2%  = ACS.Install.Sam2,  *ACO0739
+
+
+[ACS.NTamd64]
+; DisplayName       Section     DeviceId
+; -----------       -------     --------
+%ACS.DeviceDesc1% = ACS.Install1, USB\VID_072F&PID_220F             ;ACR1281 PBOC PICC Reader
+%ACS.DeviceDesc2% = ACS.Install2, USB\VID_072F&PID_0901             ;ACR1281 BSI PICC Reader
+%ACS.DeviceDesc3% = ACS.Install3, USB\VID_072F&PID_2208&MI_00       ;ACR1281 PBOC Dual Reader PICC
+%ACS.DeviceDesc4% = ACS.Install4, USB\VID_072F&PID_2208&MI_01       ;ACR1281 PBOC Dual Reader ICC
+%ACS.DeviceDesc3% = ACS.Install3, USB\VID_072F&PID_220A&MI_00       ;ACR1281 BSI Dual Reader PICC
+%ACS.DeviceDesc4% = ACS.Install4, USB\VID_072F&PID_220A&MI_01       ;ACR1281 BSI Dual Reader ICC
+%ACS.DeviceDesc5% = ACS.Install5, USB\VID_072F&PID_2223             ;ACR1281U PICC
+%ACS.DeviceDesc6% = ACS.Install6, USB\VID_072F&PID_2220&MI_00       ;ACR1281 1S PICC Reader PICC
+%ACS.DeviceDesc7% = ACS.Install7, USB\VID_072F&PID_2220&MI_01       ;ACR1281 1S PICC Reader SAM
+%ACS.DeviceDesc.Bus1%  = ACS.Install.Bus1,  USB\VID_072F&PID_2224     ;ACR1281 C1 Reader
+%ACS.DeviceDesc.Icc1%  = ACS.Install.Icc1,  *ACO0731             
+%ACS.DeviceDesc.Picc1% = ACS.Install.Picc1, *ACO0732
+%ACS.DeviceDesc.Sam1%  = ACS.Install.Sam1,  *ACO0733
+%ACS.DeviceDesc.Bus2%  = ACS.Install.Bus2,  USB\VID_072F&PID_2215     ;ACR1281 2S Reader
+%ACS.DeviceDesc.Icc2%  = ACS.Install.Icc2,  *ACO0737             
+%ACS.DeviceDesc.Picc2% = ACS.Install.Picc2, *ACO0738
+%ACS.DeviceDesc.Sam2%  = ACS.Install.Sam2,  *ACO0739
+
+
+; ====================== ACR1281 PICC Reader =========================
+
+
+[ACS.Install1.NTx86]
+AddReg          = ACS.Install1.AddReg.NT
+CopyFiles	= ACS.Install1.CopySYS.NTx86
+
+[ACS.Install1.NTamd64]
+AddReg          = ACS.Install1.AddReg.NT
+CopyFiles	= ACS.Install1.CopySYS.NTamd64
+
+
+[ACS.Install2.NTx86]
+AddReg          = ACS.Install2.AddReg.NT
+CopyFiles	= ACS.Install1.CopySYS.NTx86
+
+[ACS.Install2.NTamd64]
+AddReg          = ACS.Install2.AddReg.NT
+CopyFiles	= ACS.Install1.CopySYS.NTamd64
+
+
+[ACS.Install3.NTx86]
+AddReg          = ACS.Install3.AddReg.NT
+CopyFiles	= ACS.Install1.CopySYS.NTx86
+
+[ACS.Install3.NTamd64]
+AddReg          = ACS.Install3.AddReg.NT
+CopyFiles	= ACS.Install1.CopySYS.NTamd64
+
+
+[ACS.Install5.NTx86]
+AddReg          = ACS.Install5.AddReg.NT
+CopyFiles	= ACS.Install1.CopySYS.NTx86
+
+[ACS.Install5.NTamd64]
+AddReg          = ACS.Install5.AddReg.NT
+CopyFiles	= ACS.Install1.CopySYS.NTamd64
+
+[ACS.Install6.NTx86]
+AddReg          = ACS.Install6.AddReg.NT
+CopyFiles	= ACS.Install6.CopySYS.NTx86
+
+[ACS.Install6.NTamd64]
+AddReg          = ACS.Install6.AddReg.NT
+CopyFiles	= ACS.Install6.CopySYS.NTamd64
+
+
+; ============= Windows 2000 and UP =================
+
+
+[ACS.Install1.AddReg.NT]
+HKR,,AdapterType, 0, "0100"
+HKR,,"VendorName",0,%Vendor%
+HKR,,"IFDName",0,%Reader1%
+HKR,,"CardType",0,%CardType%
+HKR,,"SFDT",0,%SFDT%
+HKR,,"CardVoltage",0,%CardVoltage%
+HKLM,"Software\Microsoft\Cryptography\Calais\Readers",,,
+HKLM,"System\CurrentControlSet\Services\SCardSvr","Start", 0x00010001,2
+HKLM,"System\CurrentControlSet\Services\CertPropSvc","Start", 0x00010001,2
+
+[ACS.Install2.AddReg.NT]
+HKR,,AdapterType, 0, "0100"
+HKR,,"VendorName",0,%Vendor%
+HKR,,"IFDName",0,%Reader2%
+HKR,,"CardType",0,%CardType%
+HKR,,"SFDT",0,%SFDT%
+HKR,,"CardVoltage",0,%CardVoltage%
+HKLM,"Software\Microsoft\Cryptography\Calais\Readers",,,
+HKLM,"System\CurrentControlSet\Services\SCardSvr","Start", 0x00010001,2
+HKLM,"System\CurrentControlSet\Services\CertPropSvc","Start", 0x00010001,2
+
+[ACS.Install3.AddReg.NT]
+HKR,,AdapterType, 0, "0100"
+HKR,,"VendorName",0,%Vendor%
+HKR,,"IFDName",0,%Reader3%
+HKR,,"CardType",0,%CardType%
+HKR,,"SFDT",0,%SFDT%
+HKR,,"CardVoltage",0,%CardVoltage%
+HKLM,"Software\Microsoft\Cryptography\Calais\Readers",,,
+HKLM,"System\CurrentControlSet\Services\SCardSvr","Start", 0x00010001,2
+HKLM,"System\CurrentControlSet\Services\CertPropSvc","Start", 0x00010001,2
+
+[ACS.Install5.AddReg.NT]
+HKR,,AdapterType, 0, "0100"
+HKR,,"VendorName",0,%Vendor%
+HKR,,"IFDName",0,%Reader5%
+HKR,,"CardType",0,%CardType%
+HKR,,"SFDT",0,%SFDT%
+HKR,,"CardVoltage",0,%CardVoltage%
+HKLM,"Software\Microsoft\Cryptography\Calais\Readers",,,
+HKLM,"System\CurrentControlSet\Services\SCardSvr","Start", 0x00010001,2
+HKLM,"System\CurrentControlSet\Services\CertPropSvc","Start", 0x00010001,2
+
+[ACS.Install6.AddReg.NT]
+HKR,,AdapterType, 0, "0100"
+HKR,,"VendorName",0,%Vendor%
+HKR,,"IFDName",0,%Reader6%
+HKR,,"CardType",0,%CardType%
+HKR,,"SFDT",0,%SFDT%
+HKR,,"CardVoltage",0,%CardVoltage%
+HKLM,"Software\Microsoft\Cryptography\Calais\Readers",,,
+HKLM,"System\CurrentControlSet\Services\SCardSvr","Start", 0x00010001,2
+HKLM,"System\CurrentControlSet\Services\CertPropSvc","Start", 0x00010001,2
+
+
+[ACS.Install1.NTx86.Services]
+AddService = A1281PICC, 2, ACS.Service1, ACS.EventLog1
+
+[ACS.Install1.NTamd64.Services]
+AddService = A1281PICC, 2, ACS.Service1, ACS.EventLog1
+
+
+[ACS.Install2.NTx86.Services]
+AddService = A1281PICC, 2, ACS.Service2, ACS.EventLog1
+
+[ACS.Install2.NTamd64.Services]
+AddService = A1281PICC, 2, ACS.Service2, ACS.EventLog1
+
+
+[ACS.Install3.NTx86.Services]
+AddService = A1281PICC, 2, ACS.Service3, ACS.EventLog1
+
+[ACS.Install3.NTamd64.Services]
+AddService = A1281PICC, 2, ACS.Service3, ACS.EventLog1
+
+
+[ACS.Install5.NTx86.Services]
+AddService = A1281PICC, 2, ACS.Service5, ACS.EventLog1
+
+[ACS.Install5.NTamd64.Services]
+AddService = A1281PICC, 2, ACS.Service5, ACS.EventLog1
+
+[ACS.Install6.NTx86.Services]
+AddService = A1281C7PICC, 2, ACS.Service6, ACS.EventLog3
+
+[ACS.Install6.NTamd64.Services]
+AddService = A1281C7PICC, 2, ACS.Service6, ACS.EventLog3
+
+[ACS.Install1.CopySYS.NTx86]
+a1281pcc.sys
+
+[ACS.Install1.CopySYS.NTamd64]
+a1281pcc.sys,a1281pccx64.sys
+
+[ACS.Install6.CopySYS.NTx86]
+a1281c7pcc.sys
+
+[ACS.Install6.CopySYS.NTamd64]
+a1281c7pcc.sys,a1281c7pccx64.sys
+
+
+;==================PICC Common===================
+
+
+[ACS.Service1]
+DisplayName     = %ACS.DeviceDesc1%
+ServiceType     = 1 ;%SERVICE_KERNEL_DRIVER%
+StartType       = 3 ;%SERVICE_DEMAND_START%
+ErrorControl    = 1 ;%SERVICE_ERROR_NORMAL%
+ServiceBinary   = %12%\a1281pcc.sys
+
+[ACS.Service2]
+DisplayName     = %ACS.DeviceDesc2%
+ServiceType     = 1 ;%SERVICE_KERNEL_DRIVER%
+StartType       = 3 ;%SERVICE_DEMAND_START%
+ErrorControl    = 1 ;%SERVICE_ERROR_NORMAL%
+ServiceBinary   = %12%\a1281pcc.sys
+
+[ACS.Service3]
+DisplayName     = %ACS.DeviceDesc3%
+ServiceType     = 1 ;%SERVICE_KERNEL_DRIVER%
+StartType       = 3 ;%SERVICE_DEMAND_START%
+ErrorControl    = 1 ;%SERVICE_ERROR_NORMAL%
+ServiceBinary   = %12%\a1281pcc.sys
+
+[ACS.Service5]
+DisplayName     = %ACS.DeviceDesc5%
+ServiceType     = 1 ;%SERVICE_KERNEL_DRIVER%
+StartType       = 3 ;%SERVICE_DEMAND_START%
+ErrorControl    = 1 ;%SERVICE_ERROR_NORMAL%
+ServiceBinary   = %12%\a1281pcc.sys
+
+[ACS.Service6]
+DisplayName     = %ACS.DeviceDesc6%
+ServiceType     = 1 ;%SERVICE_KERNEL_DRIVER%
+StartType       = 3 ;%SERVICE_DEMAND_START%
+ErrorControl    = 1 ;%SERVICE_ERROR_NORMAL%
+ServiceBinary   = %12%\a1281c7pcc.sys
+
+[ACS.EventLog1]
+AddReg = ACS.AddEventLog1.reg
+
+[ACS.AddEventLog1.reg]
+HKR,, EventMessageFile, 0x00020000, "%%SystemRoot%%\System32\drivers\a1281pcc.sys"
+HKR,, TypesSupported,   0x00010001, 7
+
+[ACS.EventLog3]
+AddReg = ACS.AddEventLog3.reg
+
+[ACS.AddEventLog3.reg]
+HKR,, EventMessageFile, 0x00020000, "%%SystemRoot%%\System32\drivers\a1281c7pcc.sys"
+HKR,, TypesSupported,   0x00010001, 7
+
+
+; ==================== ACR1281 SAM Reader =======================
+
+
+[ACS.Install7.NTx86]
+AddReg          = ACS.Install7.AddReg.NT
+CopyFiles	= ACS.Install7.CopySYS.NTx86
+
+[ACS.Install7.NTamd64]
+AddReg          = ACS.Install7.AddReg.NT
+CopyFiles	= ACS.Install7.CopySYS.NTamd64
+
+; ============= Windows 2000 and UP =================
+
+
+[ACS.Install7.AddReg.NT]
+HKR,,AdapterType, 0, "0100"
+HKR,,"VendorName",0,%Vendor%
+HKR,,"IFDName",0,%Reader7%
+HKR,,"CardType",0,%CardType%
+HKR,,"SFDT",0,%SFDT%
+HKR,,"CardVoltage",0,%CardVoltage%
+HKLM,"Software\Microsoft\Cryptography\Calais\Readers",,,
+HKLM,"System\CurrentControlSet\Services\SCardSvr","Start", 0x00010001,2
+HKLM,"System\CurrentControlSet\Services\CertPropSvc","Start", 0x00010001,2
+
+[ACS.Install7.CopySYS.NTx86]
+a1281c7sam.sys
+
+[ACS.Install7.CopySYS.NTamd64]
+a1281c7sam.sys,a1281c7samx64.sys
+
+[ACS.Install7.NTx86.Services]
+AddService = A1281C7SAM, 2, ACS.Service7, ACS.EventLog4
+
+[ACS.Install7.NTamd64.Services]
+AddService = A1281C7SAM, 2, ACS.Service7, ACS.EventLog4
+
+; ======================= SAM Common =====================
+
+[ACS.Service7]
+DisplayName     = %ACS.DeviceDesc7%
+ServiceType     = 1 ;%SERVICE_KERNEL_DRIVER%
+StartType       = 3 ;%SERVICE_DEMAND_START%
+ErrorControl    = 1 ;%SERVICE_ERROR_NORMAL%
+ServiceBinary   = %12%\a1281c7sam.sys
+
+[ACS.EventLog4]
+AddReg = ACS.AddEventLog4.reg
+
+[ACS.AddEventLog4.reg]
+HKR,, EventMessageFile, 0x00020000, "%%SystemRoot%%\System32\drivers\a1281c7sam.sys"
+HKR,, TypesSupported,   0x00010001, 7
+
+; ==================== ACR1281 ICC Reader =======================
+
+
+[ACS.Install4.NTx86]
+AddReg          = ACS.Install4.AddReg.NT
+CopyFiles	= ACS.Install2.CopySYS.NTx86
+
+[ACS.Install4.NTamd64]
+AddReg          = ACS.Install4.AddReg.NT
+CopyFiles	= ACS.Install2.CopySYS.NTamd64
+
+
+; ============= Windows 2000 and UP =================
+
+[ACS.Install4.AddReg.NT]
+HKR,,AdapterType, 0, "0100"
+HKR,,"VendorName",0,%Vendor%
+HKR,,"IFDName",0,%Reader4%
+HKR,,"CardType",0,%CardType%
+HKR,,"SFDT",0,%SFDT%
+HKR,,"CardVoltage",0,%CardVoltage%
+HKLM,"Software\Microsoft\Cryptography\Calais\Readers",,,
+HKLM,"System\CurrentControlSet\Services\SCardSvr","Start", 0x00010001,2
+HKLM,"System\CurrentControlSet\Services\CertPropSvc","Start", 0x00010001,2
+
+[ACS.Install2.CopySYS.NTx86]
+a1281icc.sys
+
+[ACS.Install2.CopySYS.NTamd64]
+a1281icc.sys,a1281iccx64.sys
+
+[ACS.Install4.NTx86.Services]
+AddService = A1281ICC, 2, ACS.Service4, ACS.EventLog2
+
+[ACS.Install4.NTamd64.Services]
+AddService = A1281ICC, 2, ACS.Service4, ACS.EventLog2
+
+; ======================= ICC Common =====================
+
+[ACS.Service4]
+DisplayName     = %ACS.DeviceDesc4%
+ServiceType     = 1 ;%SERVICE_KERNEL_DRIVER%
+StartType       = 3 ;%SERVICE_DEMAND_START%
+ErrorControl    = 1 ;%SERVICE_ERROR_NORMAL%
+ServiceBinary   = %12%\a1281icc.sys
+
+[ACS.EventLog2]
+AddReg = ACS.AddEventLog2.reg
+
+[ACS.AddEventLog2.reg]
+HKR,, EventMessageFile, 0x00020000, "%%SystemRoot%%\System32\drivers\a1281icc.sys"
+HKR,, TypesSupported,   0x00010001, 7
+
+; ============== ACS ACR1281U-C1 Bus Driver ====================
+
+[ACS.Install.Bus1.NTx86]
+AddReg    = ACS.Install.Bus1.AddReg.NT
+CopyFiles = ACS.Install.Bus1.CopyFiles.NTx86
+
+[ACS.Install.Bus1.NTamd64]
+AddReg    = ACS.Install.Bus1.AddReg.NT
+CopyFiles = ACS.Install.Bus1.CopyFiles.NTamd64
+
+[ACS.Install.Bus1.CopyFiles.NTx86]
+a1281c1bus.sys,,,2
+a1281c1icc.sys,,,2
+a1281c1pcc.sys,,,2
+a1281c1sam.sys,,,2
+
+[ACS.Install.Bus1.CopyFiles.NTamd64]
+a1281c1bus.sys,a1281c1busx64.sys
+a1281c1icc.sys,a1281c1iccx64.sys
+a1281c1pcc.sys,a1281c1pccx64.sys
+a1281c1sam.sys,a1281c1samx64.sys
+
+[ACS.Install.Bus1.NTx86.Services]
+AddService=A1281C1BUS,2,ACS.Install.Bus1.Service,ACS.Install.Bus1.EventLog
+
+[ACS.Install.Bus1.NTamd64.Services]
+AddService=A1281C1BUS,2,ACS.Install.Bus1.Service,ACS.Install.Bus1.EventLog
+
+[ACS.Install.Bus1.Service]
+DisplayName     = %ACS.DeviceDesc.Bus1%
+ServiceType	= 1
+StartType	= 3
+ErrorControl	= 1
+ServiceBinary	= %12%\a1281c1bus.sys
+
+[ACS.Install.Bus1.EventLog]
+AddReg = ACS.Install.Bus1.AddEventLog.reg
+
+[ACS.Install.Bus1.AddEventLog.reg]
+HKR,, EventMessageFile, 0x00020000, "%%SystemRoot%%\System32\drivers\a1281c1bus.sys"
+HKR,, TypesSupported,   0x00010001, 7
+
+[ACS.Install.Bus1.AddReg.NT]
+HKLM,"Software\Microsoft\Cryptography\Calais\Readers",,,
+HKLM,"System\CurrentControlSet\Services\SCardSvr","Start", 0x00010001,2
+HKLM,"System\CurrentControlSet\Services\CertPropSvc","Start", 0x00010001,2
+
+
+; ============== ACS ACR1281U-C1 ICC Driver ===============
+
+[ACS.Install.Icc1.NTx86]
+AddReg		= ACS.Install.Icc1.AddReg.NT
+CopyFiles 	= ACS.Install.Icc1.CopyFiles.NTx86
+
+[ACS.Install.Icc1.NTamd64]
+AddReg		= ACS.Install.Icc1.AddReg.NT
+CopyFiles 	= ACS.Install.Icc1.CopyFiles.NTamd64
+
+[ACS.Install.Icc1.AddReg.NT]
+HKR,,"VendorName",0,%Vendor%
+HKR,,"IFDName",0,%IFDName.Icc1%
+
+[ACS.Install.Icc1.CopyFiles.NTx86]
+a1281c1icc.sys,,,2
+
+[ACS.Install.Icc1.CopyFiles.NTamd64]
+a1281c1icc.sys,a1281c1iccx64.sys
+
+[ACS.Install.Icc1.NTx86.Services]
+AddService=A1281C1ICC,2,ACS.Install.Icc1.Service,ACS.Install.Icc1.EventLog
+
+[ACS.Install.Icc1.NTamd64.Services]
+AddService=A1281c1ICC,2,ACS.Install.Icc1.Service,ACS.Install.Icc1.EventLog
+
+[ACS.Install.Icc1.Service]
+DisplayName     = %ACS.DeviceDesc.Icc1%
+ServiceType	= 1
+StartType       = 3
+ErrorControl	= 1
+ServiceBinary	= %12%\a1281c1icc.sys
+
+[ACS.Install.Icc1.EventLog]
+AddReg = ACS.Install.Icc1.AddEventLog.reg
+
+[ACS.Install.Icc1.AddEventLog.reg]
+HKR,, EventMessageFile, 0x00020000, "%%SystemRoot%%\System32\drivers\a1281c1icc.sys"
+HKR,, TypesSupported,   0x00010001, 7
+
+
+; ============== ACS ACR1281U-C1 PICC Driver ===============
+
+[ACS.Install.Picc1.NTx86]
+AddReg		= ACS.Install.Picc1.AddReg.NT
+CopyFiles 	= ACS.Install.Picc1.CopyFiles.NTx86
+
+[ACS.Install.Picc1.NTamd64]
+AddReg		= ACS.Install.Picc1.AddReg.NT
+CopyFiles 	= ACS.Install.Picc1.CopyFiles.NTamd64
+
+[ACS.Install.Picc1.AddReg.NT]
+HKR,,"VendorName",0,%Vendor%
+HKR,,"IFDName",0,%IFDName.Picc1%
+
+[ACS.Install.Picc1.CopyFiles.NTx86]
+a1281c1pcc.sys,,,2
+
+
+[ACS.Install.Picc1.CopyFiles.NTamd64]
+a1281c1pcc.sys,a1281c1pccx64.sys
+
+
+[ACS.Install.Picc1.NTx86.Services]
+AddService=A1281C1PICC,2,ACS.Install.Picc1.Service,ACS.Install.Picc1.EventLog
+
+[ACS.Install.Picc1.NTamd64.Services]
+AddService=A1281C1PICC,2,ACS.Install.Picc1.Service,ACS.Install.Picc1.EventLog
+
+[ACS.Install.Picc1.Service]
+DisplayName     = %ACS.DeviceDesc.Picc1%
+ServiceType	= 1
+StartType       = 3
+ErrorControl	= 1
+ServiceBinary	= %12%\a1281c1pcc.sys
+
+[ACS.Install.Picc1.EventLog]
+AddReg = ACS.Install.Picc1.AddEventLog.reg
+
+[ACS.Install.Picc1.AddEventLog.reg]
+HKR,, EventMessageFile, 0x00020000, "%%SystemRoot%%\System32\drivers\a1281c1pcc.sys"
+HKR,, TypesSupported,   0x00010001, 7
+
+
+; ============== ACS ACR1281-C1 Sam Driver ===============
+
+[ACS.Install.Sam1.NTx86]
+AddReg		= ACS.Install.Sam1.AddReg.NT
+CopyFiles 	= ACS.Install.Sam1.CopyFiles.NTx86
+
+[ACS.Install.Sam1.NTamd64]
+AddReg		= ACS.Install.Sam1.AddReg.NT
+CopyFiles 	= ACS.Install.Sam1.CopyFiles.NTamd64
+
+[ACS.Install.Sam1.AddReg.NT]
+HKR,,"VendorName",0,%Vendor%
+HKR,,"IFDName",0,%IFDName.Sam1%
+
+[ACS.Install.Sam1.CopyFiles.NTx86]
+a1281c1sam.sys,,,2
+
+[ACS.Install.Sam1.CopyFiles.NTamd64]
+a1281c1sam.sys,a1281c1samx64.sys
+
+[ACS.Install.Sam1.NTx86.Services]
+AddService=A1281C1SAM,2,ACS.Install.Sam1.Service,ACS.Install.Sam1.EventLog
+
+[ACS.Install.Sam1.NTamd64.Services]
+AddService=A1281C1SAM,2,ACS.Install.Sam1.Service,ACS.Install.Sam1.EventLog
+
+[ACS.Install.Sam1.Service]
+DisplayName     = %ACS.DeviceDesc.Sam1%
+ServiceType	= 1
+StartType       = 3
+ErrorControl	= 1
+ServiceBinary	= %12%\a1281c1sam.sys
+
+[ACS.Install.Sam1.EventLog]
+AddReg = ACS.Install.Sam1.AddEventLog.reg
+
+[ACS.Install.Sam1.AddEventLog.reg]
+HKR,, EventMessageFile, 0x00020000, "%%SystemRoot%%\System32\drivers\a1281c1sam.sys"
+HKR,, TypesSupported,   0x00010001, 7
+
+
+; ============== ACS ACR1281 2S CL Bus Driver ====================
+
+[ACS.Install.Bus2.NTx86]
+AddReg    = ACS.Install.Bus2.AddReg.NT
+CopyFiles = ACS.Install.Bus2.CopyFiles.NTx86
+
+[ACS.Install.Bus2.NTamd64]
+AddReg    = ACS.Install.Bus2.AddReg.NT
+CopyFiles = ACS.Install.Bus2.CopyFiles.NTamd64
+
+[ACS.Install.Bus2.CopyFiles.NTx86]
+a12812sbus.sys,,,2
+a12812ssam1.sys,a1281c1icc.sys,,2
+a12812spcc.sys,a1281c1pcc.sys,,2
+a12812ssam2.sys,a1281c1sam.sys,,2
+
+
+[ACS.Install.Bus2.CopyFiles.NTamd64]
+a12812sbus.sys,a12812sbusx64.sys
+a12812ssam1.sys,a1281c1iccx64.sys
+a12812spcc.sys,a1281c1pccx64.sys
+a12812ssam2.sys,a1281c1samx64.sys
+
+[ACS.Install.Bus2.NTx86.Services]
+AddService=A12812SBUS,2,ACS.Install.Bus2.Service,ACS.Install.Bus2.EventLog
+
+[ACS.Install.Bus2.NTamd64.Services]
+AddService=A12812SBUS,2,ACS.Install.Bus2.Service,ACS.Install.Bus2.EventLog
+
+[ACS.Install.Bus2.Service]
+DisplayName     = %ACS.DeviceDesc.Bus2%
+ServiceType	= 1
+StartType	= 3
+ErrorControl	= 1
+ServiceBinary	= %12%\a12812sbus.sys
+
+[ACS.Install.Bus2.EventLog]
+AddReg = ACS.Install.Bus2.AddEventLog.reg
+
+[ACS.Install.Bus2.AddEventLog.reg]
+HKR,, EventMessageFile, 0x00020000, "%%SystemRoot%%\System32\drivers\a12812sbus.sys"
+HKR,, TypesSupported,   0x00010001, 7
+
+[ACS.Install.Bus2.AddReg.NT]
+HKLM,"Software\Microsoft\Cryptography\Calais\Readers",,,
+HKLM,"System\CurrentControlSet\Services\SCardSvr","Start", 0x00010001,2
+HKLM,"System\CurrentControlSet\Services\CertPropSvc","Start", 0x00010001,2
+
+
+; ============== ACS ACR1281 2S CL ICC Driver ===============
+
+[ACS.Install.Icc2.NTx86]
+AddReg		= ACS.Install.Icc2.AddReg.NT
+CopyFiles 	= ACS.Install.Icc2.CopyFiles.NTx86
+
+[ACS.Install.Icc2.NTamd64]
+AddReg		= ACS.Install.Icc2.AddReg.NT
+CopyFiles 	= ACS.Install.Icc2.CopyFiles.NTamd64
+
+[ACS.Install.Icc2.AddReg.NT]
+HKR,,"VendorName",0,%Vendor%
+HKR,,"IFDName",0,%IFDName.Icc2%
+
+[ACS.Install.Icc2.CopyFiles.NTx86]
+a12812ssam1.sys,a1281c1icc.sys,,2
+
+[ACS.Install.Icc2.CopyFiles.NTamd64]
+a12812ssam1.sys,a1281c1iccx64.sys,,2
+
+[ACS.Install.Icc2.NTx86.Services]
+AddService=A12812SSAM1,2,ACS.Install.Icc2.Service,ACS.Install.Icc2.EventLog
+
+[ACS.Install.Icc2.NTamd64.Services]
+AddService=A12812SSAM1,2,ACS.Install.Icc2.Service,ACS.Install.Icc2.EventLog
+
+[ACS.Install.Icc2.Service]
+DisplayName     = %ACS.DeviceDesc.Icc2%
+ServiceType	= 1
+StartType       = 3
+ErrorControl	= 1
+ServiceBinary	= %12%\a12812ssam1.sys
+
+[ACS.Install.Icc2.EventLog]
+AddReg = ACS.Install.Icc2.AddEventLog.reg
+
+[ACS.Install.Icc2.AddEventLog.reg]
+HKR,, EventMessageFile, 0x00020000, "%%SystemRoot%%\System32\drivers\a12812ssam1.sys"
+HKR,, TypesSupported,   0x00010001, 7
+
+
+; ============== ACS ACR1281 2S CL PICC Driver ===============
+
+[ACS.Install.Picc2.NTx86]
+AddReg		= ACS.Install.Picc2.AddReg.NT
+CopyFiles 	= ACS.Install.Picc2.CopyFiles.NTx86
+
+[ACS.Install.Picc2.NTamd64]
+AddReg		= ACS.Install.Picc2.AddReg.NT
+CopyFiles 	= ACS.Install.Picc2.CopyFiles.NTamd64
+
+[ACS.Install.Picc2.AddReg.NT]
+HKR,,"VendorName",0,%Vendor%
+HKR,,"IFDName",0,%IFDName.Picc2%
+
+[ACS.Install.Picc2.CopyFiles.NTx86]
+a12812spcc.sys,a1281c1pcc.sys,,2
+
+
+[ACS.Install.Picc2.CopyFiles.NTamd64]
+a12812spcc.sys,a1281c1pccx64.sys,,2
+
+
+[ACS.Install.Picc2.NTx86.Services]
+AddService=A12812SPICC,2,ACS.Install.Picc2.Service,ACS.Install.Picc2.EventLog
+
+[ACS.Install.Picc2.NTamd64.Services]
+AddService=A12812SPICC,2,ACS.Install.Picc2.Service,ACS.Install.Picc2.EventLog
+
+[ACS.Install.Picc2.Service]
+DisplayName     = %ACS.DeviceDesc.Picc2%
+ServiceType	= 1
+StartType       = 3
+ErrorControl	= 1
+ServiceBinary	= %12%\a12812spcc.sys
+
+[ACS.Install.Picc2.EventLog]
+AddReg = ACS.Install.Picc2.AddEventLog.reg
+
+[ACS.Install.Picc2.AddEventLog.reg]
+HKR,, EventMessageFile, 0x00020000, "%%SystemRoot%%\System32\drivers\a12812spcc.sys"
+HKR,, TypesSupported,   0x00010001, 7
+
+
+; ============== ACS ACR1281 2S CL Sam Driver ===============
+
+[ACS.Install.Sam2.NTx86]
+AddReg		= ACS.Install.Sam2.AddReg.NT
+CopyFiles 	= ACS.Install.Sam2.CopyFiles.NTx86
+
+[ACS.Install.Sam2.NTamd64]
+AddReg		= ACS.Install.Sam2.AddReg.NT
+CopyFiles 	= ACS.Install.Sam2.CopyFiles.NTamd64
+
+[ACS.Install.Sam2.AddReg.NT]
+HKR,,"VendorName",0,%Vendor%
+HKR,,"IFDName",0,%IFDName.Sam2%
+
+[ACS.Install.Sam2.CopyFiles.NTx86]
+a12812ssam2.sys,a1281c1sam.sys
+
+[ACS.Install.Sam2.CopyFiles.NTamd64]
+a12812ssam2.sys,a1281c1samx64.sys
+
+[ACS.Install.Sam2.NTx86.Services]
+AddService=A12812SSAM2,2,ACS.Install.Sam2.Service,ACS.Install.Sam2.EventLog
+
+[ACS.Install.Sam2.NTamd64.Services]
+AddService=A12812SSAM2,2,ACS.Install.Sam2.Service,ACS.Install.Sam2.EventLog
+
+[ACS.Install.Sam2.Service]
+DisplayName     = %ACS.DeviceDesc.Sam2%
+ServiceType	= 1
+StartType       = 3
+ErrorControl	= 1
+ServiceBinary	= %12%\a12812ssam2.sys
+
+[ACS.Install.Sam2.EventLog]
+AddReg = ACS.Install.Sam2.AddEventLog.reg
+
+[ACS.Install.Sam2.AddEventLog.reg]
+HKR,, EventMessageFile, 0x00020000, "%%SystemRoot%%\System32\drivers\a12812ssam2.sys"
+HKR,, TypesSupported,   0x00010001, 7
+
+
+
+; ================= Strings =====================
+
+[Strings]
+SourceDiskName           = "ACR1281 USB Smart Card Reader Driver Installation Disk"
+Msft		              = "Advanced Card Systems Ltd."
+ACS		                = "ACS"
+ACS.DeviceDesc.Bus1   = "ACR1281 1S Dual Reader Bus Driver"
+ACS.DeviceDesc.Icc1   = "ACR1281 1S Dual Reader ICC"
+ACS.DeviceDesc.Picc1  = "ACR1281 1S Dual Reader PICC"
+ACS.DeviceDesc.Sam1   = "ACR1281 1S Dual Reader SAM"
+ACS.DeviceDesc.Bus2   = "ACR1281 2S CL Reader Bus Driver"
+ACS.DeviceDesc.Icc2   = "ACR1281 2S CL Reader SAM1"
+ACS.DeviceDesc.Picc2  = "ACR1281 2S CL Reader PICC"
+ACS.DeviceDesc.Sam2   = "ACR1281 2S CL Reader SAM2"
+ACS.DeviceDesc7       = "ACR1281 1S PICC Reader SAM"
+ACS.DeviceDesc6       = "ACR1281 1S PICC Reader PICC"
+ACS.DeviceDesc5       = "ACR1281 PICC Reader PICC"
+ACS.DeviceDesc4       = "ACR1281 Dual Reader ICC"
+ACS.DeviceDesc3       = "ACR1281 Dual Reader PICC"
+ACS.DeviceDesc2       = "ACR1281 PICC Reader"
+ACS.DeviceDesc1       = "ACR1281 CL Reader PICC"
+ClassName             = "Smart Card Readers"
+Vendor                = "ACS"
+IFDName.Icc1          = "ACR1281 1S Dual Reader ICC"
+IFDName.Picc1         = "ACR1281 1S Dual Reader PICC"
+IFDName.Sam1          = "ACR1281 1S Dual Reader SAM"
+IFDName.Icc2          = "ACR1281 2S CL Reader SAM1"
+IFDName.Picc2         = "ACR1281 2S CL Reader PICC"
+IFDName.Sam2          = "ACR1281 2S CL Reader SAM2"
+Reader7               = "ACR1281 1S PICC Reader SAM"
+Reader6               = "ACR1281 1S PICC Reader PICC"
+Reader5               = "ACR1281 PICC Reader PICC"
+Reader4               = "ACR1281 Dual Reader ICC"
+Reader3               = "ACR1281 Dual Reader PICC"
+Reader2               = "ACR1281 PICC Reader"
+Reader1               = "ACR1281 CL Reader PICC"
+CardType              = 0
+SFDT                  = "TRUE"
+CardVoltage           = 0

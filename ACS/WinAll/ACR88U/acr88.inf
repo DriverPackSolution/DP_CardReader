@@ -1,0 +1,243 @@
+; ACR88.INF
+; Copyright (c) 1994 - 2007 Advanced Card Systems Ltd.
+;
+; Note: For use on Windows 2000 or higher only!
+;
+
+[Version]
+DriverVer=07/24/2009,1.0.0.2
+Signature=$Windows NT$
+Class=SmartCardReader
+ClassGuid={50DD5230-BA8A-11D1-BF5D-0000F805F530}
+Provider=%ACS%
+CatalogFile=acr88.cat
+
+; ======= Source and Destination section =============
+
+[SourceDisksNames]
+1 = %SourceDiskName%,,,
+
+[SourceDisksFiles]
+acr88bus.sys	= 1
+acr88fnc.sys	= 1
+acr88slt.sys	= 1
+acr88sam.sys	= 1
+acr88busx64.sys	= 1
+acr88fncx64.sys	= 1
+acr88sltx64.sys	= 1
+acr88samx64.sys	= 1
+
+[DestinationDirs]
+ACS.Install.Bus.CopyFiles         = 12
+ACS.Install.Fnc.CopyFiles         = 12
+ACS.Install.Slt.CopyFiles         = 12
+ACS.Install.Sam.CopyFiles	  = 12
+ACS.Install.Bus.CopyFiles.NTamd64 = 12
+ACS.Install.Fnc.CopyFiles.NTamd64 = 12
+ACS.Install.Slt.CopyFiles.NTamd64 = 12
+ACS.Install.Sam.CopyFiles.NTamd64 = 12
+
+; ================= Class section =====================
+
+[ClassInstall32]
+Addreg=SmartCardReaderClassReg     
+
+[ClassInstall]
+Addreg=SmartCardReaderClassReg
+
+[SmartCardReaderClassReg]
+HKR,,,0,%ClassName%
+HKR,,Icon,,-25
+HKLM,"\Software\Microsoft\Cryptography\Calais\Readers",,,
+
+[Manufacturer]
+%ACS%=ACS,NTamd64
+
+; ================= ACS ACR88 Reader =====================
+
+[ACS]
+; DisplayName          Section      	DeviceId
+; -----------          -------      	--------
+%ACS.DeviceDesc.Bus% = ACS.Install.Bus, USB\VID_072F&PID_2010
+%ACS.DeviceDesc.Bus% = ACS.Install.Bus, USB\VID_072F&PID_2011
+%ACS.DeviceDesc.Fnc% = ACS.Install.Fnc, *ACO0606
+%ACS.DeviceDesc.Slt% = ACS.Install.Slt, *ACO0604
+%ACS.DeviceDesc.Sam% = ACS.Install.Sam, *ACO0605
+
+[ACS.NTamd64]
+; DisplayName          Section      	DeviceId
+; -----------          -------      	--------
+%ACS.DeviceDesc.Bus% = ACS.Install.Bus, USB\VID_072F&PID_2010
+%ACS.DeviceDesc.Bus% = ACS.Install.Bus, USB\VID_072F&PID_2011
+%ACS.DeviceDesc.Fnc% = ACS.Install.Fnc, *ACO0606
+%ACS.DeviceDesc.Slt% = ACS.Install.Slt, *ACO0604
+%ACS.DeviceDesc.Sam% = ACS.Install.Sam, *ACO0605
+
+; ============== ACS ACR88 Bus Driver ====================
+
+[ACS.Install.Bus]
+CopyFiles = ACS.Install.Bus.CopyFiles
+
+[ACS.Install.Bus.NTamd64]
+CopyFiles = ACS.Install.Bus.CopyFiles.NTamd64
+
+[ACS.Install.Bus.CopyFiles]
+acr88bus.sys,,,2
+
+[ACS.Install.Bus.CopyFiles.NTamd64]
+acr88bus.sys,acr88busx64.sys
+
+[ACS.Install.Bus.Services]
+AddService=ACR88BUS,2,ACS.Install.Bus.Service,ACS.Install.Bus.EventLog
+
+[ACS.Install.Bus.NTamd64.Services]
+AddService=ACR88BUS,2,ACS.Install.Bus.Service,ACS.Install.Bus.EventLog
+
+[ACS.Install.Bus.Service]
+DisplayName     = %ACS.DeviceDesc.Bus%
+ServiceType	= 1
+StartType	= 3
+ErrorControl	= 1
+ServiceBinary	= %12%\acr88bus.sys
+
+[ACS.Install.Bus.EventLog]
+AddReg = ACS.Install.Bus.AddEventLog.reg
+
+[ACS.Install.Bus.AddEventLog.reg]
+HKR,, EventMessageFile, 0x00020000, "%%SystemRoot%%\System32\drivers\acr88bus.sys"
+HKR,, TypesSupported,   0x00010001, 7
+
+; ============== ACS ACR88 Function Driver ===============
+
+[ACS.Install.Fnc]
+AddReg		= ACS.Install.Fnc.AddReg
+CopyFiles	= ACS.Install.Fnc.CopyFiles
+
+[ACS.Install.Fnc.NTamd64]
+AddReg		= ACS.Install.Fnc.AddReg
+CopyFiles	= ACS.Install.Fnc.CopyFiles.NTamd64
+
+[ACS.Install.Fnc.AddReg]
+HKR,,"VendorName",0,%Vendor%
+HKR,,"IFDName",0,%IFDName.Fnc%
+
+[ACS.Install.Fnc.CopyFiles]
+acr88fnc.sys,,,2
+
+[ACS.Install.Fnc.CopyFiles.NTamd64]
+acr88fnc.sys,acr88fncx64.sys
+
+[ACS.Install.Fnc.Services]
+AddService=ACR88FNC,2,ACS.Install.Fnc.Service,ACS.Install.Fnc.EventLog
+
+[ACS.Install.Fnc.NTamd64.Services]
+AddService=ACR88FNC,2,ACS.Install.Fnc.Service,ACS.Install.Fnc.EventLog
+
+[ACS.Install.Fnc.Service]
+DisplayName     = %ACS.DeviceDesc.Fnc%
+ServiceType	= 1
+StartType	= 3
+ErrorControl	= 1
+ServiceBinary	= %12%\acr88fnc.sys
+
+[ACS.Install.Fnc.EventLog]
+AddReg = ACS.Install.Fnc.AddEventLog.reg
+
+[ACS.Install.Fnc.AddEventLog.reg]
+HKR,, EventMessageFile, 0x00020000, "%%SystemRoot%%\System32\drivers\acr88fnc.sys"
+HKR,, TypesSupported,   0x00010001, 7
+
+; ============== ACS ACR88 Slot Driver ===============
+
+[ACS.Install.Slt]
+AddReg		= ACS.Install.Slt.AddReg
+CopyFiles	= ACS.Install.Slt.CopyFiles
+
+[ACS.Install.Slt.NTamd64]
+AddReg		= ACS.Install.Slt.AddReg
+CopyFiles	= ACS.Install.Slt.CopyFiles.NTamd64
+
+[ACS.Install.Slt.AddReg]
+HKR,,"VendorName",0,%Vendor%
+HKR,,"IFDName",0,%IFDName.Slt%
+
+[ACS.Install.Slt.CopyFiles]
+acr88slt.sys,,,2
+
+[ACS.Install.Slt.CopyFiles.NTamd64]
+acr88slt.sys,acr88sltx64.sys
+
+[ACS.Install.Slt.Services]
+AddService=ACR88SLT,2,ACS.Install.Slt.Service,ACS.Install.Slt.EventLog
+
+[ACS.Install.Slt.NTamd64.Services]
+AddService=ACR88SLT,2,ACS.Install.Slt.Service,ACS.Install.Slt.EventLog
+
+[ACS.Install.Slt.Service]
+DisplayName     = %ACS.DeviceDesc.Slt%
+ServiceType	= 1
+StartType	= 3
+ErrorControl	= 1
+ServiceBinary	= %12%\acr88slt.sys
+
+[ACS.Install.Slt.EventLog]
+AddReg = ACS.Install.Slt.AddEventLog.reg
+
+[ACS.Install.Slt.AddEventLog.reg]
+HKR,, EventMessageFile, 0x00020000, "%%SystemRoot%%\System32\drivers\acr88slt.sys"
+HKR,, TypesSupported,   0x00010001, 7
+
+; ============== ACS ACR88 Sam Driver ===============
+
+[ACS.Install.Sam]
+AddReg		= ACS.Install.Sam.AddReg
+CopyFiles	= ACS.Install.Sam.CopyFiles
+
+[ACS.Install.Sam.NTamd64]
+AddReg		= ACS.Install.Sam.AddReg
+CopyFiles	= ACS.Install.Sam.CopyFiles.NTamd64
+
+[ACS.Install.Sam.AddReg]
+HKR,,"VendorName",0,%Vendor%
+HKR,,"IFDName",0,%IFDName.Sam%
+
+[ACS.Install.Sam.CopyFiles]
+acr88sam.sys,,,2
+
+[ACS.Install.Sam.CopyFiles.NTamd64]
+acr88sam.sys,acr88samx64.sys
+
+[ACS.Install.Sam.Services]
+AddService=ACR88SAM,2,ACS.Install.Sam.Service,ACS.Install.Sam.EventLog
+
+[ACS.Install.Sam.NTamd64.Services]
+AddService=ACR88SAM,2,ACS.Install.Sam.Service,ACS.Install.Sam.EventLog
+
+[ACS.Install.Sam.Service]
+DisplayName     = %ACS.DeviceDesc.Sam%
+ServiceType	= 1
+StartType	= 3
+ErrorControl	= 1
+ServiceBinary	= %12%\acr88sam.sys
+
+[ACS.Install.Sam.EventLog]
+AddReg = ACS.Install.Sam.AddEventLog.reg
+
+[ACS.Install.Sam.AddEventLog.reg]
+HKR,, EventMessageFile, 0x00020000, "%%SystemRoot%%\System32\drivers\acr88sam.sys"
+HKR,, TypesSupported,   0x00010001, 7
+
+; ====================== Strings =========================
+
+[Strings]
+ACS			= "Advanced Card Systems Ltd"
+Vendor			= "ACS"
+SourceDiskName		= "ACR88 USB Smart Card Reader Installation Disk"
+ClassName 		= "Smart Card Readers"
+ACS.DeviceDesc.Bus	= "ACR88 USB BUS Driver"
+ACS.DeviceDesc.Fnc	= "ACR88 Onboard Peripherals"
+ACS.DeviceDesc.Slt	= "ACR88 Card Viewer Reader"
+ACS.DeviceDesc.Sam	= "ACR88 Card Viewer SAM Reader"
+IFDName.Fnc		= "ACR88"
+IFDName.Slt		= "ACR88 Card"
+IFDName.Sam		= "ACR88 SAM"

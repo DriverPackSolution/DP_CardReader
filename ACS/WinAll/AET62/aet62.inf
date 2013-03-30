@@ -1,0 +1,172 @@
+; AET62.INF
+; Copyright (c) 2010 Advanced Card System Ltd
+
+[Version]
+DriverVer=12/16/2010,1.0.0.0
+Signature="$Windows NT$"
+Class=SmartCardReader
+ClassGuid={50DD5230-BA8A-11D1-BF5D-0000F805F530}
+Provider=%ACS%
+CatalogFile.NT=aet62.cat
+
+; ======= Source and Destination section =============
+
+[SourceDisksNames]
+1 = "AET62(SAM) USB Smart Card Installation Disk",,,
+
+[SourceDisksFiles]
+aet62.sys               = 1
+aet62x64.sys            = 1
+
+[DestinationDirs]
+ACS.Install.CopySYS.NTx86         = 12
+ACS.Install.CopySYS.NTamd64       = 12
+ACS.Install.Sam.CopySYS.NTx86     = 12
+ACS.Install.Sam.CopySYS.NTamd64   = 12
+
+; ================= Class section =====================
+
+[ClassInstall32]
+Addreg=SmartCardReaderClassReg     
+
+[ClassInstall]
+Addreg=SmartCardReaderClassReg
+
+[SmartCardReaderClassReg]
+HKR,,,0,%ClassName%
+HKR,,Icon,,-25
+HKLM,"\Software\Microsoft\Cryptography\Calais\Readers",,,
+
+[Manufacturer]
+%ACS%=ACS,NTamd64
+
+; ================= ACS AET62(SAM) Reader =====================
+
+[ACS]
+; DisplayName       Section     DeviceId
+; -----------       -------     --------
+%ACS.DeviceDesc%     = ACS.Install,     USB\VID_072F&PID_0102  ;AET62 w/o SAM 
+%ACS.DeviceDesc.Sam% = ACS.Install.Sam, USB\VID_072F&PID_0103  ;AET62SAM
+
+[ACS.NTamd64]
+; DisplayName       Section     DeviceId
+; -----------       -------     --------
+%ACS.DeviceDesc%     = ACS.Install,     USB\VID_072F&PID_0102  ;AET62 w/o SAM 
+%ACS.DeviceDesc.Sam% = ACS.Install.Sam, USB\VID_072F&PID_0103  ;AET62SAM
+
+
+; ============== ACS AET62 Driver ====================
+
+[ACS.Install.NTx86]
+AddReg          = ACS.Install.AddReg.NT
+CopyFiles	= ACS.Install.CopySYS.NTx86
+
+[ACS.Install.NTamd64]
+AddReg          = ACS.Install.AddReg.NT
+CopyFiles	= ACS.Install.CopySYS.NTamd64
+
+; ============= Windows 2000, XP, 2003 and Vista =================
+
+[ACS.Install.AddReg.NT]
+HKR,,AdapterType, 0, "0100"
+HKR,,"VendorName",0,%Vendor%
+HKR,,"IFDName",0,%Reader%
+HKR,,"CardType",0,%CardType%
+HKR,,"SFDT",0,%SFDT%
+HKR,,"CardVoltage",0,%CardVoltage%
+HKLM,"System\CurrentControlSet\Services\SCardSvr","Start", 0x00010001,2
+HKLM,"System\CurrentControlSet\Services\CertPropSvc","Start", 0x00010001,2
+
+[ACS.Install.CopySYS.NTx86]
+aet62.sys
+
+[ACS.Install.CopySYS.NTamd64]
+aet62.sys,aet62x64.sys
+
+[ACS.Install.NTx86.Services]
+AddService = AET62, 2, ACS.Service, ACS.EventLog
+
+[ACS.Install.NTamd64.Services]
+AddService = AET62, 2, ACS.Service, ACS.EventLog
+
+[ACS.Service]
+DisplayName     = %ACS.DeviceDesc%
+ServiceType     = 1 ;%SERVICE_KERNEL_DRIVER%
+StartType       = 3 ;%SERVICE_DEMAND_START%
+ErrorControl    = 1 ;%SERVICE_ERROR_NORMAL%
+ServiceBinary   = %12%\aet62.sys
+
+[ACS.EventLog]
+AddReg = ACS.AddEventLog.reg
+
+[ACS.AddEventLog.reg]
+HKR,, EventMessageFile, 0x00020000, "%%SystemRoot%%\System32\drivers\aet62.sys"
+HKR,, TypesSupported,   0x00010001, 7
+
+
+; ============== ACS AET62 SAM Driver ====================
+
+
+[ACS.Install.Sam.NTx86]
+AddReg          = ACS.Install.Sam.AddReg.NT
+CopyFiles	= ACS.Install.Sam.CopySYS.NTx86
+
+[ACS.Install.Sam.NTamd64]
+AddReg          = ACS.Install.Sam.AddReg.NT
+CopyFiles	= ACS.Install.Sam.CopySYS.NTamd64
+
+; ============= Windows 2000, XP, 2003 and Vista =================
+
+[ACS.Install.Sam.AddReg.NT]
+HKR,,AdapterType, 0, "0100"
+HKR,,"VendorName",0,%Vendor%
+HKR,,"IFDName",0,%Reader.Sam%
+HKR,,"CardType",0,%CardType%
+HKR,,"SFDT",0,%SFDT%
+HKR,,"CardVoltage",0,%CardVoltage%
+HKLM,"System\CurrentControlSet\Services\SCardSvr","Start", 0x00010001,2
+HKLM,"System\CurrentControlSet\Services\CertPropSvc","Start", 0x00010001,2
+
+[ACS.Install.Sam.CopySYS.NTx86]
+aet62sam.sys,aet62.sys
+
+[ACS.Install.Sam.CopySYS.NTamd64]
+aet62sam.sys,aet62x64.sys
+
+[ACS.Install.Sam.NTx86.Services]
+AddService = AET62SAM, 2, ACS.Sam.Service, ACS.Sam.EventLog
+
+[ACS.Install.Sam.NTamd64.Services]
+AddService = AET62SAM, 2, ACS.Sam.Service, ACS.Sam.EventLog
+
+[ACS.Sam.Service]
+DisplayName     = %ACS.DeviceDesc.Sam%
+ServiceType     = 1 ;%SERVICE_KERNEL_DRIVER%
+StartType       = 3 ;%SERVICE_DEMAND_START%
+ErrorControl    = 1 ;%SERVICE_ERROR_NORMAL%
+ServiceBinary   = %12%\aet62sam.sys
+
+[ACS.Sam.EventLog]
+AddReg = ACS.Sam.AddEventLog.reg
+
+[ACS.Sam.AddEventLog.reg]
+HKR,, EventMessageFile, 0x00020000, "%%SystemRoot%%\System32\drivers\aet62sam.sys"
+HKR,, TypesSupported,   0x00010001, 7
+
+
+; ================= Strings =====================
+[Strings]
+Msft			= "Advanced Card Systems Ltd."
+ACS			= "ACS"
+Vendor			= "ACS"
+ACS.DeviceDesc		= "AET62 PICC Reader"
+ACS.DeviceDesc.Sam	= "AET62 1SAM PICC Reader"
+ClassName 		= "Smart Card Readers"
+Reader			= "AET62 PICC Reader PICC"
+Reader.Sam		= "AET62 1SAM PICC Reader"
+NameKey			= "System\CurrentControlSet\Services\AET62SAM"
+Timeout			= "120"		;timeout in seconds
+CmdMode			= "02"		;02-PCSC 01-EMV
+SFDT			= "TRUE"
+CardType		= 0
+CardVoltage		= 0

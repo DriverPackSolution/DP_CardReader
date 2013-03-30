@@ -1,0 +1,1397 @@
+                          ============================
+                           R E L E A S E    N O T E S
+                          ============================
+
+                          Broadcom Memory Stick Driver
+                  For Windows 32/64 bit versions with ScsiPort
+
+                  Copyright (c) 2009-2012 Broadcom Corporation
+                               All rights reserved.
+
+
+Version 1.0.4.0 - June 18, 2012
+----------------------------------------
+  1.  Problem:
+        CQ63714: Install MS driver will BSOD in Win7.
+      Cause:
+        The new Win8 build environment is linking with the bufferoverflowfastfailk.lib
+        which is causing a bugcheck on OS versions prior to Win8. The workaround is
+        to use the BufferOverflowK.lib instead by making copy and renaming it to
+        bufferoverflowfastfailk.lib.
+      Change:
+        Use BufferOverflowK.lib instead of bufferoverflowfastfailk.lib.
+
+  2.  Problem:
+        CQ63532: Some MS card will disappear few seconds then re-display
+                 when running CDM test.
+      Cause:
+        As part of the error recovery process when the driver switches from parallel
+        to serial mode it was notifying the OS that the media was removed. This
+        caused the OS to removed the MS card from the file explorer.
+      Change:
+        Notify that the MS card is busy instead of removed during the error recovery
+        process.
+
+  3.  Problem:
+        CQ63531: Sony 32M will stop when performing full format.
+      Cause:
+        Write errors are occurring during formatting of this MS card.
+      Change:
+        Switch the bus mode to serial from parallel. Using serial mode will result
+        in lower performance.
+
+Version 1.0.3.0 - June 5, 2012
+----------------------------------------
+  Enhancements:
+  =============
+  1. Migrate to WDK 8400.
+
+Version 1.0.2.0 - May 1, 2012
+----------------------------------------
+  1.  Problem:
+        Failed Win8 WHQL test WHCK.
+      Cause:
+        The MS driver is installed as a SCSI Adapter class driver and the Win8 WHCK
+        will automatically run tests according to the driver's class. Since the MS
+        driver is not actually a SCSI Adapter driver it will failed these tests.
+      Change:
+        The MS driver will be installed as a System class driver.
+
+Version 1.0.1.18 - February 22, 2012
+----------------------------------------
+  1.  Problem:
+        CQ60514: Read performance is a bit lower for Aspen+ A0 as compare to Aspen B0.
+      Cause:
+        Driver was using a faster clock source only for Aspen B0 and a slower clock source
+        was used for other devices.
+      Change:
+        Driver will always use the faster clock source.
+
+Version 1.0.1.17 - February 14, 2012
+----------------------------------------
+  1.  Problem:
+        CQ61543: Save text document file in MS then re-plug in find the data is lost.
+      Cause:
+        Change in the last release (Version 1.0.1.16).
+      Change:
+        Driver will check the Windows OS version and return a success value for the 
+        SCSIOP_MEDIUM_REMOVAL command when the card is present if the OS is XP or earlier.
+        For Windows OS that is Vista or later driver will return fail.
+
+Version 1.0.1.16 - December 21, 2011
+----------------------------------------
+  1.  Problem:
+        CQ60308: Aspen-MS: In Win XP SP3, the eject function in context menu fails.
+      Cause:
+        Driver was returning an error value for the SCSIOP_MEDIUM_REMOVAL command.
+      Change:
+        Driver will return a success value for the SCSIOP_MEDIUM_REMOVAL command
+        when the card is present.
+
+Version 1.0.1.15 - September 2, 2011
+----------------------------------------
+  1.  Problem:
+        CQ56672: Can't detect the card capacity for SanDisk MS Pro Duo 256M.
+        CQ56548: Aspen-B0-MS: SanDisk MS Pro 512MB unrecognized on an OEM system
+      Cause:
+        Data and CRC errors were occurring when accessing the failing cards.
+      Change:
+        Added error handling to switch to serial mode and a slower clock when
+        data and CRC errors are detected.
+
+Version 1.0.1.14 - June 23, 2011
+----------------------------------------
+  1.  Problem:
+        CQ56488: Unable to recognize MS card after removing xD card.
+      Cause:
+        The host controller need to be reset when PnP IRP is trapped.
+      Change:
+        Added additional check to reset the host controller only when
+        a MS card is not present.
+
+Version 1.0.1.13 - June 8, 2011
+----------------------------------------
+  1.  Problem:
+        CQ55788: MS standard card disappeared after resuming from S3/S4 mode.
+      Cause:
+        PnP IRP trapped after resuming from S3/S4 was causing the code to
+        reset the card.
+      Change:
+        Added additional check to reset the card only if the error interrupt
+        status was enabled.
+
+Version 1.0.1.12 - May 16, 2011
+----------------------------------------
+  1.  Problem:
+        CQ55629: MS card will automatically unmount / remount after waking from S3/S4 mode.
+      Cause:
+        Code was erroneously removed in the last release as part of the code cleanup to
+        make asynchronous the default.
+      Change:
+        Put removed code back.
+
+Version 1.0.1.11 - April 13, 2011
+----------------------------------------
+  1.  Problem:
+        Issues with data & function stacks in asychronous card initialization.
+      Cause:
+        Some error conditions can cause an early exit from the card initialize
+        logic leaving entries on one or both stacks.
+      Change:
+        Ensure stacks are re-initialized before their use and just before
+        exiting normally from the card initialize functions.
+
+  2.  Problem:
+        CQ54180: On OEM system, WLK 1.6 system DTM disable/enable with IO test fail.
+      Cause:
+        Driver was allocating a large uncached block of memory that would sometimes
+        failed. This was only done with ADMA2 mode.
+      Change:
+        Disabled ADMA2 mode and use SDMA mode instead for now. The ADMA2 issues
+        will be addressed in the next release.
+
+  3.  Problem:
+        CQ53946: On OEM system can't detect MS card when system starting up with
+        card plugged in.
+      Cause:
+        This is most likely due to the clock setting that is too fast for this OEM 
+        system when in ADMA2 mode.
+      Change:
+        Disabled ADMA2 mode and use SDMA mode instead for now. The ADMA2 issues
+        will be addressed in the next release.
+
+  Enhancements:
+  =============
+    1.  Eliminate code dealing with WORKER_THREAD and make asynchronous the
+        default.
+    2.  Eliminate code used in early testing of testing access to the Memory
+        Stick card.
+    3.  Turn off power to card when system enters S5.
+
+
+Version 1.0.1.10 - January 19, 2011
+----------------------------------------
+  1.  Problem:
+        CQ52354: System gets BSOD when quick plug/unplug the Memory Stick card
+        for a couple times.
+      Cause:
+        While the previous insertion is running in the state machine another
+        attempt to run card initialization is begun.
+      Change:
+        Modify the code to properly clear the initialization in progress flag
+        and refuse to execute another initialization if one is currently
+        running.  Added a lot of test code to avoid pushes and/or pops from the
+        data and function stacks to prevent over flow and under flow.
+
+  2.  Problem:
+        CQ52306: Aspen-B0-MS card is still mounted sometimes when unplug the
+        card during file copying to MS.
+      Cause:
+        No interrupt was generated from the device for the card removal during
+        a file copy.
+      Change:
+        Added handler to periodically poll the card present bit. If card is not
+        present and driver think its present then inform the OS that card has
+        been removed.
+
+
+Version 1.0.1.9 - January 18, 2011
+----------------------------------------
+  Enhancements:
+  =============
+    1.  Remove two second delay in card initialization as using the CATC_INIT
+    calls seem to achieve the same effect with minimal impact on mount time.
+
+
+Version 1.0.1.8 - January 16, 2011
+----------------------------------------
+  1.  Problem:
+        During card initialization the read of the card's status registers could
+        fail to cause an interrupt in response to a command.
+      Cause:
+        Allow either the command done interrupt or a one second timer to occur
+        so either can allow the routine to proceed and retry if needed.
+      Change:
+        Schedule a one second timer and have the state machine permit either
+        occurrence to cause the state machine to advance.  Also ensure power and
+        clock is stable before attempting to read the card's status registers.
+        clock is stable before attempting to read the card's status registers.
+
+
+Version 1.0.1.7 - January 13, 2011
+----------------------------------------
+  1.  Problem:
+        CQ52297: BSOD with quick insert/removal test of MS Pro cards.
+        CQ52998: Unable to detect MS card some of the time.
+      Cause:
+        Data stack used by state machine during card initialization
+        was overflowing..
+      Change:
+        Fixed data stack overflow.
+
+  Enhancements:
+  =============
+  1.  Added optional build support for driver to perform low-level
+      format of MS Standard card.
+
+
+Version 1.0.1.6 - January 10, 2011
+----------------------------------------
+  1.  Problem:
+        CQ51575, CQ51806, CQ51808, CQ51809, CQ51810: Taking too long to
+        detect MS Standard cards.
+      Cause:
+        During MS Standard card initialization sometimes two interrupts
+        are coalesced into one. A timeout handler is used to handle the
+        coalesced interrupts. The timeout value used was 3 seconds.
+      Change:
+        Reduced the timeout value to 30 msec.
+
+  2.  Problem:
+        CQ51807: Formatting NTFS/exFAT/FAT32/exFAT of MS Standard card
+        will take a long time.
+      Cause:
+        During read/write of MS Standard card sometimes two interrupts
+        are coalesced into one. A timeout handler is used to handle the
+        coalesced interrupts. The timeout value used was 3 seconds.
+      Change:
+        Reduced the timeout value to 30 msec.
+
+  Enhancements:
+  =============
+  1.  Implement asynchronous card initialization.
+
+
+Version 1.0.1.5 - December 17, 2010
+----------------------------------------
+  1.  Problem:
+        Unable to format MS Pro cards.
+      Cause:
+        Delay in the timer and interrupt wait routines were too short. The
+        shorter delay was changed to support MS Standard.
+      Change:
+        Use shorter delay for MS Standard card and longer delays for MS Pro cards.
+
+
+Version 1.0.1.4 - December 15, 2010
+----------------------------------------
+  1.  Problem:
+        CQ51689:  USB host controller fails to initialize from S4 resume test
+        if our MS CR driver is enabled.
+      Cause:
+        Delay in reinitialize routine causes dropped interrupts from the USB
+        host controller.
+      Change:
+        Remove the delay.
+
+  2.  Problem:
+        CQ51574: BSOD when disabling Memory Stick driver.
+      Cause:
+        Card initialization attempting to use device extension when it has
+        been released.
+      Change:
+        Ensure pointer is zero when unloading.  This may assist in locating
+        the issue.  Other changes to detect and abort card initialization for
+        Memory Stick standard when disable is handled.
+
+
+Version 1.0.1.3 - December 13, 2010
+----------------------------------------
+  1.  Problem:
+        CQ51573: Unable to format memory stick standard.
+      Cause:
+        Memory Stick Standard not compatible with ADMA2 buffer size.
+      Change:
+        Change logic to handle larger transfers.
+
+
+Version 1.0.1.2 - December 9, 2010
+----------------------------------------
+  1.  Problem:
+        Memory Stick Standard does not work.
+      Cause:
+        Memory Stick Standard not compatible with ADMA2.
+      Change:
+        Use SDMA for Memory Stick Standard data transfers.
+
+  Notes:
+  ======
+    1.  This version requires:
+        Requires LAN driver version 14.4.2.2 or later
+        Requires xD driver version 1.0.0.41 or later
+        Requires SD driver version 1.0.0.216 or later
+
+
+Version 1.0.1.1 - December 9, 2010
+----------------------------------------
+  Enhancements:
+  =============
+    1.  Implement support for Memory Stick Standard.
+    2.  Implement using ADMA2 for data transfers.
+
+
+  Notes:
+  ======
+    1.  This version requires:
+        Requires LAN driver version 14.4.2.2 or later
+        Requires xD driver version 1.0.0.41 or later
+        Requires SD driver version 1.0.0.216 or later
+
+
+Version 1.0.0.220 - December 4, 2010
+----------------------------------------
+  1.  Problem:
+        Intermittent errors during format operations.
+      Cause:
+        Some physical addresses of a buffer can cause unexpected interrupts.
+      Change:
+        Ignore unexpected interrupts.
+
+  Notes:
+  ======
+    1.  This version requires:
+        Requires LAN driver version 14.4.2.2 or later
+        Requires xD driver version 1.0.0.41 or later
+        Requires SD driver version 1.0.0.213 or later
+
+
+Version 1.0.0.219 - December 4, 2010
+----------------------------------------
+  1.  Problem:
+        No media will be recognized.
+      Cause:
+        Computation and validity tests were incorrect.
+      Change:
+        Compute using ScsiPort to provide the virtual address from a
+        physical address.
+
+  Notes:
+  ======
+    1.  This version requires:
+        Requires LAN driver version 14.4.2.2 or later
+        Requires xD driver version 1.0.0.41 or later
+        Requires SD driver version 1.0.0.213 or later
+
+
+Version 1.0.0.218 - December 3, 2010
+----------------------------------------
+  1.  Problem:
+        BSOD due to non-cached extension being uninitialized.
+      Cause:
+        Code truncating correct values.
+      Change:
+        Compute using code instead of asking ScsiPort to provide it from a
+        physical address.
+
+  Notes:
+  ======
+    1.  This version requires:
+        Requires LAN driver version 14.4.2.2 or later
+        Requires xD driver version 1.0.0.41 or later
+        Requires SD driver version 1.0.0.213 or later
+
+
+Version 1.0.0.217 - December 3, 2010
+----------------------------------------
+  1.  Problem:
+        Intermittent failures during format.
+      Cause:
+        SDMA buffer not aligned to avoid INT_DMA interrupt.
+      Change:
+        Align the buffer to avoid INT_DMA.
+
+  2.  Problem:
+        Intermittent failures in 216 version.
+      Cause:
+        Initializing controller and card only when necessary.
+      Change:
+        Check correct register to detect an external card reader reset.
+
+  Notes:
+  ======
+    1.  This version requires:
+        Requires LAN driver version 14.4.2.2 or later
+        Requires xD driver version 1.0.0.41 or later
+        Requires SD driver version 1.0.0.213 or later
+
+
+Version 1.0.0.216 - December 2, 2010
+----------------------------------------
+  Enhancements:
+  =============
+    1.  Reduce MS clock speed to address HW issue - the change applies to
+        Wistron platform only.
+    2.  Support global card reader reset.
+
+  Notes:
+  ======
+    1.  This version requires:
+        Requires LAN driver version 14.4.2.2 or later
+        Requires xD driver version 1.0.0.41 or later
+        Requires MS driver version 1.0.0.216 or later
+
+
+Version 1.0.0.215 - December 1, 2010
+----------------------------------------
+  1.  Problem:
+        CQs 51324: Unable to detect MS card after resume from S3.
+      Cause:
+        Incorrect value present in our device extension causes interrupts to
+        not be correctly processed.
+      Change:
+        Ensure correct value in our device extension is present.
+
+  2.  Problem:
+        CQs 51349: BSOD observed when uninstalling or disabling MS driver
+      Cause:
+        Thread termination did not have thread handle available.
+      Change:
+        Make the thread handle available to all.
+
+
+Version 1.0.0.214 - November 30, 2010
+----------------------------------------
+  1.  Problem:
+        CQs 51322, 51323: The created disk is not removable.
+        Random failures to enumerate some cards.
+      Cause:
+        The driver is returning incorrect inquiry data when queried.
+      Change:
+        Process the OS inquiry correctly.
+
+
+Version 1.0.0.213 - November 30, 2010
+----------------------------------------
+  1.  Problem:
+        BSOD due to thread not terminating before driver unload.
+      Cause:
+        Missing code.
+      Change:
+        Added code to wait for thread to be terminated and placed thread handle
+        in the correct location for other routines to use.
+
+
+Version 1.0.0.212 - November 29, 2010
+----------------------------------------
+  1.  Problem:
+        Premature return from card initialization if status registers fail to be
+        read successfully.
+      Cause:
+        Test did not include verification of valid status.
+      Change:
+        Add additional check in conditional statement.
+
+  2.  Problem:
+        CQs 51322, 51323, & 51324:  Also problem 1 contributed to these issues.
+        After sleep or hibernate media insertion was not processed.
+      Cause:
+        Worker thread terminated in stop adapter.
+      Change:
+        Move terminate thread to driver unload routine.
+
+
+Version 1.0.0.211 - November 28, 2010
+----------------------------------------
+  1.  Problem:
+        OEM reported problem with media playback when Memory Stick inserted
+      Cause:
+        Card initialization is done at too high a priority.
+      Change:
+        Ensure card initialization is done at a lower priority.
+
+
+Version 1.0.0.210 - November 24, 2010
+----------------------------------------
+  1.  Problem:
+        There are more failures to access some MS card on the latest OEM builds
+      Cause:
+        The driver error recovery is enhanced further to handle more timing sensitive MS
+        cards.
+      Change:
+        Enhanced the driver error recovery in the data path.
+
+Version 1.0.0.209 - November 22, 2010
+----------------------------------------
+  1.  Problem:
+        Failure to access some MS card on the latest OEM builds
+      Cause:
+        The driver error recovery needs to be enhanced to better handle certain timing sensitive MS
+        cards.
+      Change:
+        Enhanced the driver error recovery in the data path.
+
+Version 1.0.0.208 - November 12, 2010
+----------------------------------------
+  1.  Problem:
+        Fix the latest driver corrupting the memory issue
+      Cause:
+        The driver is writing past the HW_NONCACHED_EXTENSION every time the file system requests
+        an I/O operation greater than 6 sectors.
+      Change:
+        Reduce the SRB extension size and also make SDMA buffer has the correct size (second
+        attempt).
+      Note:
+        The driver also eliminates the performance drop reported by driver v1.0.0.206.
+
+
+Version 1.0.0.207 - November 12, 2010
+----------------------------------------
+  1.  Problem:
+        Fix the latest driver corrupting the memory issue
+      Cause:
+        The driver is writing past the HW_NONCACHED_EXTENSION every time the file system requests
+        an I/O operation greater than 6 sectors.
+      Change:
+        Reduce the SRB extension size and also make SDMA buffer has the correct size.
+      Note:
+        The driver also eliminates the performance drop reported by driver v1.0.0.206.
+
+
+Version 1.0.0.206 - November 11, 2010
+----------------------------------------
+  1.  Problem:
+        Device gets code 10 in system logo test "Common Scenario I/O Stress Test"
+      Cause:
+        Driver is unable to allocate memory by using ScsiPortGetUncachedExtension().
+      Change:
+        Reduce Adma32 descriptors size to 1/4 in SRB extension.
+
+
+Version 1.0.0.205 - November 04, 2010
+----------------------------------------
+  1.  Problem:
+        Remove MS Standard Card then insert XD or SD card, XD/SD card may not work.
+      Cause:
+        The original code will set the flag "bStatus" to FALSE, it makes the following LM_ResetForReinitialize() is
+        executed and this makes XD or SD may not work correctly after MS Standard Card is removed, then XD or SD is
+        inserted.
+      Change:
+        Return from card initialization routine LM_InitializeCard() immediately if MS Standard Card is found.
+      Impact:
+        None.
+
+Version 1.0.0.204 - November 03, 2010
+----------------------------------------
+  1.  Problem:
+        CQ50233 - SD card inaccessible after reloading the MS device (test scenario #2)
+      Cause:
+        Driver should not do "reset all" while there is no MS card in the slot.
+      Change:
+        Make MS driver not to do "reset all" when there is no MS card inserted.
+      Impact:
+        None.
+
+  2.  Problem:
+        System hangs with MS Standard card inserted
+      Cause :
+        Driver was stuck in a for loop while a MS Standard card is inserted. There is a wait in the for
+        loop which will stall host cpu for 500ms in each loop and it makes system look like hanging.
+      Change :
+        Make driver to break out another loop earlier (if the card type is not MS PRO) while doing
+        card initialization and return the failure status, so driver will not execute incorrect routine
+        which it should not do for MS Standard Card.
+
+  3.  Problem:
+        CQ50768 - MS card can't be detected after insert MS card then system wakes from S3 mode.
+      Change:
+        Issue a media change notification to upper layer, so the scsiport will do device re-scan and find the card.
+
+  4.  Problem:
+        CQ50668 - system gets BSOD (D1) while reinserting the MS Card after system wakes up from S3/S4 mode
+      Cause:
+        The driver is touching an invalid SRB when reinserting the media after returning from S3/S4.
+      Change:
+        Not to access the invalid SRB after system resuming from S3/S4
+
+  Enhancements:
+  =============
+  1.  Request:
+        Set bit 25 of register 0x180 to improve MS reliabilty on OEM systems
+
+Version 1.0.0.203 - November 01, 2010
+----------------------------------------
+  1.  Problem:
+        CQ50233 - Reload MS Driver would break SD file transfer.
+      Cause:
+        Clock control is the common logic between SD/MMC and MS slots. Clock control register programming
+        from driver is allowed only for the active card inserted slot.
+      Change:
+      Make MS driver doesn't program clock control register when there is no MS card inserted.
+      Impact:
+        None.
+
+Version 1.0.0.202 - October 27, 2010
+----------------------------------------
+  1.  Problem:
+        CQ50649:MS driver v1.0.0.201 causes Aspen B0 cannot detect some SD cards
+      Cause:
+        The clock switching which increases MS performance should only apply
+        when a card is inserted in the MS slot.
+      Change:
+         Switch the clock only when there is a card present.
+      Impact:
+        None.
+      Notes:
+        None.
+
+Version 1.0.0.201 - October 24, 2010
+----------------------------------------
+  1.  Problem:
+        CQ46402:Aspen-CR-MS performance lower than USB Card Reader
+      Cause:
+        The controller was programmed to use a lower frequency clock source
+        to driver the Memory Stick bus.
+      Change:
+         This driver selects a higher frequency clock source to drive the
+         Memory Stick bus.
+      Impact:
+        None.
+      Notes:
+        None.
+
+Version 1.0.0.200 - October 20, 2010
+----------------------------------------
+  1.  Problem:
+        The MS driver is failing the MSFT Velocity test
+      Cause:
+        The driver is pausing 3s during S3 processing waiting for
+        its internal timer to expire.
+      Change:
+         Disabled this timer wait, which should work for
+         the current storage driver model. The older timer wait was for another
+         driver model which we ultimately did not use.
+      Impact:
+        None.
+      Notes:
+        None.
+
+  2.  Problem:
+        Support 8-bit mode switch for Pro Duo HG cards
+      Cause:
+        The previous driver did not implement the right MS clocking and bus
+        width for HG cards, leading to a low performance.
+      Change:
+         This driver supports switching to 8-bit mode for Pro Duo HG cards.
+      Impact:
+        None.
+      Notes:
+        None.
+
+Version 1.0.0.199 - October 17, 2010
+----------------------------------------
+  1.  Problem:
+        CQ49749 - Aspen-B0-FPGA-MS: Load_unload MS card device will cause device
+        code 10.
+      Cause:
+        The driver is consuming too much memory during normal operation.
+      Change:
+         Changed the implementation to consume much less memory.
+      Impact:
+        None.
+      Notes:
+        None.
+
+
+  2.  Problem:
+        CQ49891 - Write-Protection doesn't work (MS Pro only).
+      Cause:
+        There is a bug in the code which cleared the Write Protect state.
+      Change:
+         Removed the clearing code.
+      Impact:
+        None.
+      Notes:
+        None.
+
+
+Version 1.0.0.198 - September 15, 2010
+----------------------------------------
+  1.  Problem:
+        CQ46403 - Issue with Chariot and Memory Stick not working well together.
+      Cause:
+        Hardware
+      Change:
+        Attempting a full reset of the host controller and media.
+      Impact:
+        Possible timeouts in SRB processing.
+      Notes:
+        This is a test version.  Use of a CATC with at least 10 seconds of event
+        recording time is required.  A Gen1 CATC with 2MB is not adequate.  From
+        the time data stops, it takes the driver more than 3 seconds to detect
+        it.  The full reset will take a second or two and I need at least 3 or
+        more seconds of data before the data stopped.
+
+  2.  Problem:
+        CQ48390 - Aspen-B0-FPGA_XD_SD: Unable to recognize an xD card
+        after SD card was previously inserted.
+      Cause:
+        Card reader functions for MS & SD require a software reset for all be
+        issued so other functions will work properly.
+      Change:
+        When disable, enable, eject, or insert activities are detected a
+        software reset for all is required.
+      Impact:
+      Notes:
+
+  2.  Problem:
+      Cause:
+      Change:
+      Impact:
+      Notes:
+
+  3.  Problem:
+      Cause:
+      Change:
+      Impact:
+      Notes:
+
+
+  Enhancements:
+  =============
+  1.  Request:
+      Change:
+      Impact:
+        None
+      Notes:
+
+
+  Restrictions:
+  =============
+  1.  Memory Stick PRO, PRO Duo, and PRO-HG Duo.
+  2.  Windows XP, Vista and Windows 7 only.
+  3.  Boot code version 1.26 or later required.
+  4.  A couple of small memory leaks occur in ScsiPort when driver is disabled.
+      If a LU_EXTENSION is requested that buffer will always be leaked
+      regardless of its size.
+      Microsoft confirms bug in ScsiPort and sustaining engineering has rejected
+      providing a fix for Vista and Windows 7.
+  5.  Disable all other flash memory reader functions while testing Memory Stick
+      on any A0 devices.
+
+
+Version 1.0.0.197 - August 12, 2010
+----------------------------------------
+  1.  Problem:
+        CQ47605 - "Safely remove HW" icon doesn't appear on taskbar.
+      Cause:
+        Disk drive was not being destroyed by driver.
+      Change:
+        Stop unit changed to fake LU removal.  PnP IRP trapped to fake LU
+        removal when eject is seen.
+      Impact:
+      Notes:
+
+  2.  Problem:
+        CQ49238 - System lock up for about 5 minutes and media not recognized.
+      Cause:
+        Host Control register was being programmed for ADMA2 64-bit.
+      Change:
+        Suppress ADMA2 64-bit code.
+      Impact:
+      Notes:
+
+  3.  Problem:
+      Cause:
+      Change:
+      Impact:
+      Notes:
+
+
+  Enhancements:
+  =============
+  1.  Request:
+      Change:
+      Impact:
+        None
+      Notes:
+
+
+  Restrictions:
+  =============
+  1.  Memory Stick PRO, PRO Duo, and PRO-HG Duo.
+  2.  Windows XP, Vista and Windows 7 only.
+  3.  Boot code version 1.22 or later required.
+  4.  On a 57765 board SD 3.0 can be enabled via b57diag which will produce a
+      higher data transfer rate in some cases.
+
+
+Version 1.0.0.175 - June 14, 2010
+----------------------------------------
+  1.  Problem:
+        CQ48104 - Cannot detect MS Card from b57785x after system reboot.
+      Cause:
+        Hardware power control is not available on some SKUs.
+      Change:
+        Try 4-bit mode if 1-bit mode fails 3 times.  Then 8-bit mode if 4-bit
+        mode fails 3 times.
+      Impact:
+        This is a hardware limitation in the A0 revision of the ASIC.
+      Notes:
+
+  2.  Problem:
+      Cause:
+      Change:
+      Impact:
+      Notes:
+
+  3.  Problem:
+      Cause:
+      Change:
+      Impact:
+      Notes:
+
+
+  Enhancements:
+  =============
+  1.  Request:
+      Change:
+      Impact:
+        None
+      Notes:
+
+
+  Restrictions:
+  =============
+  1.  Memory Stick PRO, PRO Duo, and PRO-HG Duo.
+  2.  Windows XP, Vista and Windows 7 only.
+  3.  Boot code version 1.22 or later required.
+  4.  On a 57765 board SD 3.0 can be enabled via b57diag which will produce a
+      higher data transfer rate in some cases.
+
+
+Version 1.0.0.173 - June 10, 2010
+----------------------------------------
+  1.  Problem:
+        CQ48180 - Unable to detect MS card after ungraceful remove and re-insert.
+      Cause:
+        Elimination of "Software Reset for All" leaves host controller in an
+        undeterminable state.
+      Change:
+        Allow "Software Reset for All" when media present.
+      Impact:
+      Notes:
+
+  2.  Problem:
+      Cause:
+      Change:
+      Impact:
+      Notes:
+
+  3.  Problem:
+      Cause:
+      Change:
+      Impact:
+      Notes:
+
+
+  Enhancements:
+  =============
+  1.  Request:
+        Driver may proceed too quickly after power restoration from S3/S4/S5.
+      Change:
+        During power state change clear register 0x198 (Bits 8-11) to zero.
+      Impact:
+        None
+      Notes:
+
+
+  Restrictions:
+  =============
+  1.  Memory Stick PRO, PRO Duo, and PRO-HG Duo.
+  2.  Windows XP, Vista and Windows 7 only.
+  3.  Boot code version 1.22 or later required.
+  4.  On a 57765 board SD 3.0 can be enabled via b57diag which will produce a
+      higher data transfer rate in some cases.
+
+
+Version 1.0.0.171 - May 21, 2010
+----------------------------------------
+  1.  Problem:
+        CQ47799 - After install MS driver, it shows yellow bang and BSOD on x64
+        systems.
+      Cause:
+        INF does not correctly create PnP registry key.  HwScsiFindAdapter is
+        then never called and a global pointer is not initialized.
+      Change:
+        Fix INF to correctly create PnP registry key.  Protect access to global
+        variable by checking for non-zero value.
+      Impact:
+      Notes:
+
+  2.  Problem:
+      Cause:
+      Change:
+      Impact:
+      Notes:
+
+  3.  Problem:
+      Cause:
+      Change:
+      Impact:
+      Notes:
+
+
+  Enhancements:
+  =============
+  1.  Request:
+      Change:
+      Impact:
+        None
+      Notes:
+
+
+  Restrictions:
+  =============
+  1.  Memory Stick PRO, PRO Duo, and PRO-HG Duo.
+  2.  Windows XP, Vista and Windows 7 only.
+  3.  Boot code version 1.22 or later required.
+  4.  On a 57765 board SD 3.0 can be enabled via b57diag which will produce a
+      higher data transfer rate in some cases.
+
+
+Version 1.0.0.163 - May 20, 2010
+----------------------------------------
+  1.  Problem:
+        CQ47136 - Enabling MS while SD transferring data causes controller
+        failure.
+      Cause:
+        Memory Stick driver altering clock, power, and resetting controller.
+      Change:
+        Do not change power, clock or reset controller if no media.
+      Impact:
+      Notes:
+
+  2.  Problem:
+      Cause:
+      Change:
+      Impact:
+      Notes:
+
+  3.  Problem:
+      Cause:
+      Change:
+      Impact:
+      Notes:
+
+
+  Enhancements:
+  =============
+  1.  Request:
+      Change:
+      Impact:
+        None
+      Notes:
+
+
+  Restrictions:
+  =============
+  1.  Memory Stick PRO, PRO Duo, and PRO-HG Duo.
+  2.  Windows XP, Vista and Windows 7 only.
+  3.  Boot code version 1.22 or later required.
+  4.  On a 57765 board SD 3.0 can be enabled via b57diag which will produce a
+      higher data transfer rate in some cases.
+
+
+Version 1.0.0.162 - May 17, 2010
+----------------------------------------
+  1.  Problem:
+        Unnecessary registry key value in inf.
+      Cause:
+        Old value is for non-PnP devices only.
+      Change:
+        Remove BusType registry entry.
+      Impact:
+      Notes:
+
+  2.  Problem:
+        CQ47605 - Safely remove hardware does not appear in taskbar.
+      Cause:
+        ScsiPort does not support this capability.
+      Change:
+        Modify query capabilities to indicate required values.
+      Impact:
+      Notes:
+
+  3.  Problem:
+        CQ47691 - Data loss after remove/insert media in XP.
+      Cause:
+        Media not completely flushed to disk.
+      Change:
+        Modify query capabilities to indicate required values.
+      Impact:
+      Notes:
+        This CQ affects Memory Stick also.
+        Use of NTFS on removable media in Windows XP is not supported.
+        This change may help, but it is not a supported use case.
+        See Broadcom Notes in CQ.
+
+
+  Enhancements:
+  =============
+  1.  Request:
+      Change:
+      Impact:
+        None
+      Notes:
+
+
+  Restrictions:
+  =============
+  1.  Memory Stick PRO, PRO Duo, and PRO-HG Duo.
+  2.  Windows XP, Vista and Windows 7 only.
+  3.  Boot code version 1.22 or later required.
+  4.  On a 57765 board SD 3.0 can be enabled via b57diag which will produce a
+      higher data transfer rate in some cases.
+
+
+Version 1.0.0.154 - May 12, 2010
+----------------------------------------
+  1.  Problem:
+        S3 returns with our device disabled if no media present.
+      Cause:
+        ScsiPort does not enable our device if we last reported no media.
+      Change:
+        Force ScsiPort to enable our device on system resume.
+      Impact:
+      Notes:
+
+  2.  Problem:
+        Software reset for all causes the SD function to fail.
+      Cause:
+        Hardware error.
+      Change:
+        Eliminate software reset for all.
+      Impact:
+      Notes:
+
+
+  Enhancements:
+  =============
+  1.  Request:
+      Change:
+      Impact:
+        None
+      Notes:
+
+
+  Restrictions:
+  =============
+  1.  Memory Stick PRO, PRO Duo, and PRO-HG Duo.
+  2.  Windows XP, Vista and Windows 7 only.
+  3.  Boot code version 1.22 or later required.
+  4.  On a 57765 board SD 3.0 can be enabled via b57diag which will produce a
+      higher data transfer rate in some cases.
+
+
+Version 1.0.0.52 - April 27, 2010
+----------------------------------------
+  1.  Problem:
+        CQ46908 - Unable to successfully remove MS card during file transfer
+      Cause:
+        Not using software reset for all may put host controller in bad state.
+      Change:
+        Add more tests for media removal where required.
+        Revert to using software reset for all functionality.
+      Impact:
+        SD driver cannot be enabled while using Memory Stick.
+      Notes:
+
+
+  Enhancements:
+  =============
+  1.  Request:
+      Change:
+      Impact:
+        None
+      Notes:
+
+
+  Restrictions:
+  =============
+  1.  Memory Stick PRO, PRO Duo, and PRO-HG Duo.
+  2.  Windows XP, Vista and Windows 7 only.
+  3.  Boot code version 1.21 or later preferred, but not required.
+
+
+Version 1.0.0.45 - April 26, 2010
+----------------------------------------
+  1.  Problem:
+        Eliminate duplicate drive.
+      Cause:
+        Forgot to remove two changes used for testing.
+      Change:
+        Only allow one device/drive to be created.
+      Impact:
+      Notes:
+
+
+  Enhancements:
+  =============
+  1.  Request:
+      Change:
+      Impact:
+        None
+      Notes:
+
+
+  Restrictions:
+  =============
+  1.  Memory Stick PRO, PRO Duo, and PRO-HG Duo.
+  2.  Windows XP, Vista and Windows 7 only.
+  3.  Boot code later than 1.20 preferred, but not required.
+
+
+Version 1.0.0.43 - April 26, 2010
+----------------------------------------
+  1.  Problem:
+        SDMA not fully implemented with all fixes made to ADMA2 logic.
+      Cause:
+        Wasn't main priority.
+      Change:
+        Update and test SDMA logic.
+      Impact:
+        Permits SDMA to be enabled to overcome hardware limitations with
+        enabling another flash memory function.
+      Notes:
+
+  2.  Problem:
+        CQ46908 - Unable to successfully remove MS card during file transfer.
+      Cause:
+        Not handling media absent in all routines.
+      Change:
+        Add change to complete SRBs when media has been removed.
+      Impact:
+      Notes:
+
+  3.  Problem:
+        Many CQs
+      Cause:
+        Reset all on either SD or MS will cause the other to stop transferring
+        data.
+      Change:
+        Eliminate software reset for all in the code.
+      Impact:
+      Notes:
+
+
+  Enhancements:
+  =============
+  1.  Request:
+        ScsiPort leaks memory for logical unit extensions.  We don't use the
+        one we have ScsiPort allocate for us.
+      Change:
+        Inform ScsiPort we don't want a logical unit extension.
+      Impact:
+        None
+      Notes:
+
+  2.  Request:
+        Change base clock speed logic to assume the value is correct.
+      Change:
+        Use the value from the capabilities register unless it is 208MHz where
+        it will be assumed to be 50MHz.
+      Impact:
+      Notes:
+        This does no boot code version 1.20 or earlier is running at a higher
+        clock speed.  This is normally just used for SD 3.0 testing with SDXC
+        media.
+
+
+  Restrictions:
+  =============
+  1.  Memory Stick PRO, PRO Duo, and PRO-HG Duo.
+  2.  Windows XP, Vista and Windows 7 only.
+  3.  Boot code later than 1.20 preferred, but not required.
+
+
+Version 1.0.0.16 - April 16, 2010
+----------------------------------------
+  1.  Problem:
+        CQ47210 - Memory Stick driver fails to initialize when using OTP.
+      Cause:
+        When there is no boot code signature the driver will not initialize.
+      Change:
+        Wait for 2 seconds and then allow initialization to continue.
+      Impact:
+      Notes:
+
+  2.  Problem:
+        CQ47133 - DiskIO failure on various versions of Windows.
+      Cause:
+        Incomplete reset logic didn't clear state in MS card.
+      Change:
+        Issue a STOP command to the MS card.
+      Impact:
+      Notes:
+
+  3.  Problem:
+        CQ46498 - Problem writing to specific Lexar Memory Stick.
+      Cause:
+        Incomplete reset logic didn't clear state in MS card.
+      Change:
+        Issue a STOP command to the MS card.
+      Impact:
+      Notes:
+
+
+  Enhancements:
+  =============
+  1.  Request:
+      Change:
+      Impact:
+      Notes:
+
+
+  Restrictions:
+  =============
+  1.  Memory Stick PRO, PRO Duo, and PRO-HG Duo.
+  2.  Windows XP, Vista and Windows 7 only.
+
+
+Version 1.0.0.6 - April 8, 2010
+----------------------------------------
+  1.  Problem:
+        Many data transfer and power state change errors.
+      Cause:
+        Improper or no error handling.
+      Change:
+      Impact:
+      Notes:
+
+
+  Enhancements:
+  =============
+  1.  Request:
+      Change:
+      Impact:
+      Notes:
+
+
+  Restrictions:
+  =============
+  1.  Memory Stick PRO, PRO Duo, and PRO-HG Duo.
+  2.  Windows XP, Vista and Windows 7 only.
+
+
+Version 1.0.0.5 - March 31, 2010
+----------------------------------------
+  1.  Problem:
+        CQ46795/46436 - Card not accessible after S1/S3/S4.
+      Cause:
+        Card initialization must begin in serial mode.  During shutdown the
+        driver was depending upon turning off the power to change the mode.
+      Change:
+        Reset card to serial mode during shutdown.
+      Impact:
+      Notes:
+
+  2.  Problem:
+        CQ46226 - Reload LAN driver breaks Memory Stick file transfer.
+      Cause:
+        Vista's StorPort requires VPD data to be certain the device has not
+        been changed.
+      Change:
+        Implement SCSIOP_INQUIRY VPD Page 0x83 with constant data.
+      Impact:
+      Notes:
+
+  3.  Problem:
+        CQ46235 - File transfer not successfully completed.
+      Cause:
+        The command complete interrupt occurred and BREQ is set.  Our driver
+        continues the ADMA2 register setup, but the second command complete
+        interrupt is pending.  When that second command complete interrupt is
+        processed in our ISR, it causes the DMA to hang.
+      Change:
+        If BREQ is set on the first and maybe only command complete interrupt,
+        ensure there is no other command complete interrupt pending in the host
+        controller.
+      Impact:
+      Notes:
+        This is a partial fix to this CQ.  It does not fix the hardware issue
+        where writing stops after the first 512 bytes of a multi-sector block.
+
+
+  Enhancements:
+  =============
+  1.  Request:
+        Allow removal of the 65536 - 512 size limit on ADMA2 descriptor length
+                as a build option.
+                Change read/write buffer alignment to 4 bytes.
+      Change:
+      Impact:
+      Notes:
+
+
+  Restrictions:
+  =============
+  1.  Memory Stick PRO, PRO Duo, and PRO-HG Duo.
+  2.  Windows XP, Vista and Windows 7 only.
+
+
+Version 1.0.0.2 - March 9, 2010
+----------------------------------------
+  1.  Problem:
+        CQ46400 - Sony Pro Duo 16GB failed to format NTFS
+      Cause:
+        Off by one bug in determining the last LBA that would be accessed by
+        this read or write.
+      Change:
+        Reduce the last LBA number by 1 since LBAs are zero relative and total
+        sectors on the media are one greater than the maximum LBA that will
+        be accessible.
+      Impact:
+        NTFS on media that uses all sectors will format correctly.
+      Notes:
+
+  2.  Problem:
+        CQ46396 - Ungraceful card removal in XP causes BSOD
+      Cause:
+        Divide by zero when no card present and size of SGL list needs to be
+        computed.  Sector size value is zeroed out on removal.
+      Change:
+        If card is not present or not mounted, do not compute SGL information.
+      Impact:
+        Eliminates BSOD.
+      Notes:
+
+
+  Enhancements:
+  =============
+  1.  Request:
+        Remove 65536 - 512 size limit on ADMA2 descriptor length.  Change
+        read/write buffer alignment to 4 bytes.
+      Change:
+      Impact:
+      Notes:
+
+
+  Restrictions:
+  =============
+  1.  Memory Stick PRO, PRO Duo, and PRO-HG Duo.
+  2.  Windows XP only.
+
+
+Version 1.0.0.1 - February 23, 2010
+----------------------------------------
+  1.  Problem:
+      Cause:
+      Change:
+      Impact:
+      Notes:
+
+
+  Enhancements:
+  =============
+  1.  Request:
+        Initial release
+      Change:
+      Impact:
+      Notes:
+
+
+  Restrictions:
+  =============
+  1.  Memory Stick PRO, PRO Duo, and PRO-HG Duo.
+  2.  Windows XP only.
+

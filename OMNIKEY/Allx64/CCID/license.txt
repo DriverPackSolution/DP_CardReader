@@ -1,0 +1,41 @@
+Software License Agreement
+
+IMPORTANT - READ BEFORE INSTALLING, COPYING,  OR USING. DO NOT USE OR LOAD THIS SOFTWARE AND ANY ASSOCIATED MATERIALS (THE “SOFTWARE”) UNTIL YOU HAVE CAREFULLY READ THE FOLLOWING TERMS AND CONDITIONS. BY LOADING OR USING THE SOFTWARE, YOU AGREE TO THE TERMS OF THIS AGREEMENT. IF YOU DO NOT AGREE, DO NOT INSTALL OR USE THIS SOFTWARE.
+
+
+Use of Software:
+The software that is made available hereby is the copyrighted work by the licenser. By installing this software your are accepting the license terms and conditions.
+
+License:
+You are granted a non-exclusive license to use this software on the following terms:
+
+YOU MAY:
+
+   1. Use the software program on any computer or network but only in conjunction with the corresponding hardware product;
+   2. Make only those number of backup and archival copies of the software program in machine readable form as are essential to backup use of the software program, provided that you reproduce all proprietary notices on each copy;
+   3. Permit others to distribute and use this software and accompanying documentations with the same rights and duties as described herein.
+
+
+
+YOU MAY NOT:
+
+   1. Modify, translate, reverse engineer, decompile, disassemble, create, derivative works based on, or copy (except for archival purposes) the    program or the accompanying documentation;
+   2. Rent, transfer, sublicense or grant any rights in the software or accompanying documentation (including any time-sharing arrangement) in any form to any other person without the prior written consent of the licenser;
+   3. Remove any proprietary notices, labels, or marks on the program and    accompanying documentation;
+   4. Export or re-export the software where your current export laws do not allow this.
+
+
+Failure to comply with any of the above restrictions will terminate this license. This is not a sale of the software. Title and copyrights to the program and accompanying documentation and any copies remain with the licenser.
+
+
+Disclaimer
+EXCEPT AS EXPRESSLY PROVIDED OTHERWISE IN A WRITTEN AGREEMENT BETWEEN YOU AND THE LICENSER, ALL SOFTWARE AND DOCUMENTATION HEREIN ARE PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR
+PURPOSE, OR THE WARRANTY OF NON-INFRINGEMENT. WITHOUT LIMITING THE FOREGOING, THE LICENSER MAKES NO WARRANTY THAT (i) THE SERVICES AND MATERIALS WILL MEET YOUR REQUIREMENTS, (ii) THE SERVICES AND MATERIALS WILL BE UNINTERRUPTED, TIMELY, SECURE, OR ERROR-FREE, (iii)
+THE RESULTS THAT MAY BE OBTAINED FROM THE USE OF THIS MATERIALS WILL BE EFFECTIVE, ACCURATE OR  RELIABLE, (iv) THE QUALITY OF ANY PRODUCTS,  INFORMATION HEREIN WILL MEET YOUR EXPECTATIONS, AND (v) ANY ERRORS IN THE SOFTWARE HEREIN WILL BE CORRECTED.
+
+Limitation of Liability.  THE LICENSER ASSUMES NO RESPONSIBILITY FOR ERRORS OR OMISSIONS  IN THIS SOFTWARE, DOCUMENTS, SOFTWARE, MATERIALS AND/OR  SERVICES HEREIN. IN NO EVENT SHALL THE LICENSER OR
+ITS SUPPLIERS BE LIABLE TO YOU OR ANY THIRD PARTY FOR ANY SPECIAL, PUNITIVE, INCIDENTAL, INDIRECT OR CONSEQUENTIAL DAMAGES OF ANY KIND, OR ANY  DAMAGES WHATSOEVER, INCLUDING, WITHOUT LIMITATION, THOSE  RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER OR  NOT LICENSER HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH  DAMAGES, AND ON ANY THEORY OF LIABILITY, ARISING OUT OF OR IN CONNECTION WITH THE USE OF THIS SOFTWARE. SOME  JURISDICTIONS PROHIBIT THE EXCLUSION OR LIMITATION OF LIABILITY FOR CONSEQUENTIAL OR
+INCIDENTAL DAMAGES, SO THE ABOVE LIMITATIONS MAY NOT APPLY TO YOU.
+
+THE INSTALLATION AND USE OF THIS SOFTWARE IS DONE AT YOUR OWN DISCRETION AND RISK AND WITH YOUR AGREEMENT  THAT YOU WILL BE SOLELY RESPONSIBLE FOR ANY DAMAGE TO YOUR COMPUTER SYSTEM OR LOSS OF DATA THAT RESULTS FROM  SUCH ACTIVITIES. NO ADVICE OR INFORMATION, WHETHER ORAL OR  WRITTEN, OBTAINED BY YOU FROM LICENSER SHALL CREATE ANY WARRANTY NOT EXPRESSLY STATED IN THE
+TERMS OF USE.

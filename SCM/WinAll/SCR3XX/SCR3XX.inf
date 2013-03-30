@@ -1,0 +1,1070 @@
+; SCR3XX.INF
+;
+; Installation file (.inf) for the SCR3XX USB Smart Card Readers for Windows 2K/XP/Server2003/Server2008/Vista/Windows7/Windows 8.
+;
+; Copyright © Identive,2005-2012
+;
+
+[Version]
+Signature="$Windows NT$"
+Class=SmartCardReader
+ClassGuid={50DD5230-BA8A-11D1-BF5D-0000F805F530}
+Provider=%Mfg%
+CatalogFile=SCR3XX.cat
+DriverVer=12/06/2012,4.61.00.00
+
+[Manufacturer]
+%Mfg% = Models,NTamd64
+
+[Models]
+%PCSC_CCID%    = PCSC_CCID,USB\VID_04E6&PID_E001
+%SCR333_CCID% = SCR333_CCID,USB\VID_04E6&PID_5113
+%SCR335_CCID% = SCR335_CCID,USB\VID_04E6&PID_5115
+%SCR33L_CCID% = SCR33L_CCID,USB\VID_04E6&PID_5116
+%SCR3320_CCID% = SCR3320_CCID,USB\VID_04E6&PID_5117
+%EXPSIM_CCID% = EXPSIM_CCID,USB\VID_04E6&PID_5118
+%EXPCRD_CCID% = EXPCRD_CCID,USB\VID_04E6&PID_5119  
+%SCR3311_CCID% = SCR3311_CCID,USB\VID_04E6&PID_511D
+%SCR355_CCID%  = SCR355_CCID,USB\VID_04E6&PID_5410
+%CLOUD4700F_CNT%  = CLOUD4700F_CNT,USB\VID_04E6&PID_5720&MI_00
+%CLOUD4700F_CL% = CLOUD4700F_CL,USB\VID_04E6&PID_5720&MI_01
+%CLOUD4710F_CNT%  = CLOUD4710F_CNT,USB\VID_04E6&PID_5721&MI_00
+%CLOUD4710F_CL% = CLOUD4710F_CL,USB\VID_04E6&PID_5721&MI_01
+%CLOUD2700R_CNT% = CLOUD2700R_CNT,USB\VID_04E6&PID_5810
+%CLOUD2710F_CNT% = CLOUD2710F_CNT,USB\VID_04E6&PID_5711
+%CLOUD2700F_CNT% = CLOUD2700F_CNT,USB\VID_04E6&PID_5710
+%CLOUD2900R_CNT% = CLOUD2900R_CNT,USB\VID_04E6&PID_5811
+%CLOUD2700FSC_CNT% = CLOUD2700FSC_CNT,USB\VID_04E6&PID_5712
+%SCR3310V2_CCID%  = SCR3310V2_CCID,USB\VID_04E6&PID_5413
+%SCR338_CCID% = SCR338_CCID,USB\VID_04E6&PID_5151&MI_01
+%STC4_BOOTLOADER% = STC4_BOOTLOADER,USB\VID_04E6&PID_5700
+%STC4_BOOTLOADER_SEC% = STC4_BOOTLOADER_SEC,USB\VID_04E6&PID_5701
+
+[Models.NTamd64]
+%PCSC_CCID%   = PCSC_CCIDx64,USB\VID_04E6&PID_E001
+%SCR333_CCID% = SCR333_CCIDx64,USB\VID_04E6&PID_5113
+%SCR335_CCID% = SCR335_CCIDx64,USB\VID_04E6&PID_5115
+%SCR33L_CCID% = SCR33L_CCIDx64,USB\VID_04E6&PID_5116
+%SCR3320_CCID% = SCR3320_CCIDx64,USB\VID_04E6&PID_5117
+%EXPSIM_CCID% = EXPSIM_CCIDx64,USB\VID_04E6&PID_5118
+%EXPCRD_CCID% = EXPCRD_CCIDx64,USB\VID_04E6&PID_5119  
+%SCR3311_CCID% = SCR3311_CCIDx64,USB\VID_04E6&PID_511D
+%SCR355_CCID% = SCR355_CCIDx64,USB\VID_04E6&PID_5410
+%SCR3310V2_CCID%  = SCR3310V2_CCIDx64,USB\VID_04E6&PID_5413
+%CLOUD4700F_CNT%  = CLOUD4700F_CNTx64,USB\VID_04E6&PID_5720&MI_00
+%CLOUD4700F_CL% = CLOUD4700F_CLx64,USB\VID_04E6&PID_5720&MI_01
+%CLOUD4710F_CNT%  = CLOUD4710F_CNTx64,USB\VID_04E6&PID_5721&MI_00
+%CLOUD4710F_CL% = CLOUD4710F_CLx64,USB\VID_04E6&PID_5721&MI_01
+%CLOUD2700R_CNT% = CLOUD2700R_CNTx64,USB\VID_04E6&PID_5810
+%CLOUD2710F_CNT% = CLOUD2710F_CNTx64,USB\VID_04E6&PID_5711
+%CLOUD2700F_CNT% = CLOUD2700F_CNTx64,USB\VID_04E6&PID_5710
+%CLOUD2900R_CNT% = CLOUD2900R_CNTx64,USB\VID_04E6&PID_5811
+%CLOUD2700FSC_CNT% = CLOUD2700FSC_CNTx64,USB\VID_04E6&PID_5712
+%SCR338_CCID% = SCR338_CCIDx64,USB\VID_04E6&PID_5151&MI_01
+%STC4_BOOTLOADER% = STC4_BOOTLOADERx64,USB\VID_04E6&PID_5700
+%STC4_BOOTLOADER_SEC% = STC4_BOOTLOADERSECx64,USB\VID_04E6&PID_5701
+
+[ControlFlags]
+ExcludeFromSelect.NT=USB\VID_04E6&PID_E001
+ExcludeFromSelect.NT=USB\VID_04E6&PID_5113
+ExcludeFromSelect.NT=USB\VID_04E6&PID_5115
+ExcludeFromSelect.NT=USB\VID_04E6&PID_5116
+ExcludeFromSelect.NT=USB\VID_04E6&PID_5117
+ExcludeFromSelect.NT=USB\VID_04E6&PID_5118
+ExcludeFromSelect.NT=USB\VID_04E6&PID_5119
+ExcludeFromSelect.NT=USB\VID_04E6&PID_511D
+ExcludeFromSelect.NT=USB\VID_04E6&PID_5410
+ExcludeFromSelect.NT=USB\VID_04E6&PID_5413
+ExcludeFromSelect.NT=USB\VID_04E6&PID_5151&MI_01
+
+[SourceDisksNames]
+1=%Floppy_Description%,SCR3XX2K.sys,,
+1=%Floppy_Description%,S3XXx64.sys,,
+1=%Floppy_Description%,CLOUDx86.sys,,
+1=%Floppy_Description%,CLOUDx64.sys,,
+
+[SourceDisksFiles]
+SCR3XX2K.sys=1
+S3XXx64.sys=1
+CLOUDx86.sys=1
+CLOUDx64.sys=1
+
+[DestinationDirs]
+DefaultDestDir=10,system32\drivers
+PCSC_CCID.NTCopyFiles=10,system32\drivers
+PCSC_CCIDx64.NTCopyFiles=10,system32\drivers
+CLOUD2700R_CNT.NTCopyFiles=10,system32\drivers
+CLOUD2700R_CNTx64.NTCopyFiles=10,system32\drivers
+
+;*******************************************************************************************************
+; x86 specific 
+;*******************************************************************************************************
+
+[PCSC_CCID.NTCopyFiles]
+SCR3XX2K.sys,,
+
+[PCSC_CCID.AddReg]
+HKR,,ShortProviderName,0,%ShortProviderName%
+HKR,,ReaderName,0,%PCSC_CCID%
+HKLM, Software\Microsoft\Cryptography\Calais\Readers,,,
+HKLM, System\CurrentControlSet\Services\SCardSvr,Start,0x00010001,2
+HKLM, System\CurrentControlSet\Services\CertPropSvc,Start,0x00010001,2
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,DLLName,0,wlnotify.dll
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logon,0,SCardStartCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logoff,0,SCardStopCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Lock,0,SCardSuspendCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Unlock,0,SCardResumeCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Enabled,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Impersonate,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Asynchronous,0x00010001,1
+
+[PCSC_CCID.NT.AddReg]
+HKR,, IFDType,0,%PCSC_CCID%
+HKR,, VendorName,0,%Mfg%
+
+[PCSC_CCID.AddReg.HW]
+
+[PCSC_CCID.NT]
+CopyFiles= PCSC_CCID.NTCopyFiles
+AddReg= PCSC_CCID.AddReg, PCSC_CCID.NT.AddReg
+
+[PCSC_CCID.NT.HW]
+AddReg= PCSC_CCID.AddReg.HW
+
+[PCSC_CCID.NT.Services]
+AddService = SCR3XX2K,0x00000002,PCSC_CCID_Service_Inst,PCSC_CCID_EventLog_Inst
+
+[PCSC_CCID_Service_Inst]
+ServiceType     = 1 ;%SERVICE_KERNEL_DRIVER%
+StartType       = 3 ;%SERVICE_AUTO_START%
+ErrorControl    = 1 ;%SERVICE_ERROR_NORMAL%
+ServiceBinary   = %12%\SCR3XX2K.sys
+DisplayName     = %SERVICE_CCID%
+AddReg= PCSC_CCID.AddReg
+
+[PCSC_CCID_EventLog_Inst]
+AddReg=PCSC_CCID.AddEventLogReg
+
+[PCSC_CCID.AddEventLogReg]
+HKR,,EventMessageFile,0x00020000,"%%SystemRoot%%\System32\IoLogMsg.dll;%%SystemRoot%%\System32\drivers\SCR3XX2K.sys"
+HKR,,CategoryMessageFile,0x00020000,"%%SystemRoot%%\System32\drivers\SCR3XX2K.sys"
+HKR,,CategoryCount,0x00010001,1
+HKR,,TypesSupported,0x00010001,7
+
+;;---------
+
+[CLOUD2700R_CNT.NTCopyFiles]
+CLOUDx86.sys,,
+
+[CLOUD2700R_CNT.AddReg]
+HKR,,ShortProviderName,0,%ShortProviderName%
+HKR,,ReaderName,0,%CLOUD2700R_CNT%
+HKLM, Software\Microsoft\Cryptography\Calais\Readers,,,
+HKLM, System\CurrentControlSet\Services\SCardSvr,Start,0x00010001,2
+HKLM, System\CurrentControlSet\Services\CertPropSvc,Start,0x00010001,2
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,DLLName,0,wlnotify.dll
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logon,0,SCardStartCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logoff,0,SCardStopCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Lock,0,SCardSuspendCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Unlock,0,SCardResumeCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Enabled,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Impersonate,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Asynchronous,0x00010001,1
+
+[CLOUD2700R_CNT.NT.AddReg]
+HKR,, IFDType,0,%CLOUD2700R_CNT%
+HKR,, VendorName,0,%Mfg_Identive%
+
+[CLOUD2700R_CNT.AddReg.HW]
+
+[CLOUD2700R_CNT.NT]
+CopyFiles= CLOUD2700R_CNT.NTCopyFiles
+AddReg= CLOUD2700R_CNT.AddReg, CLOUD2700R_CNT.NT.AddReg
+
+[CLOUD2700R_CNT.NT.HW]
+AddReg= CLOUD2700R_CNT.AddReg.HW
+
+[CLOUD2700R_CNT.NT.Services]
+AddService = CLOUDx86,0x00000002,CLOUD2700R_CNT_Service_Inst,CLOUD2700R_CNT_EventLog_Inst
+
+[CLOUD2700R_CNT_Service_Inst]
+ServiceType     = 1 ;%SERVICE_KERNEL_DRIVER%
+StartType       = 3 ;%SERVICE_AUTO_START%
+ErrorControl    = 1 ;%SERVICE_ERROR_NORMAL%
+ServiceBinary   = %12%\CLOUDx86.sys
+DisplayName     = %SERVICE_CLOUD%
+AddReg= CLOUD2700R_CNT.AddReg
+
+[CLOUD2700R_CNT_EventLog_Inst]
+AddReg=CLOUD2700R_CNT.AddEventLogReg
+
+[CLOUD2700R_CNT.AddEventLogReg]
+HKR,,EventMessageFile,0x00020000,"%%SystemRoot%%\System32\IoLogMsg.dll;%%SystemRoot%%\System32\drivers\CLOUDx86.sys"
+HKR,,CategoryMessageFile,0x00020000,"%%SystemRoot%%\System32\drivers\CLOUDx86.sys"
+HKR,,CategoryCount,0x00010001,1
+HKR,,TypesSupported,0x00010001,7
+;;---------
+
+;;========For SCR335=========
+[SCR335_CCID.NT.AddReg]
+HKR,, IFDType,0,%PCSC_CCID%
+HKR,, VendorName,0,%Mfg%
+
+[SCR335_CCID.AddReg.HW]
+
+[SCR335_CCID.NT]
+CopyFiles= PCSC_CCID.NTCopyFiles
+AddReg= PCSC_CCID.AddReg, SCR335_CCID.NT.AddReg
+
+[SCR335_CCID.NT.HW]
+AddReg= SCR335_CCID.AddReg.HW
+
+[SCR335_CCID.NT.Services]
+AddService = SCR3XX2K,0x00000002,PCSC_CCID_Service_Inst,PCSC_CCID_EventLog_Inst
+;;===========================
+
+;;========For SCR333=========
+[SCR333_CCID.NT.AddReg]
+HKR,, IFDType,0,%PCSC_CCID%
+HKR,, VendorName,0,%Mfg%
+
+[SCR333_CCID.AddReg.HW]
+
+[SCR333_CCID.NT]
+CopyFiles= PCSC_CCID.NTCopyFiles
+AddReg= PCSC_CCID.AddReg, SCR333_CCID.NT.AddReg
+
+[SCR333_CCID.NT.HW]
+AddReg= SCR333_CCID.AddReg.HW
+
+[SCR333_CCID.NT.Services]
+AddService = SCR3XX2K,0x00000002,PCSC_CCID_Service_Inst,PCSC_CCID_EventLog_Inst
+;;===========================
+
+;;========For SCR33L=========
+[SCR33L_CCID.NT.AddReg]
+HKR,, IFDType,0,%PCSC_CCID%
+HKR,, VendorName,0,%Mfg%
+
+[SCR33L_CCID.AddReg.HW]
+
+[SCR33L_CCID.NT]
+CopyFiles= PCSC_CCID.NTCopyFiles
+AddReg= PCSC_CCID.AddReg, SCR33L_CCID.NT.AddReg
+
+[SCR33L_CCID.NT.HW]
+AddReg= SCR33L_CCID.AddReg.HW
+
+[SCR33L_CCID.NT.Services]
+AddService = SCR3XX2K,0x00000002,PCSC_CCID_Service_Inst,PCSC_CCID_EventLog_Inst
+;;===========================
+
+;;========For SCR3310V2=========
+[SCR3310V2_CCID.NT.AddReg]
+HKR,, IFDType,0,%PCSC_CCID%
+HKR,, VendorName,0,%Mfg%
+
+[SCR3310V2_CCID.AddReg.HW]
+
+[SCR3310V2_CCID.NT]
+CopyFiles= PCSC_CCID.NTCopyFiles
+AddReg= PCSC_CCID.AddReg, SCR3310V2_CCID.NT.AddReg
+
+[SCR3310V2_CCID.NT.HW]
+AddReg= SCR3310V2_CCID.AddReg.HW
+
+[SCR3310V2_CCID.NT.Services]
+AddService = SCR3XX2K,0x00000002,PCSC_CCID_Service_Inst,PCSC_CCID_EventLog_Inst
+;;===========================
+
+
+;;========For 3320=============
+[SCR3320_CCID.NT.AddReg]
+HKR,, IFDType,0,%SCR3320_CCID%
+HKR,, VendorName,0,%Mfg%
+
+[SCR3320_CCID.AddReg.HW]
+
+[SCR3320_CCID.NT]
+CopyFiles= PCSC_CCID.NTCopyFiles
+AddReg= PCSC_CCID.AddReg, SCR3320_CCID.NT.AddReg
+
+[SCR3320_CCID.NT.HW]
+AddReg= SCR3320_CCID.AddReg.HW
+
+[SCR3320_CCID.NT.Services]
+AddService = SCR3XX2K,0x00000002,PCSC_CCID_Service_Inst,PCSC_CCID_EventLog_Inst
+
+;;===========================
+
+;;========For EXPSIM=========
+[EXPSIM_CCID.NT.AddReg]
+HKR,, IFDType,0,%PCSC_CCID%
+HKR,, VendorName,0,%Mfg%
+
+[EXPSIM_CCID.AddReg.HW]
+
+[EXPSIM_CCID.NT]
+CopyFiles= PCSC_CCID.NTCopyFiles
+AddReg= PCSC_CCID.AddReg, EXPSIM_CCID.NT.AddReg
+
+[EXPSIM_CCID.NT.HW]
+AddReg= EXPSIM_CCID.AddReg.HW
+
+[EXPSIM_CCID.NT.Services]
+AddService = SCR3XX2K,0x00000002,PCSC_CCID_Service_Inst,PCSC_CCID_EventLog_Inst
+;;===========================
+
+;;========For EXPCRD=========
+[EXPCRD_CCID.NT.AddReg]
+HKR,, IFDType,0,%EXP_CCID%
+HKR,, VendorName,0,%Mfg%
+
+[EXPCRD_CCID.AddReg.HW]
+
+[EXPCRD_CCID.NT]
+CopyFiles= PCSC_CCID.NTCopyFiles
+AddReg= PCSC_CCID.AddReg, EXPCRD_CCID.NT.AddReg
+
+[EXPCRD_CCID.NT.HW]
+AddReg= EXPCRD_CCID.AddReg.HW
+
+[EXPCRD_CCID.NT.Services]
+AddService = SCR3XX2K,0x00000002,PCSC_CCID_Service_Inst,PCSC_CCID_EventLog_Inst
+;;===========================
+
+;;========For SCR3311=========
+[SCR3311_CCID.NT.AddReg]
+HKR,, IFDType,0,%PCSC_CCID%
+HKR,, VendorName,0,%Mfg%
+
+
+[SCR3311_CCID.AddReg.HW]
+
+[SCR3311_CCID.NT]
+CopyFiles= PCSC_CCID.NTCopyFiles
+AddReg= PCSC_CCID.AddReg, SCR3311_CCID.NT.AddReg
+
+[SCR3311_CCID.NT.HW]
+AddReg= SCR3311_CCID.AddReg.HW
+
+[SCR3311_CCID.NT.Services]
+AddService = SCR3XX2K,0x00000002,PCSC_CCID_Service_Inst,PCSC_CCID_EventLog_Inst
+
+;;========For SCR355=========
+[SCR355_CCID.NT.AddReg]
+HKR,, IFDType,0,%SCR355_CCID%
+HKR,, VendorName,0,%Mfg%
+
+[SCR355_CCID.AddReg.HW]
+
+[SCR355_CCID.NT]
+CopyFiles= PCSC_CCID.NTCopyFiles
+AddReg= PCSC_CCID.AddReg, SCR355_CCID.NT.AddReg
+
+[SCR355_CCID.NT.HW]
+AddReg= SCR355_CCID.AddReg.HW
+
+[SCR355_CCID.NT.Services]
+AddService = SCR3XX2K,0x00000002,PCSC_CCID_Service_Inst,PCSC_CCID_EventLog_Inst
+;;===========================
+;;========For SCR338=========
+[SCR338_CCID.NT.AddReg]
+HKR,, IFDType,0,%SCR338_CCID%
+HKR,, VendorName,0,%Mfg%
+
+[SCR338_CCID.AddReg.HW]
+
+[SCR338_CCID.NT]
+CopyFiles= PCSC_CCID.NTCopyFiles
+AddReg= PCSC_CCID.AddReg, SCR338_CCID.NT.AddReg
+
+[SCR338_CCID.NT.HW]
+AddReg= SCR338_CCID.AddReg.HW
+
+[SCR338_CCID.NT.Services]
+AddService = SCR3XX2K,0x00000002,PCSC_CCID_Service_Inst,PCSC_CCID_EventLog_Inst
+;;===========================
+
+;;========For CLOUD4700F-Contact =========
+[CLOUD4700F_CNT.NT.AddReg]
+HKR,, IFDType,0,%CLOUD4700F_CNT%
+HKR,, VendorName,0,%Mfg_Identive%
+
+[CLOUD4700F_CNT.AddReg.HW]
+
+[CLOUD4700F_CNT.NT]
+CopyFiles= CLOUD2700R_CNT.NTCopyFiles
+AddReg= CLOUD2700R_CNT.AddReg, CLOUD4700F_CNT.NT.AddReg
+
+[CLOUD4700F_CNT.NT.HW]
+AddReg= CLOUD4700F_CNT.AddReg.HW
+
+[CLOUD4700F_CNT.NT.Services]
+AddService = CLOUDx86,0x00000002,CLOUD2700R_CNT_Service_Inst,CLOUD2700R_CNT_EventLog_Inst
+;;===========================
+
+;;========For CLOUD4700F-Contactless =========
+[CLOUD4700F_CL.NT.AddReg]
+HKR,, IFDType,0,%CLOUD4700F_CL%
+HKR,, VendorName,0,%Mfg_Identive%
+
+[CLOUD4700F_CL.AddReg.HW]
+
+[CLOUD4700F_CL.NT]
+CopyFiles= CLOUD2700R_CNT.NTCopyFiles
+AddReg= CLOUD2700R_CNT.AddReg, CLOUD4700F_CL.NT.AddReg
+
+[CLOUD4700F_CL.NT.HW]
+AddReg= CLOUD4700F_CL.AddReg.HW
+
+[CLOUD4700F_CL.NT.Services]
+AddService = CLOUDx86,0x00000002,CLOUD2700R_CNT_Service_Inst,CLOUD2700R_CNT_EventLog_Inst
+;;===========================
+
+;;========For CLOUD4710F-Contact =========
+[CLOUD4710F_CNT.NT.AddReg]
+HKR,, IFDType,0,%CLOUD4710F_CNT%
+HKR,, VendorName,0,%Mfg_Identive%
+
+[CLOUD4710F_CNT.AddReg.HW]
+
+[CLOUD4710F_CNT.NT]
+CopyFiles= CLOUD2700R_CNT.NTCopyFiles
+AddReg= CLOUD2700R_CNT.AddReg, CLOUD4710F_CNT.NT.AddReg
+
+[CLOUD4710F_CNT.NT.HW]
+AddReg= CLOUD4710F_CNT.AddReg.HW
+
+[CLOUD4710F_CNT.NT.Services]
+AddService = CLOUDx86,0x00000002,CLOUD2700R_CNT_Service_Inst,CLOUD2700R_CNT_EventLog_Inst
+;;===========================
+
+;;========For CLOUD4710F -Contactless =========
+[CLOUD4710F_CL.NT.AddReg]
+HKR,, IFDType,0,%CLOUD4710F_CL%
+HKR,, VendorName,0,%Mfg_Identive%
+
+[CLOUD4710F_CL.AddReg.HW]
+
+[CLOUD4710F_CL.NT]
+CopyFiles= CLOUD2700R_CNT.NTCopyFiles
+AddReg= CLOUD2700R_CNT.AddReg, CLOUD4710F_CL.NT.AddReg
+
+[CLOUD4710F_CL.NT.HW]
+AddReg= CLOUD4710F_CL.AddReg.HW
+
+[CLOUD4710F_CL.NT.Services]
+AddService = CLOUDx86,0x00000002,CLOUD2700R_CNT_Service_Inst,CLOUD2700R_CNT_EventLog_Inst
+;;===========================
+
+;;========For CLOUD2710F_CNT Contact =========
+[CLOUD2710F_CNT.NT.AddReg]
+HKR,, IFDType,0,%CLOUD2710F_CNT%
+HKR,, VendorName,0,%Mfg_Identive%
+
+[CLOUD2710F_CNT.AddReg.HW]
+
+[CLOUD2710F_CNT.NT]
+CopyFiles= CLOUD2700R_CNT.NTCopyFiles
+AddReg= CLOUD2700R_CNT.AddReg, CLOUD2710F_CNT.NT.AddReg
+
+[CLOUD2710F_CNT.NT.HW]
+AddReg= CLOUD2710F_CNT.AddReg.HW
+
+[CLOUD2710F_CNT.NT.Services]
+AddService = CLOUDx86,0x00000002,CLOUD2700R_CNT_Service_Inst,CLOUD2700R_CNT_EventLog_Inst
+;;===========================
+
+;;========For CLOUD2700F_CNT Contact =========
+[CLOUD2700F_CNT.NT.AddReg]
+HKR,, IFDType,0,%CLOUD2700F_CNT%
+HKR,, VendorName,0,%Mfg_Identive%
+
+[CLOUD2700F_CNT.AddReg.HW]
+
+[CLOUD2700F_CNT.NT]
+CopyFiles= CLOUD2700R_CNT.NTCopyFiles
+AddReg= CLOUD2700R_CNT.AddReg, CLOUD2700F_CNT.NT.AddReg
+
+[CLOUD2700F_CNT.NT.HW]
+AddReg= CLOUD2700F_CNT.AddReg.HW
+
+[CLOUD2700F_CNT.NT.Services]
+AddService = CLOUDx86,0x00000002,CLOUD2700R_CNT_Service_Inst,CLOUD2700R_CNT_EventLog_Inst
+;;===========================
+
+;;========For CLOUD2900R_CNT Contact =========
+[CLOUD2900R_CNT.NT.AddReg]
+HKR,, IFDType,0,%CLOUD2900R_CNT%
+HKR,, VendorName,0,%Mfg_Identive%
+
+[CLOUD2900R_CNT.AddReg.HW]
+
+[CLOUD2900R_CNT.NT]
+CopyFiles= CLOUD2700R_CNT.NTCopyFiles
+AddReg= CLOUD2700R_CNT.AddReg, CLOUD2900R_CNT.NT.AddReg
+
+[CLOUD2900R_CNT.NT.HW]
+AddReg= CLOUD2900R_CNT.AddReg.HW
+
+[CLOUD2900R_CNT.NT.Services]
+AddService = CLOUDx86,0x00000002,CLOUD2700R_CNT_Service_Inst,CLOUD2700R_CNT_EventLog_Inst
+;;===========================
+
+;;========For CLOUD2700FSC_CNT Contact =========
+[CLOUD2700FSC_CNT.NT.AddReg]
+HKR,, IFDType,0,%CLOUD2700FSC_CNT%
+HKR,, VendorName,0,%Mfg_Identive%
+
+[CLOUD2700FSC_CNT.AddReg.HW]
+
+[CLOUD2700FSC_CNT.NT]
+CopyFiles= CLOUD2700R_CNT.NTCopyFiles
+AddReg= CLOUD2700R_CNT.AddReg, CLOUD2700FSC_CNT.NT.AddReg
+
+[CLOUD2700FSC_CNT.NT.HW]
+AddReg= CLOUD2700FSC_CNT.AddReg.HW
+
+[CLOUD2700FSC_CNT.NT.Services]
+AddService = CLOUDx86,0x00000002,CLOUD2700R_CNT_Service_Inst,CLOUD2700R_CNT_EventLog_Inst
+;;===========================
+
+;;========For STC4_BOOTLOADER =========
+[STC4_BOOTLOADER.NT.AddReg]
+HKR,, IFDType,0,%STC4_BOOTLOADER%
+HKR,, VendorName,0,%Mfg_Identive%
+
+[STC4_BOOTLOADER.AddReg.HW]
+
+[STC4_BOOTLOADER.NT]
+CopyFiles= CLOUD2700R_CNT.NTCopyFiles
+AddReg= CLOUD2700R_CNT.AddReg, STC4_BOOTLOADER.NT.AddReg
+
+[STC4_BOOTLOADER.NT.HW]
+AddReg= STC4_BOOTLOADER.AddReg.HW
+
+[STC4_BOOTLOADER.NT.Services]
+AddService = CLOUDx86,0x00000002,CLOUD2700R_CNT_Service_Inst,CLOUD2700R_CNT_EventLog_Inst
+;;===========================
+
+;;========For STC4_BOOTLOADER_SEC =========
+[STC4_BOOTLOADER_SEC.NT.AddReg]
+HKR,, IFDType,0,%STC4_BOOTLOADER_SEC%
+HKR,, VendorName,0,%Mfg_Identive%
+
+[STC4_BOOTLOADER_SEC.AddReg.HW]
+
+[STC4_BOOTLOADER_SEC.NT]
+CopyFiles= CLOUD2700R_CNT.NTCopyFiles
+AddReg= CLOUD2700R_CNT.AddReg, STC4_BOOTLOADER_SEC.NT.AddReg
+
+[STC4_BOOTLOADER_SEC.NT.HW]
+AddReg= STC4_BOOTLOADER_SEC.AddReg.HW
+
+[STC4_BOOTLOADER_SEC.NT.Services]
+AddService = CLOUDx86,0x00000002,CLOUD2700R_CNT_Service_Inst,CLOUD2700R_CNT_EventLog_Inst
+;;===========================
+
+;*************************************************************************************************************************
+; x64 specific section
+;*************************************************************************************************************************
+
+[PCSC_CCIDx64.NTCopyFiles]
+S3XXx64.sys,,
+
+[PCSC_CCIDx64.AddReg]
+HKR,,ShortProviderName,0,%ShortProviderName%
+HKR,,ReaderName,0,%PCSC_CCID%
+HKLM, Software\Microsoft\Cryptography\Calais\Readers,,,
+HKLM, System\CurrentControlSet\Services\SCardSvr,Start,0x00010001,2
+HKLM, System\CurrentControlSet\Services\CertPropSvc,Start,0x00010001,2
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,DLLName,0,wlnotify.dll
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logon,0,SCardStartCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logoff,0,SCardStopCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Lock,0,SCardSuspendCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Unlock,0,SCardResumeCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Enabled,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Impersonate,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Asynchronous,0x00010001,1
+
+[PCSC_CCIDx64.NT.AddReg]
+HKR,, IFDType,0,%PCSC_CCID%
+HKR,, VendorName,0,%Mfg%
+
+[PCSC_CCIDx64.AddReg.HW]
+
+[PCSC_CCIDx64.NT]
+CopyFiles= PCSC_CCIDx64.NTCopyFiles
+AddReg= PCSC_CCIDx64.AddReg, PCSC_CCIDx64.NT.AddReg
+
+[PCSC_CCIDx64.NT.HW]
+AddReg= PCSC_CCIDx64.AddReg.HW
+
+[PCSC_CCIDx64.NT.Services]
+AddService = S3XXx64,0x00000002,PCSC_CCIDx64_Service_Inst,PCSC_CCIDx64_EventLog_Inst
+
+[PCSC_CCIDx64_Service_Inst]
+ServiceType     = 1 ;%SERVICE_KERNEL_DRIVER%
+StartType       = 3 ;%SERVICE_AUTO_START%
+ErrorControl    = 1 ;%SERVICE_ERROR_NORMAL%
+ServiceBinary   = %12%\S3XXx64.sys
+DisplayName     = %SERVICE_CCID64%
+AddReg= PCSC_CCIDx64.AddReg
+
+[PCSC_CCIDx64_EventLog_Inst]
+AddReg=PCSC_CCIDx64.AddEventLogReg
+
+[PCSC_CCIDx64.AddEventLogReg]
+HKR,,EventMessageFile,0x00020000,"%%SystemRoot%%\System32\IoLogMsg.dll;%%SystemRoot%%\System32\drivers\S3XXx64.sys"
+HKR,,CategoryMessageFile,0x00020000,"%%SystemRoot%%\System32\drivers\S3XXx64.sys"
+HKR,,CategoryCount,0x00010001,1
+HKR,,TypesSupported,0x00010001,7
+
+;;---------
+
+[CLOUD2700R_CNTx64.NTCopyFiles]
+CLOUDx64.sys,,
+
+[CLOUD2700R_CNTx64.AddReg]
+HKR,,ShortProviderName,0,%ShortProviderName%
+HKR,,ReaderName,0,%CLOUD2700R_CNT%
+HKLM, Software\Microsoft\Cryptography\Calais\Readers,,,
+HKLM, System\CurrentControlSet\Services\SCardSvr,Start,0x00010001,2
+HKLM, System\CurrentControlSet\Services\CertPropSvc,Start,0x00010001,2
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,DLLName,0,wlnotify.dll
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logon,0,SCardStartCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logoff,0,SCardStopCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Lock,0,SCardSuspendCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Unlock,0,SCardResumeCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Enabled,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Impersonate,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Asynchronous,0x00010001,1
+
+[CLOUD2700R_CNTx64.NT.AddReg]
+HKR,, IFDType,0,%CLOUD2700R_CNT%
+HKR,, VendorName,0,%Mfg_Identive%
+
+[CLOUD2700R_CNTx64.AddReg.HW]
+
+[CLOUD2700R_CNTx64.NT]
+CopyFiles= CLOUD2700R_CNTx64.NTCopyFiles
+AddReg= CLOUD2700R_CNTx64.AddReg, CLOUD2700R_CNTx64.NT.AddReg
+
+[CLOUD2700R_CNTx64.NT.HW]
+AddReg= CLOUD2700R_CNTx64.AddReg.HW
+
+[CLOUD2700R_CNTx64.NT.Services]
+AddService = CLOUDx64,0x00000002,CLOUD2700R_CNTx64_Service_Inst,CLOUD2700R_CNTx64_EventLog_Inst
+
+[CLOUD2700R_CNTx64_Service_Inst]
+ServiceType     = 1 ;%SERVICE_KERNEL_DRIVER%
+StartType       = 3 ;%SERVICE_AUTO_START%
+ErrorControl    = 1 ;%SERVICE_ERROR_NORMAL%
+ServiceBinary   = %12%\CLOUDx64.sys
+DisplayName     = %SERVICE_CLOUD64%
+AddReg= CLOUD2700R_CNTx64.AddReg
+
+[CLOUD2700R_CNTx64_EventLog_Inst]
+AddReg=CLOUD2700R_CNTx64.AddEventLogReg
+
+[CLOUD2700R_CNTx64.AddEventLogReg]
+HKR,,EventMessageFile,0x00020000,"%%SystemRoot%%\System32\IoLogMsg.dll;%%SystemRoot%%\System32\drivers\CLOUDx64.sys"
+HKR,,CategoryMessageFile,0x00020000,"%%SystemRoot%%\System32\drivers\CLOUDx64.sys"
+HKR,,CategoryCount,0x00010001,1
+HKR,,TypesSupported,0x00010001,7
+;;---------
+
+;;========For SCR335=========
+[SCR335_CCIDx64.NT.AddReg]
+HKR,, IFDType,0,%PCSC_CCID%
+HKR,, VendorName,0,%Mfg%
+
+[SCR335_CCIDx64.AddReg.HW]
+
+[SCR335_CCIDx64.NT]
+CopyFiles= PCSC_CCIDx64.NTCopyFiles
+AddReg= PCSC_CCIDx64.AddReg, SCR335_CCIDx64.NT.AddReg
+
+[SCR335_CCIDx64.NT.HW]
+AddReg= SCR335_CCIDx64.AddReg.HW
+
+[SCR335_CCIDx64.NT.Services]
+AddService = S3XXx64,0x00000002,PCSC_CCIDx64_Service_Inst,PCSC_CCIDx64_EventLog_Inst
+;;===========================
+
+;;========For SCR333=========
+[SCR333_CCIDx64.NT.AddReg]
+HKR,, IFDType,0,%PCSC_CCID%
+HKR,, VendorName,0,%Mfg%
+
+[SCR333_CCIDx64.AddReg.HW]
+
+[SCR333_CCIDx64.NT]
+CopyFiles= PCSC_CCIDx64.NTCopyFiles
+AddReg= PCSC_CCIDx64.AddReg, SCR333_CCIDx64.NT.AddReg
+
+[SCR333_CCIDx64.NT.HW]
+AddReg= SCR333_CCIDx64.AddReg.HW
+
+[SCR333_CCIDx64.NT.Services]
+AddService = S3XXx64,0x00000002,PCSC_CCIDx64_Service_Inst,PCSC_CCIDx64_EventLog_Inst
+;;===========================
+
+;;========For SCR33L=========
+[SCR33L_CCIDx64.NT.AddReg]
+HKR,, IFDType,0,%PCSC_CCID%
+HKR,, VendorName,0,%Mfg%
+
+[SCR33L_CCIDx64.AddReg.HW]
+
+[SCR33L_CCIDx64.NT]
+CopyFiles= PCSC_CCIDx64.NTCopyFiles
+AddReg= PCSC_CCIDx64.AddReg, SCR33L_CCIDx64.NT.AddReg
+
+[SCR33L_CCIDx64.NT.HW]
+AddReg= SCR33L_CCIDx64.AddReg.HW
+
+[SCR33L_CCIDx64.NT.Services]
+AddService = S3XXx64,0x00000002,PCSC_CCIDx64_Service_Inst,PCSC_CCIDx64_EventLog_Inst
+;;===========================
+
+;;========For SCR3310V2=========
+[SCR3310V2_CCIDx64.NT.AddReg]
+HKR,, IFDType,0,%PCSC_CCID%
+HKR,, VendorName,0,%Mfg%
+
+[SCR3310V2_CCIDx64.AddReg.HW]
+
+[SCR3310V2_CCIDx64.NT]
+CopyFiles= PCSC_CCIDx64.NTCopyFiles
+AddReg= PCSC_CCIDx64.AddReg, SCR3310V2_CCIDx64.NT.AddReg
+
+[SCR3310V2_CCIDx64.NT.HW]
+AddReg= SCR3310V2_CCIDx64.AddReg.HW
+
+[SCR3310V2_CCIDx64.NT.Services]
+AddService = S3XXx64,0x00000002,PCSC_CCIDx64_Service_Inst,PCSC_CCIDx64_EventLog_Inst
+;;===========================
+
+;========For SCR3320=========
+[SCR3320_CCIDx64.NT.AddReg]
+HKR,, IFDType,0,%SCR3320_CCID%
+HKR,, VendorName,0,%Mfg%
+
+[SCR3320_CCIDx64.AddReg.HW]
+
+[SCR3320_CCIDx64.NT]
+CopyFiles= PCSC_CCIDx64.NTCopyFiles
+AddReg= PCSC_CCIDx64.AddReg, SCR3320_CCIDx64.NT.AddReg
+
+[SCR3320_CCIDx64.NT.HW]
+AddReg= SCR3320_CCIDx64.AddReg.HW
+
+[SCR3320_CCIDx64.NT.Services]
+AddService = S3XXx64,0x00000002,PCSC_CCIDx64_Service_Inst,PCSC_CCIDx64_EventLog_Inst
+
+;;========For EXPSIM=========
+[EXPSIM_CCIDx64.NT.AddReg]
+HKR,, IFDType,0,%PCSC_CCID%
+HKR,, VendorName,0,%Mfg%
+
+[EXPSIM_CCIDx64.AddReg.HW]
+
+[EXPSIM_CCIDx64.NT]
+CopyFiles= PCSC_CCIDx64.NTCopyFiles
+AddReg= PCSC_CCIDx64.AddReg, EXPSIM_CCIDx64.NT.AddReg
+
+[EXPSIM_CCIDx64.NT.HW]
+AddReg= EXPSIM_CCIDx64.AddReg.HW
+
+[EXPSIM_CCIDx64.NT.Services]
+AddService = S3XXx64,0x00000002,PCSC_CCIDx64_Service_Inst,PCSC_CCIDx64_EventLog_Inst
+
+;;===========================
+
+;;========For EXPCRD=========
+[EXPCRD_CCIDx64.NT.AddReg]
+HKR,, IFDType,0,%EXP_CCID%
+HKR,, VendorName,0,%Mfg%
+
+[EXPCRD_CCIDx64.AddReg.HW]
+
+[EXPCRD_CCIDx64.NT]
+CopyFiles= PCSC_CCIDx64.NTCopyFiles
+AddReg= PCSC_CCIDx64.AddReg, EXPCRD_CCIDx64.NT.AddReg
+
+[EXPCRD_CCIDx64.NT.HW]
+AddReg= EXPCRD_CCIDx64.AddReg.HW
+
+[EXPCRD_CCIDx64.NT.Services]
+AddService = S3XXx64,0x00000002,PCSC_CCIDx64_Service_Inst,PCSC_CCIDx64_EventLog_Inst
+;;===========================
+
+;;========For SCR3311=========
+[SCR3311_CCIDx64.NT.AddReg]
+HKR,, IFDType,0,%PCSC_CCID%
+HKR,, VendorName,0,%Mfg%
+
+[SCR3311_CCIDx64.AddReg.HW]
+
+[SCR3311_CCIDx64.NT]
+CopyFiles= PCSC_CCIDx64.NTCopyFiles
+AddReg= PCSC_CCIDx64.AddReg, SCR3311_CCIDx64.NT.AddReg
+
+[SCR3311_CCIDx64.NT.HW]
+AddReg= SCR3311_CCIDx64.AddReg.HW
+
+[SCR3311_CCIDx64.NT.Services]
+AddService = S3XXx64,0x00000002,PCSC_CCIDx64_Service_Inst,PCSC_CCIDx64_EventLog_Inst
+
+;;========For SCR355=========
+[SCR355_CCIDx64.NT.AddReg]
+HKR,, IFDType,0,%SCR355_CCID%
+HKR,, VendorName,0,%Mfg%
+
+[SCR355_CCIDx64.AddReg.HW]
+
+[SCR355_CCIDx64.NT]
+CopyFiles= PCSC_CCIDx64.NTCopyFiles
+AddReg= PCSC_CCIDx64.AddReg, SCR355_CCIDx64.NT.AddReg
+
+[SCR355_CCIDx64.NT.HW]
+AddReg= SCR355_CCIDx64.AddReg.HW
+
+[SCR355_CCIDx64.NT.Services]
+AddService = S3XXx64,0x00000002,PCSC_CCIDx64_Service_Inst,PCSC_CCIDx64_EventLog_Inst
+
+;;========For SCR338=========
+[SCR338_CCIDx64.NT.AddReg]
+HKR,, IFDType,0,%SCR338_CCID%
+HKR,, VendorName,0,%Mfg%
+
+[SCR338_CCIDx64.AddReg.HW]
+
+[SCR338_CCIDx64.NT]
+CopyFiles= PCSC_CCIDx64.NTCopyFiles
+AddReg= PCSC_CCIDx64.AddReg, SCR338_CCIDx64.NT.AddReg
+
+[SCR338_CCIDx64.NT.HW]
+AddReg= SCR338_CCIDx64.AddReg.HW
+
+[SCR338_CCIDx64.NT.Services]
+AddService = S3XXx64,0x00000002,PCSC_CCIDx64_Service_Inst,PCSC_CCIDx64_EventLog_Inst
+;;===========================
+
+;;========For CLOUD4700F_x64-contactless=========
+[CLOUD4700F_CLx64.NT.AddReg]
+HKR,, IFDType,0,%CLOUD4700F_CL%
+HKR,, VendorName,0,%Mfg_Identive%
+
+[CLOUD4700F_CLx64.AddReg.HW]
+
+[CLOUD4700F_CLx64.NT]
+CopyFiles= CLOUD2700R_CNTx64.NTCopyFiles
+AddReg= CLOUD2700R_CNTx64.AddReg, CLOUD4700F_CLx64.NT.AddReg
+
+[CLOUD4700F_CLx64.NT.HW]
+AddReg= CLOUD4700F_CLx64.AddReg.HW
+
+[CLOUD4700F_CLx64.NT.Services]
+AddService = CLOUDx64,0x00000002,CLOUD2700R_CNTx64_Service_Inst,CLOUD2700R_CNTx64_EventLog_Inst
+;;===========================
+
+;;========For CLOUD4700F_x64-contact=========
+[CLOUD4700F_CNTx64.NT.AddReg]
+HKR,, IFDType,0,%CLOUD4700F_CNT%
+HKR,, VendorName,0,%Mfg_Identive%
+
+[CLOUD4700F_CNTx64.AddReg.HW]
+
+[CLOUD4700F_CNTx64.NT]
+CopyFiles= CLOUD2700R_CNTx64.NTCopyFiles
+AddReg= CLOUD2700R_CNTx64.AddReg, CLOUD4700F_CNTx64.NT.AddReg
+
+[CLOUD4700F_CNTx64.NT.HW]
+AddReg= CLOUD4700F_CNTx64.AddReg.HW
+
+[CLOUD4700F_CNTx64.NT.Services]
+AddService = CLOUDx64,0x00000002,CLOUD2700R_CNTx64_Service_Inst,CLOUD2700R_CNTx64_EventLog_Inst
+;;===========================
+
+;;========For CLOUD4710F_x64 -contactless=========
+[CLOUD4710F_CLx64.NT.AddReg]
+HKR,, IFDType,0,%CLOUD4710F_CL%
+HKR,, VendorName,0,%Mfg_Identive%
+
+[CLOUD4710F_CLx64.AddReg.HW]
+
+[CLOUD4710F_CLx64.NT]
+CopyFiles= CLOUD2700R_CNTx64.NTCopyFiles
+AddReg= CLOUD2700R_CNTx64.AddReg, CLOUD4710F_CLx64.NT.AddReg
+
+[CLOUD4710F_CLx64.NT.HW]
+AddReg= CLOUD4710F_CLx64.AddReg.HW
+
+[CLOUD4710F_CLx64.NT.Services]
+AddService = CLOUDx64,0x00000002,CLOUD2700R_CNTx64_Service_Inst,CLOUD2700R_CNTx64_EventLog_Inst
+;;===========================
+
+;;========For CLOUD4700F_x64 -contact=========
+[CLOUD4710F_CNTx64.NT.AddReg]
+HKR,, IFDType,0,%CLOUD4710F_CNT%
+HKR,, VendorName,0,%Mfg_Identive%
+
+[CLOUD4710F_CNTx64.AddReg.HW]
+
+[CLOUD4710F_CNTx64.NT]
+CopyFiles= CLOUD2700R_CNTx64.NTCopyFiles
+AddReg= CLOUD2700R_CNTx64.AddReg, CLOUD4710F_CNTx64.NT.AddReg
+
+[CLOUD4710F_CNTx64.NT.HW]
+AddReg= CLOUD4710F_CNTx64.AddReg.HW
+
+[CLOUD4710F_CNTx64.NT.Services]
+AddService = CLOUDx64,0x00000002,CLOUD2700R_CNTx64_Service_Inst,CLOUD2700R_CNTx64_EventLog_Inst
+;;===========================
+
+
+;;========For CLOUD2710F_CNTx64-contact=========
+[CLOUD2710F_CNTx64.NT.AddReg]
+HKR,, IFDType,0,%CLOUD2710F_CNT%
+HKR,, VendorName,0,%Mfg_Identive%
+
+[CLOUD2710F_CNTx64.AddReg.HW]
+
+[CLOUD2710F_CNTx64.NT]
+CopyFiles= CLOUD2700R_CNTx64.NTCopyFiles
+AddReg= CLOUD2700R_CNTx64.AddReg, CLOUD2710F_CNTx64.NT.AddReg
+
+[CLOUD2710F_CNTx64.NT.HW]
+AddReg= CLOUD2710F_CNTx64.AddReg.HW
+
+[CLOUD2710F_CNTx64.NT.Services]
+AddService = CLOUDx64,0x00000002,CLOUD2700R_CNTx64_Service_Inst,CLOUD2700R_CNTx64_EventLog_Inst
+;;===========================
+
+;;========For CLOUD2700F_CNTx64-contact=========
+[CLOUD2700F_CNTx64.NT.AddReg]
+HKR,, IFDType,0,%CLOUD2700F_CNT%
+HKR,, VendorName,0,%Mfg_Identive%
+
+[CLOUD2700F_CNTx64.AddReg.HW]
+
+[CLOUD2700F_CNTx64.NT]
+CopyFiles= CLOUD2700R_CNTx64.NTCopyFiles
+AddReg= CLOUD2700R_CNTx64.AddReg, CLOUD2700F_CNTx64.NT.AddReg
+
+[CLOUD2700F_CNTx64.NT.HW]
+AddReg= CLOUD2700F_CNTx64.AddReg.HW
+
+[CLOUD2700F_CNTx64.NT.Services]
+AddService = CLOUDx64,0x00000002,CLOUD2700R_CNTx64_Service_Inst,CLOUD2700R_CNTx64_EventLog_Inst
+;;===========================
+
+;;========For CLOUD2900R_CNTx64-contact=========
+[CLOUD2900R_CNTx64.NT.AddReg]
+HKR,, IFDType,0,%CLOUD2900R_CNT%
+HKR,, VendorName,0,%Mfg_Identive%
+
+[CLOUD2900R_CNTx64.AddReg.HW]
+
+[CLOUD2900R_CNTx64.NT]
+CopyFiles= CLOUD2700R_CNTx64.NTCopyFiles
+AddReg= CLOUD2700R_CNTx64.AddReg, CLOUD2900R_CNTx64.NT.AddReg
+
+[CLOUD2900R_CNTx64.NT.HW]
+AddReg= CLOUD2900R_CNTx64.AddReg.HW
+
+[CLOUD2900R_CNTx64.NT.Services]
+AddService = CLOUDx64,0x00000002,CLOUD2700R_CNTx64_Service_Inst,CLOUD2700R_CNTx64_EventLog_Inst
+;;===========================
+
+;;========For CLOUD2700FSC_CNTx64-contact=========
+[CLOUD2700FSC_CNTx64.NT.AddReg]
+HKR,, IFDType,0,%CLOUD2700FSC_CNT%
+HKR,, VendorName,0,%Mfg_Identive%
+
+[CLOUD2700FSC_CNTx64.AddReg.HW]
+
+[CLOUD2700FSC_CNTx64.NT]
+CopyFiles= CLOUD2700R_CNTx64.NTCopyFiles
+AddReg= CLOUD2700R_CNTx64.AddReg, CLOUD2700FSC_CNTx64.NT.AddReg
+
+[CLOUD2700FSC_CNTx64.NT.HW]
+AddReg= CLOUD2700FSC_CNTx64.AddReg.HW
+
+[CLOUD2700FSC_CNTx64.NT.Services]
+AddService = CLOUDx64,0x00000002,CLOUD2700R_CNTx64_Service_Inst,CLOUD2700R_CNTx64_EventLog_Inst
+;;===========================
+
+;;========For STC4_BOOTLOADERx64=========
+[STC4_BOOTLOADERx64.NT.AddReg]
+HKR,, IFDType,0,%STC4_BOOTLOADER%
+HKR,, VendorName,0,%Mfg_Identive%
+
+[STC4_BOOTLOADERx64.AddReg.HW]
+
+[STC4_BOOTLOADERx64.NT]
+CopyFiles= CLOUD2700R_CNTx64.NTCopyFiles
+AddReg= CLOUD2700R_CNTx64.AddReg, STC4_BOOTLOADERx64.NT.AddReg
+
+[STC4_BOOTLOADERx64.NT.HW]
+AddReg= STC4_BOOTLOADERx64.AddReg.HW
+
+[STC4_BOOTLOADERx64.NT.Services]
+AddService = CLOUDx64,0x00000002,CLOUD2700R_CNTx64_Service_Inst,CLOUD2700R_CNTx64_EventLog_Inst
+;;===========================
+
+;;========For STC4_BOOTLOADERSECx64=========
+[STC4_BOOTLOADERSECx64.NT.AddReg]
+HKR,, IFDType,0,%STC4_BOOTLOADER_SEC%
+HKR,, VendorName,0,%Mfg_Identive%
+
+[STC4_BOOTLOADERSECx64.AddReg.HW]
+
+[STC4_BOOTLOADERSECx64.NT]
+CopyFiles= CLOUD2700R_CNTx64.NTCopyFiles
+AddReg= CLOUD2700R_CNTx64.AddReg, STC4_BOOTLOADERSECx64.NT.AddReg
+
+[STC4_BOOTLOADERSECx64.NT.HW]
+AddReg= STC4_BOOTLOADERSECx64.AddReg.HW
+
+[STC4_BOOTLOADERSECx64.NT.Services]
+AddService = CLOUDx64,0x00000002,CLOUD2700R_CNTx64_Service_Inst,CLOUD2700R_CNTx64_EventLog_Inst
+;;===========================
+
+[Strings]
+Mfg = "SCM Microsystems Inc."
+Mfg_Identive = "Identive"
+ShortProviderName = "SCM"
+Description = "Server for SmartCard Reader"
+Floppy_Description = "Installation Disk"
+PCSC_CCID="SCR33x USB Smart Card Reader"
+SCR333_CCID="SCR333 Internal Smart Card Reader"
+SCR335_CCID="SCR335 USB Smart Card Reader"
+SCR33L_CCID="SCR3310 USB Smart Card Reader"
+SCR3310V2_CCID="USB Smart Card Reader"
+SCR3320_CCID="SCR3320 USB Smart Card Reader"
+EXPSIM_CCID="Expresscard USB SIM Card Reader"
+EXPCRD_CCID="SCR3340 - ExpressCard54 Smart Card Reader"
+EXP_CCID="SCR3340 ExpressCard Reader"
+SCR3311_CCID="SCR3311 USB Smart Card Reader"
+SCR355_CCID="SCR35xx USB Smart Card Reader"
+SCR338_CCID="SCR338 USB Keyboard Smart Card Reader"
+SERVICE_CCID="SCR3xx USB SmartCardReader"
+SERVICE_CCID64="SCR3xx USB SmartCardReader64"
+SERVICE_CLOUD="CLOUD USB SmartCardReader"
+SERVICE_CLOUD64="CLOUD USB SmartCardReader64"
+CLOUD4700F_CNT ="CLOUD 4700 F Contact Reader"
+CLOUD4700F_CL ="CLOUD 4700 F Contactless Reader"
+CLOUD4710F_CNT ="CLOUD 4710 F SAM Reader"
+CLOUD4710F_CL ="CLOUD 4710 F Contactless Reader"
+CLOUD2700R_CNT ="CLOUD 2700 R Smart Card Reader"
+CLOUD2710F_CNT ="CLOUD 2710 F Smart Card Reader"
+CLOUD2700F_CNT ="CLOUD 2700 F Smart Card Reader"
+CLOUD2900R_CNT ="CLOUD 2900 R Smart Card Reader"
+CLOUD2700FSC_CNT ="SCR331/CLOUD 2700 F SC Reader"
+STC4_BOOTLOADER ="STC4 DFU Adapter"
+STC4_BOOTLOADER_SEC="STC4 Secure DFU Adapter"
+ClassName="Smart Card Readers"

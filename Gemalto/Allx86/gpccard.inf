@@ -1,0 +1,170 @@
+; Installation file for GemPCCard
+; Copyright (C) 2009 by Gemalto
+; All rights reserved
+
+
+[Version]
+Signature="$Windows NT$"
+Class=SmartCardReader
+ClassGuid={50DD5230-BA8A-11D1-BF5D-0000F805F530}
+Provider=%MFGNAME%
+CatalogFile=gpccard.cat
+DriverVer=05/26/2009, 4.0.7.2
+
+[ControlFlags]
+ExcludeFromSelect=*
+
+[Manufacturer]
+%MFGNAME%=DeviceList,NTx86.5.1
+
+[DestinationDirs]
+DefaultDestDir=10,System32\Drivers
+GemPCCardCopyFiles=10,System32\Drivers
+CopyCoInstaller.CopyFiles = 11 
+
+[SourceDisksFiles]
+gpccard.sys=1
+GemPCCardCoInstaller.dll =1
+
+[SourceDisksNames]
+1=%INSTDISK%,,
+
+[DeviceList.NTx86.5.1]
+%GemPCCard.DeviceDesc% = PCCardInstallXP,   "PCMCIA\Gemplus-SerialPort-0D37"
+
+[DeviceList]
+%GemPCCard.DeviceDesc% = PCCardInstall,   "PCMCIA\Gemplus-SerialPort-0D37"
+
+;------------------------------------------------------------------------------
+;WINDOWS XP and later, x86 only
+;------------------------------------------------------------------------------
+[PCCardInstallXP]
+AddReg      	= GPCCARD.Install.AddReg
+CopyFiles	= GemPCCardCopyFiles
+
+[PCCardInstallXP.CoInstallers]
+AddReg=CopyCoInstaller.AddReg
+CopyFiles=CopyCoInstaller.CopyFiles
+
+
+[PCCardInstallXP.LogConfigOverride]
+LogConfig	= GemPCCard.LogConfigOverride0, GemPCCard.LogConfigOverride1, GemPCCard.LogConfigOverride2, GemPCCard.LogConfigOverride3, GemPCCard.LogConfigOverride4, GemPCCard.LogConfigOverride5, GemPCCard.LogConfigOverride6, GemPCCard.LogConfigOverride7
+
+[GemPCCard.LogConfigOverride0]
+ConfigPriority=DESIRED
+IOConfig=1b8-1bf
+IRQConfig=3,4,5,7,9,10,11
+PcCardConfig=3D
+
+[GemPCCard.LogConfigOverride1]
+ConfigPriority=DESIRED
+IOConfig=1b0-1b7
+IRQConfig=3,4,5,7,9,10,11
+PcCardConfig=35
+
+[GemPCCard.LogConfigOverride2]
+ConfigPriority=DESIRED
+IOConfig=1a8-1af
+IRQConfig=3,4,5,7,9,10,11
+PcCardConfig=2D
+
+[GemPCCard.LogConfigOverride3]
+ConfigPriority=DESIRED
+IOConfig=1a0-1a7
+IRQConfig=3,4,5,7,9,10,11
+PcCardConfig=25
+
+[GemPCCard.LogConfigOverride4]
+ConfigPriority=NORMAL
+IOConfig=2e8-2ef
+IRQConfig=3,4,5,7,9,10,11
+PcCardConfig=1D
+
+[GemPCCard.LogConfigOverride5]
+ConfigPriority=NORMAL
+IOConfig=3e8-3ef
+IRQConfig=3,4,5,7,9,10,11
+PcCardConfig=15
+
+[GemPCCard.LogConfigOverride6]
+ConfigPriority=NORMAL
+IOConfig=2f8-2ff
+IRQConfig=3,4,5,7,9,10,11
+PcCardConfig=0D
+
+[GemPCCard.LogConfigOverride7]
+ConfigPriority=NORMAL
+IOConfig=3f8-3ff
+IRQConfig=3,4,5,7,9,10,11
+PcCardConfig=05
+
+[PCCardInstallXP.Services]
+AddService = GPCCARD, 2, GPCCARD.Service, GPCCARD.EventLog
+
+
+;------------------------------------------------------------------------------
+;WINDOWS 2000
+;------------------------------------------------------------------------------
+
+[PCCardInstall.NT]
+AddReg      = GPCCARD.Install.AddReg,Reader.Install.AddReg
+CopyFiles	= GemPCCardCopyFiles
+
+[PCCardInstall.NT.CoInstallers]
+AddReg=CopyCoInstaller.AddReg
+CopyFiles=CopyCoInstaller.CopyFiles
+
+[PCCardInstall.NT.LogConfigOverride]
+LogConfig	= GemPCCard.LogConfigOverride0, GemPCCard.LogConfigOverride1, GemPCCard.LogConfigOverride2, GemPCCard.LogConfigOverride3, GemPCCard.LogConfigOverride4, GemPCCard.LogConfigOverride5, GemPCCard.LogConfigOverride6, GemPCCard.LogConfigOverride7
+
+[PCCardInstall.NT.Services]
+AddService = GPCCARD, 2, GPCCARD.Service, GPCCARD.EventLog
+
+[GPCCARD.Service]
+ServiceType     = 1 ;%SERVICE_KERNEL_DRIVER%
+StartType       = 3 ;%SERVICE_AUTO_START%
+ErrorControl    = 1 ;%SERVICE_ERROR_NORMAL%
+ServiceBinary   = %12%\GPCCARD.sys
+
+[GPCCARD.EventLog]
+AddReg = GPCCARD.AddEventLog.reg
+
+[GPCCARD.AddEventLog.reg]
+HKR,, EventMessageFile, 0x00020000, "%%SystemRoot%%\System32\drivers\GPCCARD.sys"
+HKR,, TypesSupported,   0x00010001, 7
+
+
+[GPCCARD.Install.AddReg]
+HKLM, Software\Microsoft\Cryptography\Calais\Readers,,,
+HKLM, System\CurrentControlSet\Services\SCardSvr,Start,0x00010001,2
+HKLM, System\CurrentControlSet\Services\CertPropSvc,Start,0x00010001,2
+
+
+[Reader.Install.AddReg]
+; Required only on Win2000
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,DLLName,0,wlnotify.dll
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logon,0,SCardStartCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logoff,0,SCardStopCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Lock,0,SCardSuspendCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Unlock,0,SCardResumeCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Enabled,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Impersonate,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Asynchronous,0x00010001,1
+
+[CopyCoInstaller.AddReg]
+HKR,,CoInstallers32,0x00010000,"GemPCCardCoInstaller.dll,CoinstallerProc"
+
+[CopyCoInstaller.CopyFiles]
+GemPCCardCoInstaller.dll,,,0x04
+
+[GemPCCardCopyFiles]
+gpccard.sys,,,2
+
+;------------------------------------------------------------------------------
+;  String Definitions
+;------------------------------------------------------------------------------
+
+[Strings]
+MFGNAME="Gemplus"
+GemPCCard.DeviceDesc  = "GemPC Card Reader"
+INSTDISK="Installation Disk for GemPC Card Smart Card Reader"

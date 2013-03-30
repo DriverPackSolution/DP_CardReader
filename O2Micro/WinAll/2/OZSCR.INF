@@ -1,0 +1,93 @@
+; OZSCR.INF
+; Copyright (c) 2009 O2Micro Int'l.
+
+[Version]
+CatalogFile=ozscr.cat
+Signature="$Windows NT$"
+Class=SmartCardReader
+ClassGuid={50DD5230-BA8A-11D1-BF5D-0000F805F530}
+Provider=%O2Micro%
+DriverVer=05/15/2009,3.0.1.6
+
+[ControlFlags]
+ExcludeFromSelect=*
+
+[SourceDisksNames]
+1= "O2Micro SmartCardBus Reader Driver Disk"
+
+[SourceDisksFiles]
+ozscr.sys=1
+
+; ================= Class section =====================
+
+[ClassInstall32]
+Addreg=SmartCardReaderClassReg     
+
+[SmartCardReaderClassReg]
+HKR,,,0,%ClassName%
+HKR,,Icon,,-25
+HKLM,"\Software\Microsoft\Cryptography\Calais\Readers",,,
+
+[Manufacturer]
+%O2%=O2
+
+; ================= O2 readers =====================
+
+[O2]
+; DisplayName       	Section          DeviceId
+; -----------       	-------          --------
+%O2SCBUS.DeviceDesc% =   O2SCBUS.Install, PCMCIA\O2Micro-SmartCardBus_Reader-2E10
+
+[O2SCBUS.Install.NT]
+;BusType         = 8
+AddReg		= O2SCBUS.REMOVE.AddReg
+AddReg          = O2SCBUS.Install.AddReg
+CopyFiles	= O2SCBUS.Install.CopyFiles
+
+[O2SCBUS.REMOVE.AddReg]
+HKLM, "SYSTEM\CurrentControlSet\Control\DeviceOverrides\PCMCIA#O2Micro-FFFF-0001\LocationPaths\*", "Removable", 0x00010001, 00000000
+
+[O2SCBUS.Install.NT.LogConfigOverride]
+LogConfig=O2SCBUS.LogConfigOverride
+
+[O2SCBUS.LogConfigOverride]
+ConfigPriority=NORMAL 
+IOConfig=FF@100-FFFF%0000FF00
+IRQConfig=3,4,5,6,7,8,9,10,11,12,13,14,15
+MemConfig=1000@02000000-FFFFFFFF%FFFFF000(D)
+PcCardConfig=1(W C M)
+
+[O2SCBUS.Install.AddReg]
+HKR,, AdapterType, 0, "0100"
+;HKLM, System\CurrentControlSet\Services\SCardSvr,Start,0x00010001,2
+
+[O2SCBUS.Install.CopyFiles]
+ozscr.sys,,,2
+
+[O2SCBUS.Install.NT.Services]
+AddService = O2SCBUS, 2, O2SCBUS.Service, O2SCBUS.EventLog
+
+[O2SCBUS.Service]
+DisplayName     = %O2SCBUS.DeviceDesc%
+ServiceType     = 1 ;%SERVICE_KERNEL_DRIVER%
+StartType       = 3 ;%SERVICE_AUTO_START%
+ErrorControl    = 1 ;%SERVICE_ERROR_NORMAL%
+ServiceBinary   = %12%\ozscr.sys
+
+[O2SCBUS.EventLog]
+AddReg = O2SCBUS.AddEventLog.reg
+
+[O2SCBUS.AddEventLog.reg]
+HKR,, EventMessageFile, 0x00020000, "%%SystemRoot%%\System32\drivers\ozscr.sys"
+HKR,, TypesSupported,   0x00010001, 7
+
+[DestinationDirs]
+O2SCBUS.Install.CopyFiles = 12
+
+; ================= Strings =====================
+
+[Strings]
+O2Micro             = "O2Micro"
+O2                  = "O2Micro"
+O2SCBUS.DeviceDesc  = "O2Micro SmartCardBus Reader"
+ClassName           = "Smart Card Readers"

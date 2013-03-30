@@ -1,0 +1,128 @@
+; gemser.inf
+; Serial Smart Card Readers installation
+; Copyright (c) 2002 Gemplus
+; INSTALL_TYPE = Serial
+
+[Version]
+Signature="$Windows NT$"
+Class=SmartCardReader
+ClassGuid={50DD5230-BA8A-11D1-BF5D-0000F805F530}
+Provider="Gemplus"
+CatalogFile=gemser2k.cat
+DriverVer=08/18/2003,2.6.3.0
+
+[SourceDisksNames]
+1=%Disk%,,,
+
+[SourceDisksFiles]
+gemser.sys=1
+
+[DestinationDirs]
+GCR410P.Install.CopyFiles = 12
+DefaultDestDir = 11
+
+[ControlFlags]
+; Prevent legacy install for PnP readers
+ExcludeFromSelect=SERENUM\GEM0415
+ExcludeFromSelect=SERENUM\CPQB18D
+ExcludeFromSelect=SERENUM\GEM0410
+ExcludeFromSelect=SERENUM\IBM4100
+
+[Manufacturer]
+%AMEX%=AMEX
+%COMPAQ%=COMPAQ
+%GEMPLUS%=GEMPLUS
+%IBM%=IBM
+
+; ================= AMEX readers =====================
+[AMEX]
+; DisplayName       	Section           DeviceId
+; -----------       	-------           --------
+%AMEX415.DeviceDesc% = 	AMEX415.Install,  SERENUM\GEM0415
+;------------------------------------------------------
+; This is actually an GCR410 reader, so we reference the Gemplus reader here
+[AMEX415.Install.NT]
+AddReg           = GCR410P.Install.AddReg
+CopyFiles	 = GCR410P.Install.CopyFiles
+
+[AMEX415.Install.NT.Services]
+AddService = GEMSER, 2, GCR410P.Service, GCR410P.EventLog
+
+
+; ================= COMPAQ readers ====================
+[COMPAQ]
+; DisplayName       	Section           DeviceId
+; -----------       	-------           --------
+%CPQB.DeviceDesc% = 	CPQB.Install,  SERENUM\CPQB18D
+;------------------------------------------------------
+; This is actually an GCR410 reader, so we reference the Gemplus reader here
+[CPQB.Install.NT]
+AddReg           = GCR410P.Install.AddReg
+CopyFiles	 = GCR410P.Install.CopyFiles
+
+[CPQB.Install.NT.Services]
+AddService = GEMSER, 2, GCR410P.Service, GCR410P.EventLog
+;------------------------------------------------------
+
+
+; ================= IBM readers ========================
+[IBM]
+; DisplayName       	Section           DeviceId
+; -----------       	-------           --------
+%IBM410.DeviceDesc% = 	IBM410.Install,  SERENUM\IBM4100
+;------------------------------------------------------
+; This is actually an GCR410 reader, so we reference the Gemplus reader here
+[IBM410.Install.NT]
+AddReg           = GCR410P.Install.AddReg
+CopyFiles	 = GCR410P.Install.CopyFiles
+
+[IBM410.Install.NT.Services]
+AddService = GEMSER, 2, GCR410P.Service, GCR410P.EventLog
+;------------------------------------------------------
+
+; =============== Gemplus readers ===================
+[GEMPLUS]
+; DisplayName       	Section           DeviceId
+; -----------       	-------           --------
+%GCR410P.DeviceDesc% = 	GCR410P.Install,  SERENUM\GEM0410
+;------------------------------------------------------
+[GCR410P.Install.NT]
+AddReg           = GCR410P.Install.AddReg
+CopyFiles	 = GCR410P.Install.CopyFiles
+
+[GCR410P.Install.AddReg]
+HKR,, AdapterType, 0, "0100"
+HKR,, MaximalBaudRate,0x00010001,38400
+HKLM,"SOFTWARE\Gemplus\PCSC_Drivers\GRSERIAL"
+
+[GCR410P.Install.CopyFiles]
+gemser.sys,,,2
+
+[GCR410P.Install.NT.Services]
+AddService = GEMSER, 2, GCR410P.Service, GCR410P.EventLog
+
+[GCR410P.Service]
+ServiceType     = 1 ;%SERVICE_KERNEL_DRIVER%
+StartType       = 3 ;%SERVICE_AUTO_START%
+ErrorControl    = 1 ;%SERVICE_ERROR_NORMAL%
+ServiceBinary   = %12%\gemser.sys
+
+[GCR410P.EventLog]
+AddReg = GCR410P.AddEventLog.reg
+
+[GCR410P.AddEventLog.reg]
+HKR,, EventMessageFile, 0x00020000, "%%SystemRoot%%\System32\drivers\gemser.sys"
+HKR,, TypesSupported,   0x00010001, 7
+
+; ================= Strings =====================
+[Strings]
+AMEX                    = "American Express"
+AMEX415.DeviceDesc      = "American Express GCR415 Serial Smart Card Reader"
+COMPAQ                  = "COMPAQ"
+CPQB.DeviceDesc         = "COMPAQ Basic Serial Smart Card Reader"
+GEMPLUS                 = "Gemplus"
+GCR410P.DeviceDesc      = "Gemplus GemPC410 Serial Smart Card Reader"
+IBM                     = "IBM"
+IBM410.DeviceDesc       = "IBM IBM-410p Serial Smart Card Reader"
+Disk			= "Serial Smart Card Reader Installation Disk"
+

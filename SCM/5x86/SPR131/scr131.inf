@@ -1,0 +1,158 @@
+[Version]
+signature="$CHICAGO$"
+Class=SmartCardReader
+ClassGuid={50DD5230-BA8A-11D1-BF5D-0000F805F530}
+Provider=%SCR131.Provider%
+DriverVer=07/03/2002,1.42.00.01
+CatalogFile=scm.cat
+
+
+; ============ Add reg for all readers ===============
+
+[Reader.Install.AddReg]
+HKLM, Software\Microsoft\Cryptography\Calais\Readers,,,
+HKLM, System\CurrentControlSet\Services\SCardSvr,Start,0x00010001,2
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,DLLName,0,wlnotify.dll
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logon,0,SCardStartCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logoff,0,SCardStopCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Lock,0,SCardSuspendCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Unlock,0,SCardResumeCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Enabled,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Impersonate,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Asynchronous,0x00010001,1
+
+[ControlFlags]
+ExcludeFromSelect=SERENUM\SCME000
+ExcludeFromSelect=SERENUM\SCME001
+
+[Manufacturer]
+%SCR131.Manufacturer%=SCR131
+      
+[ClassInstall32]
+AddReg=SCR131.AddClassReg
+
+[SCR131]
+%SCR131.DeviceDesc%=SCR131.Install, SERENUM\SCME000
+%SCR131.DeviceDesc%=SCR131.Install, SERENUM\SCME001
+
+[SourceDisksNames]
+1=%SCR131.DriverDiskName%,,,""
+
+[SourceDisksFiles]
+scr131.vxd=1
+scr131.sys=1
+stc2ui16.dll=1
+stc2coinst.dll=1
+Rdr_Svr.vxd=1
+Rdr_Svr.sys=1
+
+
+;[PreCopySection]
+;HKR,,NoSetupUI,,1
+      
+[DestinationDirs]
+SCR1319x.CopyFiles = 10,system ; WINDOWS\SYSTEM
+STCII16.CopyFiles = 10,system 	; WINDOWS\SYSTEM
+STCIIS.CopyFiles = 10,system32\drivers ; WINDOWS\SYSTEM32\DRIVERS
+STCII.CopyCoInstallerFiles = 10,system32; WINDOWS\SYSTEM32
+RDR.vxd.CopyFiles=11
+RDR.sys.CopyFiles=10,system32\drivers
+
+[SCR131.Install]
+CopyFiles=SCR1319x.copyFiles, STCII16.CopyFiles,RDR.vxd.CopyFiles, RDR.sys.CopyFiles
+AddReg=SCR1319x.AddReg,RDR.vxd.AddReg,RDR.sys.AddReg
+
+[SCR131.Install.NT]
+CopyFiles= STCIIS.CopyFiles
+AddReg= STCIIS.AddReg,Reader.Install.AddReg
+
+[SCR131.Install.NT.CoInstallers]
+CopyFiles = STCII.CopyCoInstallerFiles
+AddReg =STCII.CoInstallers_AddReg
+
+[SCR131.AddClassReg]
+HKR,,,,%SCR131.ClassName%
+
+[SCR131.Install.NT.Services]
+AddService = %STCIIS%,0x00000002,STCIIS_Service_Inst,STCIIS_EventLog_Inst
+
+[STCIIS_Service_Inst]
+ServiceType     = 1 ;%SERVICE_KERNEL_DRIVER%
+StartType       = 3 ;%SERVICE_AUTO_START%
+ErrorControl    = 1 ;%SERVICE_ERROR_NORMAL%
+ServiceBinary   = %12%\scr131.sys
+DisplayName     = %STCIIS%
+AddReg= STCIIS.AddReg,Reader.Install.AddReg
+
+[SCR1319x.AddReg]
+HKR,,FriendlyDriver,,scr131.vxd
+HKR,,DevLoader,,scr131.vxd
+HKR,,ShortProviderName,0,%SCR131.ShortProvider%
+HKR,,ReaderName,0,%SCR131.ReaderName%
+HKR,,EnumPropPages,,"stc2ui16.dll,EnumPropPages"
+
+[STCIIS.AddReg]
+HKR,,ShortProviderName,0,%SCR131.ShortProvider%
+HKR,,ReaderName,0,%STCIIS%
+
+[STCII.CoInstallers_AddReg]
+HKR,,CoInstallers32,0x00010000,"stc2coinst.dll, CoDeviceInstall"
+
+
+[RDR.vxd.AddReg]
+HKLM, "\System\CurrentControlSet\Services\VxD\RDR_SVR" ,,,
+HKLM, "\System\CurrentControlSet\Services\VxD\RDR_SVR" ,"DriverDesc",, "Server for SmartCard Reader"
+HKLM, "\System\CurrentControlSet\Services\VxD\RDR_SVR" ,"StaticVxD",, "RDR_SVR.VXD"
+HKLM, "\System\CurrentControlSet\Services\VxD\RDR_SVR" ,"LoadedState",,"UnLoaded"
+
+[RDR.sys.AddReg]
+HKLM, "\System\CurrentControlSet\Services\Class\SmartCardReader\1966",,,
+HKLM, "\System\CurrentControlSet\Services\Class\SmartCardReader\1966", "DevLoader",, "*ntkern"
+HKLM, "\System\CurrentControlSet\Services\Class\SmartCardReader\1966", "NTMPDriver",, "Rdr_Svr.sys"
+HKLM, "\System\CurrentControlSet\Services\Class\SmartCardReader\1966", "ProviderName",, "SCM Microsystems Inc."
+HKLM, "\System\CurrentControlSet\Services\Class\SmartCardReader\1966", "DriverDesc",, "Server for SmartCard Reader"
+HKLM, "\System\CurrentControlSet\Services\Class\SmartCardReader\1966", "MatchingDeviceId",, "*PNP1111"
+HKLM, "\System\CurrentControlSet\Services\Class\SmartCardReader\1966", "DriverDate",, " 3-28-2002"
+
+HKLM, "Enum\Root\SmartCardReader",,,
+HKLM, "Enum\Root\SmartCardReader\0000", "ClassGUID",, "{50DD5230-BA8A-11D1-BF5D-0000F805F530}"
+HKLM, "Enum\Root\SmartCardReader\0000", "Mfg",, "SCM Microsystems Inc."
+HKLM, "Enum\Root\SmartCardReader\0000", "HardwareID",, "*PNP1111"
+HKLM, "Enum\Root\SmartCardReader\0000", "Driver",, "SmartCardReader\1966"
+HKLM, "Enum\Root\SmartCardReader\0000", "ConfigFlags", 1, 00,00,00,00
+HKLM, "Enum\Root\SmartCardReader\0000", "Capabilities", 1, 14,00,00,00
+
+[SCR1319x.CopyFiles]
+scr131.vxd
+
+[STCII16.CopyFiles]
+stc2ui16.dll
+
+[STCIIS.CopyFiles]
+scr131.sys
+
+[RDR.vxd.CopyFiles]
+Rdr_Svr.vxd,,
+
+[RDR.sys.CopyFiles]
+Rdr_Svr.sys,,
+
+[STCII.CopyCoInstallerFiles]
+stc2coinst.dll
+
+[STCIIS_EventLog_Inst]
+AddReg=STCIIS.AddEventLogReg
+
+[STCIIS.AddEventLogReg]
+HKR,,EventMessageFile,0x00020000,"%%SystemRoot%%\System32\IoLogMsg.dll;%%SystemRoot%%\System32\drivers\scr131.sys"
+HKR,,TypesSupported,0x00010001,7
+
+[Strings]
+SCR131.Provider="SCM Microsystems Inc."
+SCR131.ShortProvider = "SCM Microsystems Inc."
+SCR131.Manufacturer="SCM Microsystems Inc."
+SCR131.DeviceDesc="SCRx31 Serial Reader"
+SCR131.ReaderName="SCRx31 Serial Reader"
+SCR131.ClassName="Smart Card Readers"
+SCR131.DriverDiskName="SCM Microsystems Installation Diskette" 
+STCIIS="SCRx31 Serial Reader"

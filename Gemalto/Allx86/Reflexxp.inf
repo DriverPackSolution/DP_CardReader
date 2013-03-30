@@ -1,0 +1,86 @@
+; REFLEXXP.INF
+; Copyright (c) 2002 SchlumbergerSema
+
+[Version]
+DriverVer=09/01/2002,2.0.8.6
+Signature="$Windows NT$"
+Class=SmartCardReader
+ClassGuid={50DD5230-BA8A-11D1-BF5D-0000F805F530}
+Provider=%slb%
+LayoutFile=layout.inf
+
+; ================= Class section =====================
+
+[ClassInstall32]
+Addreg=SmartCardReaderClassReg     
+
+[ClassInstall]
+Addreg=SmartCardReaderClassReg
+
+[SmartCardReaderClassReg]
+HKR,,,0,%ClassName%
+HKR,,Icon,,-25
+HKLM,"\Software\Microsoft\Cryptography\Calais\Readers",,,
+
+[Manufacturer]
+%SLB%=SLB
+
+; ================= REFLEX USB LITE readers =====================
+
+[SLB]
+; DisplayName       Section     DeviceId
+; -----------       -------     --------
+%SLB.DeviceDesc% = SLB.Install, USB\VID_072F&PID_0001
+
+[SLB.Install]
+AddReg          = SLB.Install.AddReg
+CopyFiles	= SLB.Install.CopyFiles
+
+[SLB.Install.AddReg]
+HKR,, AdapterType, 0, "0100"
+HKLM,%NameKey%,"VendorName",0,%Vendor%
+HKLM,%NameKey%,"IFDName",0,%Reader%
+HKLM,%NameKey%,"ReadTimeout",0x00010001,%Timeout%
+HKLM,%NameKey%,"CommandMode",0x00010001,%CmdMode%
+
+[SLB.Install.CopyFiles]
+rusblwxp.sys
+
+[SLB.Install.Services]
+AddService = ReflexU, 2, SLB.Service, SLB.EventLog
+
+[SLB.Service]
+DisplayName     = %SLB.DeviceDesc%
+ServiceType     = 1 ;%SERVICE_KERNEL_DRIVER%
+StartType       = 3 ;%SERVICE_DEMAND_START%
+ErrorControl    = 1 ;%SERVICE_ERROR_NORMAL%
+ServiceBinary   = %12%\rusblwxp.sys
+
+[SLB.EventLog]
+AddReg = SLB.AddEventLog.reg
+
+[SLB.AddEventLog.reg]
+HKR,, EventMessageFile, 0x00020000, "%%SystemRoot%%\System32\drivers\rusblwxp.sys"
+HKR,, TypesSupported,   0x00010001, 7
+
+[SourceDisksNames.x86]
+1 = "Reflex USB Lite Smart Card Installation Disk",,,""
+
+[SourceDisksFiles]
+rusblwxp.sys = 1
+
+[DestinationDirs]
+SLB.Install.CopyFiles = 12
+
+; ================= Strings =====================
+
+[Strings]
+Msft			= "SchlumbergerSema"
+SLB			= "SLB"
+SLB.DeviceDesc		= "Reflex USB Lite Smart Card Reader"
+ClassName 		= "Smart Card Readers"
+NameKey			= "System\CurrentControlSet\Services\ACRU"
+Vendor			= "SLB"
+Reader			= "USB Lite"
+Timeout			= 60		;timeout in second
+CmdMode			= 02		;02-PCSC 01-EMV 00-Auto

@@ -1,0 +1,172 @@
+; AE65.INF
+; Copyright (c) 2010 Advanced Card System Ltd
+
+[Version]
+DriverVer=11/30/2010,1.0.0.0
+Signature="$Windows NT$"
+Class=SmartCardReader
+ClassGuid={50DD5230-BA8A-11D1-BF5D-0000F805F530}
+Provider=%ACS%
+CatalogFile.NT=aet65.cat
+
+; ======= Source and Destination section =============
+
+[SourceDisksNames]
+1 = "AET65(SAM) USB Smart Card Installation Disk",,,
+
+[SourceDisksFiles]
+aet65.sys               = 1
+aet65x64.sys            = 1
+aet65sam.sys            = 1
+aet65samx64.sys         = 1
+
+[DestinationDirs]
+ACS.Install.CopySYS.NTx86         = 12
+ACS.Install.CopySYS.NTamd64       = 12
+ACS.Install.Sam.CopyFiles.NTx86   = 12
+ACS.Install.Sam.CopyFiles.NTamd64 = 12
+
+; ================= Class section =====================
+
+[ClassInstall32]
+Addreg=SmartCardReaderClassReg     
+
+[ClassInstall]
+Addreg=SmartCardReaderClassReg
+
+[SmartCardReaderClassReg]
+HKR,,,0,%ClassName%
+HKR,,Icon,,-25
+HKLM,"\Software\Microsoft\Cryptography\Calais\Readers",,,
+
+[Manufacturer]
+%ACS%=ACS,NTamd64
+
+; ================= ACS AET65(SAM) Reader =====================
+
+[ACS]
+; DisplayName       Section     DeviceId
+; -----------       -------     --------
+%ACS.DeviceDesc%     = ACS.Install,     USB\VID_072F&PID_0100  ;AET65 w/o SAM 
+%ACS.DeviceDesc.Sam% = ACS.Install.Sam, USB\VID_072F&PID_0101  ;AET65SAM
+
+[ACS.NTamd64]
+; DisplayName       Section     DeviceId
+; -----------       -------     --------
+%ACS.DeviceDesc%     = ACS.Install,     USB\VID_072F&PID_0100  ;AET65 w/o SAM 
+%ACS.DeviceDesc.Sam% = ACS.Install.Sam, USB\VID_072F&PID_0101  ;AET65SAM
+
+
+; ============== ACS AET65 Driver ====================
+
+[ACS.Install.NTx86]
+AddReg          = ACS.Install.AddReg.NT
+CopyFiles	= ACS.Install.CopySYS.NTx86
+
+[ACS.Install.NTamd64]
+AddReg          = ACS.Install.AddReg.NT
+CopyFiles	= ACS.Install.CopySYS.NTamd64
+
+; ============= Windows 2000, XP, 2003 and Vista =================
+
+[ACS.Install.AddReg.NT]
+HKR,,AdapterType, 0, "0100"
+HKR,,"VendorName",0,%Vendor%
+HKR,,"IFDName",0,%Reader%
+HKR,,"CardType",0,%CardType%
+HKR,,"SFDT",0,%SFDT%
+HKR,,"CardVoltage",0,%CardVoltage%
+HKLM,"System\CurrentControlSet\Services\SCardSvr","Start", 0x00010001,2
+HKLM,"System\CurrentControlSet\Services\CertPropSvc","Start", 0x00010001,2
+
+[ACS.Install.CopySYS.NTx86]
+aet65.sys
+
+[ACS.Install.CopySYS.NTamd64]
+aet65.sys,aet65x64.sys
+
+[ACS.Install.NTx86.Services]
+AddService = AET65, 2, ACS.Service, ACS.EventLog
+
+[ACS.Install.NTamd64.Services]
+AddService = AET65, 2, ACS.Service, ACS.EventLog
+
+[ACS.Service]
+DisplayName     = %ACS.DeviceDesc%
+ServiceType     = 1 ;%SERVICE_KERNEL_DRIVER%
+StartType       = 3 ;%SERVICE_DEMAND_START%
+ErrorControl    = 1 ;%SERVICE_ERROR_NORMAL%
+ServiceBinary   = %12%\aet65.sys
+
+[ACS.EventLog]
+AddReg = ACS.AddEventLog.reg
+
+[ACS.AddEventLog.reg]
+HKR,, EventMessageFile, 0x00020000, "%%SystemRoot%%\System32\drivers\aet65.sys"
+HKR,, TypesSupported,   0x00010001, 7
+
+
+; ============== ACS AET65 SAM Driver ====================
+
+[ACS.Install.Sam.NTx86]
+AddReg          = ACS.Install.Sam.AddReg.NT
+CopyFiles	= ACS.Install.Sam.CopyFiles.NTx86
+
+[ACS.Install.Sam.NTamd64]
+AddReg          = ACS.Install.Sam.AddReg.NT
+CopyFiles	= ACS.Install.Sam.CopyFiles.NTamd64
+
+[ACS.Install.Sam.AddReg.NT]
+HKR,, AdapterType, 0, "0100"
+HKLM,%NameKey%,"VendorName",0,%Vendor%
+HKLM,%NameKey%,"IFDName",0,%Reader.Sam%
+HKLM,%NameKey%,"USBTimeout",0x00010001,%Timeout%
+HKLM,%NameKey%,"CommandMode",0x00010001,%CmdMode%
+HKLM,"System\CurrentControlSet\Services\SCardSvr","Start", 0x00010001,2
+HKLM,"System\CurrentControlSet\Services\CertPropSvc","Start", 0x00010001,2
+
+[ACS.Install.Sam.CopyFiles.NTx86]
+aet65sam.sys
+
+[ACS.Install.Sam.CopyFiles.NTamd64]
+aet65sam.sys,aet65samx64.sys
+
+[ACS.Install.Sam.Services]
+AddService = AET65SAM, 2, ACS.Sam.Service
+
+[ACS.Install.Sam.NTx86.Services]
+AddService = AET65SAM, 2, ACS.Sam.Service, ACS.Sam.EventLog
+
+[ACS.Install.Sam.NTamd64.Services]
+AddService = AET65SAM, 2, ACS.Sam.Service, ACS.Sam.EventLog
+
+[ACS.Sam.Service]
+DisplayName     = %ACS.DeviceDesc.Sam%
+ServiceType     = 1 ;%SERVICE_KERNEL_DRIVER%
+StartType       = 3 ;%SERVICE_DEMAND_START%
+ErrorControl    = 1 ;%SERVICE_ERROR_NORMAL%
+ServiceBinary   = %12%\aet65sam.sys
+
+[ACS.Sam.EventLog]
+AddReg = ACS.Sam.AddEventLog.reg
+
+[ACS.Sam.AddEventLog.reg]
+HKR,, EventMessageFile, 0x00020000, "%%SystemRoot%%\System32\drivers\aet65sam.sys"
+HKR,, TypesSupported,   0x00010001, 7
+
+; ================= Strings =====================
+[Strings]
+Msft			= "Advanced Card Systems Ltd."
+ACS			= "ACS"
+Vendor			= "ACS"
+ACS.DeviceDesc		= "AET65 ICC Reader"
+ACS.DeviceDesc.Sam	= "AET65 1SAM ICC Reader"
+ClassName 		= "Smart Card Readers"
+Reader			= "AET65 ICC Reader ICC"
+Reader.Sam		= "AET65 1SAM ICC Reader"
+NameKey			= "System\CurrentControlSet\Services\AET65SAM"
+Timeout			= "120"		;timeout in seconds
+CmdMode			= "02"		;02-PCSC 01-EMV
+SFDT			= "TRUE"
+CardType		= 0
+CardVoltage		= 0

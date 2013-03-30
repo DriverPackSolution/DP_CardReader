@@ -1,0 +1,108 @@
+; eGateUSB.inf 
+; Gemalto e-gate USB smart card
+; Copyright (c) 2007 Gemalto
+
+[Version]
+Signature="$Windows NT$"
+Class=SmartCardReader
+ClassGuid={50DD5230-BA8A-11D1-BF5D-0000F805F530}
+provider=%MFGNAME1%
+CatalogFile=eGateUSB.cat
+DriverVer=05/09/2007,4.0.0.2
+
+[ControlFlags]
+; Prevent legacy install for PnP readers
+ExcludeFromSelect = *
+
+[Manufacturer]
+%MFGNAME1%=DeviceListMfg1,NTx86.5.1
+
+[DestinationDirs]
+DriverCopyFiles = 10,System32\Drivers
+DefaultDestDir = 10,System32\Drivers
+
+[SourceDisksFiles]
+eGateUSB.sys=1
+
+[SourceDisksNames]
+1=%INSTDISK%,,
+
+
+[DeviceListMfg1.NTx86.5.1]
+%USB\VID_0973&PID_0001.DeviceDesc%=DriverInstallB, USB\VID_0973&PID_0001 ; eGate V1
+%USB\VID_0973&PID_0003.DeviceDesc%=DriverInstallB, USB\VID_0973&PID_0003 ; eGate V3 (7816-12)
+
+[DeviceListMfg1]
+%USB\VID_0973&PID_0001.DeviceDesc%=DriverInstallA, USB\VID_0973&PID_0001 ; eGate V1
+%USB\VID_0973&PID_0003.DeviceDesc%=DriverInstallA, USB\VID_0973&PID_0003 ; eGate V3 (7816-12)
+
+
+;------------------------------------------------------------------------------
+;  Windows XP and later, x86 only
+;------------------------------------------------------------------------------
+[DriverInstallB]
+CopyFiles=DriverCopyFiles
+
+[DriverInstallB.Services]
+Addservice = eGateUSB, 2, DriverService,EventLogging
+
+[DriverInstallB.hw]
+AddReg=DriverHwAddReg
+
+
+;------------------------------------------------------------------------------
+;  Windows 2000 Sections
+;------------------------------------------------------------------------------
+
+[DriverInstallA.NT]
+CopyFiles=DriverCopyFiles
+
+[DriverCopyFiles]
+eGateUSB.sys,,,2
+
+[DriverInstallA.NT.Services]
+Addservice = eGateUSB, 2, DriverService,EventLogging
+
+[DriverService]
+ServiceType    = 1                  ; SERVICE_KERNEL_DRIVER
+StartType      = 3                  ; SERVICE_DEMAND_START
+ErrorControl   = 1                  ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %10%\System32\Drivers\eGateUSB.sys
+
+[EventLogging]
+AddReg=EventLogAddReg
+
+[EventLogAddReg]
+HKR,,EventMessageFile,0x00020000,"%%SystemRoot%%\system32\drivers\eGateUSB.sys"
+HKR,,TypesSupported,0x00010001,7
+
+[DriverInstallA.nt.hw]
+AddReg=DriverHwAddReg,Reader.Install.AddReg
+
+
+[DriverHwAddReg]
+HKLM, Software\Microsoft\Cryptography\Calais\Readers,,,
+HKLM, System\CurrentControlSet\Services\SCardSvr,Start,0x00010001,2
+HKLM, System\CurrentControlSet\Services\CertPropSvc,Start,0x00010001,2
+
+
+
+; ============ Add reg for all readers ===============
+
+[Reader.Install.AddReg]
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,DLLName,0,wlnotify.dll
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logon,0,SCardStartCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logoff,0,SCardStopCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Lock,0,SCardSuspendCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Unlock,0,SCardResumeCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Enabled,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Impersonate,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Asynchronous,0x00010001,1
+
+
+[Strings]
+MFGNAME1="Gemalto"
+USB\VID_0973&PID_0001.DeviceDesc = "e-gate Smart Card"
+USB\VID_0973&PID_0003.DeviceDesc = "e-gate Smart Card"
+
+INSTDISK="Installation Disc for Cryptoflex & Cyberflex e-gate smart card driver"

@@ -1,0 +1,48 @@
+[Version]
+Signature="$Windows NT$"
+Class=SmartCard
+ClassGuid={990A2BD7-E738-46c7-B26F-1CF8FB9F1391}
+Provider=%Provider%
+DriverVer=09/03/2006,1.0.0.3
+
+[Manufacturer]
+%Provider%=Minidriver,NTamd64,NTx86
+
+[Minidriver.NTamd64]
+%CardNameMXKEY%=Minidriver_Install,SCFILTER\CID_520020D6590000000000
+%CardNameJCOP10%=Minidriver_Install,SCFILTER\CID_4a434f503130
+%CardNameJCOP10V22%=Minidriver_Install,SCFILTER\CID_4a434f503130563232
+%CardNameJCOP10V231%=Minidriver_Install,SCFILTER\CID_4a434f50313056323331
+%CardNameJCOP41V221%=Minidriver_Install,SCFILTER\CID_434f50343156323231ff
+%CardNameJCOP41V221%=Minidriver_Install,SCFILTER\CID_434f5034315632323196
+
+[Minidriver.NTx86]
+%CardNameMXKEY%=Minidriver_Install,SCFILTER\CID_520020D6590000000000
+%CardNameJCOP10%=Minidriver_Install,SCFILTER\CID_4a434f503130
+%CardNameJCOP10V22%=Minidriver_Install,SCFILTER\CID_4a434f503130563232
+%CardNameJCOP10V231%=Minidriver_Install,SCFILTER\CID_4a434f50313056323331
+%CardNameJCOP41V221%=Minidriver_Install,SCFILTER\CID_434f50343156323231ff
+%CardNameJCOP41V221%=Minidriver_Install,SCFILTER\CID_434f5034315632323196
+
+[DefaultInstall]
+
+[DefaultInstall.NTamd64]
+
+[DefaultInstall.NTx86]
+
+[Minidriver_Install.NT]
+
+[Minidriver_Install.NT.Services]
+AddService = ,2
+
+
+; =================== Generic ==================================
+
+[Strings]
+Provider ="MXKEY TEAM"
+CardNameMXKEY="MXKEY SmartCard"
+CardNameJCOP10="JCOP10"
+CardNameJCOP10V22="JCOP10V22"
+CardNameJCOP10V231="JCOP10V231"
+CardNameJCOP41V221="JCOP41V221"
+

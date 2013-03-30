@@ -1,0 +1,52 @@
+[Version]
+Signature   = "$CHICAGO$"
+Provider    = %ENE%
+ClassGUID   = {36FC9E60-C465-11CF-8056-444553540000}
+Class       = USB
+CatalogFile = EUCR6SK.cat
+DriverVer   = 08/06/2010,5.89.0.71
+
+[DestinationDirs]
+DefaultDestDir  = 12
+IconFileCopy = 10
+
+[Manufacturer]
+%ENE% = ENE.Mfg
+
+[ControlFlags]
+ExcludeFromSelect = *
+
+[ENE.Mfg]
+%EUCR.DevDesc% = EUCR, USB\VID_0CF2&PID_6250
+%EUCR.DevDesc% = EUCR, USB\VID_0CF2&PID_6260
+%EUCR.DevDesc% = EUCR, USB\VID_0CF2&PID_3710
+
+[EUCR]
+CopyFiles   = EUCR.CopyList ,IconFileCopy
+
+[EUCR.CopyList]
+EUCR6SK.sys
+
+[IconFileCopy]
+EMCRI_E.dll
+
+[EUCR.Services]
+Addservice  = EUCR, 0x00000002, EUCR.AddService
+
+[EUCR.AddService]
+ServiceType     = 1
+StartType       = 3
+ErrorControl    = 0
+ServiceBinary   = %12%\EUCR6SK.SYS
+
+[SourceDisksNames]
+1="USBMSD Installation Disk",,,
+
+[SourceDisksFiles]
+EUCR6SK.sys = 1
+EMCRI_E.dll = 1
+
+[Strings]
+ENE                 = "ENE"
+MfgName0            = "ENE"
+EUCR.DevDesc        = "ENE USB Mass Storage Controller"

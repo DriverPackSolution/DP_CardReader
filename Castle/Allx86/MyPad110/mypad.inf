@@ -1,0 +1,81 @@
+;	myPad.INF - INF file for USB myPad110 Smart Card Reader
+;	Copyright (C) 2004, Castles Technology CO,. LTD.
+;
+
+[Version]
+Signature="$Windows NT$"
+Class=SmartCardReader
+ClassGUID={50DD5230-BA8A-11D1-BF5D-0000F805F530}
+Provider=%Castles%
+DriverVer=05/27/2005,1.0.2.0
+Catalogfile=myPad9x.cat
+Catalogfile.NT=myPadNT.cat
+LayoutFile=layout.inf
+
+[ControlFlags]
+ExcludeFromSelect = *
+
+    
+[ClassInstall32]
+Addreg=SmartCardReaderClassReg     
+
+
+[SmartCardReaderClassReg]
+HKR,,,0,%ClassName%
+HKR,,Icon,,-25
+HKLM,"\Software\Microsoft\Cryptography\Calais\Readers",,,
+
+
+
+[Manufacturer]
+%Castles%=Castles
+
+[Castles]
+%USB\VID_0CA6&PID_2010.DeviceDesc%=myPad110,USB\VID_0CA6&PID_2010
+
+
+[DestinationDirs]
+myPad110.CopyList.NT = 12    
+myPad110.CopyList.98 = 10,System32\Drivers
+DefaultDestDir = 12
+
+[myPad110]
+AddReg=myPad110.AddReg
+CopyFiles=myPad110.CopyList.98
+
+[myPad110.NT]
+AddReg=myPad110.AddReg
+CopyFiles=myPad110.CopyList.NT
+
+[myPad110.NT.Services]
+Addservice = myPad110, 0x00000002, myPad110.AddService
+
+[myPad110.AddService]
+DisplayName    = %USB\VID_0CA6&PID_2010.DeviceDesc%
+ServiceType    = 1                  ; SERVICE_KERNEL_DRIVER
+StartType      = 3                  ; SERVICE_DEMAND_START
+ErrorControl   = 1                  ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %12%\myPad.sys
+
+
+[myPad110.AddReg]
+HKR,,DevLoader,,*ntkern
+HKR,,NTMPDriver,,myPad.sys
+
+[myPad110.CopyList.NT]
+myPad.sys,,,2
+
+[myPad110.CopyList.98]
+myPad.sys,,,2
+
+[SourceDisksNames] 
+1 = %DiskName%,,,
+
+[SourceDisksFiles]
+myPad.sys=1
+
+[Strings]
+DiskName		= "myPad110 Install Disk"
+Castles="Castles Technology"
+USB\VID_0CA6&PID_2010.DeviceDesc="myPad110 PC/SC Smart Card Reader"
+ClassName="Smart Card Readers"

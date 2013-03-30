@@ -1,0 +1,101 @@
+;
+; RUSB2W2K.INF
+;
+; RUSB2 PC/SC Smartcard readers
+;
+; INF file for Windows 2000/XP
+; revision 2.2
+;
+; Copyright (c) 1999-2002, SchlumbergerSema
+
+
+[Version]
+Signature="$Windows NT$"
+Class=SmartCardReader
+ClassGuid={50DD5230-BA8A-11D1-BF5D-0000F805F530}
+Provider=%Mfg%
+CatalogFile=rusb2w2k.cat
+DriverVer=08/25/2002,1.42.00.01
+
+[Manufacturer]
+%Mfg% = Models
+
+[ClassInstall32]
+AddReg=AddClassReg
+
+[Models]
+%RUSB2% = RUSB2, USB\VID_04E6&PID_200A
+
+[ControlFlags]
+ExcludeFromSelect=USB\VID_04E6&PID_200A
+
+[SourceDisksNames]
+1 = %Floppy_Description%,,,""
+
+[SourceDisksFiles]
+rusb2w2k.sys=1
+
+[DestinationDirs]
+DefaultDestDir=10,system
+RUSB2.CopyFiles.nt = 10,system32\drivers ;WINDOWS\SYSTEM32\DRIVERS
+
+
+[AddClassReg]
+HKR,,,0,%ClassName%
+HKR,,NoInstallClass,,1
+HKR,,Installer32,,"winscard.dll,ClassInstall32"
+HKR,,Icon,,-25
+HKLM,"\Software\Microsoft\Cryptography\Calais\Readers",,,
+
+[RUSB2.CopyFiles.NT]
+rusb2w2k.sys
+
+
+[RUSB2.AddReg]
+HKR,,ShortProviderName,0,%ShortProviderName%
+HKR,,ReaderName,0,%RUSB2%
+
+[RUSB2.Install.AddReg]
+HKLM, Software\Microsoft\Cryptography\Calais\Readers,,,
+HKLM, System\CurrentControlSet\Services\SCardSvr,Start,0x00010001,2
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,DLLName,0,wlnotify.dll
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logon,0,SCardStartCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logoff,0,SCardStopCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Lock,0,SCardSuspendCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Unlock,0,SCardResumeCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Enabled,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Impersonate,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Asynchronous,0x00010001,1
+
+
+[RUSB2.NT]
+CopyFiles= RUSB2.CopyFiles.NT
+
+
+[RUSB2.NT.Services]
+AddService = %RUSB2%,0x00000002,RUSB2_Service_Inst,RUSB2_EventLog_Inst
+
+[RUSB2_Service_Inst]
+ServiceType     = 1 ;%SERVICE_KERNEL_DRIVER%
+StartType       = 3 ;%SERVICE_AUTO_START%
+ErrorControl    = 1 ;%SERVICE_ERROR_NORMAL%
+ServiceBinary   = %12%\rusb2w2k.sys
+DisplayName     = %RUSB2%
+AddReg= RUSB2.AddReg, RUSB2.Install.AddReg
+
+[RUSB2_EventLog_Inst]
+AddReg=RUSB2.AddEventLogReg
+
+[RUSB2.AddEventLogReg]
+HKR,,EventMessageFile,0x00020000,"%%SystemRoot%%\System32\IoLogMsg.dll;%%SystemRoot%%\System32\drivers\rusb2w2k.sys"
+HKR,,TypesSupported,0x00010001,7
+
+
+[Strings]
+Mfg = "SchlumbergerSema"
+ShortProviderName = "SchlumbergerSema"
+Floppy_Description = ""
+RUSB2="Reflex USB v.2 Smart card reader"
+ClassName="Smart Card Readers"
+Description="PC-SC Smart Card Server Driver"
+

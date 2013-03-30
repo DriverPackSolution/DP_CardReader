@@ -1,0 +1,87 @@
+; CMFU0WDM.INF
+; Copyright (c) 2001-2003 OMNIKEY AG
+;
+
+[Version]
+Signature=$CHICAGO$
+Class = Biometric
+ClassGuid = {53D29EF7-377C-4D14-864B-EB3A85769359} 
+Provider=%Provider%
+DriverVer=11/27/2002,1.0.0.2
+;we have to remove this for the uncertified driver
+;CatalogFile=cmfu0fw.cat
+
+
+[SourceDisksNames]
+1=%DiskDescription%,,
+
+[SourceDisksFiles]
+cmfu0fw.sys=1,,
+
+
+[DestinationDirs]
+DefaultDestDir=10,system32\drivers
+CMFU0FW.CopyFiles = 10,System32\Drivers
+
+
+[Manufacturer]
+%Manufacturer%=DeviceList
+
+
+; =================== Class section =======================
+
+[ClassInstall32]
+Addreg=BiometricClassReg
+
+[ClassInstall]
+Addreg=BiometricClassReg
+
+[BiometricClassReg]
+HKR,,,0,%ClassName%
+HKR,,Icon,,-25
+
+
+; ================== Device section =======================
+
+[DeviceList]
+%USB\VID_0547&PID_2131.DeviceDesc%=CMFU0FW.Dev, USB\VID_0547&PID_2131
+%USB\VID_076b&PID_7121.DeviceDesc%=CMFU0FW.Dev, USB\VID_076b&PID_7121
+
+; =================== Win9x specific ======================
+[CMFU0FW.Dev]
+AddReg=CMFU0FW.AddReg
+CopyFiles=CMFU0FW.CopyFiles
+
+[CMFU0FW.AddReg]
+HKR,,DevLoader,,*ntkern
+HKR,,NTMPDriver,,cmfu0fw.sys
+
+; ================== Win2000 specific =====================
+[CMFU0FW.Dev.NT]
+CopyFiles=CMFU0FW.CopyFiles
+
+[CMFU0FW.Dev.NT.Services]
+Addservice = CMFU0FW, 0x00000002, CMFU0FW.AddService
+
+[CMFU0FW.AddService]
+DisplayName    = %CMFU0FW.SvcDesc%
+ServiceType    = 1 ;SERVICE_KERNEL_DRIVER
+StartType      = 3 ;SERVICE_AUTO_START
+ErrorControl   = 1 ;SERVICE_ERROR_NORMAL
+ServiceBinary  = %10%\System32\Drivers\cmfu0fw.sys
+
+; ================== common =====================
+[CMFU0FW.CopyFiles]
+cmfu0fw.sys
+
+
+; ================= Strings =====================
+[Strings]
+Provider		         = "OMNIKEY AG"
+Manufacturer		         = "OMNIKEY AG"
+DiskDescription		         = "CardMan Installation Disk"
+USB\VID_0547&PID_2131.DeviceDesc = "CardMan 7120 Fingerprint"
+USB\VID_076b&PID_7121.DeviceDesc = "CardMan 7120 Fingerprint with EEPROM"
+CMFU0FW.SvcDesc                  = "CM7120 FW-Loader Driver"
+ClassName 		         = "Biometric Device"
+

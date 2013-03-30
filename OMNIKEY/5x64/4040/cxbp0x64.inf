@@ -1,0 +1,137 @@
+; cxbp0x64.inf
+; Copyright (c) 2000 - 2009 OMNIKEY
+
+[Version]
+Signature=$Windows NT$
+Class=SmartCardReader
+ClassGuid={50DD5230-BA8A-11D1-BF5D-0000F805F530}
+Provider=%Provider%
+DriverVer=06/30/2009,1.2.1.2
+CatalogFile=cxbp0x64.cat
+
+[SourceDisksNames]
+1=%DiskDescription%,,
+
+[SourceDisksFiles]
+cxbp0x64.sys=1,,
+
+[DestinationDirs]
+DefaultDestDir = 10,system32\drivers
+cxbp0x64.Install.NT.CopyFiles=10,system32\drivers
+
+[Manufacturer]
+%Manufacturer%=OMNIKEY,NTamd64
+
+; =================== Class section =======================
+
+[ClassInstall]
+Addreg=SmartCardReaderClassReg
+
+[ClassInstall32]
+Addreg=SmartCardReaderClassReg
+
+[SmartCardReaderClassReg]
+HKR,,,0,%ClassName%
+HKR,,Icon,,-25
+HKR,,NoInstallClass,,1
+HKR,,Installer32,,"winscard.dll,ClassInstall32"
+
+
+; ===================== PnP IDs ===========================
+
+[ControlFlags]
+; All PnP devices should be excluded from manual AddDevice Applet list
+ExcludeFromSelect=*
+
+
+
+[OMNIKEY.NTamd64]
+; DisplayName       	Section           DeviceId
+; -----------       	-------           --------
+%VID1PID1ReaderDescription% =  pcmcia.Install, PCMCIA\OMNIKEY-CardMan_4040-FE82
+
+
+; ================== NT specific =====================
+
+[pcmcia.Install.NT]
+AddReg    = cxbp0x64.Install.NT.AddReg
+CopyFiles = cxbp0x64.Install.NT.CopyFiles
+
+[pcmcia.Install.NT.HW]
+AddReg    = pcmcia.Install.AddReg.HW
+
+[pcmcia.Install.NT.Services]
+AddService = cxbp0x64, 2, pcmcia.Service.NT,cxbp0x64.EventLog.NT
+
+
+
+
+
+
+
+
+
+[cxbp0x64.Install.NT.AddReg]
+HKR,, AdapterType, 0, "0100"
+HKLM,"SYSTEM\CurrentControlSet\Services\SCardSvr",Start,0x00010001,2
+HKLM,"System\CurrentControlSet\Services\CertPropSvc",Start,0x00010001,2
+HKLM, Software\Microsoft\Cryptography\Calais\Readers,,,
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,DLLName,0,wlnotify.dll
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logon,0,SCardStartCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Logoff,0,SCardStopCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Lock,0,SCardSuspendCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Unlock,0,SCardResumeCertProp
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Enabled,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Impersonate,0x00010001,1
+HKLM, SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\ScCertProp,Asynchronous,0x00010001,1
+
+
+[cxbp0x64.Install.NT.CopyFiles]
+cxbp0x64.sys,,,2
+
+
+
+
+
+[pcmcia.Service.NT]
+DisplayName     = %VID1PID1ReaderDescription%
+ServiceType     = 1 ;%SERVICE_KERNEL_DRIVER%
+StartType       = 3 ;%SERVICE_AUTO_START%
+ErrorControl    = 1 ;%SERVICE_ERROR_NORMAL%
+ServiceBinary   = %12%\cxbp0x64.sys
+
+
+
+
+
+
+
+[cxbp0x64.EventLog.NT]
+AddReg = cxbp0x64.AddEventLog.reg
+
+[cxbp0x64.AddEventLog.reg]
+HKR,, EventMessageFile, 0x00020000, "%%SystemRoot%%\System32\drivers\cxbp0x64.sys"
+HKR,, TypesSupported,   0x00010001, 7
+
+
+; =====================
+; === CardMan 4040 ====
+; =====================
+[pcmcia.Install.AddReg.HW]
+HKR,,"VendorName",,"OMNIKEY"
+HKR,,"IfdType",, "CardMan 4040"
+
+
+
+
+
+
+
+; ================= Strings =====================
+
+[Strings]
+Provider		= "OMNIKEY"
+Manufacturer    	= "OMNIKEY"
+VID1PID1ReaderDescription     = "CardMan 4040"
+DiskDescription         = "CardMan PC/SC Driver Disk"
+ClassName 		= "Smart Card Readers"
